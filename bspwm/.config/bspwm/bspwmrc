@@ -1,0 +1,35 @@
+#! /bin/sh
+
+sxhkd &
+feh --bg-fill /usr/share/backgrounds/adapta/tealized.jpg
+compton -bcf -r 6 -l -6 -t -6 -I 0.08 -O 0.08 &
+polybar main &
+
+#trayer \
+#  --edge top \
+#  --widthtype pixel \
+#  --width 160 \
+#  --heighttype pixel \
+#  --height 32 \
+#  --margin 12 \
+#  --distance 12 \
+#  --align right \
+#  &
+
+/opt/piavpn/bin/pia-client --quiet &
+
+bspc monitor -d main code communication IV music
+
+bspc config border_width         2
+bspc config window_gap          12
+
+bspc config automatic_scheme     longest_side
+bspc config split_ratio          0.5
+bspc config borderless_monocle   true
+bspc config gapless_monocle      true
+
+bspc config click_to_focus       button1
+bspc config pointer_modifier     shift
+
+bspc rule -a Gimp desktop='^4' state=floating follow=on
+bspc rule -a Screenkey manage=off

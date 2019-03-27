@@ -1,0 +1,10 @@
+#!/bin/bash
+
+MENU="$(rofi -sep "|" -dmenu -p 'Configuration' -theme /usr/share/rofi/themes/sidebar.rasi <<< "Bspwm|Sxhkd|Polybar")"
+
+case "$MENU" in
+    *Bspwm) echo $HOME/.config/bspwm/bspwmrc ;;
+    *Sxhkd) echo $HOME/.config/sxhkd/sxhkdrc ;;
+    *Polybar) echo $HOME/.config/polybar/config ;;
+esac
+
