@@ -1,0 +1,58 @@
+{
+    "workbench.iconTheme": "material-icon-theme",
+    // "window.menuBarVisibility": "toggle",
+    "explorer.openEditors.visible": 0,
+    "editor.renderWhitespace": "boundary",
+    "editor.fontLigatures": true,
+    "editor.fontFamily": "'Fira Code', 'Droid Sans Mono', 'monospace', monospace, 'Droid Sans Fallback'",
+    "window.zoomLevel": 0,
+    "gitlens.advanced.messages": {
+        "suppressCommitHasNoPreviousCommitWarning": false,
+        "suppressCommitNotFoundWarning": false,
+        "suppressFileNotUnderSourceControlWarning": false,
+        "suppressGitVersionWarning": false,
+        "suppressLineUncommittedWarning": false,
+        "suppressNoRepositoryWarning": false,
+        "suppressResultsExplorerNotice": true,
+        "suppressShowKeyBindingsNotice": true
+    },
+    "gitlens.currentLine.enabled": false,
+    "gitlens.hovers.currentLine.over": "line",
+    "gitlens.hovers.currentLine.enabled": false,
+    "diffEditor.ignoreTrimWhitespace": true,
+    "scm.alwaysShowProviders": true,
+    "vim.handleKeys": {
+        "<C-d>": true,
+        "<C-j>": false,
+        "<C-b>": false,
+        "<C-k>": false,
+        "<C-f>": false,
+        "<C-h>": false,
+    },
+    "extensions.showRecommendationsOnlyOnDemand": true,
+    "workbench.colorTheme": "Cobalt2",
+    "workbench.colorCustomizations": {
+        "editor.wordHighlightBackground": "#FFFFFF20"
+    },
+    "workbench.editor.tabSizing": "shrink",
+    "debug.inlineValues": true,
+    "git.autofetch": true,
+    "breadcrumbs.enabled": true,
+    "window.titleBarStyle": "custom",
+    "debug.openExplorerOnEnd": true,
+    "debug.showInStatusBar": "never",
+    "prettier.eslintIntegration": true,
+    "editor.formatOnSave": true,
+    "files.autoSave": "afterDelay",
+    "vim.easymotion": true,
+    "[python]": {
+        "editor.codeLens": false
+    },
+    "window.restoreFullscreen": true,
+    "javascript.implicitProjectConfig.experimentalDecorators": true,
+    "omnisharp.useGlobalMono": "never",
+    "terminal.integrated.rendererType": "dom",
+    "gitlens.views.fileHistory.enabled": true,
+    "gitlens.views.lineHistory.enabled": true,
+    "editor.lineNumbers": "relative"
+}
