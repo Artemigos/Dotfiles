@@ -16,23 +16,23 @@ super + BackSpace
 
 # command runner
 super + @space
-	rofi -show run -theme /usr/share/rofi/themes/sidebar.rasi
+	rofi -modi run -show run
 
 # program launcher
 super + shift + @space
-	rofi -show drun -show-icons -theme /usr/share/rofi/themes/sidebar.rasi
+	rofi -modi drun -show drun -show-icons
 
 # configs
-super + alt + space
-	CHOICE="$(conf_menu)"; if [ ! -z "$CHOICE" ]; then $TERMINAL $EDITOR "$CHOICE"; fi
+super + alt + @space
+	CHOICE=$(conf_menu) && $EDITOR "$CHOICE"
 
 # windows
-super + ctrl + space
-	rofi -show window -theme /usr/share/rofi/themes/sidebar.rasi
+super + ctrl + @space
+	rofi -modi window -show window
 
 # emoji
-super + ctrl + shift + space
-	rofi -modi "emoji:$HOME/.bin/rofiemoji.sh" -show emoji -theme /usr/share/rofi/themes/sidebar.rasi | xsel
+super + ctrl + shift + @space
+	rofi -modi "emoji:$HOME/.bin/rofiemoji.sh" -show emoji | xsel
 
 # make sxhkd or polybar reload its configuration files:
 super + {_,shift} + Escape
