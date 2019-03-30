@@ -27,8 +27,8 @@ if [ -d "$HOME/.local/bin" ] ; then
 fi
 
 export PATH="$HOME/.cargo/bin:$PATH"
-
 export PATH="$HOME/.bin:$PATH"
 
-export EDITOR="vim"
 export TERMINAL="st"
+export EDITOR="$TERMINAL -e vim"
+export BROWSER="chromium-browser"

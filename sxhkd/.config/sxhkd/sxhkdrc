@@ -4,7 +4,15 @@
 
 # terminal emulator
 super + Return
-	st
+	$TERMINAL
+
+# editor
+super + ctrl + Return
+	$EDITOR
+
+# lock screen
+super + BackSpace
+	gnome-screensaver-command -l
 
 # command runner
 super + @space
@@ -32,7 +40,7 @@ super + {_,shift} + Escape
 
 # browsers
 super + F1
-	chromium-browser
+	$BROWSER
 
 super + shift + F1
 	firefox
@@ -42,11 +50,11 @@ super + F2
 	spotify
 
 super + shift + F2
-	xdg-open https://www.youtube.com/
+	$BROWSER https://www.youtube.com/
 
 # file explorers
 super + F3
-	st ranger
+	$TERMINAL -e ranger
 
 super + shift + F3
 	nautilus $HOME
@@ -108,11 +116,11 @@ super + ctrl + {m,x,y,z}
 #
 
 # focus/swap/preselect/transplant the node in the given direction
-super + {_,shift + ,ctrl + shift + ,ctrl + }{h,j,k,l}
+super + {_,shift,ctrl + shift,ctrl} + {h,j,k,l}
 	bspc node -{f,s,p,n} {west,south,north,east}
 
 # focus/swap/transplant the node for the given path jump
-super + {_,shift,ctrl + shitft} + {p,b,comma,period}
+super + {_,shift,ctrl} + {p,b,comma,period}
 	bspc node -{f,s,n} @{parent,brother,first,second}
 
 # focus the next/previous node in the current desktop
