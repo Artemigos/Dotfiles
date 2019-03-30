@@ -4,6 +4,7 @@ sxhkd &
 feh --bg-fill /usr/share/backgrounds/adapta/tealized.jpg
 compton -bcf -r 6 -l -6 -t -6 -I 0.08 -O 0.08 &
 polybar main &
+gnome-screensaver --no-daemon &
 
 #trayer \
 #  --edge top \

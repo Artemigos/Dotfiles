@@ -10,8 +10,12 @@ super + Return
 super + ctrl + Return
 	$EDITOR
 
-# lock screen
+# power options
 super + BackSpace
+	power_menu
+
+# lock screen
+super + shift + BackSpace
 	gnome-screensaver-command -l
 
 # command runner

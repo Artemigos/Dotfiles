@@ -63,4 +63,3 @@ To make sure everything works look through and remove your conflicting files wit
 - vim (it's barely there right now)
 - tmux?
 - update `sp help` to include info about my new commands
-- some kind of menu for shutdown, reboot, sleep, lock, logout

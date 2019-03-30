@@ -1,0 +1,13 @@
+#!/bin/bash
+
+RESULT=$(rofi -sep '|' -dmenu -p 'option: ' <<< 'Shutdown|Reboot|Sleep|Lock|Logout')
+
+case "$RESULT" in
+    *Shutdown) shutdown now ;;
+    *Reboot) reboot ;;
+    *Sleep) systemctl suspend ;;
+    *Lock) gnome-screensaver-command -l ;;
+    *Logout) bspc quit ;;
+    *) exit 1 ;;
+esac
+
