@@ -24,9 +24,16 @@ To make sure everything works look through and remove your conflicting files wit
 
 ## System dependencies
 
+### Applications
+
 - rofi - for all the selection menus
 - xsel - for emoji selector
 - gnome-screensaver - for screen locking
+
+### Fonts
+
+- Fantasque Sans Mono - <https://github.com/belluzj/fantasque-sans/releases>
+- Iosevka Nerd Font - <https://github.com/ryanoasis/nerd-fonts/releases>
 
 ## Default applications
 
@@ -53,7 +60,6 @@ To make sure everything works look through and remove your conflicting files wit
 ## Todo
 
 - ranger
-- rofi
 - vim (it's barely there right now)
 - tmux?
 - update `sp help` to include info about my new commands
