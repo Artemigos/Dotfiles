@@ -1,0 +1,10 @@
+$include /etc/inputrc
+
+"\C-p":previous-history
+"\C-n":next-history
+"\C-a":beginning-of-line
+"\C-e":end-of-line
+"\C-l":clear-screen
+
+# apparently this fixes the DEL key
+set enable-keypad On
