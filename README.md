@@ -1,18 +1,6 @@
 # Dotfiles
 
-My personal set of dotfiles. Currently contains:
-
-- bash
-- bspwm
-- git
-- polybar
-- sxhkd
-- system
-- terminator (used before, keeping just in case)
-- vim
-- vscode
-
-Used on Ubuntu 18.04, but will gradually move to something Arch-based.
+My personal set of dotfiles. Used on Ubuntu 18.04, but will gradually move to something Arch-based.
 
 ## Installing
 
@@ -29,6 +17,7 @@ To make sure everything works look through and remove your conflicting files wit
 - rofi - for all the selection menus
 - xsel - for emoji selector
 - gnome-screensaver - for screen locking
+- numlockx - to enable numlock after login
 
 ### Fonts
 
