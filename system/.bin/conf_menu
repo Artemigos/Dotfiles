@@ -1,6 +1,6 @@
 #!/bin/bash
 
-MENU="$(rofi -sep "|" -dmenu -p 'config: ' <<< "Bspwm|Sxhkd|Polybar")"
+MENU="$(rofi -sep "|" -dmenu -p 'config' <<< "Bspwm|Sxhkd|Polybar")"
 
 case "$MENU" in
     *Bspwm) echo $HOME/.config/bspwm/bspwmrc ;;

@@ -44,8 +44,8 @@
 #window {
     height:   100%;
     width: 30em;
-    location: west;
-    anchor:   west;
+    location: east;
+    anchor:   east;
     border:  0px 2px 0px 0px;
     text-color: @lightwhite;
 }
@@ -99,4 +99,13 @@
 #element selected urgent {
     background-color: @lightred;
     text-color: @dark;
+}
+#inputbar {
+    children: [ prompt,textbox-prompt-colon,entry,case-indicator ];
+}
+#textbox-prompt-colon {
+    expand: false;
+    str: ":";
+    margin: 0px 0.3em 0em 0em ;
+    text-color: @lightwhite;
 }
