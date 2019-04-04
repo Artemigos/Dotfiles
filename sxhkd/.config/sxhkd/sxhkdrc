@@ -154,7 +154,7 @@ super + {_,shift + }{1-9,0}
 #
 
 # preselect the ratio
-super + ctrl + {1-9}
+super + ctrl + shift + {1-9}
 	bspc node -o 0.{1-9}
 
 # cancel the preselection for the focused node
