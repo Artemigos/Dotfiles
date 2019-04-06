@@ -1,6 +1,6 @@
 #!/bin/bash
 
-RESULT=$(rofi -sep '|' -dmenu -p 'option: ' <<< 'Shutdown|Reboot|Sleep|Lock|Logout')
+RESULT=$(rofi -sep '|' -dmenu -p 'option' <<< 'Shutdown|Reboot|Sleep|Lock|Logout')
 
 case "$RESULT" in
     *Shutdown) shutdown now ;;
