@@ -8,7 +8,7 @@ super + Return
 
 # editor
 super + ctrl + Return
-	$EDITOR
+	$TERMINAL -e $EDITOR
 
 # power options
 super + BackSpace
@@ -28,7 +28,7 @@ super + shift + @space
 
 # configs
 super + alt + @space
-	CHOICE=$(conf_menu) && $EDITOR "$CHOICE"
+	CHOICE=$(conf_menu) && $TERMINAL -e $EDITOR "$CHOICE"
 
 # windows
 super + ctrl + @space

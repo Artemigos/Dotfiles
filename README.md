@@ -14,10 +14,14 @@ To make sure everything works look through and remove your conflicting files wit
 
 ### Applications
 
+- polybar - top bar with tray
+- feh - wallpaper setter
+- compton - compositor
 - rofi - for all the selection menus
 - xsel - for emoji selector
 - gnome-screensaver - for screen locking
 - numlockx - to enable numlock after login
+- ibus - input bus
 
 ### Fonts
 

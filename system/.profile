@@ -29,6 +29,7 @@ fi
 export PATH="$HOME/.cargo/bin:$PATH"
 export PATH="$HOME/.bin:$PATH"
 
+# Default sotftware
 export TERMINAL="st"
-export EDITOR="$TERMINAL -e vim"
+export EDITOR="vim"
 export BROWSER="chromium-browser"
