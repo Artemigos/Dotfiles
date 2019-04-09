@@ -22,6 +22,7 @@ To make sure everything works look through and remove your conflicting files wit
 - gnome-screensaver - for screen locking
 - numlockx - to enable numlock after login
 - ibus - input bus
+- xte - to simulate media key presses on mouse buttons
 
 ### Fonts
 

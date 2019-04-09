@@ -75,6 +75,12 @@ XF86Audio{Lower,Raise}Volume
 XF86AudioMute
 	pactl set-sink-mute @DEFAULT_SINK@ toggle
 
+button9
+	xte "key XF86AudioPlay"
+
+button8
+	xte "key XF86AudioNext"
+
 #
 # bspwm hotkeys
 #
