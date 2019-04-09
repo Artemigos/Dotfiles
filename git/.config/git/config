@@ -4,3 +4,7 @@
 	aa = add .
 	co = checkout
 	ci = commit
+
+
+# vim: noet
+

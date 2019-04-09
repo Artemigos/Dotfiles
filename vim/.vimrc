@@ -5,3 +5,13 @@ exec 'vnoremap im :<C-U>?'.g:method_regex.'<CR>/{<CR>vi{'
 omap am :normal vam<CR>
 omap im :normal vim<CR>
 
+set modeline
+set autoindent
+set tabstop=4
+set softtabstop=4
+set shiftwidth=4
+set expandtab
+
+set list
+set listchars=trail:.,tab:>\ 
+
