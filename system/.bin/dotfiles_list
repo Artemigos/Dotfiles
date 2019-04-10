@@ -1,0 +1,4 @@
+#!/bin/bash
+
+find $HOME/.dotfiles/ -path $HOME/.dotfiles/.git -prune -o -path $HOME/.dotfiles/bash/.bash-git-prompt -prune -o -type f -print
+
