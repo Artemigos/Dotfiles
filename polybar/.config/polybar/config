@@ -90,7 +90,7 @@ tray-padding = 1
 modules-left = previous playpause next spotify
 modules-center = workspaces
 modules-right = pkg volume network date
- 
+
 ;== Modules ========================================================
 
 [module/workspaces]
