@@ -1,4 +1,6 @@
 #!/bin/bash
 
-find $HOME/.dotfiles/ -path $HOME/.dotfiles/.git -prune -o -path $HOME/.dotfiles/bash/.bash-git-prompt -prune -o -type f -print
+DOTFILES_HOME=$(dotfiles_home)
+find $DOTFILES_HOME -type f -print | grep -v "$(list_submodules $DOTFILES_HOME | sed 's/^/\^/')
+^$DOTFILES_HOME/.git"
 

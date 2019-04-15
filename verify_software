@@ -27,6 +27,7 @@ for prog in \
   pactl \
   curl \
   dbus-send \
+  neofetch \
   ; do
     if [ ! $(which $prog) ]; then echo "Missing $prog"; result=1; fi
 done
