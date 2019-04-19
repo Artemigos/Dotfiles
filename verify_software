@@ -10,6 +10,8 @@ for prog in \
   compton \
   rofi \
   xsel \
+  xclip \
+  scrot \
   gnome-screensaver \
   numlockx \
   ibus-daemon \

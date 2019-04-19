@@ -19,6 +19,8 @@ To make sure everything works look through and remove your conflicting files wit
 - compton - compositor
 - rofi - for all the selection menus
 - xsel - for emoji selector
+- xclip - for screenshot copying
+- scrot - for making screenshots
 - gnome-screensaver - for screen locking
 - numlockx - to enable numlock after login
 - ibus - input bus

@@ -63,6 +63,10 @@ super + F3
 super + shift + F3
 	nautilus $HOME
 
+# screenchot
+@Print
+	scrotclip
+
 #
 # audio controls
 #

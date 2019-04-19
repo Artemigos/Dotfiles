@@ -1,0 +1,5 @@
+#!/bin/bash
+
+SCREENSHOT_FILE=$(mktemp -u /tmp/scrot.XXXXXX.png)
+scrot -s $SCREENSHOT_FILE && xclip -selection clipboard -t image/png $SCREENSHOT_FILE
+
