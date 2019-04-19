@@ -28,3 +28,6 @@
 [submodule "vim/.vim/bundle/vim-airline-themes"]
 	path = vim/.vim/bundle/vim-airline-themes
 	url = https://github.com/vim-airline/vim-airline-themes.git
+[submodule "vim/.vim/bundle/todo.txt-vim"]
+	path = vim/.vim/bundle/todo.txt-vim
+	url = https://github.com/freitass/todo.txt-vim.git
