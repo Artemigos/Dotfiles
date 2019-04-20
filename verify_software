@@ -30,6 +30,7 @@ for prog in \
   curl \
   dbus-send \
   neofetch \
+  xrdb \
   ; do
     if [ ! $(which $prog) ]; then echo "Missing $prog"; result=1; fi
 done

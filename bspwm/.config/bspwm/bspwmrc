@@ -2,18 +2,19 @@
 
 # basic functionality
 sxhkd &
-feh --bg-fill /usr/share/backgrounds/adapta/tealized.jpg
-compton -bcf -r 6 -l -6 -t -6 -I 0.08 -O 0.08 &
+feh --bg-fill $HOME/.config/wallpapers/wallhaven-758220.jpg
+compton -b &
 polybar main &
 gnome-screensaver --no-daemon &
 numlockx on
 ibus-daemon -dsxr
+xrdb -merge $HOME/.Xresources
 
 # personally used software
 /opt/piavpn/bin/pia-client --quiet &
 
 # Bspwm configuration
-bspc monitor -d main code communication IV music
+bspc monitor -d main code communication IV music 
 
 bspc config border_width         2
 bspc config window_gap           12
