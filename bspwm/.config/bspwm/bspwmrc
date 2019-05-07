@@ -2,7 +2,7 @@
 
 # basic functionality
 sxhkd &
-feh --bg-fill $HOME/.config/wallpapers/wallhaven-758220.jpg
+feh --bg-fill $HOME/.config/wallpapers/wallhaven-762032.jpg
 compton -b &
 polybar main &
 gnome-screensaver --no-daemon &
@@ -28,6 +28,4 @@ bspc config gapless_monocle      true
 bspc config click_to_focus       button1
 bspc config pointer_modifier     shift
 
-bspc rule -a Gimp desktop='^4' state=floating follow=on
-bspc rule -a Wfica desktop='^2' state=tiled follow=on
-bspc rule -a Screenkey manage=off
+bspc config external_rules_command "$HOME/.config/bspwm/rules"

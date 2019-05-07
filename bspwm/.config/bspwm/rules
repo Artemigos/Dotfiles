@@ -1,0 +1,25 @@
+#!/bin/sh
+
+id=${1?};
+class=$2;
+instance=$3;
+
+# logfile="$HOME/window.log"
+# echo -e "$id\t$class\t$3" >> $logfile
+
+case $class in
+    (Gimp*) result="desktop=^4 state=floating follow=on";;
+    (Wfica) result="desktop=^2 state=tiled follow=off";;
+    (Wfica_Splash) result="desktop=^2 state=floating follow=off";;
+    (Screenkey) result="manage=off";;
+    ('')
+        case $(ps -p "$(xdo pid $id)" -o comm= 2>/dev/null) in
+            (spotify) result="desktop=^5";;
+        esac;;
+esac;
+
+echo $result
+# echo $result >> $logfile
+
+# vim: set ft=sh
+
