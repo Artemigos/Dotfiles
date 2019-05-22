@@ -1,0 +1,9 @@
+#!/bin/sh
+
+set -e
+
+PROMPT="$(cat "$1" | jq -r '.prompt')"
+SELECTED="$(cat "$1" | jq -r '.commands[].description' | rofi -dmenu -p "$PROMPT")"
+CMD="$(cat "$1" | jq -r ".commands | map(select(.description == "\""$SELECTED"\"")) | .[0].command")"
+eval "$CMD"
+

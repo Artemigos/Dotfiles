@@ -1,0 +1,13 @@
+{
+    "prompt": "option",
+    "commands": [
+        {
+            "description": "Update list",
+            "command": "$TERMINAL -e sudo apt update"
+        },
+        {
+            "description": "Upgrade",
+            "command": "$TERMINAL -e sudo apt upgrade"
+        }
+    ]
+}

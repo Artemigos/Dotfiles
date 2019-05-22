@@ -225,6 +225,7 @@ format-background = ${color.bg1}
 format-foreground = ${color.fg1}
 format-padding = 2
 tail = true
+click-left = rofimenu $MENUS_PATH/packages.json
 
 [module/volume]
 type = internal/pulseaudio

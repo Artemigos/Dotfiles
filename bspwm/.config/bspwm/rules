@@ -13,7 +13,7 @@ case $class in
     (Wfica_Splash) result="desktop=^2 state=floating follow=off";;
     (Screenkey) result="manage=off";;
     ('')
-        case $(ps -p "$(xdo pid $id)" -o comm= 2>/dev/null) in
+        case $(ps -p "$(xdo pid "$id")" -o comm= 2>/dev/null) in
             (spotify) result="desktop=^5";;
         esac;;
 esac;

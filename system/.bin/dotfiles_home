@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/bin/sh
 
-SCRIPT=$(realpath $0)
-dirname $(dirname $(dirname $SCRIPT))
+SCRIPT=$(realpath "$0")
+dirname "$(dirname "$(dirname "$SCRIPT")")"

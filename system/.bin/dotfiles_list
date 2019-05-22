@@ -1,6 +1,6 @@
-#!/bin/bash
+#!/bin/sh
 
 DOTFILES_HOME=$(dotfiles_home)
-find $DOTFILES_HOME -type f -print | grep -v "$(list_submodules $DOTFILES_HOME | sed 's/^/\^/')
+find "$DOTFILES_HOME" -type f -print | grep -v "$(list_submodules "$DOTFILES_HOME" | sed 's/^/\^/')
 ^$DOTFILES_HOME/.git"
 

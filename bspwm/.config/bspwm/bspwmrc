@@ -1,14 +1,14 @@
-#! /bin/sh
+#!/bin/sh
 
 # basic functionality
 sxhkd &
-feh --bg-fill $HOME/.config/wallpapers/wallhaven-762032.jpg
+feh --bg-fill "$HOME/.config/wallpapers/wallhaven-762032.jpg"
 compton -b &
 polybar main &
 gnome-screensaver --no-daemon &
 numlockx on
-ibus-daemon -dsxr
-xrdb -merge $HOME/.Xresources
+ibus-daemon -dxr
+xrdb -merge "$HOME/.Xresources"
 
 # personally used software
 /opt/piavpn/bin/pia-client --quiet &

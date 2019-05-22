@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/bin/sh
 
 result=0
 
@@ -31,8 +31,9 @@ for prog in \
   dbus-send \
   neofetch \
   xrdb \
+  jq \
   ; do
-    if [ ! $(which $prog) ]; then echo "Missing $prog"; result=1; fi
+    if [ ! "$(which $prog)" ]; then echo "Missing $prog"; result=1; fi
 done
 
 exit $result

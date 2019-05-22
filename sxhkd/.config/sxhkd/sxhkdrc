@@ -12,7 +12,7 @@ super + ctrl + Return
 
 # power options
 super + BackSpace
-	power_menu
+	rofimenu $MENUS_PATH/power_menu.json
 
 # lock screen
 super + shift + BackSpace
