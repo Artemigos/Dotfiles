@@ -32,6 +32,7 @@ for prog in \
   neofetch \
   xrdb \
   jq \
+  dunst \
   ; do
     if [ ! "$(which $prog)" ]; then echo "Missing $prog"; result=1; fi
 done
