@@ -2,38 +2,7 @@
 
 result=0
 
-for prog in \
-  bspwm \
-  sxhkd \
-  polybar \
-  feh \
-  compton \
-  rofi \
-  xsel \
-  xclip \
-  scrot \
-  gnome-screensaver \
-  numlockx \
-  ibus-daemon \
-  xte \
-  git \
-  st \
-  stow \
-  vim \
-  chromium-browser \
-  firefox \
-  ranger \
-  spotify \
-  nautilus \
-  /opt/piavpn/bin/pia-client \
-  pactl \
-  curl \
-  dbus-send \
-  neofetch \
-  xrdb \
-  jq \
-  dunst \
-  ; do
+for prog in $(cat required_software.txt) ; do
     if [ ! "$(which $prog)" ]; then echo "Missing $prog"; result=1; fi
 done
 

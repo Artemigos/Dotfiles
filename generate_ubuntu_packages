@@ -1,0 +1,2 @@
+#!/bin/sh
+cat required_software.txt | xargs which | xargs dpkg -S 2>/dev/null | cut -d ':' -f 1 | sort -u > ubuntu_packages.txt
