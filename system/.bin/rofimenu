@@ -2,8 +2,10 @@
 
 set -e
 
-PROMPT="$(cat "$1" | jq -r '.prompt')"
-SELECTED="$(cat "$1" | jq -r '.commands[].description' | rofi -dmenu -p "$PROMPT")"
-CMD="$(cat "$1" | jq -r ".commands | map(select(.description == "\""$SELECTED"\"")) | .[0].command")"
+DATA=$(cat "${1:-/dev/stdin}")
+
+PROMPT=$(echo "$DATA" | jq -r '.prompt')
+SELECTED=$(echo "$DATA" | jq -r '.commands[].description' | rofi -dmenu -p "$PROMPT")
+CMD=$(echo "$DATA" | jq -r ".commands | map(select(.description == \"$SELECTED\")) | .[0].command")
 eval "$CMD"
 

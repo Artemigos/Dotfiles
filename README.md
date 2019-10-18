@@ -60,3 +60,9 @@ To make sure everything works look through and remove your conflicting files wit
 - vim (it's barely there right now)
 - tmux?
 - update `sp help` to include info about my new commands
+- prepare rofi menus
+
+  - expand audioctl?
+  - migrate power menu to new powerctl
+  - migrate apt menu to new packagectl
+  - and more (networkctl? workspacectl? displayctl?)

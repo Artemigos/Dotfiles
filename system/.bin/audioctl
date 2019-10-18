@@ -1,0 +1,34 @@
+#!/bin/bash
+
+main () {
+    case ${1:-} in
+        list-x-options) listXOptions ;;
+        list-sinks) shift; listSinks "$@" ;;
+        x-set-default-sink) xSetDefaultSink ;;
+        *) exit 1 ;;
+    esac
+}
+
+listXOptions () {
+    cat <<EOF
+{
+    "prompt": "audio options",
+    "commands": [
+        {
+            "description": "Set default sink",
+            "command": "audioctl x-set-default-sink"
+        }
+    ]
+}
+EOF
+}
+
+listSinks () {
+    pactl list short sinks | awk '{print $2}'
+}
+
+xSetDefaultSink () {
+    sink=$(audioctl list-sinks | rofi -dmenu -p 'select sink') && pactl set-default-sink "$sink"
+}
+
+main "$@"
