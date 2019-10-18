@@ -10,6 +10,9 @@ super + Return
 super + ctrl + Return
 	$TERMINAL -e $EDITOR
 
+super + shift + Return
+	emacs
+
 # power options
 super + BackSpace
 	rofimenu $MENUS_PATH/power_menu.json

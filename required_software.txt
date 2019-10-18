@@ -29,3 +29,5 @@ jq
 dunst
 maim
 redshift-gtk
+emacs
+doom
