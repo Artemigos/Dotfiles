@@ -9,6 +9,7 @@ gnome-screensaver --no-daemon &
 numlockx on
 ibus-daemon -dxr
 xrdb -merge "$HOME/.Xresources"
+redshift-gtk &
 
 # personally used software
 /opt/piavpn/bin/pia-client --quiet &

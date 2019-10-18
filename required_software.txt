@@ -28,3 +28,4 @@ xrdb
 jq
 dunst
 maim
+redshift-gtk
