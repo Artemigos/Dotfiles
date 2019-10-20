@@ -15,7 +15,7 @@ super + shift + Return
 
 # power options
 super + BackSpace
-	rofimenu $MENUS_PATH/power_menu.json
+	powerctl list-x-options | rofimenu
 
 # lock screen
 super + shift + BackSpace

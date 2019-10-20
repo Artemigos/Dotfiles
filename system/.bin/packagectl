@@ -1,0 +1,30 @@
+#!/bin/bash
+
+main () {
+    case "${1:-}" in
+        update) "$TERMINAL" -e sudo apt update ;;
+        upgrade) "$TERMINAL" -e sudo apt upgrade ;;
+        list-x-options) listXOptions ;;
+        *) exit 1 ;;
+    esac
+}
+
+listXOptions () {
+    cat <<EOF
+{
+    "prompt": "option",
+    "commands": [
+        {
+            "description": "Update list",
+            "command": "packagectl update"
+        },
+        {
+            "description": "Upgrade",
+            "command": "packagectl upgrade"
+        }
+    ]
+}
+EOF
+}
+
+main "$@"

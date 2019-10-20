@@ -30,8 +30,6 @@ export PATH="$HOME/.cargo/bin:$PATH"
 export PATH="$HOME/.bin:$PATH"
 export PATH="$HOME/.emacs.d/bin:$PATH"
 
-export MENUS_PATH="$HOME/.bin/menus"
-
 # Default sotftware
 export TERMINAL="st"
 export EDITOR="vim"

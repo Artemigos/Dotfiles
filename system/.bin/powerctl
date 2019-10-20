@@ -1,0 +1,45 @@
+#!/bin/bash
+
+main () {
+     case ${1:-} in
+          shutdown) shutdown now ;;
+          reboot) reboot ;;
+          sleep) systemctl suspend ;;
+          lock) gnome-screensaver-command -l ;;
+          logout) bspc quit ;;
+          list-x-options) listXOptions ;;
+          *) exit 1 ;;
+     esac
+}
+
+listXOptions () {
+     cat <<EOF
+{
+    "prompt": "option",
+    "commands": [
+        {
+            "description": "Shutdown",
+            "command": "powerctl shutdown"
+        },
+        {
+            "description": "Reboot",
+            "command": "powerctl reboot"
+        },
+        {
+            "description": "Sleep",
+            "command": "powerctl sleep"
+        },
+        {
+            "description": "Lock",
+            "command": "powerctl lock"
+        },
+        {
+            "description": "Logout",
+            "command": "powerctl logout"
+        }
+    ]
+}
+EOF
+}
+
+main "$@"
