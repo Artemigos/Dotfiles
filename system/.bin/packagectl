@@ -5,6 +5,7 @@ main () {
         update) "$TERMINAL" -e sudo apt update ;;
         upgrade) "$TERMINAL" -e sudo apt upgrade ;;
         list-x-options) listXOptions ;;
+        show) listXOptions | rofimenu ;;
         *) exit 1 ;;
     esac
 }

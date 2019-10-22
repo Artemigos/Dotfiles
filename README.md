@@ -26,6 +26,7 @@ To make sure everything works look through and remove your conflicting files wit
 - ibus - input bus
 - xte - to simulate media key presses on mouse buttons
 - xrdb - for Xresources for st
+- redshift-gtk - night colors (less blue light)
 
 ### Fonts
 
@@ -63,6 +64,4 @@ To make sure everything works look through and remove your conflicting files wit
 - prepare rofi menus
 
   - expand audioctl?
-  - migrate power menu to new powerctl
-  - migrate apt menu to new packagectl
   - and more (networkctl? workspacectl? displayctl?)

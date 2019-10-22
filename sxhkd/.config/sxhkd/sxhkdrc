@@ -13,9 +13,13 @@ super + ctrl + Return
 super + shift + Return
 	emacs
 
+# main UI menu
+super + slash
+	system-menu show
+
 # power options
 super + BackSpace
-	powerctl list-x-options | rofimenu
+	powerctl show
 
 # lock screen
 super + shift + BackSpace

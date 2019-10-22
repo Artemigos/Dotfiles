@@ -1,0 +1,36 @@
+#!/bin/bash
+
+main () {
+    case ${1:-} in
+        audio) audioctl show ;;
+        packages) packagectl show ;;
+        power) powerctl show ;;
+        list-x-options) listXOptions ;;
+        show) listXOptions | rofimenu ;;
+        *) exit 1 ;;
+    esac
+}
+
+listXOptions () {
+    cat <<EOF
+{
+    "prompt": "section",
+    "commands": [
+        {
+            "description": "Audio",
+            "command": "system-menu audio"
+        },
+        {
+            "description": "Packages",
+            "command": "system-menu packages"
+        },
+        {
+            "description": "Power",
+            "command": "system-menu power"
+        }
+    ]
+}
+EOF
+}
+
+main "$@"

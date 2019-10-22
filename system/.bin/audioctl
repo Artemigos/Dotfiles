@@ -2,25 +2,12 @@
 
 main () {
     case ${1:-} in
-        list-x-options) listXOptions ;;
         list-sinks) shift; listSinks "$@" ;;
         x-set-default-sink) xSetDefaultSink ;;
+        list-x-options) listXOptions ;;
+        show) listXOptions | rofimenu ;;
         *) exit 1 ;;
     esac
-}
-
-listXOptions () {
-    cat <<EOF
-{
-    "prompt": "audio options",
-    "commands": [
-        {
-            "description": "Set default sink",
-            "command": "audioctl x-set-default-sink"
-        }
-    ]
-}
-EOF
 }
 
 listSinks () {
@@ -29,6 +16,20 @@ listSinks () {
 
 xSetDefaultSink () {
     sink=$(audioctl list-sinks | rofi -dmenu -p 'select sink') && pactl set-default-sink "$sink"
+}
+
+listXOptions () {
+    cat <<EOF
+{
+    "prompt": "option",
+    "commands": [
+        {
+            "description": "Set default sink",
+            "command": "audioctl x-set-default-sink"
+        }
+    ]
+}
+EOF
 }
 
 main "$@"
