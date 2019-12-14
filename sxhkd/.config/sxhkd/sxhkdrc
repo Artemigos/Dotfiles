@@ -80,7 +80,7 @@ super + shift + F3
 XF86Audio{Prev,Next,Play,Stop}
 	sp {prev,next,play,pause}
 
-XF86Audio{Lower,Raise}Volume 
+XF86Audio{Lower,Raise}Volume
 	pactl set-sink-volume @DEFAULT_SINK@ {-,+}5%
 
 XF86AudioMute

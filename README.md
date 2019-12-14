@@ -32,6 +32,7 @@ To make sure everything works look through and remove your conflicting files wit
 
 - Fantasque Sans Mono - <https://github.com/belluzj/fantasque-sans/releases>
 - Iosevka Nerd Font - <https://github.com/ryanoasis/nerd-fonts/releases>
+- Liberation Mono
 
 ## Default applications
 

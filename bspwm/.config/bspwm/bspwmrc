@@ -2,7 +2,7 @@
 
 # basic functionality
 sxhkd &
-feh --bg-fill "$HOME/.config/wallpapers/wallhaven-762032.jpg"
+feh --bg-fill "$HOME/.config/wallpapers/wallpaper"
 compton -b &
 polybar main &
 gnome-screensaver --no-daemon &
