@@ -8,6 +8,7 @@ polybar main &
 gnome-screensaver --no-daemon &
 numlockx on
 ibus-daemon -dxr
+setxkbmap -option caps:ctrl_modifier &
 xrdb -merge "$HOME/.Xresources"
 redshift-gtk &
 

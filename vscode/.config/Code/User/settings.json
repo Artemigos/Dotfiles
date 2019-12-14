@@ -36,7 +36,6 @@
     },
     "workbench.editor.tabSizing": "shrink",
     "debug.inlineValues": true,
-    "git.autofetch": true,
     "breadcrumbs.enabled": true,
     "window.titleBarStyle": "custom",
     "debug.openExplorerOnEnd": true,
