@@ -31,6 +31,6 @@ export PATH="$HOME/.bin:$PATH"
 export PATH="$HOME/.emacs.d/bin:$PATH"
 
 # Default sotftware
-export TERMINAL="st"
+export TERMINAL="alacritty"
 export EDITOR="vim"
 export BROWSER="chromium-browser"

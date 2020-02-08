@@ -123,4 +123,6 @@ source ~/.bash-git-prompt/gitprompt.sh
 
 # VI mode
 set -o vi
-neofetch
+#neofetch
+
+source /home/artemigos/.config/broot/launcher/bash/br
