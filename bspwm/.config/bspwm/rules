@@ -16,7 +16,7 @@ case $class in
     (Emacs) result="state=tiled";;
     ('')
         case $(ps -p "$(xdo pid "$id")" -o comm= 2>/dev/null) in
-            (spotify) result="desktop=^5 state=fullscreen";;
+            (spotify) result="desktop=^5 state=tiled";;
         esac;;
 esac;
 

@@ -30,7 +30,9 @@ export PATH="$HOME/.cargo/bin:$PATH"
 export PATH="$HOME/.bin:$PATH"
 export PATH="$HOME/.emacs.d/bin:$PATH"
 
+export XDG_CONFIG_HOME="$HOME/.config"
+
 # Default sotftware
 export TERMINAL="alacritty"
 export EDITOR="vim"
-export BROWSER="chromium-browser"
+export BROWSER="firefox"

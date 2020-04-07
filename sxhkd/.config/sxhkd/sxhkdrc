@@ -54,7 +54,7 @@ super + F1
 	$BROWSER
 
 super + shift + F1
-	firefox
+	chromium-browser
 
 # music players
 super + F2

@@ -31,3 +31,4 @@ maim
 redshift-gtk
 emacs
 doom
+alacritty
