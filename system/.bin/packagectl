@@ -1,16 +1,77 @@
 #!/bin/bash
 
 main () {
-    case "${1:-}" in
-        update) "$TERMINAL" -e sudo apt update ;;
-        upgrade) "$TERMINAL" -e sudo apt upgrade ;;
-        list-x-options) listXOptions ;;
-        show) listXOptions | rofimenu ;;
-        *) exit 1 ;;
-    esac
+    subcommand="packagectl-$1"
+    if $(type $subcommand > /dev/null 2> /dev/null); then
+        shift
+        eval "$subcommand $@"
+    else
+        exit 1
+    fi
 }
 
-listXOptions () {
+packagectl-upgradable-number-arch () {
+    pacman -Sup | wc -l
+}
+
+packagectl-upgradable-number-ubuntu () {
+    apt list --upgradable | tail -n +2 2> /dev/null | wc -l
+}
+
+packagectl-upgradable-number () {
+    if os-tags ubuntu; then
+        packagectl upgradable-number-ubuntu
+    elif os-tags arch; then
+        packagectl upgradable-number-arch
+    else
+        echo "Unrecognized OS"
+        exit 1
+    fi
+}
+
+packagectl-update-ubuntu () {
+    sudo apt update
+    read
+}
+
+packagectl-update-arch () {
+    echo not implemented
+    read
+}
+
+packagectl-update () {
+    if os-tags ubuntu; then
+        "$TERMINAL" -e packagectl update-ubuntu
+    elif os-tags arch; then
+        "$TERMINAL" -e packagectl update-arch
+    else
+        echo "Unrecognized OS"
+        exit 1
+    fi
+}
+
+packagectl-upgrade-arch () {
+    sudo pacman -Syu
+    read
+}
+
+packagectl-upgrade-ubuntu () {
+    sudo apt upgrade
+    read
+}
+
+packagectl-upgrade () {
+    if os-tags ubuntu; then
+        "$TERMINAL" -e packagectl upgrade-ubuntu
+    elif os-tags arch; then
+        "$TERMINAL" -e packagectl upgrade-arch
+    else
+        echo "Unrecognized OS"
+        exit 1
+    fi
+}
+
+packagectl-list-x-options () {
     cat <<EOF
 {
     "prompt": "option",
@@ -28,4 +89,8 @@ listXOptions () {
 EOF
 }
 
-main "$@"
+packagectl-show () {
+    packagectl-list-x-options | rofimenu
+}
+
+main $@

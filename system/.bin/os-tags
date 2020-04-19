@@ -1,10 +1,9 @@
 #!/bin/bash
-. /etc/*-release
 
 query=$1
 
 # get distro info
-function getField() {
+getField () {
     grep "^$1=" /etc/*-release | sed -e "s/.*=//" -e 's/"//g'
 }
 
