@@ -1,0 +1,13 @@
+#!/bin/bash
+. /etc/*-release
+
+function getField() {
+    grep "^$1=" /etc/*-release | sed -e "s/.*=//" -e 's/"//g'
+}
+
+ID=$(getField ID)
+VERSION_ID=$(getField VERSION_ID)
+
+echo $ID
+[[ -z "$VERSION_ID" ]] || echo "${ID}_$VERSION_ID"
+

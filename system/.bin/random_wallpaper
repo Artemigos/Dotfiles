@@ -1,0 +1,5 @@
+#!/bin/bash
+WP=$(ls -1 "$XDG_CONFIG_HOME/wallpapers" --ignore=wallpaper | shuf | head -n 1)
+ln -sf "$WP" "$XDG_CONFIG_HOME/wallpapers/wallpaper"
+feh --bg-fill "$XDG_CONFIG_HOME/wallpapers/wallpaper"
+

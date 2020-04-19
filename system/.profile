@@ -35,4 +35,6 @@ export XDG_CONFIG_HOME="$HOME/.config"
 # Default sotftware
 export TERMINAL="alacritty"
 export EDITOR="vim"
+export ALT_EDITOR="emacs"
 export BROWSER="firefox"
+export ALT_BROWSER="chromium-browser"
