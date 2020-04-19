@@ -1,6 +1,9 @@
 #!/bin/bash
 . /etc/*-release
 
+query=$1
+
+# get distro info
 function getField() {
     grep "^$1=" /etc/*-release | sed -e "s/.*=//" -e 's/"//g'
 }
@@ -8,6 +11,22 @@ function getField() {
 ID=$(getField ID)
 VERSION_ID=$(getField VERSION_ID)
 
-echo $ID
-[[ -z "$VERSION_ID" ]] || echo "${ID}_$VERSION_ID"
+# construct tag array
+tags[0]=$ID
+[[ -z "$VERSION_ID" ]] || tags[1]="${ID}_$VERSION_ID"
+
+if [[ -z "$query" ]]; then
+    # output all tags
+    for item in ${tags[*]}
+    do
+        echo $item
+    done
+else
+    # check if tag is present
+    for item in ${tags[*]}
+    do
+        [[ "$item" == "$query" ]] && exit 0
+    done
+    exit 1
+fi
 
