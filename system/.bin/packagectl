@@ -31,6 +31,8 @@ packagectl-upgradable-number () {
 
 packagectl-update-ubuntu () {
     sudo apt update
+    echo '---'
+    echo Operation finished.
     read
 }
 
@@ -52,11 +54,15 @@ packagectl-update () {
 
 packagectl-upgrade-arch () {
     sudo pacman -Syu
+    echo '---'
+    echo Operation finished.
     read
 }
 
 packagectl-upgrade-ubuntu () {
     sudo apt upgrade
+    echo '---'
+    echo Operation finished.
     read
 }
 

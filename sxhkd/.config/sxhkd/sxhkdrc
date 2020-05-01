@@ -2,6 +2,32 @@
 # wm independent hotkeys
 #
 
+# ----------
+# NEW CHORD-BASED APPROACH
+# ----------
+super + r ; super + r
+	rofi -modi drun -show drun
+
+super + r ; r
+	rofi -modi run -show run
+
+super + r ; super + b
+	$BROWSER
+
+super + r ; b
+	$ALT_BROWSER
+
+super + r ; super + t
+	$TERMINAL
+
+super + r ; super + e
+	$TERMINAL -e $EDITOR
+
+super + r ; e
+	$ALT_EDITOR
+
+# ----------
+
 # terminal emulator
 super + Return
 	$TERMINAL
