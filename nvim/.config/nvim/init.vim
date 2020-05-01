@@ -12,7 +12,8 @@ Plug 'easymotion/vim-easymotion'
 Plug 'tpope/vim-fugitive'
 call plug#end()
 
-syntax on
+syntax enable
+set termguicolors
 colorscheme dracula
 
 " indenting settings
@@ -26,7 +27,7 @@ set smarttab
 
 " non-printable characters
 set list
-set listchars=trail:-,tab:>\ ,extends:>,precedes:<,nbsp:+
+set listchars=space:⋅,tab:→\ ,extends:❯,precedes:❮
 
 " editor appearance
 set relativenumber
@@ -53,18 +54,18 @@ let g:mapleader = ' '
 let g:maplocalleader = ','
 
 " working with init.vim
-command! Einit e $MYVIMRC " edit init.vim
-command! Sinit source $MYVIMRC "source init.vim
-nnoremap <Leader>ie :Einit<CR>
-nnoremap <Leader>is :Sinit<CR>
+command! EditInit e $MYVIMRC " edit init.vim
+command! SourceInit source $MYVIMRC "source init.vim
+nnoremap <Leader>ie :EditInit<CR>
+nnoremap <Leader>is :SourceInit<CR>
 
 au! BufWritePost $MYVIMRC source $MYVIMRC
 
 " buffer switching
-nnoremap <C-n> :bn<CR>
-nnoremap <C-p> :bp<CR>
-nnoremap <Leader>bn :bn<CR>
-nnoremap <Leader>bp :bp<CR>
+nnoremap <silent> <C-n> :bnext<CR>
+nnoremap <silent> <C-p> :bprev<CR>
+nnoremap <silent> <Leader>bn :bnext<CR>
+nnoremap <silent> <Leader>bp :bprev<CR>
 
 " split switching
 nnoremap <C-h> <C-w>h
@@ -82,39 +83,28 @@ source $XDG_CONFIG_HOME/nvim/coc.vim
 " which-key
 call which_key#register('<Space>', "g:which_key_map")
 let g:which_key_map =  {}
+let g:which_key_timeout = 300
+" let g:which_key_use_floating_win = 1 " need newer neovim
+let g:which_key_fallback_to_native_key = 1
+let g:which_key_run_map_on_popup = 1
 
 nnoremap <silent> <Leader> :<C-u>WhichKey '<Space>'<CR>
 nnoremap <silent> <LocalLeader> :<C-u>WhichKey ','<CR>
 
-let g:which_key_map.b = {
-            \ 'name': '+buffers',
-            \ 'n': ['bn', 'next-buffer'],
-            \ 'p': ['bp', 'previous-buffer'],
-            \ }
-
-let g:which_key_map.i = {
-            \ 'name': '+init.vim',
-            \ 'e': ['Einit', 'edit-init.vim'],
-            \ 's': ['Sinit', 'source-init.vim'],
-            \ }
-
-let g:which_key_map.w = {
-            \ 'name': '+windows',
-            \ 'h': ['<C-w>h', 'left-window'],
-            \ 'j': ['<C-w>j', 'bottom-window'],
-            \ 'k': ['<C-w>k', 'top-window'],
-            \ 'l': ['<C-w>l', 'right-window'],
-            \ }
-
-let g:which_key_map.f = {
-            \ 'name': '+fzf',
-            \ 'f': ['FZF-find', 'find'],
-            \ 'g': ['FZF-git', 'git-ls-files'],
-            \ }
+let g:which_key_map.b = { 'name': '+buffers' }
+let g:which_key_map.i = { 'name': '+init.vim' }
+let g:which_key_map.w = { 'name': '+windows' }
+let g:which_key_map.w.h = 'left-window'
+let g:which_key_map.w.j = 'bottom-window'
+let g:which_key_map.w.k = 'top-window'
+let g:which_key_map.w.l = 'right-window'
 
 " fzf
-nnoremap <Leader>ff :call fzf#run(fzf#wrap({'source': 'find'}))<CR>
-nnoremap <Leader>fg :call fzf#run(fzf#wrap({'source': 'git ls-files -co --exclude-standard'}))<CR>
+nnoremap <silent> <Leader>ff :Files<CR>
+nnoremap <silent> <Leader>fg :GitFiles<CR>
+nnoremap <silent> <Leader>fb :Buffers<CR>
+
+let g:which_key_map.f = { 'name': '+fzf' }
 
 " easymotion
 map <Leader><Leader>h <Plug>(easymotion-linebackward)
@@ -122,4 +112,14 @@ map <Leader><Leader>l <Plug>(easymotion-lineforward)
 
 " OmniSharp
 " let g:OmniSharp_server_stdio = 1
+
+" fugitive
+command! GitCheckoutBranch call fzf#run(fzf#wrap({ 'source': 'git branch | cut -c 3-', 'sink': 'G checkout' }))
+
+nnoremap <silent> <Leader>gg :Git<CR>
+nnoremap <silent> <Leader>gi :Git commit<CR>
+nnoremap <silent> <Leader>go :GitCheckoutBranch<CR>
+nnoremap <silent> <Leader>gl :Commits<CR>
+
+let g:which_key_map.g = { 'name': '+git' }
 

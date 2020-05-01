@@ -1,6 +1,6 @@
 " TODO: probably switch to LocalLeader
 
-let g:coc_global_extensions=[ 'coc-omnisharp' ]
+let g:coc_global_extensions=[ 'coc-omnisharp', 'coc-sh', 'coc-vimlsp' ]
 
 " TextEdit might fail if hidden is not set.
 set hidden
