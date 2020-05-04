@@ -9,6 +9,7 @@ endif
 
 nnoremap <silent> <Leader>gg :Git<CR>
 nnoremap <silent> <Leader>gi :Git commit<CR>
-nnoremap <silent> <Leader>gl :Commits<CR>
+nnoremap <silent> <Leader>gc :Commits<CR>
 nnoremap <silent> <Leader>gp :Git push<CR>
+nnoremap <silent> <Leader>gl :Git pull<CR>
 
