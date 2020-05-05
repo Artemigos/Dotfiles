@@ -19,6 +19,7 @@ Plug 'neoclide/coc.nvim', {'branch': 'release'}
 Plug 'easymotion/vim-easymotion'
 Plug 'tpope/vim-fugitive'
 Plug 'itchyny/lightline.vim'
+Plug 'michaeljsmith/vim-indent-object'
 
 call plug#end()
 
@@ -31,4 +32,5 @@ source $XDG_CONFIG_HOME/nvim/coc.vim
 source $XDG_CONFIG_HOME/nvim/easymotion.vim
 source $XDG_CONFIG_HOME/nvim/fugitive.vim
 source $XDG_CONFIG_HOME/nvim/lightline.vim
+source $XDG_CONFIG_HOME/nvim/todo.vim
 

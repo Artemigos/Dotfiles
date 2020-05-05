@@ -35,6 +35,7 @@ set showtabline=2
 set laststatus=2
 set splitright
 set splitbelow
+set noswapfile
 
 " leader
 let g:mapleader = ' '
