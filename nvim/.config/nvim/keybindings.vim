@@ -49,6 +49,7 @@ nnoremap <Leader>tp gT
 
 " other
 nnoremap <silent> <Space><Space><Space> :nohl<CR>
+inoremap jk <ESC>
 
 " text files
 nnoremap <Leader>os :e ~/scratch.txt<CR>

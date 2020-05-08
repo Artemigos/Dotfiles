@@ -20,6 +20,7 @@ Plug 'easymotion/vim-easymotion'
 Plug 'tpope/vim-fugitive'
 Plug 'itchyny/lightline.vim'
 Plug 'michaeljsmith/vim-indent-object'
+Plug 'airblade/vim-rooter'
 
 call plug#end()
 

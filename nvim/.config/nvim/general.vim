@@ -37,6 +37,8 @@ set splitright
 set splitbelow
 set noswapfile
 
+command! W w
+
 " leader
 let g:mapleader = ' '
 let g:maplocalleader = ','
