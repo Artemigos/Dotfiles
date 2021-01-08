@@ -54,5 +54,15 @@
     "gitlens.views.fileHistory.enabled": true,
     "gitlens.views.lineHistory.enabled": true,
     "editor.lineNumbers": "relative",
-    "lldb.adapterType": "bundled"
+    "lldb.adapterType": "bundled",
+    "git.confirmSync": false,
+    "markdownlint.config": {
+        "MD024": false
+    },
+    "workbench.editorAssociations": [
+        {
+            "viewType": "jupyter.notebook.ipynb",
+            "filenamePattern": "*.ipynb"
+        }
+    ]
 }

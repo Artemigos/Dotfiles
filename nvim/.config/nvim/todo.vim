@@ -1,6 +1,7 @@
 " configuration
-let g:TodoDeselectedPrefix = '◻️ '
-let g:TodoSelectedPrefix = '☑️ '
+let g:TodoDeselectedPrefix = '[ ] '
+let g:TodoSelectedPrefix = '[x] '
+let g:TodoLineFilterPrefix = '//' " TODO: implement line filtering, to allow todo in code comments
 
 " code
 function! ConfigureTodo()

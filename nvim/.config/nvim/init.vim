@@ -34,4 +34,5 @@ source $XDG_CONFIG_HOME/nvim/easymotion.vim
 source $XDG_CONFIG_HOME/nvim/fugitive.vim
 source $XDG_CONFIG_HOME/nvim/lightline.vim
 source $XDG_CONFIG_HOME/nvim/todo.vim
+source $XDG_CONFIG_HOME/nvim/dotnet.vim
 

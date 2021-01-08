@@ -3,7 +3,7 @@ if exists('g:which_key_map')
     let g:which_key_map.r = { 'name': '+refactor' }
 endif
 
-let g:coc_global_extensions=[ 'coc-omnisharp', 'coc-sh', 'coc-vimlsp', 'coc-json', 'coc-explorer' ]
+let g:coc_global_extensions=[ 'coc-omnisharp', 'coc-sh', 'coc-vimlsp', 'coc-json', 'coc-explorer', 'coc-css', 'coc-fzf-preview', 'coc-git', 'coc-python', 'coc-rust-analyzer', 'coc-yaml' ]
 
 " TextEdit might fail if hidden is not set.
 set hidden
