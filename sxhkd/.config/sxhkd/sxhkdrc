@@ -37,7 +37,7 @@ super + ctrl + Return
 	$TERMINAL -e $EDITOR
 
 super + shift + Return
-	emacs
+	$ALT_EDITOR
 
 # main UI menu
 super + slash
@@ -80,7 +80,7 @@ super + F1
 	$BROWSER
 
 super + shift + F1
-	chromium-browser
+	$ALT_BROWSER
 
 # music players
 super + F2
@@ -175,8 +175,8 @@ super + {_,shift + }c
 	bspc node -f {next,prev}.local
 
 # focus the next/previous desktop in the current monitor
-super + bracket{left,right}
-	bspc desktop -f {prev,next}.local
+super + {_,shift} + bracket{left,right}
+	bspc {desktop -f,node -d} {prev,next}.local
 
 # focus the last node/desktop
 super + {grave,Tab}
@@ -191,6 +191,9 @@ super + {o,i}
 # focus or send to the given desktop
 super + {_,shift + }{1-9,0}
 	bspc {desktop -f,node -d} '^{1-9,10}'
+
+super + {_,shift + }{KP_1,KP_2,KP_3,KP_4,KP_5}
+	bspc {desktop -f,node -d} '^{1,2,3,4,5}'
 
 #
 # preselect
@@ -219,6 +222,10 @@ super + alt + {h,j,k,l}
 # contract a window by moving one of its side inward
 super + alt + shift + {h,j,k,l}
 	bspc node -z {right -20 0,top 0 20,bottom 0 -20,left 20 0}
+
+# set size ratio
+super + alt + {1-9}
+	bspc node -r 0.{1-9}
 
 # move a floating window
 super + {Left,Down,Up,Right}
