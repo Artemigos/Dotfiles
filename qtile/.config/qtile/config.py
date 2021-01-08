@@ -178,7 +178,9 @@ screens = [
         top=bar.Bar(
             [
                 widget.CurrentLayout(),
+                widget.Sep(),
                 widget.GroupBox(),
+                widget.Sep(),
                 widget.Prompt(),
                 widget.WindowName(),
                 widget.Chord(
@@ -187,8 +189,12 @@ screens = [
                     },
                     name_transform=lambda name: name.upper(),
                 ),
+                widget.CheckUpdates(distro='Arch_checkupdates'),
+                widget.Sep(),
+                widget.Volume(step=5),
+                widget.Sep(),
                 widget.Clock(format='%a %H:%M'),
-                widget.Systray(),
+                widget.Systray(icon_size=24, padding=8),
             ],
             24,
             margin=6
