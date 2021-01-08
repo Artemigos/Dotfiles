@@ -33,6 +33,8 @@ from libqtile.config import Click, Drag, Group, EzKey as Key, Screen
 from libqtile.lazy import lazy
 from libqtile.utils import guess_terminal
 
+# import custom_bsp
+
 mod = "mod4"
 
 # defaults
