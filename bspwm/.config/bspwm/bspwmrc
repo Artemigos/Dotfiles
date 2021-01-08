@@ -2,18 +2,9 @@
 
 # basic functionality
 sxhkd &
-random_wallpaper
-compton -b &
 polybar main &
 gnome-screensaver --no-daemon &
-numlockx on
-ibus-daemon -dxr
-setxkbmap -option caps:ctrl_modifier
-xrdb -merge "$HOME/.Xresources"
-redshift-gtk &
-
-# personally used software
-/opt/piavpn/bin/pia-client --quiet &
+autostart.sh
 
 # Bspwm configuration
 bspc monitor -d main code communication IV music 
