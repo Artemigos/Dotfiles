@@ -9,7 +9,6 @@ from libqtile.utils import guess_terminal
 from libqtile.window import Window
 
 from widgets import screens, widget_defaults, extension_defaults
-# import custom_bsp
 
 mod = "mod4"
 
