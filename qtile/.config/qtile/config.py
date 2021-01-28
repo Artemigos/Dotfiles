@@ -6,10 +6,11 @@ from libqtile import layout, hook
 from libqtile.config import Click, Drag, Group, EzKey as Key, ScratchPad, DropDown
 from libqtile.lazy import lazy
 from libqtile.utils import guess_terminal
-from libqtile.window import Window
 
 from custom_bsp import CustomBsp
+import utils
 from widgets import screens, widget_defaults, extension_defaults
+import window_rules
 
 mod = "mod4"
 
@@ -25,47 +26,10 @@ alt_player = f'{browser} https://www.youtube.com/'
 explorer = f'{terminal} -e ranger'
 alt_explorer = f'pcmanfm {home}'
 
-def dbg_log_clear():
-    with open('/home/artemigos/qtile_dbg.log', 'w+'):
-        pass
-
-def dbg_log(msg):
-    with open('/home/artemigos/qtile_dbg.log', 'a') as f:
-        f.write(msg)
-        f.write('\n')
-
 @hook.subscribe.startup_once
 def autostart():
     subprocess.call(['autostart.sh'])
     subprocess.Popen(['light-locker', '--lock-after-screensaver=0', '--lock-on-suspend'])
-
-def run_cmd(cmd):
-    prc = subprocess.run(cmd, stdout=subprocess.PIPE, stderr=subprocess.DEVNULL)
-    if prc.returncode != 0:
-        return None
-    return str(prc.stdout, encoding='utf8').strip()
-
-def apply_rules(win: Window, wid: int, wm_class: str, proc_name: str):
-    if wm_class.startswith('Gimp'):
-        win.floating = True
-        win.togroup('IV')
-    elif wm_class == 'spotify' or proc_name == 'spotify':
-        win.togroup('music')
-
-@hook.subscribe.client_new
-def rules(win: Window):
-    wid = win.window.wid
-    classes = win.window.get_wm_class()
-
-    if len(classes) == 0:
-        proc_name = ''
-        proc_id = run_cmd(['xdo', 'pid', str(wid)])
-        if proc_id:
-            proc_name = run_cmd(['ps', '-p', proc_id, '-o', 'comm=']) or ''
-        apply_rules(win, wid, '', proc_name)
-    else:
-        for c in classes:
-            apply_rules(win, wid, c, '')
 
 keys = [
     # Switch between windows
