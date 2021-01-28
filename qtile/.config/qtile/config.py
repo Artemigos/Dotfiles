@@ -8,6 +8,7 @@ from libqtile.lazy import lazy
 from libqtile.utils import guess_terminal
 from libqtile.window import Window
 
+from custom_bsp import CustomBsp
 from widgets import screens, widget_defaults, extension_defaults
 
 mod = "mod4"
@@ -66,48 +67,6 @@ def rules(win: Window):
         for c in classes:
             apply_rules(win, wid, c, '')
 
-@lazy.function
-def flip_selected(qtile):
-    node = qtile.current_layout.get_node(qtile.current_window)
-    is_first = node.parent.children.index(node) == 0
-    if node.parent.split_horizontal:
-        if is_first:
-            qtile.current_layout.cmd_flip_right()
-        else:
-            qtile.current_layout.cmd_flip_left()
-    else:
-        if is_first:
-            qtile.current_layout.cmd_flip_down()
-        else:
-            qtile.current_layout.cmd_flip_up()
-
-def transplant(qtile, target_selector):
-    layout = qtile.current_layout # type: layout.Bsp
-    if layout.name != 'bsp':
-        return
-    node = target_selector(layout) # type: layout._BspNode
-    if not node:
-        return
-    curr_node = layout.get_node(qtile.current_window)
-    curr_node.parent.remove(curr_node)
-    layout.current = node.insert(curr_node.client, int(layout.lower_right), layout.ratio)
-
-@lazy.function
-def transplant_left(qtile):
-    transplant(qtile, lambda l: l.find_left())
-
-@lazy.function
-def transplant_right(qtile):
-    transplant(qtile, lambda l: l.find_right())
-
-@lazy.function
-def transplant_up(qtile):
-    transplant(qtile, lambda l: l.find_up())
-
-@lazy.function
-def transplant_down(qtile):
-    transplant(qtile, lambda l: l.find_down())
-
 keys = [
     # Switch between windows
     Key("M-j", lazy.layout.down(), desc="Move focus down"),
@@ -122,15 +81,15 @@ keys = [
     Key("M-S-l", lazy.layout.shuffle_right(), desc="Swap window right"),
 
     # Transplant windows
-    Key("M-C-j", transplant_down, desc="Transplant window down"),
-    Key("M-C-k", transplant_up, desc="Transplant window up"),
-    Key("M-C-h", transplant_left, desc="Transplant window left"),
-    Key("M-C-l", transplant_right, desc="Transplant window right"),
+    Key("M-C-j", lazy.layout.transplant_down(), desc="Transplant window down"),
+    Key("M-C-k", lazy.layout.transplant_up(), desc="Transplant window up"),
+    Key("M-C-h", lazy.layout.transplant_left(), desc="Transplant window left"),
+    Key("M-C-l", lazy.layout.transplant_right(), desc="Transplant window right"),
 
     # Layout stuff
     Key("M-m", lazy.next_layout(), desc="Switch between BSP an Max"),
     Key("M-<semicolon>", lazy.layout.toggle_split(), desc="Rotate split"),
-    Key("M-S-b", flip_selected, desc="Swap window with sibling"),
+    Key("M-S-b", lazy.layout.flip(), desc="Swap window with sibling"),
 
     Key("M-w", lazy.window.kill(), desc="Kill focused window"),
     Key("M-A-r", lazy.restart(), desc="Restart qtile"),
@@ -194,7 +153,7 @@ for i in groups:
 groups = [scratchpad] + groups
 
 layouts = [
-    layout.Bsp(border_focus='#FFB52A', border_width=2, margin=6, fair=False),
+    CustomBsp(border_focus='#FFB52A', border_width=2, margin=6, fair=False),
     layout.Max(),
 ]
 
