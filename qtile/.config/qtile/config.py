@@ -1,39 +1,14 @@
-# Copyright (c) 2010 Aldo Cortesi
-# Copyright (c) 2010, 2014 dequis
-# Copyright (c) 2012 Randall Ma
-# Copyright (c) 2012-2014 Tycho Andersen
-# Copyright (c) 2012 Craig Barnes
-# Copyright (c) 2013 horsik
-# Copyright (c) 2013 Tao Sauvage
-#
-# Permission is hereby granted, free of charge, to any person obtaining a copy
-# of this software and associated documentation files (the "Software"), to deal
-# in the Software without restriction, including without limitation the rights
-# to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-# copies of the Software, and to permit persons to whom the Software is
-# furnished to do so, subject to the following conditions:
-#
-# The above copyright notice and this permission notice shall be included in
-# all copies or substantial portions of the Software.
-#
-# THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-# IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-# FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
-# AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-# LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-# OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
-# SOFTWARE.
-
 import os
 import subprocess
 from typing import List  # noqa: F401
 
-from libqtile import bar, layout, widget, hook
-from libqtile.config import Click, Drag, Group, EzKey as Key, Screen
+from libqtile import layout, hook
+from libqtile.config import Click, Drag, Group, EzKey as Key, ScratchPad, DropDown
 from libqtile.lazy import lazy
 from libqtile.utils import guess_terminal
 from libqtile.window import Window
 
+from widgets import screens, widget_defaults, extension_defaults
 # import custom_bsp
 
 mod = "mod4"
@@ -142,64 +117,34 @@ keys = [
 
     # Utilities
     Key("<Print>", lazy.spawn('scrotclip'), desc="Take a screenshot"),
+    Key("M-<grave>", lazy.group['scratchpad'].dropdown_toggle('term'), desc='Show terminal dropdown'),
+    Key("M-S-<BackSpace>", lazy.spawn('powerctl lock'), desc='Lock the session'),
 ]
 
 group_definitions = {
-    'main': '1',
-    'code': '2',
-    'communication': '3',
-    'IV': '4',
-    'music': '5',
+    'main': ('1', '爵'),
+    'code': ('2', ''),
+    'communication': ('3', ''),
+    'IV': ('4', '❹'),
+    'music': ('5', 'ﱘ'),
 }
-groups = [Group(i) for i in group_definitions.keys()]
+scratchpad = ScratchPad('scratchpad', [
+    DropDown('term', terminal, width=0.9, height=0.6, x=0.05, warp_pointer=False),
+])
+groups = [Group(k, label=v[1]) for k, v in group_definitions.items()]
 
 for i in groups:
-    group_key = group_definitions[i.name]
+    group_key = group_definitions[i.name][0]
     keys.extend([
         Key(f'M-{group_key}', lazy.group[i.name].toscreen(), desc="Switch to group {}".format(i.name)),
         Key(f'M-S-{group_key}', lazy.window.togroup(i.name), desc="Move focused window to group {}".format(i.name)),
-        # TODO: transplant with control+mod+{12345}
     ])
+
+groups = [scratchpad] + groups
 
 layouts = [
     layout.Bsp(border_focus='#FFB52A', border_width=2, margin=6, fair=False),
     layout.Max(),
-]
-
-widget_defaults = dict(
-    font='sans',
-    fontsize=24,
-    padding=3,
-)
-extension_defaults = widget_defaults.copy()
-
-screens = [
-    Screen(
-        top=bar.Bar(
-            [
-                widget.CurrentLayout(),
-                widget.Sep(),
-                widget.GroupBox(),
-                widget.Sep(),
-                widget.Prompt(),
-                widget.WindowName(),
-                widget.Chord(
-                    chords_colors={
-                        'launch': ("#ff0000", "#ffffff"),
-                    },
-                    name_transform=lambda name: name.upper(),
-                ),
-                widget.CheckUpdates(distro='Arch_checkupdates'),
-                widget.Sep(),
-                widget.Volume(step=5),
-                widget.Sep(),
-                widget.Clock(format='%a %H:%M'),
-                widget.Systray(icon_size=24, padding=8),
-            ],
-            24,
-            margin=6
-        ),
-    ),
 ]
 
 mouse = [

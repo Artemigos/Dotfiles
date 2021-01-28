@@ -5,8 +5,8 @@ main () {
         shutdown) shutdown now ;;
         reboot) reboot ;;
         sleep) systemctl suspend ;;
-        lock) gnome-screensaver-command -l ;;
-        logout) bspc quit ;;
+        lock) light-locker-command -l ;;
+        logout) qtile-cmd -o cmd -f shutdown ;;
         list-x-options) listXOptions ;;
         show) listXOptions | rofimenu ;;
         *) exit 1 ;;
