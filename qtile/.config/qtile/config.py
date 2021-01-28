@@ -25,6 +25,10 @@ alt_player = f'{browser} https://www.youtube.com/'
 explorer = f'{terminal} -e ranger'
 alt_explorer = f'pcmanfm {home}'
 
+def dbg_log_clear():
+    with open('/home/artemigos/qtile_dbg.log', 'w+'):
+        pass
+
 def dbg_log(msg):
     with open('/home/artemigos/qtile_dbg.log', 'a') as f:
         f.write(msg)
@@ -33,6 +37,7 @@ def dbg_log(msg):
 @hook.subscribe.startup_once
 def autostart():
     subprocess.call(['autostart.sh'])
+    subprocess.Popen(['light-locker', '--lock-after-screensaver=0', '--lock-on-suspend'])
 
 def run_cmd(cmd):
     prc = subprocess.run(cmd, stdout=subprocess.PIPE, stderr=subprocess.DEVNULL)
@@ -62,6 +67,48 @@ def rules(win: Window):
         for c in classes:
             apply_rules(win, wid, c, '')
 
+@lazy.function
+def flip_selected(qtile):
+    node = qtile.current_layout.get_node(qtile.current_window)
+    is_first = node.parent.children.index(node) == 0
+    if node.parent.split_horizontal:
+        if is_first:
+            qtile.current_layout.cmd_flip_right()
+        else:
+            qtile.current_layout.cmd_flip_left()
+    else:
+        if is_first:
+            qtile.current_layout.cmd_flip_down()
+        else:
+            qtile.current_layout.cmd_flip_up()
+
+def transplant(qtile, target_selector):
+    layout = qtile.current_layout # type: layout.Bsp
+    if layout.name != 'bsp':
+        return
+    node = target_selector(layout) # type: layout._BspNode
+    if not node:
+        return
+    curr_node = layout.get_node(qtile.current_window)
+    curr_node.parent.remove(curr_node)
+    layout.current = node.insert(curr_node.client, int(layout.lower_right), layout.ratio)
+
+@lazy.function
+def transplant_left(qtile):
+    transplant(qtile, lambda l: l.find_left())
+
+@lazy.function
+def transplant_right(qtile):
+    transplant(qtile, lambda l: l.find_right())
+
+@lazy.function
+def transplant_up(qtile):
+    transplant(qtile, lambda l: l.find_up())
+
+@lazy.function
+def transplant_down(qtile):
+    transplant(qtile, lambda l: l.find_down())
+
 keys = [
     # Switch between windows
     Key("M-j", lazy.layout.down(), desc="Move focus down"),
@@ -75,11 +122,16 @@ keys = [
     Key("M-S-h", lazy.layout.shuffle_left(), desc="Swap window left"),
     Key("M-S-l", lazy.layout.shuffle_right(), desc="Swap window right"),
 
-    # TODO: transplant with control+mod+{hjlk}
+    # Transplant windows
+    Key("M-C-j", transplant_down, desc="Transplant window down"),
+    Key("M-C-k", transplant_up, desc="Transplant window up"),
+    Key("M-C-h", transplant_left, desc="Transplant window left"),
+    Key("M-C-l", transplant_right, desc="Transplant window right"),
 
     # Layout stuff
     Key("M-m", lazy.next_layout(), desc="Switch between BSP an Max"),
     Key("M-<semicolon>", lazy.layout.toggle_split(), desc="Rotate split"),
+    Key("M-S-b", flip_selected, desc="Swap window with sibling"),
 
     Key("M-w", lazy.window.kill(), desc="Kill focused window"),
     Key("M-A-r", lazy.restart(), desc="Restart qtile"),
