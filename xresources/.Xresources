@@ -26,3 +26,7 @@ st.defaultbg: 256
 st.defaultcs: 257
 st.defaultrcs: 257
 
+! DPI
+
+Xft.dpi: 96
+
