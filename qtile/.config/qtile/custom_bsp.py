@@ -49,8 +49,8 @@ class CustomBsp(Bsp):
     def transplant(self, target_node):
         curr_node = self.current
         if target_node and curr_node and curr_node.parent:
-            curr_node.parent.remove(curr_node)
             self.current = target_node.insert(curr_node.client, int(self.lower_right), self.ratio)
+            curr_node.parent.remove(curr_node)
 
     def cmd_transplant_left(self):
         self.transplant(self.find_left())
