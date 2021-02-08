@@ -37,6 +37,7 @@ keys = [
     Key("M-k", lazy.layout.up(), desc="Move focus up"),
     Key("M-h", lazy.layout.left(), desc="Move focus left"),
     Key("M-l", lazy.layout.right(), desc="Move focus right"),
+    Key("M-c", lazy.layout.next(), desc="Move focus to the next window"),
 
     # Move windows
     Key("M-S-j", lazy.layout.shuffle_down(), desc="Swap window down"),

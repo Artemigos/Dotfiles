@@ -24,6 +24,28 @@ class CustomBsp(Bsp):
                 else:
                     self.cmd_flip_up()
 
+    def cmd_next(self):
+        if self.current:
+            client = self.focus_next(self.current.client)
+            if client:
+                self.group.focus(client, True)
+                return
+
+        client = self.focus_first()
+        if client:
+            self.group.focus(client, True)
+
+    def cmd_previous(self):
+        if self.current:
+            client = self.focus_previous(self.current.client)
+            if client:
+                self.group.focus(client, True)
+                return
+
+        client = self.focus_last()
+        if client:
+            self.group.focus(client, True)
+
     def transplant(self, target_node):
         curr_node = self.current
         if target_node and curr_node and curr_node.parent:
