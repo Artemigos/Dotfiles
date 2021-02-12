@@ -29,6 +29,7 @@ fi
 export PATH="$HOME/.cargo/bin:$PATH"
 export PATH="$HOME/.bin:$PATH"
 export PATH="$HOME/.emacs.d/bin:$PATH"
+export PATH="$HOME/.dotnet/tools:$PATH"
 
 export XDG_CONFIG_HOME="$HOME/.config"
 
