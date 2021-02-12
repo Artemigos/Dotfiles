@@ -64,5 +64,7 @@
             "viewType": "jupyter.notebook.ipynb",
             "filenamePattern": "*.ipynb"
         }
-    ]
+    ],
+    "scssLint.showHighlights": true,
+    "scssLint.runOnTextChange": true
 }

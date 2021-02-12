@@ -1,0 +1,4 @@
+EXCLUDES="LICENSE README.md required_software.txt restore ubuntu_packages.txt verify_software"
+SYMLINK_DIRS="bash-git-prompt vim/bundle/*"
+TAGS="bash qtile alacritty nvim"
+
