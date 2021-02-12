@@ -1,31 +1,3 @@
-! ST
-
-st.font: Liberation Mono:pixelsize=12:antialias=true:autohint=true
-
-st.color0: #000000
-st.color1: #FF5555
-st.color2: #50FA7B
-st.color3: #F1FA8C
-st.color4: #BD93F9
-st.color5: #FF79C6
-st.color6: #8BE9FD
-st.color7: #BBBBBB
-st.color8: #44475A
-st.color9: #FF5555
-st.color10: #50FA7B
-st.color11: #F1FA8C
-st.color12: #BD93F9
-st.color13: #FF79C6
-st.color14: #8BE9FD
-st.color15: #FFFFFF
-st.background: #282A36
-st.foreground: #F8F8F2
-
-st.defaultfg: 257
-st.defaultbg: 256
-st.defaultcs: 257
-st.defaultrcs: 257
-
 ! DPI
 
 Xft.dpi: 96
