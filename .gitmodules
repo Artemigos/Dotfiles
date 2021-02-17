@@ -1,6 +1,3 @@
-[submodule "tag-bash/bash-git-prompt"]
-	path = tag-bash/bash-git-prompt
-	url = https://github.com/magicmonty/bash-git-prompt.git
 [submodule "tag-vim/vim/bundle/vim-pathogen"]
 	path = tag-vim/vim/bundle/vim-pathogen
 	url = https://github.com/tpope/vim-pathogen
