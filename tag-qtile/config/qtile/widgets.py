@@ -14,8 +14,8 @@ screens = [
     Screen(
         top=bar.Bar(
             [
-                widget.CurrentLayout(),
-                widget.Sep(),
+                #widget.CurrentLayout(),
+                #widget.Sep(),
                 widget.GroupBox(font='Noto Color Emoji'),
                 widget.Sep(),
                 widget.Prompt(),
@@ -26,11 +26,12 @@ screens = [
                     },
                     name_transform=lambda name: name.upper(),
                 ),
-                widget.CheckUpdates(distro='Arch_checkupdates'),
+                widget.CheckUpdates(distro='Arch_checkupdates', display_format=' {updates}'),
                 widget.Sep(),
-                widget.Volume(step=5),
+                widget.Volume(step=5, fmt='墳 {}'),
                 widget.Sep(),
-                widget.Clock(format='%a %H:%M'),
+                widget.Clock(format=' %H:%M'),
+                widget.Sep(),
                 widget.Systray(icon_size=24, padding=8),
             ],
             32,
