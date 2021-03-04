@@ -2,6 +2,16 @@ from libqtile import bar, widget
 from libqtile.config import Screen
 
 import custom_widgets
+from utils import run_cmd
+
+def get_song():
+    playing = run_cmd(['sp', 'status']) == 'Playing'
+    if not playing:
+        return ''
+
+    artist = run_cmd(['sp', 'metadata-field', 'artist'])
+    song = run_cmd(['sp', 'metadata-field', 'title'])
+    return f'{artist} - {song}'
 
 widget_defaults = dict(
     font='Iosevka',
@@ -26,6 +36,8 @@ screens = [
                     },
                     name_transform=lambda name: name.upper(),
                 ),
+                widget.GenPollText(func=get_song, update_interval=2),
+                widget.Sep(),
                 widget.CheckUpdates(distro='Arch_checkupdates', display_format=' {updates}'),
                 widget.Sep(),
                 widget.Volume(step=5, fmt='墳 {}'),
