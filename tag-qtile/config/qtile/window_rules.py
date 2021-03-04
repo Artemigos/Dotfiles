@@ -2,11 +2,7 @@ import subprocess
 from libqtile import hook
 from libqtile.window import Window
 
-def run_cmd(cmd):
-    prc = subprocess.run(cmd, stdout=subprocess.PIPE, stderr=subprocess.DEVNULL)
-    if prc.returncode != 0:
-        return None
-    return str(prc.stdout, encoding='utf8').strip()
+from utils import run_cmd
 
 def apply_rules(win: Window, wid: int, wm_class: str, proc_name: str):
     if wm_class.startswith('Gimp'):
