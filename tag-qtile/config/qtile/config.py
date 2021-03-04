@@ -94,6 +94,7 @@ keys = [
     Key("<Print>", lazy.spawn('scrotclip'), desc="Take a screenshot"),
     Key("M-<grave>", lazy.group['scratchpad'].dropdown_toggle('term'), desc='Show terminal dropdown'),
     Key("M-S-<BackSpace>", lazy.spawn('powerctl lock'), desc='Lock the session'),
+    Key("M-b", lazy.spawn('bwmenu'), desc='Run Bitwarden menu'),
 ]
 
 group_definitions = {
