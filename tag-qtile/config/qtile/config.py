@@ -3,7 +3,7 @@ import subprocess
 from typing import List  # noqa: F401
 
 from libqtile import layout, hook
-from libqtile.config import Click, Drag, Group, EzKey as Key, ScratchPad, DropDown
+from libqtile.config import Click, Drag, Group, EzKey as Key, ScratchPad, DropDown, Match
 from libqtile.lazy import lazy
 from libqtile.utils import guess_terminal
 
@@ -140,20 +140,7 @@ follow_mouse_focus = False
 bring_front_click = False
 cursor_warp = False
 floating_layout = layout.Floating(float_rules=[
-    {'wmclass': 'confirm'},
-    {'wmclass': 'dialog'},
-    {'wmclass': 'download'},
-    {'wmclass': 'error'},
-    {'wmclass': 'file_progress'},
-    {'wmclass': 'notification'},
-    {'wmclass': 'splash'},
-    {'wmclass': 'toolbar'},
-    {'wmclass': 'confirmreset'},  # gitk
-    {'wmclass': 'makebranch'},  # gitk
-    {'wmclass': 'maketag'},  # gitk
-    {'wname': 'branchdialog'},  # gitk
-    {'wname': 'pinentry'},  # GPG key password entry
-    {'wmclass': 'ssh-askpass'},  # ssh-askpass
+    *layout.Floating.default_float_rules,
 ])
 auto_fullscreen = True
 focus_on_window_activation = "smart"
