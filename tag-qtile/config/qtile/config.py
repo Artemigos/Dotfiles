@@ -119,7 +119,7 @@ for i in groups:
 groups = [scratchpad] + groups
 
 layouts = [
-    CustomBsp(border_focus='#FFB52A', border_width=2, margin=6, fair=False),
+    CustomBsp(border_focus='#bd93f9', border_width=2, margin=6, fair=False),
     layout.Max(),
 ]
 
