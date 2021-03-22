@@ -28,13 +28,25 @@ screens = [
     Screen(
         top=bar.Bar(
             [
-                widget.GroupBox(highlight_method='block', inactive='6272a4', urgent_alert_method='text', urgent_text='ff5555'),
+                widget.GroupBox(
+                    active='f8f8f2',
+                    this_current_screen_border='44475a',
+                    highlight_method='block',
+                    inactive='6272a4',
+                    urgent_alert_method='text',
+                    urgent_text='ff5555',
+                ),
                 widget.Sep(),
                 widget.Prompt(),
                 widget.WindowName(),
                 widget.GenPollText(func=get_song, update_interval=2),
                 widget.Sep(),
-                widget.CheckUpdates(distro='Arch_checkupdates', display_format=' {updates}', no_update_string=' 0', update_interval=300),
+                widget.CheckUpdates(
+                    distro='Arch_checkupdates',
+                    display_format=' {updates}',
+                    no_update_string=' 0',
+                    update_interval=300,
+                ),
                 widget.Sep(),
                 widget.Volume(step=5, fmt='墳 {}'),
                 widget.Sep(),
