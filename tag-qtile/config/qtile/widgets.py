@@ -5,13 +5,17 @@ import custom_widgets
 from utils import run_cmd
 
 def get_song():
-    playing = run_cmd(['sp', 'status']) == 'Playing'
-    if not playing:
-        return ''
+    status = run_cmd(['sp', 'status'])
+    if status == 'Paused':
+        return ''
+    elif status == 'Stopped':
+        return '栗'
+    elif status == 'Playing':
+        artist = run_cmd(['sp', 'metadata-field', 'artist'])
+        song = run_cmd(['sp', 'metadata-field', 'title'])
+        return f'契 {artist} - {song}'
 
-    artist = run_cmd(['sp', 'metadata-field', 'artist'])
-    song = run_cmd(['sp', 'metadata-field', 'title'])
-    return f'{artist} - {song}'
+    return 'ﱘ'
 
 widget_defaults = dict(
     font='Iosevka',
@@ -38,7 +42,7 @@ screens = [
                 ),
                 widget.GenPollText(func=get_song, update_interval=2),
                 widget.Sep(),
-                widget.CheckUpdates(distro='Arch_checkupdates', display_format=' {updates}'),
+                widget.CheckUpdates(distro='Arch_checkupdates', display_format=' {updates}', no_update_string=' 0', update_interval=300),
                 widget.Sep(),
                 widget.Volume(step=5, fmt='墳 {}'),
                 widget.Sep(),
