@@ -20,6 +20,7 @@ widget_defaults = dict(
     font='Iosevka',
     fontsize=24,
     padding=10,
+    foreground='#f8f8f2',
 )
 extension_defaults = widget_defaults.copy()
 
@@ -27,7 +28,7 @@ screens = [
     Screen(
         top=bar.Bar(
             [
-                widget.GroupBox(font='Noto Color Emoji'),
+                widget.GroupBox(highlight_method='block', inactive='6272a4', urgent_alert_method='text', urgent_text='ff5555'),
                 widget.Sep(),
                 widget.Prompt(),
                 widget.WindowName(),
@@ -42,7 +43,8 @@ screens = [
                 widget.Systray(icon_size=24, padding=8),
             ],
             32,
-            margin=6
+            margin=6,
+            background='#282a36',
         ),
     ),
 ]
