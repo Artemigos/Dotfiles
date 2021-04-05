@@ -55,6 +55,7 @@ keys = [
     Key("M-m", lazy.next_layout(), desc="Switch between BSP an Max"),
     Key("M-<semicolon>", lazy.layout.toggle_split(), desc="Rotate split"),
     Key("M-S-b", lazy.layout.flip(), desc="Swap window with sibling"),
+    Key("M-f", lazy.window.toggle_floating(), desc="Toggle window float"),
 
     Key("M-w", lazy.window.kill(), desc="Kill focused window"),
     Key("M-A-r", lazy.restart(), desc="Restart qtile"),
