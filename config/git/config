@@ -5,6 +5,8 @@
 	co = checkout
 	ci = commit
 
+[advice]
+	statusHints = false
 
 # vim: noet
 
