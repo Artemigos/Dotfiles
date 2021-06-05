@@ -31,6 +31,8 @@ nnoremap <silent> <Leader>bb :Buffers<CR>
 nnoremap <silent> <Leader>bn :bnext<CR>
 nnoremap <silent> <Leader>bp :bprev<CR>
 
+nnoremap <Leader><Leader> <C-^>
+
 " split switching
 nnoremap <C-h> <C-w>h
 nnoremap <C-j> <C-w>j

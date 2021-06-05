@@ -15,7 +15,9 @@ Plug 'tpope/vim-repeat',
 Plug 'liuchengxu/vim-which-key'
 Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
 Plug 'junegunn/fzf.vim'
-Plug 'neoclide/coc.nvim', {'branch': 'release'}
+" Plug 'neoclide/coc.nvim', {'branch': 'release'}
+Plug 'neovim/nvim-lspconfig'
+Plug 'nvim-lua/completion-nvim'
 Plug 'easymotion/vim-easymotion'
 Plug 'tpope/vim-fugitive'
 Plug 'itchyny/lightline.vim'
@@ -29,7 +31,8 @@ source $XDG_CONFIG_HOME/nvim/general.vim
 source $XDG_CONFIG_HOME/nvim/which-key.vim
 source $XDG_CONFIG_HOME/nvim/keybindings.vim
 source $XDG_CONFIG_HOME/nvim/fzf.vim
-source $XDG_CONFIG_HOME/nvim/coc.vim
+" source $XDG_CONFIG_HOME/nvim/coc.vim
+source $XDG_CONFIG_HOME/nvim/lsp.vim
 source $XDG_CONFIG_HOME/nvim/easymotion.vim
 source $XDG_CONFIG_HOME/nvim/fugitive.vim
 source $XDG_CONFIG_HOME/nvim/lightline.vim
