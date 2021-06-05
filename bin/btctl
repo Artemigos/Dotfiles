@@ -1,0 +1,117 @@
+#!/bin/bash
+
+main() {
+    case ${1:-} in
+        # menu options
+        x-connect) xConnect ;;
+        x-connect-paired) xConnectPaired ;;
+        enable-scan) enableScan ;;
+        x-pair) xPair ;;
+        x-trust) xTrust ;;
+        x-set-controller-power) xSetControllerPower ;;
+        x-disconnect) xDisconnect ;;
+        x-unpair) xUnpair ;;
+        x-untrust) xUntrust ;;
+        # utilities
+        select-device) shift; selectDevice "$@" ;;
+        select-paired-device) selectPairedDevice ;;
+        # menu handling
+        list-x-options) listXOptions ;;
+        show) listXOptions | rofimenu ;;
+        *) exit 1 ;;
+    esac
+}
+
+xConnect () {
+    device=$(selectDevice) && bluetoothctl connect "$device"
+}
+
+xConnectPaired () {
+    device=$(selectPairedDevice) && bluetoothctl connect "$device"
+}
+
+enableScan () {
+    bluetoothctl scan on
+}
+
+xPair () {
+    device=$(selectDevice) && bluetoothctl pair "$device"
+}
+
+xTrust () {
+    device=$(selectDevice) && bluetoothctl trust "$device"
+}
+
+xSetControllerPower () {
+    option=$(echo -e "on\noff" | rofi -dmenu -p "option") && bluetoothctl power "$option"
+}
+
+xDisconnect () {
+    device=$(selectDevice) && bluetoothctl disconnect "$device"
+}
+
+xUnpair () {
+    device=$(selectDevice) && bluetoothctl cancel-pairing "$device"
+}
+
+xUntrust () {
+    device=$(selectDevice) && bluetoothctl untrust "$device"
+}
+
+selectPairedDevice () {
+    selectDevice "$(bluetoothctl paired-devices)"
+}
+
+selectDevice () {
+    devices=${1:-$(bluetoothctl devices)}
+    device=$(echo "$devices" | rofi -dmenu -p 'select device') && echo $device | cut -d' ' -f2
+}
+
+listXOptions () {
+    cat <<EOF
+{
+    "prompt": "option",
+    "commands": [
+        {
+            "description": "Connect to a device",
+            "command": "btctl x-connect"
+        },
+        {
+            "description": "Connect to a paired device",
+            "command": "btctl x-connect-paired"
+        },
+        {
+            "description": "Enable scanning",
+            "command": "btctl enable-scan"
+        },
+        {
+            "description": "Pair device",
+            "command": "btctl x-pair"
+        },
+        {
+            "description": "Trust device",
+            "command": "btctl x-trust"
+        },
+        {
+            "description": "Set controller power",
+            "command": "btctl x-set-controller-power"
+        },
+        {
+            "description": "Disconnect from a device",
+            "command": "btctl x-disconnect"
+        },
+        {
+            "description": "Unpair device",
+            "command": "btctl x-unpair"
+        },
+        {
+            "description": "Untrust device",
+            "command": "btctl x-untrust"
+        }
+    ]
+}
+EOF
+}
+
+main "$@"
+

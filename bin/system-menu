@@ -3,6 +3,7 @@
 main () {
     case ${1:-} in
         audio) audioctl show ;;
+        bluetooth) btctl show ;;
         packages) packagectl show ;;
         power) powerctl show ;;
         list-x-options) listXOptions ;;
@@ -19,6 +20,10 @@ listXOptions () {
         {
             "description": "Audio",
             "command": "system-menu audio"
+        },
+        {
+            "description": "Bluetooth",
+            "command": "system-menu bluetooth"
         },
         {
             "description": "Packages",
