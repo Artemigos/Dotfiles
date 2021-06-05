@@ -1,7 +1,7 @@
 #!/bin/sh
 
 random_wallpaper
-picom -b
+# picom -b # broken AF
 numlockx on
 ibus-daemon -dxr
 setxkbmap -option caps:ctrl_modifier
