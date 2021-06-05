@@ -66,5 +66,8 @@
         }
     ],
     "scssLint.showHighlights": true,
-    "scssLint.runOnTextChange": true
+    "scssLint.runOnTextChange": true,
+    "python.showStartPage": false,
+    "terminal.external.linuxExec": "alacritty",
+    "terminal.external.windowsExec": "alacritty"
 }
