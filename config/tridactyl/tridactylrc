@@ -22,3 +22,34 @@ bind ;vf hint -Jc #video-title-link, ytd-compact-video-renderer .details .yt-sim
 bind ;vF hint -Jbc #video-title-link, ytd-compact-video-renderer .details .yt-simple-endpoint
 bind ;V hint -qJbc #video-title-link, ytd-compact-video-renderer .details .yt-simple-endpoint
 
+"{1 SEARCH ENGINES
+
+" remove unnecessary engines
+setnull searchurls.amazonuk
+setnull searchurls.bing
+setnull searchurls.cnrtl
+setnull searchurls.gentoo_wiki
+setnull searchurls.googlelucky
+setnull searchurls.googleuk
+setnull searchurls.scholar
+setnull searchurls.searx
+setnull searchurls.startpage
+setnull searchurls.twitter
+setnull searchurls.yahoo
+
+" rename existing engines
+setnull searchurls.duckduckgo
+set searchurls.ddg https://duckduckgo.com/?q=
+
+setnull searchurls.youtube
+set searchurls.yt https://www.youtube.com/results?search_query=
+
+setnull searchurls.github
+set searchurls.gh https://github.com/search?utf8=✓&q=
+
+" add own engines
+set searchurls.aw https://wiki.archlinux.org/index.php?search=
+set searchurls.abp https://archlinux.org/packages/?q=
+set searchurls.aur https://aur.archlinux.org/packages/?O=0&K=
+set searchurls.alle https://allegro.pl/listing?string=
+
