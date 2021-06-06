@@ -20,6 +20,7 @@ set listchars=trail:⋅,tab:→\ ,extends:❯,precedes:❮
 set relativenumber
 set number
 set cursorline
+set foldcolumn=auto:9
 
 " quality of life
 set wildmenu

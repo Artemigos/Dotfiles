@@ -1,3 +1,5 @@
+"{1 BASE SETTINGS
+set editorcmd $TERMINAL -e $EDITOR
 "{1 GENERAL HINT MODES
 
 " unfocus everything on page (focuses body)
