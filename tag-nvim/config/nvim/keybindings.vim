@@ -21,8 +21,6 @@ nnoremap <Leader>ie :EditInit<CR>
 nnoremap <Leader>is :SourceInit<CR>
 nnoremap <Leader>ia :EditAnyInit<CR>
 
-au! BufWritePost $MYVIMRC source $MYVIMRC
-
 " buffer switching
 nnoremap <silent> <C-n> :bnext<CR>
 nnoremap <silent> <C-p> :bprev<CR>

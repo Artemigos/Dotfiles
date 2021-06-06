@@ -23,6 +23,7 @@ Plug 'tpope/vim-fugitive'
 Plug 'itchyny/lightline.vim'
 Plug 'michaeljsmith/vim-indent-object'
 Plug 'airblade/vim-rooter'
+Plug 'tridactyl/vim-tridactyl'
 
 call plug#end()
 
@@ -38,4 +39,5 @@ source $XDG_CONFIG_HOME/nvim/fugitive.vim
 source $XDG_CONFIG_HOME/nvim/lightline.vim
 source $XDG_CONFIG_HOME/nvim/todo.vim
 source $XDG_CONFIG_HOME/nvim/dotnet.vim
+source $XDG_CONFIG_HOME/nvim/special-files.vim
 
