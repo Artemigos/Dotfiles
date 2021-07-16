@@ -23,12 +23,26 @@ bind m3 exclaim_quiet xdotool click 3
 bind m4 exclaim_quiet xdotool click 4
 bind m5 exclaim_quiet xdotool click 5
 
-"{1 YT VIDEO NAVIGATION
+"{1 SITE SPECIFIC
 
-" TODO: bindurl
-bind ;vf hint -Jc #video-title-link, ytd-compact-video-renderer .details .yt-simple-endpoint
-bind ;vF hint -Jbc #video-title-link, ytd-compact-video-renderer .details .yt-simple-endpoint
-bind ;V hint -qJbc #video-title-link, ytd-compact-video-renderer .details .yt-simple-endpoint
+" YouTube
+bindurl youtube.com ;vf hint -Jc #video-title-link, ytd-compact-video-renderer .details .yt-simple-endpoint
+bindurl youtube.com ;vF hint -Jbc #video-title-link, ytd-compact-video-renderer .details .yt-simple-endpoint
+bindurl youtube.com ;V hint -qJbc #video-title-link, ytd-compact-video-renderer .details .yt-simple-endpoint
+
+" Feedly
+unbindurl feedly.com n
+unbindurl feedly.com p
+unbindurl feedly.com m0
+unbindurl feedly.com m1
+unbindurl feedly.com m2
+unbindurl feedly.com m3
+unbindurl feedly.com m4
+unbindurl feedly.com m5
+unbindurl feedly.com v
+unbindurl feedly.com o
+unbindurl feedly.com r
+unbindurl feedly.com ga
 
 "{1 SEARCH ENGINES
 
