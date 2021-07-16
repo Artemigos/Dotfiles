@@ -1,5 +1,11 @@
 "{1 BASE SETTINGS
 set editorcmd $TERMINAL -e $EDITOR
+set tabopenpos last
+
+"{1 KEYBINDINGS
+bind gb fillcmdline bmarks
+bind <Tab> tab #
+
 "{1 GENERAL HINT MODES
 
 " unfocus everything on page (focuses body)
