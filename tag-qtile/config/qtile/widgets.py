@@ -6,7 +6,9 @@ from utils import run_cmd
 def get_song():
     status = run_cmd(['sp', 'status'])
     if status == 'Paused':
-        return ''
+        artist = run_cmd(['sp', 'metadata-field', 'artist'])
+        song = run_cmd(['sp', 'metadata-field', 'title'])
+        return f' {artist} - {song}'
     elif status == 'Stopped':
         return '栗'
     elif status == 'Playing':
