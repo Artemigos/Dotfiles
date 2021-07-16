@@ -61,5 +61,12 @@ require('lspconfig').bashls.setup({
 require('lspconfig').vimls.setup({
     on_attach = on_attach
 })
+
+local pid = vim.fn.getpid()
+local omnisharp_bin = vim.env.HOME .. "/.omnisharp/run"
+require('lspconfig').omnisharp.setup({
+    cmd = { omnisharp_bin, "--languageserver", "--hostPID", tostring(pid) },
+    on_attach = on_attach
+})
 EOF
 
