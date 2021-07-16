@@ -75,3 +75,16 @@ set searchurls.abp https://archlinux.org/packages/?q=
 set searchurls.aur https://aur.archlinux.org/packages/?O=0&K=
 set searchurls.alle https://allegro.pl/listing?string=
 
+" add documentation and package searches
+set searchurls.dotnet https://docs.microsoft.com/en-us/dotnet/api/?term=
+set searchurls.dotnetd https://docs.microsoft.com/en-us/dotnet/api/
+set searchurls.nuget https://www.nuget.org/packages?q=
+set searchurls.nugetd https://www.nuget.org/packages/
+set searchurls.fuget https://www.fuget.org/packages?q=
+set searchurls.fugetd https://www.fuget.org/packages/
+set searchurls.rstd https://doc.rust-lang.org/stable/std/index.html?search=
+set searchurls.crate https://crates.io/search?q=
+set searchurls.crated https://crates.io/crates/
+set searchurls.cratedoc https://docs.rs/releases/search?query=
+set searchurls.cratedocd https://docs.rs/
+
