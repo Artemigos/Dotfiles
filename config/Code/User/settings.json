@@ -5,7 +5,6 @@
     "editor.renderWhitespace": "boundary",
     "editor.fontLigatures": true,
     "editor.fontFamily": "'Fira Code', 'Droid Sans Mono', 'monospace', monospace, 'Droid Sans Fallback'",
-    "window.zoomLevel": 0,
     "gitlens.advanced.messages": {
         "suppressCommitHasNoPreviousCommitWarning": false,
         "suppressCommitNotFoundWarning": false,
@@ -59,15 +58,13 @@
     "markdownlint.config": {
         "MD024": false
     },
-    "workbench.editorAssociations": [
-        {
-            "viewType": "jupyter.notebook.ipynb",
-            "filenamePattern": "*.ipynb"
-        }
-    ],
+    "workbench.editorAssociations": {
+        "*.ipynb": "jupyter.notebook.ipynb"
+    },
     "scssLint.showHighlights": true,
     "scssLint.runOnTextChange": true,
     "python.showStartPage": false,
     "terminal.external.linuxExec": "alacritty",
-    "terminal.external.windowsExec": "alacritty"
+    "terminal.external.windowsExec": "alacritty",
+    "security.workspace.trust.enabled": false
 }

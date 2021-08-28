@@ -50,6 +50,8 @@ local on_attach = function(client)
     require('completion').on_attach(client)
 end
 
+-- TODO: cssls?, dockerls, html, jedi_language_server/pylsp/pyright, jsonls, stylelint_lsp?, sumneko_lua, yamlls
+
 require('lspconfig').rust_analyzer.setup({
     on_attach = on_attach
 })

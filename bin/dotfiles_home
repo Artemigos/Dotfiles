@@ -1,4 +1,4 @@
 #!/bin/sh
 
 SCRIPT=$(realpath "$0")
-dirname "$(dirname "$(dirname "$SCRIPT")")"
+dirname "$(dirname "$SCRIPT")"
