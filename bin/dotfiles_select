@@ -1,0 +1,3 @@
+#!/bin/sh
+
+CHOICE=$(dotfiles_list | rofi -dmenu -p file) && $TERMINAL -e $EDITOR "$CHOICE"

@@ -25,6 +25,7 @@ player = 'spotify'
 alt_player = f'{browser} https://www.youtube.com/'
 explorer = f'{terminal} -e ranger'
 alt_explorer = f'pcmanfm {home}'
+todo = f'{terminal} -e nvim {home}/todo.txt'
 
 @hook.subscribe.startup_once
 def autostart():
@@ -51,6 +52,10 @@ keys = [
     Key("M-C-h", lazy.layout.transplant_left(), desc="Transplant window left"),
     Key("M-C-l", lazy.layout.transplant_right(), desc="Transplant window right"),
 
+    # Groups
+    Key("M-<Left>", lazy.screen.prev_group(), desc="Switch to the previous group"),
+    Key("M-<Right>", lazy.screen.next_group(), desc="Switch to the next group"),
+
     # Layout stuff
     Key("M-m", lazy.next_layout(), desc="Switch between BSP an Max"),
     Key("M-<semicolon>", lazy.layout.toggle_split(), desc="Rotate split"),
@@ -76,7 +81,7 @@ keys = [
     # Launchers
     Key("M-<space>", lazy.spawn('rofi -modi run -show run'), desc='Run a command'),
     Key("M-S-<space>", lazy.spawn('rofi -modi drun -show drun -show-icons'), desc='Launch an application'),
-    Key("M-A-<space>", lazy.spawn(f'CHOICE=$(dotfiles_list | rofi -dmenu -p file) && {terminal} -e {editor} "$CHOICE"'), desc='Select and edit a dotfile'), # TODO: does not work, extract to script?
+    Key("M-A-<space>", lazy.spawn('dotfiles_select'), desc='Select and edit a dotfile'),
     Key("M-C-<space>", lazy.spawn('rofi -modi window -show window'), desc='Select a window'),
 
     # Menus
@@ -106,7 +111,7 @@ group_definitions = {
     'music': ('5', 'ﱘ'),
 }
 scratchpad = ScratchPad('scratchpad', [
-    DropDown('term', terminal, width=0.9, height=0.6, x=0.05, warp_pointer=False),
+    DropDown('term', todo, width=0.9, height=0.6, x=0.05, warp_pointer=False),
 ])
 groups = [Group(k, label=v[1]) for k, v in group_definitions.items()]
 
