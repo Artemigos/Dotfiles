@@ -14,13 +14,16 @@ function add_dir_to_path() {
     fi
 }
 
+function source_if_file() {
+    [ -f $1 ] && . $1
+}
+
 # if running bash
 if [ -n "$BASH_VERSION" ]; then
-    # include .bashrc if it exists
-    if [ -f "$HOME/.bashrc" ]; then
-        . "$HOME/.bashrc"
-    fi
+    source_if_file "$HOME/.bashrc"
 fi
+
+source_if_file "$HOME/.bw_credentials"
 
 add_dir_to_path "$HOME/bin"
 add_dir_to_path "$HOME/.local/bin"
