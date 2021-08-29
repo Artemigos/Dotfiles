@@ -10,8 +10,8 @@ def dbg_log(msg):
         f.write(msg)
         f.write('\n')
 
-def run_cmd(cmd):
-    prc = subprocess.run(cmd, stdout=subprocess.PIPE, stderr=subprocess.DEVNULL)
+def run_cmd(cmd, timeout=5):
+    prc = subprocess.run(cmd, stdout=subprocess.PIPE, stderr=subprocess.DEVNULL, timeout=timeout)
     if prc.returncode != 0:
         return None
     return str(prc.stdout, encoding='utf8').strip()
