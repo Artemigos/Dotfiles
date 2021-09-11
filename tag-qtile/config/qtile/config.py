@@ -83,6 +83,7 @@ keys = [
     Key("M-S-<space>", lazy.spawn('rofi -modi drun -show drun -show-icons'), desc='Launch an application'),
     Key("M-A-<space>", lazy.spawn('dotfiles_select'), desc='Select and edit a dotfile'),
     Key("M-C-<space>", lazy.spawn('rofi -modi window -show window'), desc='Select a window'),
+    Key("M-C-A-<space>", lazy.spawn('rofi -modi emoji -show emoji'), desc='Select an emoji character'),
 
     # Menus
     Key("M-<slash>", lazy.spawn('system-menu show'), desc='Show system menu'),
