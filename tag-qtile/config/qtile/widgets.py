@@ -1,19 +1,15 @@
 from libqtile import bar, widget
 from libqtile.config import Screen
 
+from simple_mpris2 import SimpleMpris2, PlaybackStatus
 from utils import run_cmd
 
-def get_song():
-    status = run_cmd(['sp', 'status'])
-    if status == 'Paused':
-        artist = run_cmd(['sp', 'metadata-field', 'artist'])
-        song = run_cmd(['sp', 'metadata-field', 'title'])
+def format_song(status, artist, song):
+    if status == PlaybackStatus.Paused:
         return f' {artist} - {song}'
-    elif status == 'Stopped':
+    elif status == PlaybackStatus.Stopped:
         return '栗'
-    elif status == 'Playing':
-        artist = run_cmd(['sp', 'metadata-field', 'artist'])
-        song = run_cmd(['sp', 'metadata-field', 'title'])
+    elif status == PlaybackStatus.Playing:
         return f'契 {artist} - {song}'
 
     return 'ﱘ'
@@ -49,7 +45,7 @@ screens = [
                 widget.Sep(),
                 widget.Prompt(),
                 widget.WindowName(),
-                widget.GenPollText(func=get_song, update_interval=2),
+                SimpleMpris2(display_formatter=format_song),
                 widget.Sep(),
                 widget.CheckUpdates(
                     distro='Arch_checkupdates',
