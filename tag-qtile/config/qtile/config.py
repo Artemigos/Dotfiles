@@ -102,6 +102,7 @@ keys = [
     Key("M-<grave>", lazy.group['scratchpad'].dropdown_toggle('term'), desc='Show terminal dropdown'),
     Key("M-S-<BackSpace>", lazy.spawn('powerctl lock'), desc='Lock the session'),
     Key("M-b", lazy.spawn('bwmenu'), desc='Run Bitwarden menu'),
+    Key("M-d", lazy.spawn('man_pdf'), desc='Select a manpage and show it as PDF.'),
 ]
 
 group_definitions = {

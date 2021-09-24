@@ -1,0 +1,2 @@
+#!/bin/sh
+CHOICE=$(fd '\.gz$' /usr/share/man | sort | rofi -dmenu) && gzip -dc "$CHOICE" | groff -man -T pdf - | zathura -
