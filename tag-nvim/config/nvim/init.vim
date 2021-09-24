@@ -13,11 +13,18 @@ Plug 'sheerun/vim-polyglot'
 Plug 'tpope/vim-surround',
 Plug 'tpope/vim-repeat',
 Plug 'liuchengxu/vim-which-key'
-Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
-Plug 'junegunn/fzf.vim'
-" Plug 'neoclide/coc.nvim', {'branch': 'release'}
+
+" LSP plugins
 Plug 'neovim/nvim-lspconfig'
 Plug 'nvim-lua/completion-nvim'
+Plug 'ray-x/lsp_signature.nvim'
+Plug 'kyazdani42/nvim-web-devicons'
+Plug 'onsails/lspkind-nvim'
+Plug 'nvim-lua/plenary.nvim'
+Plug 'nvim-telescope/telescope.nvim'
+Plug 'nvim-telescope/telescope-fzf-native.nvim', { 'do': 'make' }
+Plug 'gbrlsnchs/telescope-lsp-handlers.nvim'
+
 Plug 'easymotion/vim-easymotion'
 Plug 'tpope/vim-fugitive'
 Plug 'itchyny/lightline.vim'
@@ -31,8 +38,7 @@ call plug#end()
 source $XDG_CONFIG_HOME/nvim/general.vim
 source $XDG_CONFIG_HOME/nvim/which-key.vim
 source $XDG_CONFIG_HOME/nvim/keybindings.vim
-source $XDG_CONFIG_HOME/nvim/fzf.vim
-" source $XDG_CONFIG_HOME/nvim/coc.vim
+source $XDG_CONFIG_HOME/nvim/telescope.vim
 source $XDG_CONFIG_HOME/nvim/lsp.vim
 source $XDG_CONFIG_HOME/nvim/easymotion.vim
 source $XDG_CONFIG_HOME/nvim/fugitive.vim

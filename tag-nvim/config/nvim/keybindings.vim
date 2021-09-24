@@ -15,7 +15,7 @@ endif
 " working with init.vim
 command! EditInit e $MYVIMRC
 command! SourceInit source $MYVIMRC
-command! EditAnyInit call fzf#run(fzf#wrap(fzf#vim#with_preview({ 'source': 'find $XDG_CONFIG_HOME/nvim/ -name "*.vim"' })))
+command! EditAnyInit :lua require'telescope.builtin'.find_files{follow=true,cwd='$XDG_CONFIG_HOME/nvim/'}<CR>
 
 nnoremap <Leader>ie :EditInit<CR>
 nnoremap <Leader>is :SourceInit<CR>
@@ -25,7 +25,7 @@ nnoremap <Leader>ia :EditAnyInit<CR>
 nnoremap <silent> <C-n> :bnext<CR>
 nnoremap <silent> <C-p> :bprev<CR>
 
-nnoremap <silent> <Leader>bb :Buffers<CR>
+nnoremap <silent> <Leader>bb :Telesope buffers<CR>
 nnoremap <silent> <Leader>bn :bnext<CR>
 nnoremap <silent> <Leader>bp :bprev<CR>
 
