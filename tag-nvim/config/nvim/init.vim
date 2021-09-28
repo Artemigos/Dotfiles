@@ -8,28 +8,38 @@ endif
 " plugins
 call plug#begin(stdpath('data') . '/plugged')
 
+" general
 Plug 'dracula/vim', { 'as': 'dracula' }
 Plug 'sheerun/vim-polyglot'
 Plug 'tpope/vim-surround',
 Plug 'tpope/vim-repeat',
 Plug 'liuchengxu/vim-which-key'
-
-" LSP plugins
-Plug 'neovim/nvim-lspconfig'
-Plug 'nvim-lua/completion-nvim'
-Plug 'ray-x/lsp_signature.nvim'
-Plug 'kyazdani42/nvim-web-devicons'
-Plug 'onsails/lspkind-nvim'
-Plug 'nvim-lua/plenary.nvim'
-Plug 'nvim-telescope/telescope.nvim'
-Plug 'nvim-telescope/telescope-fzf-native.nvim', { 'do': 'make' }
-Plug 'gbrlsnchs/telescope-lsp-handlers.nvim'
-
 Plug 'easymotion/vim-easymotion'
-Plug 'tpope/vim-fugitive'
 Plug 'itchyny/lightline.vim'
 Plug 'michaeljsmith/vim-indent-object'
 Plug 'airblade/vim-rooter'
+
+" telescope
+Plug 'nvim-lua/plenary.nvim'
+Plug 'nvim-telescope/telescope.nvim'
+Plug 'nvim-telescope/telescope-fzf-native.nvim', { 'do': 'make' }
+
+" LSP
+Plug 'neovim/nvim-lspconfig'
+Plug 'kabouzeid/nvim-lspinstall'
+Plug 'hrsh7th/cmp-nvim-lsp'
+Plug 'hrsh7th/cmp-buffer'
+Plug 'hrsh7th/nvim-cmp'
+Plug 'hrsh7th/cmp-vsnip'
+Plug 'hrsh7th/vim-vsnip'
+Plug 'hrsh7th/vim-vsnip-integ'
+Plug 'ray-x/lsp_signature.nvim'
+Plug 'kyazdani42/nvim-web-devicons'
+Plug 'onsails/lspkind-nvim'
+Plug 'gbrlsnchs/telescope-lsp-handlers.nvim'
+
+" misc
+Plug 'tpope/vim-fugitive'
 Plug 'tridactyl/vim-tridactyl'
 
 call plug#end()

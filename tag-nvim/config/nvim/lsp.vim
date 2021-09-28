@@ -6,24 +6,6 @@ set shortmess+=c
 set signcolumn=yes
 set cmdheight=2
 
-" devicons
-lua << EOF
-require'nvim-web-devicons'.setup {
-    default = true
-}
-EOF
-
-" lspkind
-lua << EOF
-require'lspkind'.init {}
-EOF
-
-" setup <Tab> as navigation through completions
-inoremap <expr> <Tab> pumvisible() ? "\<C-n>" : "\<Tab>"
-inoremap <expr> <S-Tab> pumvisible() ? "\<C-p>" : "\<S-Tab>"
-imap <Tab> <Plug>(completion_smart_tab)
-imap <S-Tab> <Plug>(completion_smart_s_tab)
-
 " keybindings
 nnoremap <silent> gd <cmd>lua vim.lsp.buf.definition()<CR>
 nnoremap <silent> gD <cmd>lua vim.lsp.buf.implementation()<CR>
@@ -60,35 +42,131 @@ nmap <silent> <Leader>cX :Telescope lsp_document_diagnostics<CR>
 nmap <silent> <Leader>rr <cmd>lua vim.lsp.buf.rename()<CR>
 
 " show diagnostics when cursor is on it
-autocmd! CursorHold <buffer> lua vim.lsp.buf.document_highlight()
-autocmd! CursorHoldI <buffer> lua vim.lsp.buf.document_highlight()
+" autocmd! CursorHold <buffer> lua vim.lsp.buf.document_highlight()
+" autocmd! CursorHoldI <buffer> lua vim.lsp.buf.document_highlight()
 autocmd! CursorMoved <buffer> lua vim.lsp.buf.clear_references()
 
 lua << EOF
+require'nvim-web-devicons'.setup {
+    default = true
+}
+require'lspkind'.init {}
+
+local cmp = require'cmp'
+
+cmp.setup({
+    snippet = {
+        expand = function(args)
+            vim.fn["vsnip#anonymous"](args.body)
+        end,
+    },
+    mapping = {
+        ['<C-d>'] = cmp.mapping.scroll_docs(-4),
+        ['<C-f>'] = cmp.mapping.scroll_docs(4),
+        ['<Tab>'] = function(fallback)
+            if vim.fn.pumvisible() ~= 0 then
+                cmp.select_next_item()
+            else
+                cmp.complete()
+            end
+        end,
+        ['<S-Tab>'] = function(fallback)
+            if vim.fn.pubvisible() ~= 0 then
+                cmp.select_prev_item()
+            else
+                fallback()
+            end
+        end,
+        ['<C-e>'] = cmp.mapping.close(),
+        ['<CR>'] = cmp.mapping.confirm({ select = true }),
+    },
+    sources = {
+        { name = 'nvim_lsp' },
+        { name = 'vsnip' },
+        { name = 'buffer' },
+    }
+})
+
+local supported_languages = {
+    'csharp',
+    'bash',
+    'rust',
+    'json',
+    'lua',
+    'python',
+    'vim',
+    'yaml',
+}
+
 local on_attach = function(client)
     vim.api.nvim_buf_set_option(0, 'omnifunc', 'v:lua.vim.lsp.omnifunc')
-    require('completion').on_attach(client)
+    require('lsp_signature').on_attach {
+        extra_trigger_chars = {'(', ','}
+    }
 end
 
--- TODO: cssls?, dockerls, html, jedi_language_server/pylsp/pyright, jsonls, stylelint_lsp?, sumneko_lua, yamlls
+local function make_config(server)
+    local cfg = {
+        on_attach = on_attach,
+        capabilities = require('cmp_nvim_lsp').update_capabilities(vim.lsp.protocol.make_client_capabilities()),
+    }
 
-require('lspconfig').rust_analyzer.setup({
-    on_attach = on_attach
-})
+    if server == 'lua' then
+        local runtime_path = vim.split(package.path, ';')
+        table.insert(runtime_path, "lua/?.lua")
+        table.insert(runtime_path, "lua/?/init.lua")
+        cfg.settings = {
+            Lua = {
+                runtime = {
+                    version = 'LuaJIT',
+                    path = runtime_path,
+                },
+                diagnostics = {
+                    globals = {'vim'},
+                },
+                workspace = {
+                    library = vim.api.nvim_get_runtime_file("", true),
+                },
+                telemetry = {
+                    enable = false,
+                },
+            },
+        }
+    end
 
-require('lspconfig').bashls.setup({
-    on_attach = on_attach
-})
+    return cfg
+end
 
-require('lspconfig').vimls.setup({
-    on_attach = on_attach
-})
+local lspinstall = require'lspinstall'
+local function setup_servers()
+    local lspconfig = require'lspconfig'
+    lspinstall.setup()
+    local servers = lspinstall.installed_servers()
+    for _, server in pairs(servers) do
+        local config = make_config(server)
+        lspconfig[server].setup(config)
+    end
+end
 
-local pid = vim.fn.getpid()
-local omnisharp_bin = vim.env.HOME .. "/.omnisharp/run"
-require('lspconfig').omnisharp.setup({
-    cmd = { omnisharp_bin, "--languageserver", "--hostPID", tostring(pid) },
-    on_attach = on_attach
-})
+local function install_servers()
+    local servers = lspinstall.installed_servers()
+    local to_install = {}
+    for _, server in pairs(supported_languages) do
+        to_install[server] = true
+    end
+    for _, server in pairs(servers) do
+        to_install[server] = nil
+    end
+    for server, _ in pairs(to_install) do
+        lspinstall.install_server(server)
+    end
+end
+
+install_servers()
+setup_servers()
+
+lspinstall.post_install_hook = function ()
+    setup_servers()
+    vim.cmd('bufdo e')
+end
 EOF
-
