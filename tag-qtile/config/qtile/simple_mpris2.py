@@ -96,6 +96,6 @@ class SimpleMpris2(base._TextBox):
     def cmd_info(self):
         return dict(
             status=self.song_data[0],
-            artist=self.song_data[0],
-            song=self.song_data[0],
+            artist=self.song_data[1],
+            song=self.song_data[2],
         )
