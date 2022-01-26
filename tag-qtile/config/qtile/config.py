@@ -103,6 +103,10 @@ keys = [
     Key("M-S-<BackSpace>", lazy.spawn('powerctl lock'), desc='Lock the session'),
     Key("M-b", lazy.spawn('bwmenu'), desc='Run Bitwarden menu'),
     Key("M-d", lazy.spawn('man_pdf'), desc='Select a manpage and show it as PDF.'),
+
+    # Mouse
+    Key("M-z", lazy.spawn('xdotool click 1'), desc='Emulates left mouse click'),
+    Key("M-x", lazy.spawn('xdotool click 2'), desc='Emulates right mouse click'),
 ]
 
 group_definitions = {
