@@ -53,6 +53,7 @@ cmp.setup({
                 buffer = '[Buffer]',
                 nvim_lsp = '[Lsp]',
                 vsnip = '[Snippet]',
+                path = '[Path]',
             },
         }),
     },
@@ -61,5 +62,6 @@ cmp.setup({
         { name = 'nvim_lsp' },
         { name = 'vsnip' },
         { name = 'buffer' },
+        { name = 'path' },
     }
 })
