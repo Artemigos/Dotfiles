@@ -53,41 +53,6 @@ vim.cmd [[
 require('nvim-web-devicons').setup {default = true}
 require('lspkind').init {}
 
-local cmp = require('cmp')
-cmp.setup({
-    snippet = {
-        expand = function(args)
-            vim.fn["vsnip#anonymous"](args.body)
-        end,
-    },
-    mapping = {
-        ['<C-d>'] = cmp.mapping.scroll_docs(-4),
-        ['<C-f>'] = cmp.mapping.scroll_docs(4),
-        ['<Tab>'] = function(fallback)
-            if vim.fn.pumvisible() ~= 0 then
-                cmp.select_next_item()
-            else
-                fallback()
-            end
-        end,
-        ['<S-Tab>'] = function(fallback)
-            if vim.fn.pubvisible() ~= 0 then
-                cmp.select_prev_item()
-            else
-                fallback()
-            end
-        end,
-        ['<C-e>'] = cmp.mapping.close(),
-        ['<CR>'] = cmp.mapping.confirm({ select = true }),
-        ['<C-Space>'] = cmp.mapping.complete(),
-    },
-    sources = {
-        { name = 'nvim_lsp' },
-        { name = 'vsnip' },
-        { name = 'buffer' },
-    }
-})
-
 local supported_servers = {
     'omnisharp', -- C#
     'bashls', -- bash

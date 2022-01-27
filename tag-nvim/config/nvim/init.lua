@@ -60,6 +60,7 @@ require('which-key').setup{} -- this is a plugin require
 require('keybindings')
 require('telescope-conf')
 require('fugitive')
+require('cmp-conf')
 require('lsp')
 require('dotnet')
 vim.cmd [[
