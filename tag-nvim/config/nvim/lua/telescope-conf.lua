@@ -6,6 +6,9 @@ telescope.setup {
             code_action = {
                 telescope = require('telescope.themes').get_cursor{},
             }
+        },
+        ['ui-select'] =  {
+            require('telescope.themes').get_dropdown {}
         }
     }
 }
@@ -13,6 +16,7 @@ telescope.setup {
 telescope.load_extension('fzf')
 telescope.load_extension('file_browser')
 telescope.load_extension('lsp_handlers')
+telescope.load_extension('ui-select')
 
 which_key_leader({ f = { name = '+telescope' } })
 
