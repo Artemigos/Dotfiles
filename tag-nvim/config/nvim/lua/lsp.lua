@@ -50,7 +50,6 @@ vim.cmd [[
     autocmd! CursorMoved <buffer> lua vim.lsp.buf.clear_references()
 ]]
 
-require('nvim-web-devicons').setup {default = true}
 require('lspkind').init {}
 
 local supported_servers = {

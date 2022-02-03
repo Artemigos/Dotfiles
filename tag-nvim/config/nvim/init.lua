@@ -20,9 +20,11 @@ require('packer').startup(function(use)
 
     -- ui
     use {'dracula/vim', as='dracula'}
+    use { 'kyazdani42/nvim-web-devicons', config = function() require('nvim-web-devicons').setup { default = true } end }
     use 'folke/which-key.nvim'
     use 'itchyny/lightline.vim'
     use 'akinsho/bufferline.nvim'
+    use { 'kyazdani42/nvim-tree.lua', requires = { 'kyazdani42/nvim-web-devicons' }, config = function() require('tree') end }
 
     -- telescope
     use 'nvim-lua/plenary.nvim'
@@ -30,7 +32,6 @@ require('packer').startup(function(use)
     use {'nvim-telescope/telescope-fzf-native.nvim', run='make'}
     use 'nvim-telescope/telescope-file-browser.nvim'
     use 'nvim-telescope/telescope-ui-select.nvim'
-    use 'kyazdani42/nvim-web-devicons'
 
     -- completion
     use 'hrsh7th/cmp-nvim-lsp'
@@ -45,7 +46,6 @@ require('packer').startup(function(use)
     use 'neovim/nvim-lspconfig'
     use 'williamboman/nvim-lsp-installer'
     use 'ray-x/lsp_signature.nvim'
-    use 'kyazdani42/nvim-web-devicons'
     use 'onsails/lspkind-nvim'
     use 'gbrlsnchs/telescope-lsp-handlers.nvim'
 
