@@ -28,8 +28,8 @@ nmap('<Leader>is', ':SourceInit<CR>')
 nmap('<Leader>ia', ':EditAnyInit<CR>')
 
 -- buffer switching
-nmap('<C-n>', ':bnext<CR>')
-nmap('<C-p>', ':bprev<CR>')
+nmap('<TAB>', ':bnext<CR>')
+nmap('<S-TAB>', ':bprev<CR>')
 
 nmap('<Leader>bb', ':Telescope buffers<CR>')
 nmap('<Leader>bn', ':bnext<CR>')
@@ -54,8 +54,6 @@ nmap('<A-k>', ':resize -2<CR>')
 nmap('<A-l>', ':vertical resize +2<CR>')
 
 -- tab navigation
-nmap('<TAB>', 'gt')
-nmap('<S-TAB>', 'gT')
 nmap('<Leader>tn', 'gt')
 nmap('<Leader>tp', 'gT')
 
@@ -64,7 +62,7 @@ vmap('<', '<gv')
 vmap('>', '>gv')
 
 -- other
-nmap('<Space><Space><Space>', ':nohl<CR>')
+nmap('<Space><Backspace>', ':nohl<CR>')
 imap('jk', '<ESC>')
 vmap('p', '"_dP') -- keep default register when substitute-putting in visual mode
 

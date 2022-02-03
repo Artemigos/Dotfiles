@@ -43,7 +43,6 @@ set.scrolloff = 5
 set.sidescrolloff = 5
 set.formatoptions:append('j') -- delete comment character when joining commented lines
 set.autoread = true
-set.showtabline = 2
 set.laststatus = 2
 set.splitright = true
 set.splitbelow = true
