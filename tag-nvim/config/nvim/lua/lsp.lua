@@ -64,11 +64,8 @@ local supported_servers = {
     'cssls', -- CSS, LESS, SCSS
 }
 
-local on_attach = function(client)
+local on_attach = function(_)
     vim.api.nvim_buf_set_option(0, 'omnifunc', 'v:lua.vim.lsp.omnifunc')
-    require('lsp_signature').on_attach {
-        extra_trigger_chars = {'(', ','}
-    }
 end
 
 local function make_config(server)

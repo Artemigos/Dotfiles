@@ -45,7 +45,7 @@ require('packer').startup(function(use)
     -- lsp
     use 'neovim/nvim-lspconfig'
     use 'williamboman/nvim-lsp-installer'
-    use 'ray-x/lsp_signature.nvim'
+    use { 'ray-x/lsp_signature.nvim', config = function() require('lsp_signature').setup {} end }
     use 'onsails/lspkind-nvim'
     use 'gbrlsnchs/telescope-lsp-handlers.nvim'
 
