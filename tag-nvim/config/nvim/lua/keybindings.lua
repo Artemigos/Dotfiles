@@ -34,6 +34,7 @@ nmap('<S-TAB>', ':bprev<CR>')
 nmap('<Leader>bb', ':Telescope buffers<CR>')
 nmap('<Leader>bn', ':bnext<CR>')
 nmap('<Leader>bp', ':bprev<CR>')
+nmap('<Leader>bx', ':bdelete<CR>')
 
 nmap('<Leader><Leader>', '<C-^>')
 
