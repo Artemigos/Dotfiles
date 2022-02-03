@@ -32,6 +32,14 @@ def autostart():
     subprocess.call(['autostart.sh'])
     subprocess.Popen(['light-locker', '--lock-after-screensaver=0', '--lock-on-suspend'])
 
+@lazy.function
+def tickle_window(qtile):
+    pid = qtile.current_window.get_pid()
+    utils.run_cmd(['kill', '-SIGWINCH', str(pid)])
+    children_pids = utils.run_cmd(['bash', '-c', f'cat /proc/{pid}/task/*/children'])
+    for child_pid in children_pids.splitlines():
+        utils.run_cmd(['kill', '-SIGWINCH', child_pid])
+
 keys = [
     # Switch between windows
     Key("M-j", lazy.layout.down(), desc="Move focus down"),
@@ -103,6 +111,7 @@ keys = [
     Key("M-S-<BackSpace>", lazy.spawn('powerctl lock'), desc='Lock the session'),
     Key("M-b", lazy.spawn('bwmenu'), desc='Run Bitwarden menu'),
     Key("M-d", lazy.spawn('man_pdf'), desc='Select a manpage and show it as PDF.'),
+    Key("M-A-t", tickle_window, desc='Tickles a window to help resize things.'),
 
     # Mouse
     Key("M-z", lazy.spawn('xdotool click 1'), desc='Emulates left mouse click'),
