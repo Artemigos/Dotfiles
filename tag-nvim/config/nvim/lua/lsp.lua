@@ -95,30 +95,14 @@ local function make_config(server)
                 },
             },
         }
+    elseif server == 'omnisharp' then
+        cfg.cmd = { 'OmniSharp', '--languageserver', '--hostPID', tostring(vim.fn.getpid()) }
     end
 
     return cfg
 end
 
-local lsp_installer = require("nvim-lsp-installer")
-
-lsp_installer.on_server_ready(function(server)
-    local opts = make_config(server.name)
-    server:setup(opts)
-end)
-
-local function install_servers()
-    local servers = lsp_installer.get_installed_servers()
-    local to_install = {}
-    for _, server in pairs(supported_servers) do
-        to_install[server] = true
-    end
-    for _, server in pairs(servers) do
-        to_install[server.name] = nil
-    end
-    for server, _ in pairs(to_install) do
-        lsp_installer.install(server)
-    end
+local lspconfig = require('lspconfig')
+for _, server in pairs(supported_servers) do
+    lspconfig[server].setup(make_config(server))
 end
-
-install_servers()
