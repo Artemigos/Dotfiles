@@ -47,6 +47,7 @@ keys = [
     Key("M-h", lazy.layout.left(), desc="Move focus left"),
     Key("M-l", lazy.layout.right(), desc="Move focus right"),
     Key("M-c", lazy.layout.next(), desc="Move focus to the next window"),
+    Key("M-<Tab>", lazy.next_screen(), desc="Move focus to the next screen"),
 
     # Move windows
     Key("M-S-j", lazy.layout.shuffle_down(), desc="Swap window down"),
@@ -140,7 +141,7 @@ for i in groups:
 groups = [scratchpad] + groups
 
 layouts = [
-    CustomBsp(border_focus='#bd93f9', border_width=2, margin=6, fair=False),
+    CustomBsp(border_focus='#bd93f9', border_width=2, border_on_single=True, margin=6, fair=False),
     layout.Max(),
 ]
 
