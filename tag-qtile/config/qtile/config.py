@@ -102,8 +102,8 @@ keys = [
     Key("<XF86AudioNext>", lazy.spawn('sp next')),
     Key("<XF86AudioPlay>", lazy.spawn('sp play')),
     Key("<XF86AudioStop>", lazy.spawn('sp pause')),
-    Key("<XF86AudioLowerVolume>", lazy.spawn('pactl set-sink-volume @DEFAULT_SINK@ -5%')),
-    Key("<XF86AudioRaiseVolume>", lazy.spawn('pactl set-sink-volume @DEFAULT_SINK@ +5%')),
+    Key("<XF86AudioLowerVolume>", lazy.spawn('audioctl decrease-volume')),
+    Key("<XF86AudioRaiseVolume>", lazy.spawn('audioctl increase-volume')),
 
     # Utilities
     Key("<Print>", lazy.spawn('scrotclip'), desc="Take a screenshot"),

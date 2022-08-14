@@ -4,6 +4,9 @@ main () {
     case ${1:-} in
         list-sinks) shift; listSinks "$@" ;;
         x-set-default-sink) xSetDefaultSink ;;
+        get-volume) getVolume ;;
+        increase-volume) shift; increaseVolume "$@" ;;
+        decrease-volume) shift; decreaseVolume "$@" ;;
         list-x-options) listXOptions ;;
         show) listXOptions | rofimenu ;;
         *) exit 1 ;;
@@ -12,6 +15,30 @@ main () {
 
 listSinks () {
     pactl list short sinks | awk '{print $2}'
+}
+
+getVolume () {
+    if [ -x $(which wpctl) ]; then
+        wpctl get-volume @DEFAULT_AUDIO_SINK@ | cut -c 11-
+    else
+        amixer sget Master | tr -d "[]%"
+    fi
+}
+
+increaseVolume () {
+    if [ -x $(which wpctl) ]; then
+        wpctl set-volume @DEFAULT_AUDIO_SINK@ 0.$(printf "%02d" "${1:-5}")+
+    else
+        pactl set-sink-volume @DEFAULT_SINK@ "+${1:-5}"
+    fi
+}
+
+decreaseVolume () {
+    if [ -x $(which wpctl) ]; then
+        wpctl set-volume @DEFAULT_AUDIO_SINK@ 0.$(printf "%02d" "${1:-5}")-
+    else
+        pactl set-sink-volume @DEFAULT_SINK@ "-${1:-5}"
+    fi
 }
 
 xSetDefaultSink () {
@@ -26,6 +53,14 @@ listXOptions () {
         {
             "description": "Set default sink",
             "command": "audioctl x-set-default-sink"
+        },
+        {
+            "description": "Increase volume",
+            "command": "audioctl increase-volume"
+        },
+        {
+            "description": "Decrease volume",
+            "command": "audioctl decrease-volume"
         }
     ]
 }

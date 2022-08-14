@@ -25,6 +25,14 @@ widget_defaults = dict(
 )
 extension_defaults = widget_defaults.copy()
 
+class VolumeOverride(widget.Volume):
+    def get_volume(self):
+        try:
+            out = self.call_process(self.get_volume_command)
+            return int(out)
+        except:
+            return -1
+
 screens = [
     Screen(
         top=bar.Bar(
@@ -55,7 +63,13 @@ screens = [
                     update_interval=300,
                 ),
                 widget.Sep(),
-                widget.Volume(step=5, fmt='墳 {}'),
+                VolumeOverride(
+                    step=5,
+                    fmt='墳 {}',
+                    get_volume_command=['audioctl', 'get-volume'],
+                    volume_down_command=['audioctl', 'decrease-volume'],
+                    volume_up_command=['audioctl', 'increase-volume'],
+                ),
                 widget.Sep(),
                 widget.Clock(format=' %H:%M'),
                 widget.Sep(),
