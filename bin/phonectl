@@ -1,0 +1,34 @@
+#!/bin/bash
+
+main() {
+    case ${1:-} in
+        # menu options
+        connect) scrcpy -d ;;
+        connect-screen-off) scrcpy -dwS ;;
+        # menu handling
+        list-x-options) listXOptions ;;
+        show) listXOptions | rofimenu ;;
+        *) exit 1 ;;
+    esac
+}
+
+listXOptions () {
+    cat <<EOF
+{
+    "prompt": "option",
+    "commands": [
+        {
+            "description": "Connect",
+            "command": "phonectl connect"
+        },
+        {
+            "description": "Connect (screen off, no sleep)",
+            "command": "phonectl connect-screen-off"
+        }
+    ]
+}
+EOF
+}
+
+main "$@"
+

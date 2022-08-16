@@ -5,6 +5,7 @@ main () {
         audio) audioctl show ;;
         bluetooth) btctl show ;;
         packages) packagectl show ;;
+        phone) phonectl show ;;
         power) powerctl show ;;
         list-x-options) listXOptions ;;
         show) listXOptions | rofimenu ;;
@@ -28,6 +29,10 @@ listXOptions () {
         {
             "description": "Packages",
             "command": "system-menu packages"
+        },
+        {
+            "description": "Phone",
+            "command": "system-menu phone"
         },
         {
             "description": "Power",
