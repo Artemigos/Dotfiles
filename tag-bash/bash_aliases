@@ -4,3 +4,4 @@ alias ls='exa'
 alias ll='exa -alh'
 
 cheat() { curl "cheat.sh/$1"; }
+pman() { man -t $1 | ps2pdf - - | zathura --fork --mode=fullscreen -; }
