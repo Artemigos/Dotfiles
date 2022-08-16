@@ -18,15 +18,15 @@ listSinks () {
 }
 
 getVolume () {
-    if [ -x $(which wpctl) ]; then
+    if [ $(command -v wpctl) ]; then
         wpctl get-volume @DEFAULT_AUDIO_SINK@ | cut -c 11-
     else
-        amixer sget Master | tr -d "[]%"
+        amixer sget Master | sed -E 's/.*\[([0-9]{0,3})%\].*/\1/p;d' | head -n 1
     fi
 }
 
 increaseVolume () {
-    if [ -x $(which wpctl) ]; then
+    if [ $(command -v wpctl) ]; then
         wpctl set-volume @DEFAULT_AUDIO_SINK@ 0.$(printf "%02d" "${1:-5}")+
     else
         pactl set-sink-volume @DEFAULT_SINK@ "+${1:-5}"
@@ -34,7 +34,7 @@ increaseVolume () {
 }
 
 decreaseVolume () {
-    if [ -x $(which wpctl) ]; then
+    if [ $(command -v wpctl) ]; then
         wpctl set-volume @DEFAULT_AUDIO_SINK@ 0.$(printf "%02d" "${1:-5}")-
     else
         pactl set-sink-volume @DEFAULT_SINK@ "-${1:-5}"
