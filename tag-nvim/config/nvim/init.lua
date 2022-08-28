@@ -55,7 +55,7 @@ require('packer').startup(function(use)
     -- dap
     use 'mfussenegger/nvim-dap'
     use { 'rcarriga/nvim-dap-ui', requires = {'mfussenegger/nvim-dap'} }
-    -- use { 'theHamsta/nvim-dap-virtual-text', requires = {'mfussenegger/nvim-dap', 'nvim-treesitter/nvim-treesitter'}, config = function() require('nvim-dap-virtual-text').setup() end }
+    use { 'theHamsta/nvim-dap-virtual-text', requires = {'mfussenegger/nvim-dap', 'nvim-treesitter/nvim-treesitter'} }
     use 'jbyuki/one-small-step-for-vimkind'
 
     -- misc

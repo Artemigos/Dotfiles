@@ -14,13 +14,15 @@ nmap('<leader>db', '<cmd>lua require"dap".toggle_breakpoint()<CR>')
 nmap('<leader>dc', '<cmd>lua require"dap".continue()<CR>')
 nmap('<leader>dv', '<cmd>lua require"dap".step_over()<CR>')
 nmap('<leader>di', '<cmd>lua require"dap".step_into()<CR>')
-nmap('<leader>dll', '<cmd>lua require"osv".launch({port = 7182, log = true})<CR>')
+nmap('<leader>dll', '<cmd>lua require"osv".launch({port = 7182})<CR>')
 nmap('<leader>dls', '<cmd>lua require"osv".stop()<CR>')
+nmap('<leader>dlr', '<cmd>lua require"osv".run_this()<CR>')
 
 -- UI
 local dap = require('dap')
 local dapui = require('dapui')
 dapui.setup()
+require('nvim-dap-virtual-text').setup()
 
 dap.listeners.after.event_initialized["dapui_config"] = function()
     ---@diagnostic disable-next-line: missing-parameter
