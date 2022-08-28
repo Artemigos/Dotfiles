@@ -48,6 +48,12 @@ require('packer').startup(function(use)
     use 'onsails/lspkind-nvim'
     use 'gbrlsnchs/telescope-lsp-handlers.nvim'
 
+    -- dap
+    use 'mfussenegger/nvim-dap'
+    use { 'rcarriga/nvim-dap-ui', requires = {'mfussenegger/nvim-dap'} }
+    -- use { 'theHamsta/nvim-dap-virtual-text', requires = {'mfussenegger/nvim-dap', 'nvim-treesitter/nvim-treesitter'}, config = function() require('nvim-dap-virtual-text').setup() end }
+    use 'jbyuki/one-small-step-for-vimkind'
+
     -- misc
     use 'tpope/vim-fugitive'
     use 'tridactyl/vim-tridactyl'
@@ -68,7 +74,8 @@ require('telescope-conf')
 require('fugitive')
 require('cmp-conf')
 require('lsp')
-require('dotnet')
+--require('dotnet')
+require('debugging')
 vim.cmd [[
     source $XDG_CONFIG_HOME/nvim/todo.vim
     source $XDG_CONFIG_HOME/nvim/special-files.vim
