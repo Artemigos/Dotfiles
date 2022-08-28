@@ -29,7 +29,7 @@ increaseVolume () {
     if [ $(command -v wpctl) ]; then
         wpctl set-volume @DEFAULT_AUDIO_SINK@ 0.$(printf "%02d" "${1:-5}")+
     else
-        pactl set-sink-volume @DEFAULT_SINK@ "+${1:-5}"
+        amixer sset Master "${1:-5}%+"
     fi
 }
 
@@ -37,7 +37,7 @@ decreaseVolume () {
     if [ $(command -v wpctl) ]; then
         wpctl set-volume @DEFAULT_AUDIO_SINK@ 0.$(printf "%02d" "${1:-5}")-
     else
-        pactl set-sink-volume @DEFAULT_SINK@ "-${1:-5}"
+        amixer sset Master "${1:-5}%-"
     fi
 }
 
