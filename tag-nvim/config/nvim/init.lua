@@ -27,7 +27,7 @@ require('packer').startup(function(use)
     use { 'kyazdani42/nvim-web-devicons', config = function() require('nvim-web-devicons').setup { default = true } end }
     use 'folke/which-key.nvim'
     use 'itchyny/lightline.vim'
-    use 'akinsho/bufferline.nvim'
+    use { 'akinsho/bufferline.nvim', tag = 'v2.*', requires = 'kyazdani42/nvim-web-devicons' }
     use { 'kyazdani42/nvim-tree.lua', requires = { 'kyazdani42/nvim-web-devicons' }, config = function() require('tree') end }
 
     -- telescope

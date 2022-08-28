@@ -1,6 +1,10 @@
 vim.opt.showmode = false
 
 vim.g.lightline = {
+    enable = {
+        statusline = 1,
+        tabline = 0,
+    },
     colorscheme = 'dracula',
     mode_map = {
         n = 'N',
@@ -16,9 +20,5 @@ vim.g.lightline = {
         left = {{'mode'}, {'readonly', 'filename', 'modified', 'git'}},
         right = {{'lineinfo'}, {'percent'}, {'fileformat', 'fileencoding', 'filetype'}}
     },
-    tabline = {
-        left = {{'tabs'}},
-        right = {}
-    }
 }
 
