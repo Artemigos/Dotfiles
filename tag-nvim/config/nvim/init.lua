@@ -17,6 +17,10 @@ require('packer').startup(function(use)
     use 'wellle/targets.vim'
     use 'airblade/vim-rooter'
     use 'michaeljsmith/vim-indent-object'
+    use {
+        'nvim-treesitter/nvim-treesitter',
+        run = function() require('nvim-treesitter.install').update({ with_sync = true }) end,
+    }
 
     -- ui
     use {'dracula/vim', as='dracula'}
