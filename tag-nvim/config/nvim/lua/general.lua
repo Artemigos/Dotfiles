@@ -54,9 +54,3 @@ cmd [[command! W w]]
 -- leader
 vim.g.mapleader = ' '
 vim.g.maplocalleader = ','
-
--- treesitter
-require('nvim-treesitter.configs').setup({
-    auto_install = true,
-    highlight = { enable = true },
-})

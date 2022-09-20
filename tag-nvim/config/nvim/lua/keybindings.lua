@@ -6,14 +6,15 @@ which_key_leader({
         h = 'left-window',
         j = 'bottom-window',
         k = 'top-window',
-        l = 'right-window'
+        l = 'right-window',
+        c = 'close-window',
     },
     t = {
         name = '+tabs',
         n = 'next-tab',
-        p = 'previous-tab'
+        p = 'previous-tab',
     },
-    o = {name='+open'}
+    o = {name='+open'},
 })
 
 -- working with init.vim
@@ -47,6 +48,7 @@ nmap('<Leader>wh', '<C-w>h')
 nmap('<Leader>wj', '<C-w>j')
 nmap('<Leader>wk', '<C-w>k')
 nmap('<Leader>wl', '<C-w>l')
+nmap('<Leader>wc', ':close<CR>')
 
 -- split resizing
 nmap('<A-h>', ':vertical resize -2<CR>')
