@@ -63,6 +63,7 @@ local supported_servers = {
     'vimls', -- VimL
     'yamlls', -- YAML
     'cssls', -- CSS, LESS, SCSS
+    'tsserver', -- Typescript, Javascript
 }
 
 local on_attach = function(_)

@@ -30,5 +30,6 @@ return {
         check_server('omnisharp', check_exec('OmniSharp'), [[mkdir -p .local/share/omnisharp
 curl -L https://github.com/OmniSharp/omnisharp-roslyn/releases/latest/download/omnisharp-linux-x64-net6.0.tar.gz | tar xzf - -C ~/.local/share/omnisharp/
 ln -s ~/.local/share/omnisharp/OmniSharp ~/.local/bin/OmniSharp]])
+        check_server('tsserver', check_exec('typescript-language-server'), 'npm i -g typescript typescript-language-server')
     end
 }
