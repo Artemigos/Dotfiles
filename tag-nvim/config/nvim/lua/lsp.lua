@@ -50,6 +50,7 @@ vim.cmd [[
     autocmd! CursorMoved <buffer> lua vim.lsp.buf.clear_references()
 ]]
 
+require('lsp_signature').setup {}
 require('lspkind').init {}
 
 local supported_servers = {

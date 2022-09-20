@@ -27,11 +27,11 @@ require('packer').startup(function(use)
 
     -- ui
     use 'Mofiqul/dracula.nvim'
-    use { 'kyazdani42/nvim-web-devicons', config = function() require('nvim-web-devicons').setup { default = true } end }
+    use 'kyazdani42/nvim-web-devicons'
     use 'folke/which-key.nvim'
     use { 'nvim-lualine/lualine.nvim', requires = { 'kyazdani42/nvim-web-devicons', opt = true } }
     use { 'akinsho/bufferline.nvim', tag = 'v2.*', requires = 'kyazdani42/nvim-web-devicons' }
-    use { 'kyazdani42/nvim-tree.lua', requires = { 'kyazdani42/nvim-web-devicons' }, config = function() require('tree') end }
+    use { 'kyazdani42/nvim-tree.lua', requires = { 'kyazdani42/nvim-web-devicons' } }
 
     -- telescope
     use 'nvim-lua/plenary.nvim'
@@ -51,7 +51,7 @@ require('packer').startup(function(use)
 
     -- lsp
     use 'neovim/nvim-lspconfig'
-    use { 'ray-x/lsp_signature.nvim', config = function() require('lsp_signature').setup {} end }
+    use 'ray-x/lsp_signature.nvim'
     use 'onsails/lspkind-nvim'
     use 'gbrlsnchs/telescope-lsp-handlers.nvim'
 
@@ -74,8 +74,10 @@ end)
 require('utils')
 require('general')
 require('treesitter')
+require('nvim-web-devicons').setup { default = true }
 require('lualine-conf')
 require('bufferline-conf')
+require('tree')
 require('which-key').setup{} -- this is a plugin require
 require('keybindings')
 require('telescope-conf')
