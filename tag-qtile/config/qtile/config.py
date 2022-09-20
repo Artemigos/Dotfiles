@@ -79,6 +79,7 @@ keys = [
     # Programs
     Key("M-<Return>", lazy.spawn(terminal), desc="Launch terminal"),
     Key("M-C-<Return>", lazy.spawn(f'{terminal} -e {editor}'), desc='Run terminal editor'),
+    Key("M-A-<Return>", lazy.spawn('open_project'), desc='Edit a git project'),
     Key("M-S-<Return>", lazy.spawn(alt_editor), desc='Run GUI editor'),
     Key("M-<F1>", lazy.spawn(browser), desc="Launch browser"),
     Key("M-S-<F1>", lazy.spawn(alt_browser), desc="Launch alternative browser"),

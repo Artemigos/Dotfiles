@@ -1,0 +1,3 @@
+#!/bin/env sh
+
+repo=$(find ~/git -type d -name .git | cut -c "$(wc -c <<<"$HOME/git/")-" | xargs -n1 dirname | rofi -dmenu -p "Repository") && $TERMINAL -d "$HOME/git/$repo" -e "$EDITOR" -c NvimTreeToggle
