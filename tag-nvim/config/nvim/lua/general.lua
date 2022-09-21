@@ -37,7 +37,7 @@ set.foldcolumn = 'auto:9'
 set.wildmenu = true
 set.path:append('**')
 vim.g.netrw_liststyle = 3
-vim.g.netrw_list_hide = fn['netrw_gitignore#Hide']()
+--vim.g.netrw_list_hide = fn['netrw_gitignore#Hide']() -- kills startup perf
 set.incsearch = true
 set.scrolloff = 5
 set.sidescrolloff = 5

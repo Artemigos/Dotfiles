@@ -68,6 +68,7 @@ require('packer').startup(function(use)
     -- perf
     use 'tweekmonster/startuptime.vim'
     use 'lewis6991/impatient.nvim'
+    use 'nathom/filetype.nvim'
 
     if PACKER_BOOTSTRAP then
         require('packer').sync()
