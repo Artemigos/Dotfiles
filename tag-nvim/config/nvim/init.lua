@@ -65,12 +65,17 @@ require('packer').startup(function(use)
     use 'tpope/vim-fugitive'
     use 'tridactyl/vim-tridactyl'
 
+    -- perf
+    use 'tweekmonster/startuptime.vim'
+    use 'lewis6991/impatient.nvim'
+
     if PACKER_BOOTSTRAP then
         require('packer').sync()
     end
 end)
 
 -- include other config files
+require('impatient') -- this is a plugin require
 require('utils')
 require('general')
 require('treesitter')
