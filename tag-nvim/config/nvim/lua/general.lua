@@ -48,6 +48,7 @@ set.splitright = true
 set.splitbelow = true
 set.swapfile = false
 set.mouse = 'nv'
+set.shell = '/bin/bash' -- unification and perf improvement (fish makes things slow)
 
 cmd [[command! W w]]
 
