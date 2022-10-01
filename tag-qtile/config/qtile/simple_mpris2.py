@@ -74,8 +74,6 @@ class MprisTracker:
 
     def _handle_prop_change(self, iface, changed_properties: dict, _):
         if iface == MprisTracker.player_interface:
-            print('---', repr(changed_properties))
-
             status = self.last_status
             if 'PlaybackStatus' in changed_properties:
                 status = self.last_status = changed_properties.get('PlaybackStatus').value or None
