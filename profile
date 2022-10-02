@@ -36,7 +36,7 @@ export PATH
 export XDG_CONFIG_HOME="$HOME/.config"
 
 # Default sotftware
-export TERMINAL="alacritty"
+export TERMINAL="kitty"
 export EDITOR="nvim"
 export ALT_EDITOR="emacs"
 export BROWSER="firefox"

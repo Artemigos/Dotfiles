@@ -16,7 +16,7 @@ mod = "mod4"
 
 # defaults
 home = os.environ['HOME']
-terminal = guess_terminal()
+terminal = os.environ['TERMINAL'] or guess_terminal()
 browser = os.environ['BROWSER']
 alt_browser = os.environ['ALT_BROWSER']
 editor = os.environ['EDITOR']
