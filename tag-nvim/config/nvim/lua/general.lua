@@ -1,9 +1,7 @@
-local fn = vim.fn
-local cmd = vim.cmd
 local set = vim.opt
 
 -- colors
-cmd [[
+vim.cmd [[
     syntax enable
     colorscheme dracula
 ]]
@@ -37,7 +35,6 @@ set.foldcolumn = 'auto:9'
 set.wildmenu = true
 set.path:append('**')
 vim.g.netrw_liststyle = 3
---vim.g.netrw_list_hide = fn['netrw_gitignore#Hide']() -- kills startup perf
 set.incsearch = true
 set.scrolloff = 5
 set.sidescrolloff = 5
@@ -50,7 +47,7 @@ set.swapfile = false
 set.mouse = 'nv'
 set.shell = '/bin/bash' -- unification and perf improvement (fish makes things slow)
 
-cmd [[command! W w]]
+defcmd('W', 'w')
 
 -- leader
 vim.g.mapleader = ' '

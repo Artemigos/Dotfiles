@@ -44,11 +44,16 @@ nmap('<Leader>cX', ':Telescope diagnostics<CR>')
 nmap('<Leader>rr', '<cmd>lua vim.lsp.buf.rename()<CR>')
 
 -- show diagnostics when cursor is on it
-vim.cmd [[
-    " autocmd! CursorHold <buffer> lua vim.lsp.buf.document_highlight()
-    " autocmd! CursorHoldI <buffer> lua vim.lsp.buf.document_highlight()
-    autocmd! CursorMoved <buffer> lua vim.lsp.buf.clear_references()
-]]
+-- TODO: does not work, figure out how to fix
+-- vim.api.nvim_create_augroup('reference_highlight', { clear = true })
+-- vim.api.nvim_create_autocmd({ 'CursorHold', 'CursorHoldI' }, {
+--     group = 'reference_highlight',
+--     callback = vim.lsp.buf.document_highlight,
+-- })
+-- vim.api.nvim_create_autocmd('CursorMoved', {
+--     group = 'reference_highlight',
+--     callback = vim.lsp.buf.clear_references,
+-- })
 
 require('lsp_signature').setup {}
 require('lspkind').init {}
@@ -73,7 +78,7 @@ end
 local function make_config(server)
     local cfg = {
         on_attach = on_attach,
-        capabilities = require('cmp_nvim_lsp').update_capabilities(vim.lsp.protocol.make_client_capabilities()),
+        capabilities = require('cmp_nvim_lsp').default_capabilities(),
     }
 
     if server == 'sumneko_lua' then

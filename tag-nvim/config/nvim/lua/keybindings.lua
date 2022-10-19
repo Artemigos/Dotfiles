@@ -18,11 +18,9 @@ which_key_leader({
 })
 
 -- working with init.vim
-vim.cmd [[
-    command! EditInit e $MYVIMRC
-    command! SourceInit source $MYVIMRC
-    command! EditAnyInit :lua require'telescope.builtin'.find_files{follow=true,cwd='$XDG_CONFIG_HOME/nvim/'}<CR>
-]]
+defcmd('EditInit', 'e $MYVIMRC')
+defcmd('SourceInit', 'source $MYVIMRC')
+defcmd('EditAnyInit', 'lua require\'telescope.builtin\'.find_files{follow=true,cwd=\'$XDG_CONFIG_HOME/nvim/\'}')
 
 nmap('<Leader>ie', ':EditInit<CR>')
 nmap('<Leader>is', ':SourceInit<CR>')

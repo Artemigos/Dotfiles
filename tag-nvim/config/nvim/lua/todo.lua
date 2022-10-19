@@ -56,10 +56,10 @@ function M.setup(config)
         pattern = 'todo.txt',
         callback = configure_todo,
     })
-    vim.api.nvim_create_user_command('ToggleTodo', ':silent <line1>,<line2>luado return require("todo").toggle_todo(line)<CR>', {
-        range = true,
-        bang = true,
-    })
+    vim.api.nvim_create_user_command(
+        'ToggleTodo',
+        ':silent <line1>,<line2>luado return require("todo").toggle_todo(line)<CR>',
+        { range = true })
 end
 
 return M
