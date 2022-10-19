@@ -93,6 +93,4 @@ require('lsp')
 --require('dotnet')
 require('debugging')
 require('todo').setup{} -- this use from my config
-vim.cmd [[
-    source $XDG_CONFIG_HOME/nvim/special-files.vim
-]]
+require('special-files')
