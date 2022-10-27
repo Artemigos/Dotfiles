@@ -64,6 +64,7 @@ require('packer').startup(function(use)
     -- misc
     use 'tpope/vim-fugitive'
     use 'tridactyl/vim-tridactyl'
+    use 'gpanders/editorconfig.nvim'
 
     -- perf
     use 'tweekmonster/startuptime.vim'
