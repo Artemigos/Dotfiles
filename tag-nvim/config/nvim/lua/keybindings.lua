@@ -71,3 +71,9 @@ vmap('p', '"_dP') -- keep default register when substitute-putting in visual mod
 nmap('<Leader>os', ':e ~/scratch.txt<CR>')
 nmap('<Leader>ot', ':e ~/todo.txt<CR>')
 nmap('<Leader>oi', ':EditAnyInit<CR>')
+
+-- diagnostics
+nmap('[d', ':lua vim.diagnostic.goto_prev()<CR>')
+nmap(']d', ':lua vim.diagnostic.goto_next()<CR>')
+nmap('gx', '<cmd>lua vim.diagnostic.open_float()<CR>')
+nmap('<Leader>cx', '<cmd>lua vim.diagnostic.open_float()<CR>')
