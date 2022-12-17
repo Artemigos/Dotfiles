@@ -13,8 +13,8 @@ nmap('gX', ':Telescope diagnostics<CR>')
 
 -- leader keybindings
 which_key_leader({
-    c = {name='+code'},
-    r = {name='+refactor'}
+    c = { name = '+code' },
+    r = { name = '+refactor' }
 })
 
 nmap('<Leader>cd', '<cmd>lua vim.lsp.buf.definition()<CR>')
@@ -97,7 +97,7 @@ local function make_config(server)
                     path = runtime_path,
                 },
                 diagnostics = {
-                    globals = {'vim'},
+                    globals = { 'vim' },
                 },
                 workspace = {
                     library = vim.api.nvim_get_runtime_file("", true),
