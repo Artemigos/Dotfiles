@@ -10,6 +10,16 @@ which_key_leader({
 })
 
 require 'nvim-treesitter.configs'.setup {
+    ensure_installed = { 'help', 'lua', 'python', 'rust', 'typescript' },
+    highlight = { enable = true },
+    incremental_selection = {
+        enable = true,
+        keymaps = {
+            init_selection = '<c-up>',
+            node_incremental = '<c-up>',
+            node_decremental = '<c-down>',
+        },
+    },
     textobjects = {
         select = {
             enable = true,
