@@ -1,13 +1,3 @@
-local set = vim.opt
-
--- clean up behavior of completion menu
-set.completeopt = {'menuone', 'noinsert', 'noselect'}
-set.shortmess:append('c')
-
--- some quality of life settings
-set.signcolumn = 'yes'
-set.cmdheight = 2
-
 -- keybindings
 nmap('gd', '<cmd>lua vim.lsp.buf.definition()<CR>')
 nmap('gD', '<cmd>lua vim.lsp.buf.implementation()<CR>')

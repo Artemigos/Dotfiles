@@ -1,11 +1,11 @@
 local set = vim.opt
 
 -- colors
+set.termguicolors = true
 vim.cmd [[
     syntax enable
     colorscheme dracula
 ]]
-set.termguicolors = true
 
 -- indenting settings
 set.modeline = true -- read indent settings from within files
@@ -30,6 +30,9 @@ set.relativenumber = true
 set.number = true
 set.cursorline = true
 set.foldcolumn = 'auto:9'
+set.breakindent = true
+set.signcolumn = 'yes'
+set.cmdheight = 2
 
 -- quality of life
 set.wildmenu = true
@@ -46,6 +49,12 @@ set.splitbelow = true
 set.swapfile = false
 set.mouse = 'nv'
 set.shell = '/bin/bash' -- unification and perf improvement (fish makes things slow)
+set.undofile = true
+set.ignorecase = true
+set.smartcase = true
+set.updatetime = 250
+set.completeopt = {'menuone', 'noinsert', 'noselect'}
+set.shortmess = 'filnxtToOFc'
 
 defcmd('W', 'w')
 
