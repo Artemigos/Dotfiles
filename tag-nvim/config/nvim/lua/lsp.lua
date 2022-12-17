@@ -66,8 +66,16 @@ require('mason-lspconfig').setup({
     ensure_installed = supported_servers
 })
 
-local on_attach = function(_)
+local on_attach = function(_, bufnr)
     vim.api.nvim_buf_set_option(0, 'omnifunc', 'v:lua.vim.lsp.omnifunc')
+
+    vim.api.nvim_buf_create_user_command(bufnr, 'Format', function(_)
+        if vim.lsp.buf.format then
+            vim.lsp.buf.format()
+        elseif vim.lsp.buf.formatting then
+            vim.lsp.buf.formatting()
+        end
+    end, { desc = 'Format current buffer with LSP' })
 end
 
 local capabilities = require('cmp_nvim_lsp').default_capabilities(vim.lsp.protocol.make_client_capabilities())
