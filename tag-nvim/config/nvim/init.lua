@@ -18,6 +18,13 @@ require('packer').startup(function(use)
     use 'wellle/targets.vim'
     use 'airblade/vim-rooter'
     use 'michaeljsmith/vim-indent-object'
+    use 'tpope/vim-sleuth'
+    use {
+        'numToStr/Comment.nvim',
+        config = function()
+            require('Comment').setup()
+        end,
+    }
 
     -- treesitter
     use {
@@ -35,6 +42,7 @@ require('packer').startup(function(use)
     use { 'nvim-lualine/lualine.nvim', requires = { 'kyazdani42/nvim-web-devicons', opt = true } }
     use { 'akinsho/bufferline.nvim', tag = 'v2.*', requires = 'kyazdani42/nvim-web-devicons' }
     use { 'kyazdani42/nvim-tree.lua', requires = { 'kyazdani42/nvim-web-devicons' } }
+    use 'j-hui/fidget.nvim'
 
     -- telescope
     use 'nvim-lua/plenary.nvim'
@@ -110,6 +118,7 @@ require('lualine-conf')
 require('bufferline-conf')
 require('tree')
 require('which-key').setup{} -- this is a plugin require
+require('fidget').setup() -- this is a plugin require
 require('keybindings')
 require('telescope-conf')
 require('fugitive')
