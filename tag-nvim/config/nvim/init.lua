@@ -1,9 +1,10 @@
-local fn = vim.fn
-
 -- bootstrap packer
-local install_path = fn.stdpath('data')..'/site/pack/packer/start/packer.nvim'
-if fn.empty(fn.glob(install_path)) > 0 then
-    PACKER_BOOTSTRAP = fn.system({'git', 'clone', '--depth', '1', 'https://github.com/wbthomason/packer.nvim', install_path})
+local install_path = vim.fn.stdpath('data')..'/site/pack/packer/start/packer.nvim'
+local is_bootstrap = false
+if vim.fn.empty(vim.fn.glob(install_path)) > 0 then
+    is_bootstrap = true
+    vim.fn.execute('!git clone https://github.com/wbthomason/packer.nvim ' .. install_path)
+    vim.cmd [[packadd packer.nvim]]
 end
 
 -- install plugins
@@ -21,9 +22,11 @@ require('packer').startup(function(use)
     -- treesitter
     use {
         'nvim-treesitter/nvim-treesitter',
-        run = function() require('nvim-treesitter.install').update({ with_sync = true }) end,
+        run = function()
+            pcall(require('nvim-treesitter.install').update({ with_sync = true }))
+        end,
     }
-    use 'nvim-treesitter/nvim-treesitter-textobjects'
+    use { 'nvim-treesitter/nvim-treesitter-textobjects', after = 'nvim-treesitter' }
 
     -- ui
     use 'Mofiqul/dracula.nvim'
@@ -35,7 +38,7 @@ require('packer').startup(function(use)
 
     -- telescope
     use 'nvim-lua/plenary.nvim'
-    use 'nvim-telescope/telescope.nvim'
+    use { 'nvim-telescope/telescope.nvim', branch = '0.1.x', requires = { 'nvim-lua/plenary.nvim' } }
     use {'nvim-telescope/telescope-fzf-native.nvim', run='make'}
     use 'nvim-telescope/telescope-file-browser.nvim'
     use 'stevearc/dressing.nvim'
@@ -71,10 +74,27 @@ require('packer').startup(function(use)
     use 'lewis6991/impatient.nvim'
     use 'nathom/filetype.nvim'
 
-    if PACKER_BOOTSTRAP then
+    if is_bootstrap then
         require('packer').sync()
     end
 end)
+
+if is_bootstrap then
+  print '=================================='
+  print '    Plugins are being installed'
+  print '    Wait until Packer completes,'
+  print '       then restart nvim'
+  print '=================================='
+  return
+end
+
+-- Automatically source and re-compile packer whenever you save this init.lua
+local packer_group = vim.api.nvim_create_augroup('Packer', { clear = true })
+vim.api.nvim_create_autocmd('BufWritePost', {
+  command = 'source <afile> | PackerCompile',
+  group = packer_group,
+  pattern = vim.fn.expand '$MYVIMRC',
+})
 
 -- include other config files
 require('impatient') -- this is a plugin require
