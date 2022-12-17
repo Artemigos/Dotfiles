@@ -59,7 +59,7 @@ require('lsp_signature').setup {}
 require('lspkind').init {}
 
 local supported_servers = {
-    'omnisharp', -- C#
+    -- 'omnisharp', -- C#
     'bashls', -- bash
     'rust_analyzer', -- Rust
     'jsonls', -- JSON
@@ -71,14 +71,25 @@ local supported_servers = {
     'tsserver', -- Typescript, Javascript
 }
 
+require('mason').setup({
+    ui = {
+        border = 'rounded',
+    },
+})
+require('mason-lspconfig').setup({
+    ensure_installed = supported_servers
+})
+
 local on_attach = function(_)
     vim.api.nvim_buf_set_option(0, 'omnifunc', 'v:lua.vim.lsp.omnifunc')
 end
 
+local capabilities = require('cmp_nvim_lsp').default_capabilities(vim.lsp.protocol.make_client_capabilities())
+
 local function make_config(server)
     local cfg = {
         on_attach = on_attach,
-        capabilities = require('cmp_nvim_lsp').default_capabilities(),
+        capabilities = capabilities,
     }
 
     if server == 'sumneko_lua' then

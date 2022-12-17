@@ -53,7 +53,11 @@ require('packer').startup(function(use)
     use 'hrsh7th/vim-vsnip-integ'
 
     -- lsp
-    use 'neovim/nvim-lspconfig'
+    use {
+        'williamboman/mason.nvim',
+        'williamboman/mason-lspconfig.nvim',
+        'neovim/nvim-lspconfig',
+    }
     use 'ray-x/lsp_signature.nvim'
     use 'onsails/lspkind-nvim'
     use 'gbrlsnchs/telescope-lsp-handlers.nvim'
