@@ -10,3 +10,11 @@ _G.xmap = function(k, v, opts) vim.api.nvim_set_keymap('x', k, v, opts or {norem
 _G.omap = function(k, v, opts) vim.api.nvim_set_keymap('o', k, v, opts or {noremap=true, silent=true}) end
 
 _G.defcmd = function(lhs, rhs, opts) vim.api.nvim_create_user_command(lhs, rhs, opts or { force = true }) end
+
+function _G.exec_cmd(cmd)
+    local output = vim.fn.system(cmd)
+    if vim.v.shell_error == 0 then
+        return output
+    end
+    return nil
+end
