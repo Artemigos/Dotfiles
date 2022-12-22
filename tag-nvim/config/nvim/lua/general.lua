@@ -20,6 +20,7 @@ set.smarttab = true
 set.list = true
 set.listchars = {
     trail = '⋅',
+    lead = '⋅',
     tab = '→ ',
     extends = '❯',
     precedes = '❮'
@@ -70,4 +71,16 @@ vim.api.nvim_create_autocmd('TextYankPost', {
     end,
     group = highlight_group,
     pattern = '*',
+})
+
+-- terminal window setup
+local term_setup_group = vim.api.nvim_create_augroup('term_setup', { clear = true })
+vim.api.nvim_create_autocmd({'TermOpen'}, {
+    group = term_setup_group,
+    pattern = '*',
+    callback = function()
+        vim.opt_local.number = false
+        vim.opt_local.relativenumber = false
+        vim.opt_local.signcolumn = 'no'
+    end,
 })

@@ -10,9 +10,15 @@ which_key_leader({
         c = 'close-window',
     },
     t = {
-        name = '+tabs',
-        n = 'next-tab',
-        p = 'previous-tab',
+        name = '+terminal',
+        c = 'any command',
+        v = {
+            name = '+vertical split',
+            c = 'any command',
+            b = 'terminal bash',
+            f = 'terminal fish',
+            t = 'terminal',
+        },
     },
     o = {name='+open'},
 })
@@ -34,8 +40,20 @@ nmap('<Leader>bb', ':Telescope buffers<CR>')
 nmap('<Leader>bn', ':bnext<CR>')
 nmap('<Leader>bp', ':bprev<CR>')
 nmap('<Leader>bd', ':bdelete<CR>')
+nmap('<Leader>bD', ':bdelete!<CR>')
 
 nmap('<Leader><Leader>', '<C-^>')
+
+-- terminal commands
+nmap('<Leader>tb', ':terminal bash<CR>')
+nmap('<Leader>tf', ':terminal fish<CR>')
+nmap('<Leader>tt', ':terminal<CR>')
+nmap('<Leader>tc', ':lua vim.ui.input({prompt = "Command"}, function(input) if input then vim.cmd("terminal "..input) end end)<CR>')
+
+nmap('<Leader>tvb', ':vsplit term://bash<CR>')
+nmap('<Leader>tvf', ':vsplit term://fish<CR>')
+nmap('<Leader>tvt', ':vsplit term://<CR>')
+nmap('<Leader>tvc', ':lua vim.ui.input({prompt = "Command"}, function(input) if input then vim.cmd("vsplit term://"..input) end end)<CR>')
 
 -- split switching
 nmap('<C-h>', '<C-w>h')
@@ -53,10 +71,6 @@ nmap('<A-h>', ':vertical resize -2<CR>')
 nmap('<A-j>', ':resize +2<CR>')
 nmap('<A-k>', ':resize -2<CR>')
 nmap('<A-l>', ':vertical resize +2<CR>')
-
--- tab navigation
-nmap('<Leader>tn', 'gt')
-nmap('<Leader>tp', 'gT')
 
 -- smarter indenting
 vmap('<', '<gv')
