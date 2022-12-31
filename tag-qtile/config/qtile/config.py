@@ -171,7 +171,9 @@ layouts = [
         border_focus='#bd93f9',
         border_width=2,
         border_on_single=True,
-        margin=6, fair=False),
+        margin=6,
+        fair=False,
+        wrap_clients=True),
     layout.Max(),
 ]
 
