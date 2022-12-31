@@ -3,16 +3,17 @@ import subprocess
 from typing import List  # noqa: F401
 
 from libqtile import layout, hook
-from libqtile.config import Click, Drag, Group, EzKey as Key, ScratchPad, DropDown, Match
+from libqtile.backend.x11.window import Window
+from libqtile.config import Click, Drag, Group, EzKey as Key, ScratchPad, DropDown
 from libqtile.lazy import lazy
 from libqtile.utils import guess_terminal
 
 from custom_bsp import CustomBsp
-import utils
+from utils import run_cmd
 from widgets import screens, widget_defaults, extension_defaults
-import window_rules
+from window_rules import apply_rules
 
-mod = "mod4"
+mod = 'mod4'
 
 # defaults
 home = os.environ['HOME']
@@ -30,94 +31,115 @@ todo = f'{terminal} -e nvim {home}/todo.txt'
 @hook.subscribe.startup_once
 def autostart():
     subprocess.call(['autostart.sh'])
-    subprocess.Popen(['light-locker', '--lock-after-screensaver=0', '--lock-on-suspend'])
+
+@hook.subscribe.client_new
+def rules(win: Window):
+    wid = win.window.wid
+    classes = win.window.get_wm_class()
+
+    if len(classes) == 0:
+        proc_name = ''
+        proc_id = run_cmd(['xdo', 'pid', str(wid)])
+        if proc_id:
+            proc_name = run_cmd(['ps', '-p', proc_id, '-o', 'comm=']) or ''
+        apply_rules(win, wid, '', proc_name)
+    else:
+        for c in classes:
+            apply_rules(win, wid, c, '')
 
 @lazy.function
 def tickle_window(qtile):
     pid = qtile.current_window.get_pid()
-    utils.run_cmd(['kill', '-SIGWINCH', str(pid)])
-    children_pids = utils.run_cmd(['bash', '-c', f'cat /proc/{pid}/task/*/children'])
+    run_cmd(['kill', '-SIGWINCH', str(pid)])
+    children_pids = run_cmd(['bash', '-c', f'cat /proc/{pid}/task/*/children'])
     for child_pid in children_pids.splitlines():
-        utils.run_cmd(['kill', '-SIGWINCH', child_pid])
+        run_cmd(['kill', '-SIGWINCH', child_pid])
+
+def k(key_spec: str, cmd, desc: str) -> Key:
+    if isinstance(cmd, str):
+        cmd = lazy.spawn(cmd)
+    return Key(key_spec, cmd, desc=desc)
 
 keys = [
     # Switch between windows
-    Key("M-j", lazy.layout.down(), desc="Move focus down"),
-    Key("M-k", lazy.layout.up(), desc="Move focus up"),
-    Key("M-h", lazy.layout.left(), desc="Move focus left"),
-    Key("M-l", lazy.layout.right(), desc="Move focus right"),
-    Key("M-c", lazy.layout.next(), desc="Move focus to the next window"),
-    Key("M-<Tab>", lazy.next_screen(), desc="Move focus to the next screen"),
+    k('M-j', lazy.layout.down(), 'Move focus down'),
+    k('M-k', lazy.layout.up(), 'Move focus up'),
+    k('M-h', lazy.layout.left(), 'Move focus left'),
+    k('M-l', lazy.layout.right(), 'Move focus right'),
+    k('M-c', lazy.layout.next(), 'Move focus to the next window'),
+    k('M-<Tab>', lazy.next_screen(), 'Move focus to the next screen'),
 
     # Move windows
-    Key("M-S-j", lazy.layout.shuffle_down(), desc="Swap window down"),
-    Key("M-S-k", lazy.layout.shuffle_up(), desc="Swap window up"),
-    Key("M-S-h", lazy.layout.shuffle_left(), desc="Swap window left"),
-    Key("M-S-l", lazy.layout.shuffle_right(), desc="Swap window right"),
+    k('M-S-j', lazy.layout.shuffle_down(), 'Swap window down'),
+    k('M-S-k', lazy.layout.shuffle_up(), 'Swap window up'),
+    k('M-S-h', lazy.layout.shuffle_left(), 'Swap window left'),
+    k('M-S-l', lazy.layout.shuffle_right(), 'Swap window right'),
 
     # Transplant windows
-    Key("M-C-j", lazy.layout.transplant_down(), desc="Transplant window down"),
-    Key("M-C-k", lazy.layout.transplant_up(), desc="Transplant window up"),
-    Key("M-C-h", lazy.layout.transplant_left(), desc="Transplant window left"),
-    Key("M-C-l", lazy.layout.transplant_right(), desc="Transplant window right"),
+    k('M-C-j', lazy.layout.transplant_down(), 'Transplant window down'),
+    k('M-C-k', lazy.layout.transplant_up(), 'Transplant window up'),
+    k('M-C-h', lazy.layout.transplant_left(), 'Transplant window left'),
+    k('M-C-l', lazy.layout.transplant_right(), 'Transplant window right'),
 
     # Groups
-    Key("M-<Left>", lazy.screen.prev_group(), desc="Switch to the previous group"),
-    Key("M-<Right>", lazy.screen.next_group(), desc="Switch to the next group"),
+    k('M-<Left>', lazy.screen.prev_group(), 'Switch to the previous group'),
+    k('M-<Right>', lazy.screen.next_group(), 'Switch to the next group'),
 
     # Layout stuff
-    Key("M-m", lazy.next_layout(), desc="Switch between BSP an Max"),
-    Key("M-<semicolon>", lazy.layout.toggle_split(), desc="Rotate split"),
-    Key("M-S-b", lazy.layout.flip(), desc="Swap window with sibling"),
-    Key("M-f", lazy.window.toggle_floating(), desc="Toggle window float"),
+    k('M-m', lazy.next_layout(), 'Switch between BSP an Max'),
+    k('M-<semicolon>', lazy.layout.toggle_split(), 'Rotate split'),
+    k('M-S-b', lazy.layout.flip(), 'Swap window with sibling'),
+    k('M-f', lazy.window.toggle_floating(), 'Toggle window float'),
 
-    Key("M-w", lazy.window.kill(), desc="Kill focused window"),
-    Key("M-A-r", lazy.restart(), desc="Restart qtile"),
-    Key("M-A-q", lazy.shutdown(), desc="Shutdown qtile"),
-    Key("M-r", lazy.spawncmd(), desc="Spawn a command using a prompt widget"),
+    k('M-w', lazy.window.kill(), 'Kill focused window'),
+    k('M-A-r', lazy.restart(), 'Restart qtile'),
+    k('M-A-q', lazy.shutdown(), 'Shutdown qtile'),
+    k('M-r', lazy.spawncmd(), 'Spawn a command using a prompt widget'),
 
     # Programs
-    Key("M-<Return>", lazy.spawn(terminal), desc="Launch terminal"),
-    Key("M-C-<Return>", lazy.spawn(f'{terminal} -e {editor}'), desc='Run terminal editor'),
-    Key("M-A-<Return>", lazy.spawn('open_project'), desc='Edit a git project'),
-    Key("M-S-<Return>", lazy.spawn(alt_editor), desc='Run GUI editor'),
-    Key("M-<F1>", lazy.spawn(browser), desc="Launch browser"),
-    Key("M-S-<F1>", lazy.spawn(alt_browser), desc="Launch alternative browser"),
-    Key("M-<F2>", lazy.spawn(player), desc="Launch music player"),
-    Key("M-S-<F2>", lazy.spawn(alt_player), desc="Launch alternative music player"),
-    Key("M-<F3>", lazy.spawn(explorer), desc="Launch file explorer"),
-    Key("M-S-<F3>", lazy.spawn(alt_explorer), desc="Launch alternative file explorer"),
+    k('M-<Return>', terminal, 'Launch terminal'),
+    k('M-C-<Return>', f'{terminal} -e {editor}', 'Run terminal editor'),
+    k('M-A-<Return>', 'open_project', 'Edit a git project'),
+    k('M-S-<Return>', alt_editor, 'Run GUI editor'),
+    k('M-<F1>', browser, 'Launch browser'),
+    k('M-S-<F1>', alt_browser, 'Launch alternative browser'),
+    k('M-<F2>', player, 'Launch music player'),
+    k('M-S-<F2>', alt_player, 'Launch alternative music player'),
+    k('M-<F3>', explorer, 'Launch file explorer'),
+    k('M-S-<F3>', alt_explorer, 'Launch alternative file explorer'),
 
     # Launchers
-    Key("M-<space>", lazy.spawn('rofi -modi run -show run'), desc='Run a command'),
-    Key("M-S-<space>", lazy.spawn('rofi -modi drun -show drun -show-icons'), desc='Launch an application'),
-    Key("M-A-<space>", lazy.spawn('dotfiles_select'), desc='Select and edit a dotfile'),
-    Key("M-C-<space>", lazy.spawn('rofi -modi window -show window'), desc='Select a window'),
-    Key("M-C-A-<space>", lazy.spawn('rofi -modi emoji -show emoji'), desc='Select an emoji character'),
+    k('M-<space>', 'rofi -modi run -show run', 'Run a command'),
+    k('M-S-<space>', 'rofi -modi drun -show drun -show-icons', 'Run an app'),
+    k('M-A-<space>', 'dotfiles_select', 'Select and edit a dotfile'),
+    k('M-C-<space>', 'rofi -modi window -show window', 'Select a window'),
 
     # Menus
-    Key("M-<slash>", lazy.spawn('system-menu show'), desc='Show system menu'),
-    Key("M-<BackSpace>", lazy.spawn('powerctl show'), desc='Show power management menu'),
+    k('M-<slash>', 'system-menu show', 'Show system menu'),
+    k('M-<BackSpace>', 'powerctl show', 'Show power management menu'),
 
     # Audio controls
-    Key("<XF86AudioPrev>", lazy.spawn('sp prev')),
-    Key("<XF86AudioNext>", lazy.spawn('sp next')),
-    Key("<XF86AudioPlay>", lazy.spawn('sp play')),
-    Key("<XF86AudioStop>", lazy.spawn('sp pause')),
-    Key("<XF86AudioLowerVolume>", lazy.spawn('audioctl decrease-volume')),
-    Key("<XF86AudioRaiseVolume>", lazy.spawn('audioctl increase-volume')),
+    k('<XF86AudioPrev>', 'sp prev', 'Previous song'),
+    k('<XF86AudioNext>', 'sp next', 'Next song'),
+    k('<XF86AudioPlay>', 'sp play', 'Play/pause'),
+    k('<XF86AudioStop>', 'sp pause', 'Stop music'),
+    k('<XF86AudioLowerVolume>', 'audioctl decrease-volume', 'Increase volume'),
+    k('<XF86AudioRaiseVolume>', 'audioctl increase-volume', 'Decrease volume'),
 
     # Utilities
-    Key("<Print>", lazy.spawn('scrotclip'), desc="Take a screenshot"),
-    Key("M-<grave>", lazy.group['scratchpad'].dropdown_toggle('term'), desc='Show terminal dropdown'),
-    Key("M-S-<BackSpace>", lazy.spawn('powerctl lock'), desc='Lock the session'),
-    Key("M-b", lazy.spawn('bwmenu'), desc='Run Bitwarden menu'),
-    Key("M-d", lazy.spawn('man_pdf'), desc='Select a manpage and show it as PDF.'),
-    Key("M-A-t", tickle_window, desc='Tickles a window to help resize things.'),
+    k('<Print>', 'scrotclip', 'Take a screenshot'),
+    k(
+        'M-<grave>',
+        lazy.group['scratchpad'].dropdown_toggle('term'),
+        'Show terminal dropdown'),
+    k('M-S-<BackSpace>', 'powerctl lock', 'Lock the session'),
+    k('M-b', 'bwmenu', 'Run Bitwarden menu'),
+    k('M-d', 'man_pdf', 'Select a manpage and show it as PDF.'),
+    k('M-A-t', tickle_window, 'Tickles a window to help resize things.'),
 
     # Mouse
-    Key("M-z", lazy.spawn('xdotool click 1'), desc='Emulates left mouse click'),
-    Key("M-x", lazy.spawn('xdotool click 2'), desc='Emulates right mouse click'),
+    k('M-z', 'xdotool click 1', 'Emulates left mouse click'),
+    k('M-x', 'xdotool click 2', 'Emulates right mouse click'),
 ]
 
 group_definitions = {
@@ -125,7 +147,7 @@ group_definitions = {
     'code': ('2', ''),
     'communication': ('3', ''),
     'IV': ('4', '❹'),
-    'music': ('5', 'ﱘ'),
+    'music': ('5', ''),
 }
 scratchpad = ScratchPad('scratchpad', [
     DropDown('term', todo, width=0.9, height=0.6, x=0.05, warp_pointer=False),
@@ -135,25 +157,32 @@ groups = [Group(k, label=v[1]) for k, v in group_definitions.items()]
 for i in groups:
     group_key = group_definitions[i.name][0]
     keys.extend([
-        Key(f'M-{group_key}', lazy.group[i.name].toscreen(), desc="Switch to group {}".format(i.name)),
-        Key(f'M-S-{group_key}', lazy.window.togroup(i.name), desc="Move focused window to group {}".format(i.name)),
+        k(f'M-{group_key}', lazy.group[i.name].toscreen(), f'Switch to group {i.name}'),
+        k(
+            f'M-S-{group_key}',
+            lazy.window.togroup(i.name),
+            f'Move focused window to group {i.name}'),
     ])
 
 groups = [scratchpad] + groups
 
 layouts = [
-    CustomBsp(border_focus='#bd93f9', border_width=2, border_on_single=True, margin=6, fair=False),
+    CustomBsp(
+        border_focus='#bd93f9',
+        border_width=2,
+        border_on_single=True,
+        margin=6, fair=False),
     layout.Max(),
 ]
 
 mouse = [
-    Drag([mod], "Button1", lazy.window.set_position_floating(),
+    Drag([mod], 'Button1', lazy.window.set_position_floating(),
          start=lazy.window.get_position()),
-    Drag([mod], "Button3", lazy.window.set_size_floating(),
+    Drag([mod], 'Button3', lazy.window.set_size_floating(),
          start=lazy.window.get_size()),
-    Click([mod], "Button2", lazy.window.bring_to_front()),
-    Click([], "Button9", lazy.spawn('xte "key XF86AudioPlay"')),
-    Click([], "Button8", lazy.spawn('xte "key XF86AudioNext"')),
+    Click([mod], 'Button2', lazy.window.bring_to_front()),
+    Click([], 'Button9', lazy.spawn('xte "key XF86AudioPlay"')),
+    Click([], 'Button8', lazy.spawn('xte "key XF86AudioNext"')),
 ]
 
 dgroups_key_binder = None
@@ -166,5 +195,25 @@ floating_layout = layout.Floating(float_rules=[
     *layout.Floating.default_float_rules,
 ])
 auto_fullscreen = True
-focus_on_window_activation = "smart"
-wmname = "LG3D"
+focus_on_window_activation = 'smart'
+wmname = 'LG3D'
+
+__all__ = [
+    'screens',
+    'widget_defaults',
+    'extension_defaults',
+    'keys',
+    'groups',
+    'layouts',
+    'mouse',
+    'dgroups_key_binder',
+    'dgroups_app_rules',
+    'main',
+    'follow_mouse_focus',
+    'bring_front_click',
+    'cursor_warp',
+    'floating_layout',
+    'auto_fullscreen',
+    'focus_on_window_activation',
+    'wmname',
+]
