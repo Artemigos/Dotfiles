@@ -1,3 +1,4 @@
+from libqtile.command.base import expose_command
 from libqtile.layout import Bsp
 
 class CustomBsp(Bsp):
@@ -9,20 +10,21 @@ class CustomBsp(Bsp):
         Bsp.__init__(self, **config)
         self.add_defaults(CustomBsp.defaults)
 
-    def cmd_flip(self):
+    @expose_command()
+    def flip(self):
         node = self.current
         if node and node.parent:
             is_first = node.parent.children.index(node) == 0
             if node.parent.split_horizontal:
                 if is_first:
-                    self.cmd_flip_right()
+                    self.flip_right()
                 else:
-                    self.cmd_flip_left()
+                    self.flip_left()
             else:
                 if is_first:
-                    self.cmd_flip_down()
+                    self.flip_down()
                 else:
-                    self.cmd_flip_up()
+                    self.flip_up()
 
     def transplant(self, target_node):
         curr_node = self.current
@@ -34,14 +36,18 @@ class CustomBsp(Bsp):
             curr_node.parent.remove(curr_node)
             self.group.layout_all()
 
-    def cmd_transplant_left(self):
+    @expose_command()
+    def transplant_left(self):
         self.transplant(self.find_left())
 
-    def cmd_transplant_right(self):
+    @expose_command()
+    def transplant_right(self):
         self.transplant(self.find_right())
 
-    def cmd_transplant_up(self):
+    @expose_command()
+    def transplant_up(self):
         self.transplant(self.find_up())
 
-    def cmd_transplant_down(self):
+    @expose_command()
+    def transplant_down(self):
         self.transplant(self.find_down())

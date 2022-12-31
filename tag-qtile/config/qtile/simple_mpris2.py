@@ -5,6 +5,7 @@ from dbus_next.aio.message_bus import MessageBus
 from dbus_next.constants import BusType, MessageType
 from dbus_next.message import Message
 
+from libqtile.command.base import expose_command
 from libqtile.widget import base
 
 def _default_formatter(status, artist, song):
@@ -97,7 +98,10 @@ class SimpleMpris2(base._TextBox):
     orientations = base.ORIENTATION_HORIZONTAL
     defaults = [
         ('name', 'spotify', 'Name of the widget.'),
-        ('objname', 'org.mpris.MediaPlayer2.spotify', 'DBUS MSPRIS 2 compatible player identifier.'),
+        (
+            'objname',
+            'org.mpris.MediaPlayer2.spotify',
+            'DBUS MSPRIS 2 compatible player identifier.'),
         ('display_formatter', _default_formatter, 'Function formatting the song data.'),
     ]
 
@@ -118,7 +122,8 @@ class SimpleMpris2(base._TextBox):
             text = self.display_formatter(*new)
             self.update(text)
 
-    def cmd_info(self):
+    @expose_command()
+    def info(self):
         return dict(
             status=self.song_data[0],
             artist=self.song_data[1],
