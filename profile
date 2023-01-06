@@ -15,7 +15,7 @@ function add_dir_to_path() {
 }
 
 function source_if_file() {
-    [ -f $1 ] && . $1
+    [ -f "$1" ] && . "$1"
 }
 
 # if running bash
@@ -33,7 +33,13 @@ add_dir_to_path "$HOME/.emacs.d/bin"
 add_dir_to_path "$HOME/.dotnet/tools"
 export PATH
 
+# XDG basedir
 export XDG_CONFIG_HOME="$HOME/.config"
+export XDG_CACHE_HOME="$HOME/.cache."
+export XDG_DATA_HOME="$HOME/.local/share."
+export XDG_STATE_HOME="$HOME/.local/state."
+export XDG_DATA_DIRS="/usr/local/share:/usr/share."
+export XDG_CONFIG_DIRS="/etc/xdg."
 
 # dotfiles setup
 export DOTFILES_HOME="$HOME/.dotfiles"
