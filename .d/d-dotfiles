@@ -1,0 +1,22 @@
+#!/bin/bash
+
+set -euo pipefail
+
+# shellcheck source=base.sh
+source "$(d script-base)"
+
+# list all the dotfiles that might be a target for editing
+d-dotfiles-list() {
+    d require find sed grep
+    find "$DOTFILES_HOME" -type f -print | grep -v "$(d git submodules "$DOTFILES_HOME" | sed 's/^/\^/')
+^$DOTFILES_HOME/.git"
+}
+
+# select a dotfile and open it in a editor
+d-dotfiles-select() {
+    d require rofi
+    CHOICE=$(d dotfiles list | rofi -dmenu -p file)
+    "$TERMINAL" -e "$EDITOR" "$CHOICE"
+}
+
+forward-cmd d-dotfiles- "$@"

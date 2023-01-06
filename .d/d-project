@@ -1,0 +1,18 @@
+#!/bin/bash
+
+set -euo pipefail
+
+# shellcheck source=base.sh
+source "$(d script-base)"
+
+d-project-list() {
+    d require fd cut xargs wc
+    fd --hidden --type d "^\\.git\$" "$(d home)" ~/git | cut -c "$(echo "$HOME/" | wc -c)-" | xargs -n1 dirname
+}
+
+d-project-open() {
+    d require rofi
+    repo=$(d project list | rofi -dmenu -p "Repository") && $TERMINAL -d "$HOME/$repo" -e "$EDITOR" -c NvimTreeToggle -c RooterToggle
+}
+
+forward-cmd d-project- "$@"

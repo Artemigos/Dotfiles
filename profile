@@ -35,6 +35,9 @@ export PATH
 
 export XDG_CONFIG_HOME="$HOME/.config"
 
+# dotfiles setup
+export DOTFILES_HOME="$HOME/.dotfiles"
+
 # Default sotftware
 export TERMINAL="kitty"
 export EDITOR="nvim"

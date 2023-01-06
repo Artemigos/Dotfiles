@@ -1,0 +1,40 @@
+#!/bin/bash
+
+DOTFILES_HOME=${DOTFILES_HOME:?DOTFILES_HOME variable is not set.}
+D_BASE=$DOTFILES_HOME/.d/base.sh
+
+# shellcheck source=../../.d/base.sh
+source "$D_BASE"
+
+# make sure that a command exists and notify about missing ones
+d-require() {
+    if [[ $# -lt 1 ]]; then
+        err "No command given"
+    fi
+
+    RESULT=0
+    while [ -n "${1:-}" ]; do
+        CMD=$1
+        if [ ! -x "$CMD" ] && [ ! -x "$(which "$CMD" 2>/dev/null)" ]; then
+            if type -t notify-send >/dev/null; then
+                notify-send --urgency critical "Command missing" "$CMD"
+            fi
+            RESULT=1
+        fi
+        shift
+    done
+
+    return $RESULT
+}
+
+# print the dotfiles directory
+d-home() {
+    echo "$DOTFILES_HOME"
+}
+
+# print the directory with d scripts
+d-script-base() {
+    echo "$D_BASE"
+}
+
+forward-cmd "d-" "$@"

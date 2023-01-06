@@ -1,4 +1,2 @@
 #!/bin/sh
-
-SCRIPT=$(realpath "$0")
-dirname "$(dirname "$SCRIPT")"
+d home

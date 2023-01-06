@@ -1,4 +1,2 @@
 #!/bin/sh
-
-workdir=${1:-$(pwd)}
-cd "$workdir" && git submodule | awk -v workdir="$workdir" '{print workdir "/" $2}'
+d git submodules "$@"
