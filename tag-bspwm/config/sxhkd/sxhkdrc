@@ -61,7 +61,7 @@ super + shift + @space
 
 # configs
 super + alt + @space
-	CHOICE=$(dotfiles_list | rofi -dmenu -p 'file') && $TERMINAL -e $EDITOR "$CHOICE"
+	CHOICE=$(d dotfiles list | rofi -dmenu -p 'file') && $TERMINAL -e $EDITOR "$CHOICE"
 
 # windows
 super + ctrl + @space

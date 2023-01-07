@@ -113,7 +113,7 @@ keys = [
     # Programs
     k('M-<Return>', terminal, 'Launch terminal'),
     k('M-C-<Return>', f'{terminal} -e {editor}', 'Run terminal editor'),
-    k('M-A-<Return>', 'open_project', 'Edit a git project'),
+    k('M-A-<Return>', 'd project open', 'Edit a git project'),
     k('M-S-<Return>', alt_editor, 'Run GUI editor'),
     k('M-<F1>', browser, 'Launch browser'),
     k('M-S-<F1>', alt_browser, 'Launch alternative browser'),
@@ -125,7 +125,7 @@ keys = [
     # Launchers
     k('M-<space>', 'rofi -modi run -show run', 'Run a command'),
     k('M-S-<space>', 'rofi -modi drun -show drun -show-icons', 'Run an app'),
-    k('M-A-<space>', 'dotfiles_select', 'Select and edit a dotfile'),
+    k('M-A-<space>', 'd dotfiles select', 'Select and edit a dotfile'),
     k('M-C-<space>', 'rofi -modi window -show window', 'Select a window'),
 
     # Menus
