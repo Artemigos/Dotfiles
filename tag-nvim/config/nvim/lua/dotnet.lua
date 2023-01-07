@@ -1,4 +1,7 @@
-which_key_leader({
+local u = require('utils')
+local nmap = u.nmap
+
+u.which_key_leader({
     d = {
         name = '+dotnet',
         T = 'Test selected project',

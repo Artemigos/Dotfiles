@@ -1,3 +1,6 @@
+local u = require('utils')
+local nmap = u.nmap
+
 -- keybindings
 nmap('<F9>', '<cmd>lua require"dap".toggle_breakpoint()<CR>')
 nmap('<F5>', '<cmd>lua require"dap".continue()<CR>')
@@ -5,7 +8,7 @@ nmap('<F10>', '<cmd>lua require"dap".step_over()<CR>')
 nmap('<F11>', '<cmd>lua require"dap".step_into()<CR>')
 
 -- leader keybindings
-which_key_leader({
+u.which_key_leader({
     d = {name='+debugging'},
 })
 

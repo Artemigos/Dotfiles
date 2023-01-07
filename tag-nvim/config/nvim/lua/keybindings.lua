@@ -1,4 +1,10 @@
-which_key_leader({
+local u = require('utils')
+local defcmd = u.defcmd
+local nmap = u.nmap
+local imap = u.imap
+local vmap = u.vmap
+
+u.which_key_leader({
     b = {name='+buffers'},
     i = {name='+init.lua'},
     w = {

@@ -1,3 +1,4 @@
+local u = require('utils')
 local set = vim.opt
 
 -- colors
@@ -53,7 +54,7 @@ set.updatetime = 250
 set.completeopt = {'menuone', 'noinsert', 'noselect'}
 set.shortmess = 'filnxtToOFc'
 
-defcmd('W', 'w')
+u.defcmd('W', 'w')
 
 -- leader
 vim.g.mapleader = ' '

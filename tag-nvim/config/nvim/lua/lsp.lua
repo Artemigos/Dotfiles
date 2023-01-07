@@ -1,3 +1,8 @@
+local u = require('utils')
+local nmap = u.nmap
+local imap = u.imap
+local vmap = u.vmap
+
 -- keybindings
 nmap('gd', '<cmd>lua vim.lsp.buf.definition()<CR>')
 nmap('gD', '<cmd>lua vim.lsp.buf.implementation()<CR>')
@@ -12,7 +17,7 @@ nmap('gT', ':Telescope lsp_dynamic_workspace_symbols<CR>')
 nmap('gX', ':Telescope diagnostics<CR>')
 
 -- leader keybindings
-which_key_leader({
+u.which_key_leader({
     c = { name = '+code' },
     r = { name = '+refactor' }
 })

@@ -1,3 +1,5 @@
+local u = require('utils')
+
 require('nvim-tree').setup {
     view = {
         side = 'right',
@@ -5,4 +7,4 @@ require('nvim-tree').setup {
     }
 }
 
-nmap('<Leader>e', ':NvimTreeToggle<CR>')
+u.nmap('<Leader>e', ':NvimTreeToggle<CR>')

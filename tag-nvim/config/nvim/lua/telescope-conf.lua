@@ -1,3 +1,6 @@
+local u = require('utils')
+local nmap = u.nmap
+
 local telescope = require('telescope')
 
 telescope.setup {
@@ -13,7 +16,7 @@ telescope.setup {
     }
 }
 
-which_key_leader({ f = { name = '+telescope' } })
+u.which_key_leader({ f = { name = '+telescope' } })
 
 nmap('<Leader>ff', ':Telescope find_files<CR>')
 nmap('<Leader>fg', ':Telescope git_files<CR>')
