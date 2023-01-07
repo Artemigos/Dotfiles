@@ -1,3 +1,4 @@
+from collections import deque
 import os
 import subprocess
 from typing import List  # noqa: F401
@@ -59,6 +60,19 @@ def k(key_spec: str, cmd, desc: str) -> Key:
     if isinstance(cmd, str):
         cmd = lazy.spawn(cmd)
     return Key(key_spec, cmd, desc=desc)
+
+@lazy.function
+def emulate_hotkey(qtile, hotkey: str):
+    keys = hotkey.split('+')
+    if len(keys) > 1:
+        commands = deque()
+        for key in reversed(keys):
+            commands.appendleft('keydown ' + key)
+            commands.append('keyup ' + key)
+        commands.appendleft('xte')
+        utils.run_cmd(commands)
+    else:
+        utils.run_cmd(['xte', 'key ' + keys[0]])
 
 keys = [
     # Switch between windows
@@ -183,8 +197,8 @@ mouse = [
     Drag([mod], 'Button3', lazy.window.set_size_floating(),
          start=lazy.window.get_size()),
     Click([mod], 'Button2', lazy.window.bring_to_front()),
-    Click([], 'Button9', lazy.spawn('xte "key XF86AudioPlay"')),
-    Click([], 'Button8', lazy.spawn('xte "key XF86AudioNext"')),
+    Click([], 'Button9', emulate_hotkey('XF86AudioPlay')),
+    Click([], 'Button8', emulate_hotkey('XF86AudioNext')),
 ]
 
 dgroups_key_binder = None
