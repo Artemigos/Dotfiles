@@ -37,4 +37,11 @@ d-script-base() {
     echo "$D_BASE"
 }
 
+# find and print all the tools that are required in dotfiles scripts
+d-get-all-requires() {
+    d require rg sed sort uniq
+    readarray -t FILES <<<"$(d dotfiles list)"
+    rg '^\s*d require (.*)$' --replace '$1' --no-filename "${FILES[@]}" | sed 's/ /\n/g' | sort | uniq
+}
+
 forward-cmd "d-" "$@"
