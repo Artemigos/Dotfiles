@@ -160,7 +160,7 @@ group_definitions = {
     'main': ('1', '爵'),
     'code': ('2', ''),
     'communication': ('3', ''),
-    'IV': ('4', '❹'),
+    'IV': ('4', ''),
     'music': ('5', ''),
 }
 scratchpad = ScratchPad('scratchpad', [
