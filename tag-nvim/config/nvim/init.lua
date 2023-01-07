@@ -1,3 +1,7 @@
+require('impatient') -- this is a plugin require
+require('utils')
+require('general')
+
 -- bootstrap packer
 local install_path = vim.fn.stdpath('data')..'/site/pack/packer/start/packer.nvim'
 local is_bootstrap = false
@@ -37,19 +41,62 @@ require('packer').startup(function(use)
     use { 'nvim-treesitter/playground', after = 'nvim-treesitter' }
 
     -- ui
-    use 'Mofiqul/dracula.nvim'
-    use 'kyazdani42/nvim-web-devicons'
-    use 'folke/which-key.nvim'
-    use { 'nvim-lualine/lualine.nvim', requires = { 'kyazdani42/nvim-web-devicons', opt = true } }
-    use { 'akinsho/bufferline.nvim', tag = 'v2.*', requires = 'kyazdani42/nvim-web-devicons' }
-    use { 'kyazdani42/nvim-tree.lua', requires = { 'kyazdani42/nvim-web-devicons' } }
-    use 'j-hui/fidget.nvim'
+    use {
+        'Mofiqul/dracula.nvim',
+        config = function()
+            vim.cmd [[
+                syntax enable
+                colorscheme dracula
+            ]]
+        end,
+    }
+    use {
+        'kyazdani42/nvim-web-devicons',
+        config = function() require('nvim-web-devicons').setup { default = true } end,
+    }
+    use {
+        'folke/which-key.nvim',
+        config = function() require('which-key').setup {} end,
+    }
+    use {
+        'nvim-lualine/lualine.nvim',
+        requires = { 'kyazdani42/nvim-web-devicons', opt = true },
+        config = function() require('lualine-conf') end,
+    }
+    use {
+        'akinsho/bufferline.nvim',
+        tag = 'v3.*',
+        requires = 'kyazdani42/nvim-web-devicons',
+        config = function() require('bufferline-conf') end,
+    }
+    use {
+        'kyazdani42/nvim-tree.lua',
+        requires = { 'kyazdani42/nvim-web-devicons' },
+        config = function() require('tree') end,
+    }
+    use {
+        'j-hui/fidget.nvim',
+        config = function() require('fidget').setup() end,
+    }
 
     -- telescope
     use 'nvim-lua/plenary.nvim'
-    use { 'nvim-telescope/telescope.nvim', branch = '0.1.x', requires = { 'nvim-lua/plenary.nvim' } }
-    use {'nvim-telescope/telescope-fzf-native.nvim', run='make'}
-    use 'nvim-telescope/telescope-file-browser.nvim'
+    use {
+        'nvim-telescope/telescope.nvim',
+        branch = '0.1.x',
+        requires = { 'nvim-lua/plenary.nvim' },
+        config = function() require('telescope-conf') end,
+    }
+    use {
+        'nvim-telescope/telescope-fzf-native.nvim',
+        run='make',
+        requires = { 'nvim-telescope/telescope.nvim' },
+        config = function() require('telescope').load_extension('fzf') end,
+    }
+    use {
+        'nvim-telescope/telescope-file-browser.nvim',
+        config = function() require('telescope').load_extension('file_browser') end,
+    }
     use 'stevearc/dressing.nvim'
 
     -- completion
@@ -69,7 +116,10 @@ require('packer').startup(function(use)
     }
     use 'ray-x/lsp_signature.nvim'
     use 'onsails/lspkind-nvim'
-    use 'gbrlsnchs/telescope-lsp-handlers.nvim'
+    use {
+        'gbrlsnchs/telescope-lsp-handlers.nvim',
+        config = function() require('telescope').load_extension('lsp_handlers') end,
+    }
 
     -- dap
     use 'mfussenegger/nvim-dap'
@@ -78,7 +128,10 @@ require('packer').startup(function(use)
     use 'jbyuki/one-small-step-for-vimkind'
 
     -- misc
-    use 'tpope/vim-fugitive'
+    use {
+        'tpope/vim-fugitive',
+        config = function() require('fugitive') end,
+    }
     use 'tridactyl/vim-tridactyl'
     use 'gpanders/editorconfig.nvim'
 
@@ -106,23 +159,11 @@ local packer_group = vim.api.nvim_create_augroup('Packer', { clear = true })
 vim.api.nvim_create_autocmd('BufWritePost', {
   command = 'source <afile> | PackerCompile',
   group = packer_group,
-  pattern = vim.fn.expand '$MYVIMRC',
+  pattern = { vim.fn.expand '$MYVIMRC', vim.fn.system 'realpath "$MYVIMRC"' },
 })
 
 -- include other config files
-require('impatient') -- this is a plugin require
-require('utils')
-require('general')
-require('treesitter')
-require('nvim-web-devicons').setup { default = true }
-require('lualine-conf')
-require('bufferline-conf')
-require('tree')
-require('which-key').setup{} -- this is a plugin require
-require('fidget').setup() -- this is a plugin require
 require('keybindings')
-require('telescope-conf')
-require('fugitive')
 require('cmp-conf')
 require('lsp')
 --require('dotnet')

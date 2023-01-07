@@ -2,10 +2,6 @@ local set = vim.opt
 
 -- colors
 set.termguicolors = true
-vim.cmd [[
-    syntax enable
-    colorscheme dracula
-]]
 
 -- indenting settings
 set.modeline = true -- read indent settings from within files
