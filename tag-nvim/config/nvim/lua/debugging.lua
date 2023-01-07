@@ -25,7 +25,7 @@ nmap('<leader>dlr', '<cmd>lua require"osv".run_this()<CR>')
 local dap = require('dap')
 local dapui = require('dapui')
 dapui.setup()
-require('nvim-dap-virtual-text').setup()
+require('nvim-dap-virtual-text').setup({})
 
 dap.listeners.after.event_initialized["dapui_config"] = function()
     ---@diagnostic disable-next-line: missing-parameter
