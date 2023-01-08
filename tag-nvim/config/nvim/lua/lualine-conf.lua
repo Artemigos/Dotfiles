@@ -22,6 +22,7 @@ require('lualine').setup {
                 'dapui_breakpoints',
                 'dapui_scopes',
                 'fugitive',
+                'gitcommit',
                 'NvimTree',
             },
         },
