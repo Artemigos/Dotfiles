@@ -31,6 +31,15 @@ set.foldcolumn = 'auto:9'
 set.breakindent = true
 set.signcolumn = 'yes'
 set.cmdheight = 2
+set.fillchars:append {
+    vert = '▕',
+    vertleft = '🭾',
+    vertright = '▕',
+    horiz = '▔',
+    horizup = '▔',
+    horizdown = '🭾',
+    verthoriz = '🭾',
+}
 
 -- quality of life
 set.wildmenu = true
