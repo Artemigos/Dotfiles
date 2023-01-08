@@ -52,8 +52,8 @@ require('lualine').setup {
     },
     tabline = {},
     winbar = {
-        lualine_a = {},
-        lualine_b = {'filename'},
+        lualine_a = {{'buffers', symbols = {alternate_file = ''}}},
+        lualine_b = {},
         lualine_c = {},
         lualine_x = {},
         lualine_y = {},

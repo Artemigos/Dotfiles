@@ -64,12 +64,6 @@ require('packer').startup(function(use)
         config = function() require('lualine-conf') end,
     }
     use {
-        'akinsho/bufferline.nvim',
-        tag = 'v3.*',
-        requires = 'kyazdani42/nvim-web-devicons',
-        config = function() require('bufferline-conf') end,
-    }
-    use {
         'kyazdani42/nvim-tree.lua',
         requires = { 'kyazdani42/nvim-web-devicons' },
         config = function() require('tree') end,
