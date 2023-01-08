@@ -6,6 +6,33 @@ local function format_mode(mode)
     return mode:sub(1, 1)
 end
 
+local function window_title_extenstion(title, filetypes)
+    local txt = function() return title end
+    local winbar_opts = {
+        lualine_a = {},
+        lualine_b = {},
+        lualine_c = {
+            {"'%='", separator = ''},
+            {txt, separator = ''},
+            {"'%='", separator = ''},
+        },
+        lualine_x = {},
+        lualine_y = {},
+        lualine_z = {},
+    }
+
+    local opts = {
+        filetypes =  filetypes,
+        winbar = vim.deepcopy(winbar_opts),
+        inactive_winbar = vim.deepcopy(winbar_opts),
+        options = {
+            always_divide_middle = false,
+        }
+    }
+
+    return opts
+end
+
 require('lualine').setup {
     options = {
         icons_enabled = true,
@@ -21,9 +48,7 @@ require('lualine').setup {
                 'dapui_stacks',
                 'dapui_breakpoints',
                 'dapui_scopes',
-                'fugitive',
                 'gitcommit',
-                'NvimTree',
             },
         },
         ignore_focus = {},
@@ -69,8 +94,8 @@ require('lualine').setup {
         lualine_z = {}
     },
     extensions = {
-        'fugitive',
         'nvim-dap-ui',
-        'nvim-tree',
+        window_title_extenstion('Git', {'fugitive'}),
+        window_title_extenstion('File tree', {'NvimTree'}),
     },
 }
