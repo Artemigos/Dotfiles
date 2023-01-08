@@ -14,7 +14,16 @@ require('lualine').setup {
         section_separators = { left = '', right = ''},
         disabled_filetypes = {
             statusline = {},
-            winbar = {'NvimTree', 'fugitive'},
+            winbar = {
+                'dap-repl',
+                'dapui_console',
+                'dapui_watches',
+                'dapui_stacks',
+                'dapui_breakpoints',
+                'dapui_scopes',
+                'fugitive',
+                'NvimTree',
+            },
         },
         ignore_focus = {},
         always_divide_middle = true,
@@ -59,6 +68,7 @@ require('lualine').setup {
         lualine_z = {}
     },
     extensions = {
+        'fugitive',
         'nvim-dap-ui',
         'nvim-tree',
     },
