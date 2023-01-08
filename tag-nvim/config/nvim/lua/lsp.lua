@@ -124,3 +124,5 @@ local lspconfig = require('lspconfig')
 for _, server in pairs(supported_servers) do
     lspconfig[server].setup(make_config(server))
 end
+
+require('lspconfig.ui.windows').default_options.border = 'rounded'

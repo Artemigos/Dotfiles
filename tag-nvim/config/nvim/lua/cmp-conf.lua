@@ -63,5 +63,9 @@ cmp.setup({
         { name = 'vsnip' },
         { name = 'buffer' },
         { name = 'path' },
-    }
+    },
+
+    window = {
+        documentation = cmp.config.window.bordered(),
+    },
 })
