@@ -52,4 +52,3 @@ function M.telescope_select_and_run(filter, command)
 end
 
 return M
-

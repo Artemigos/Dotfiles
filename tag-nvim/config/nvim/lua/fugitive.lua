@@ -3,16 +3,6 @@ local nmap = u.nmap
 
 u.which_key_leader({ g = { name = '+git' } })
 
-local function setup_tracking_cmd()
-    local branch = u.exec_cmd('git branch --show-current')
-    if branch == nil then
-        vim.notify('Not in git repo?', vim.log.levels.ERROR)
-        return
-    end
-    branch = branch:gsub('^%s*', ''):gsub('%s*$', '')
-    vim.api.nvim_input(':Git branch --set-upstream-to origin/' .. branch)
-end
-
 local function create_new_branch()
     vim.ui.input('New branch name:', function(branch)
         if branch == nil then
@@ -26,7 +16,6 @@ local function create_new_branch()
         end
 
         vim.cmd('Git checkout -b ' .. branch)
-        vim.cmd('Git branch --set-upstream-to origin/' .. branch)
     end)
 end
 
@@ -41,7 +30,16 @@ local function publish_branch()
     vim.cmd('Git push -u origin ' .. branch)
 end
 
-nmap('<Leader>gg', ':Git<CR>')
+local function toggle_fugitive()
+    local fugitive_buf_no = vim.fn.bufnr('^fugitive:')
+    local buf_win_id = vim.fn.bufwinid(fugitive_buf_no)
+    if fugitive_buf_no >= 0 and buf_win_id >= 0 then
+        vim.api.nvim_win_close(buf_win_id, false)
+    else
+        vim.cmd("Git")
+    end
+end
+
 nmap('<Leader>gi', ':Git commit<CR>')
 nmap('<Leader>gc', ':Telescope git_commits<CR>')
 nmap('<Leader>gp', ':Git push<CR>')
@@ -50,6 +48,6 @@ nmap('<Leader>gb', ':Telescope git_branches<CR>')
 nmap('<Leader>gs', ':Telescope git_stash<CR>')
 nmap('<Leader>gf', ':Git fetch -p<CR>')
 
-vim.keymap.set('n', '<Leader>gt', setup_tracking_cmd)
-vim.keymap.set('n', '<Leader>gn', create_new_branch)
-vim.keymap.set('n', '<Leader>gP', publish_branch)
+vim.keymap.set('n', '<Leader>gg', toggle_fugitive, {desc = 'Toggle git window'})
+vim.keymap.set('n', '<Leader>gn', create_new_branch, {desc = 'New branch'})
+vim.keymap.set('n', '<Leader>gP', publish_branch, {desc = 'Publish (push+set upstream)'})
