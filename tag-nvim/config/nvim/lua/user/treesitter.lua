@@ -6,7 +6,7 @@ require('nvim-treesitter.configs').setup({
 })
 
 -- treesitter textobjects
-require('utils').which_key_leader({
+require('user.utils').which_key_leader({
     p = { name = '+peek' },
 })
 

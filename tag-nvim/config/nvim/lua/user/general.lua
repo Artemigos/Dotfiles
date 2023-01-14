@@ -1,4 +1,4 @@
-local u = require('utils')
+local u = require('user.utils')
 local set = vim.opt
 
 -- colors

@@ -1,6 +1,5 @@
-require('impatient') -- this is a plugin require
-require('utils')
-require('general')
+require('impatient')
+require('user.general')
 
 -- bootstrap packer
 local install_path = vim.fn.stdpath('data') .. '/site/pack/packer/start/packer.nvim'
@@ -61,12 +60,12 @@ require('packer').startup(function(use)
     use {
         'nvim-lualine/lualine.nvim',
         requires = { 'kyazdani42/nvim-web-devicons', opt = true },
-        config = function() require('lualine-conf') end,
+        config = function() require('user.lualine') end,
     }
     use {
         'kyazdani42/nvim-tree.lua',
         requires = { 'kyazdani42/nvim-web-devicons' },
-        config = function() require('tree') end,
+        config = function() require('user.tree') end,
     }
     use {
         'j-hui/fidget.nvim',
@@ -79,7 +78,7 @@ require('packer').startup(function(use)
         'nvim-telescope/telescope.nvim',
         branch = '0.1.x',
         requires = { 'nvim-lua/plenary.nvim' },
-        config = function() require('telescope-conf') end,
+        config = function() require('user.telescope') end,
     }
     use {
         'nvim-telescope/telescope-fzf-native.nvim',
@@ -132,7 +131,7 @@ require('packer').startup(function(use)
     -- misc
     use {
         'tpope/vim-fugitive',
-        config = function() require('fugitive') end,
+        config = function() require('user.fugitive') end,
     }
     use 'tridactyl/vim-tridactyl'
     use 'gpanders/editorconfig.nvim'
@@ -169,10 +168,9 @@ vim.api.nvim_create_autocmd('BufWritePost', {
 })
 
 -- include other config files
-require('keybindings')
-require('cmp-conf')
-require('lsp')
---require('dotnet')
-require('debugging')
-require('todo').setup {} -- this use from my config
-require('special-files')
+require('user.keybindings')
+require('user.cmp')
+require('user.lsp')
+require('user.debugging')
+require('user.todo').setup {}
+require('user.special-files')

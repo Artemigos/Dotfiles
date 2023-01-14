@@ -1,4 +1,4 @@
-local u = require('utils')
+local u = require('user.utils')
 local nmap = u.nmap
 
 u.which_key_leader({ g = { name = '+git' } })

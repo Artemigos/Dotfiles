@@ -1,4 +1,4 @@
-local u = require('utils')
+local u = require('user.utils')
 local nmap = u.nmap
 
 local telescope = require('telescope')
@@ -26,4 +26,4 @@ nmap('<Leader>fd', ':Telescope file_browser<CR>')
 nmap('<Leader>fc', ':Telescope commands<CR>')
 nmap('<Leader>fh', ':Telescope help_tags<CR>')
 nmap('<Leader>f<Space>', ':Telescope builtin<CR>')
-nmap('<Leader>fm', ':lua require("pickers").makefile()<CR>')
+nmap('<Leader>fm', ':lua require("user.pickers").makefile()<CR>')

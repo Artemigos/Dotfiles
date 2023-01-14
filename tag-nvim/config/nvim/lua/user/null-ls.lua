@@ -44,7 +44,7 @@ require('mason-null-ls').setup({
     automatic_setup = false,
 })
 
-local u = require('utils')
+local u = require('user.utils')
 u.nmap('gF', '<cmd>Format<CR>')
 u.nmap('<leader>cF', '<cmd>Format<CR>')
 

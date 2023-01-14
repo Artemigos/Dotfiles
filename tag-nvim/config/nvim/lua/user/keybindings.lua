@@ -1,4 +1,4 @@
-local u = require('utils')
+local u = require('user.utils')
 local defcmd = u.defcmd
 local nmap = u.nmap
 local imap = u.imap

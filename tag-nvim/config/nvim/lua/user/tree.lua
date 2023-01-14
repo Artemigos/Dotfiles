@@ -1,4 +1,4 @@
-local u = require('utils')
+local u = require('user.utils')
 
 require('nvim-tree').setup {
     view = {

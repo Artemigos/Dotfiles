@@ -58,7 +58,7 @@ function M.setup(config)
     })
     vim.api.nvim_create_user_command(
         'ToggleTodo',
-        ':silent <line1>,<line2>luado return require("todo").toggle_todo(line)<CR>',
+        ':silent <line1>,<line2>luado return require("user.todo").toggle_todo(line)<CR>',
         { range = true })
 end
 
