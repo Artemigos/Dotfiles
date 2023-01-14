@@ -19,7 +19,15 @@ null_ls.setup({
         -- diagnostics
         null_ls.builtins.diagnostics.editorconfig_checker,
         null_ls.builtins.diagnostics.fish,
-        null_ls.builtins.diagnostics.mypy,
+        null_ls.builtins.diagnostics.mypy.with({
+            extra_args = function(_)
+                return {
+                    -- get around venv problems by using the current venv neovim is in
+                    '--python-executable',
+                    vim.trim(require('user.utils').exec_cmd('which python')),
+                }
+            end,
+        }),
         -- null_ls.builtins.diagnostics.eslint,
         -- null_ls.builtins.diagnostics.hadolint,
         -- null_ls.builtins.diagnostics.markdownlint,
