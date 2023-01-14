@@ -9,6 +9,7 @@ local yq = {
 }
 
 null_ls.setup({
+    border = 'rounded',
     sources = {
         -- code actions
         null_ls.builtins.code_actions.shellcheck,

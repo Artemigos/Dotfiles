@@ -46,7 +46,12 @@ nmap('<Leader>rr', '<cmd>lua vim.lsp.buf.rename()<CR>')
 --     callback = vim.lsp.buf.clear_references,
 -- })
 
-require('lsp_signature').setup {}
+require('lsp_signature').setup {
+    bind = true,
+    handler_opts = {
+        border = 'rounded',
+    },
+}
 require('lspkind').init {}
 
 local supported_servers = {
@@ -128,3 +133,7 @@ for _, server in pairs(supported_servers) do
 end
 
 require('lspconfig.ui.windows').default_options.border = 'rounded'
+vim.lsp.handlers['textDocument/hover'] =
+    vim.lsp.with(vim.lsp.handlers.hover, {
+        border = 'rounded',
+    })
