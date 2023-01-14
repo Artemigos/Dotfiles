@@ -54,7 +54,7 @@ local supported_servers = {
     'rust_analyzer', -- Rust
     'jsonls', -- JSON
     'sumneko_lua', -- LUA
-    'jedi_language_server', -- Python
+    'pyright', -- Python
     'vimls', -- VimL
     'yamlls', -- YAML
     'cssls', -- CSS, LESS, SCSS
