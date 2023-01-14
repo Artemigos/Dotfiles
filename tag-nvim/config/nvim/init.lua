@@ -115,6 +115,14 @@ require('packer').startup(function(use)
         config = function() require('telescope').load_extension('lsp_handlers') end,
     }
 
+    -- null-ls
+    use 'jose-elias-alvarez/null-ls.nvim'
+    use {
+        'jayp0521/mason-null-ls.nvim',
+        after = { 'null-ls.nvim', 'mason.nvim' },
+        config = function() require('user.null-ls') end
+    }
+
     -- dap
     use 'mfussenegger/nvim-dap'
     use { 'rcarriga/nvim-dap-ui', requires = {'mfussenegger/nvim-dap'} }
