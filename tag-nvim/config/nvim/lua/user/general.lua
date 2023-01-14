@@ -32,13 +32,13 @@ set.breakindent = true
 set.signcolumn = 'yes'
 set.cmdheight = 2
 set.fillchars:append {
-    vert = '▕',
-    vertleft = '🭾',
-    vertright = '▕',
-    horiz = '▔',
-    horizup = '▔',
-    horizdown = '🭾',
-    verthoriz = '🭾',
+    vert = '█',
+    vertleft = '█',
+    vertright = '█',
+    horiz = '█',
+    horizup = '█',
+    horizdown = '█',
+    verthoriz = '█',
 }
 
 -- quality of life
@@ -60,7 +60,7 @@ set.undofile = true
 set.ignorecase = true
 set.smartcase = true
 set.updatetime = 250
-set.completeopt = {'menuone', 'noinsert', 'noselect'}
+set.completeopt = { 'menuone', 'noinsert', 'noselect' }
 set.shortmess = 'filnxtToOFc'
 
 u.defcmd('W', 'w')
@@ -81,7 +81,7 @@ vim.api.nvim_create_autocmd('TextYankPost', {
 
 -- terminal window setup
 local term_setup_group = vim.api.nvim_create_augroup('term_setup', { clear = true })
-vim.api.nvim_create_autocmd({'TermOpen'}, {
+vim.api.nvim_create_autocmd({ 'TermOpen' }, {
     group = term_setup_group,
     pattern = '*',
     callback = function()
