@@ -78,7 +78,7 @@ screens = [
                 widget.Systray(icon_size=24, padding=8),
             ],
             32,
-            margin=6,
+            margin=0,
             background='#282a36',
         ),
     ),
