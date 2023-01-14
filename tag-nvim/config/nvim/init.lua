@@ -3,7 +3,7 @@ require('utils')
 require('general')
 
 -- bootstrap packer
-local install_path = vim.fn.stdpath('data')..'/site/pack/packer/start/packer.nvim'
+local install_path = vim.fn.stdpath('data') .. '/site/pack/packer/start/packer.nvim'
 local is_bootstrap = false
 if vim.fn.empty(vim.fn.glob(install_path)) > 0 then
     is_bootstrap = true
@@ -83,7 +83,7 @@ require('packer').startup(function(use)
     }
     use {
         'nvim-telescope/telescope-fzf-native.nvim',
-        run='make',
+        run = 'make',
         requires = { 'nvim-telescope/telescope.nvim' },
         config = function() require('telescope').load_extension('fzf') end,
     }
@@ -125,8 +125,8 @@ require('packer').startup(function(use)
 
     -- dap
     use 'mfussenegger/nvim-dap'
-    use { 'rcarriga/nvim-dap-ui', requires = {'mfussenegger/nvim-dap'} }
-    use { 'theHamsta/nvim-dap-virtual-text', requires = {'mfussenegger/nvim-dap', 'nvim-treesitter/nvim-treesitter'} }
+    use { 'rcarriga/nvim-dap-ui', requires = { 'mfussenegger/nvim-dap' } }
+    use { 'theHamsta/nvim-dap-virtual-text', requires = { 'mfussenegger/nvim-dap', 'nvim-treesitter/nvim-treesitter' } }
     use 'jbyuki/one-small-step-for-vimkind'
 
     -- misc
@@ -136,6 +136,10 @@ require('packer').startup(function(use)
     }
     use 'tridactyl/vim-tridactyl'
     use 'gpanders/editorconfig.nvim'
+    use {
+        'stevearc/overseer.nvim',
+        config = function() require('user.overseer') end
+    }
 
     -- perf
     use 'tweekmonster/startuptime.vim'
@@ -148,20 +152,20 @@ require('packer').startup(function(use)
 end)
 
 if is_bootstrap then
-  print '=================================='
-  print '    Plugins are being installed'
-  print '    Wait until Packer completes,'
-  print '       then restart nvim'
-  print '=================================='
-  return
+    print '=================================='
+    print '    Plugins are being installed'
+    print '    Wait until Packer completes,'
+    print '       then restart nvim'
+    print '=================================='
+    return
 end
 
 -- Automatically source and re-compile packer whenever you save this init.lua
 local packer_group = vim.api.nvim_create_augroup('Packer', { clear = true })
 vim.api.nvim_create_autocmd('BufWritePost', {
-  command = 'source <afile> | PackerCompile',
-  group = packer_group,
-  pattern = { vim.fn.expand '$MYVIMRC', vim.fn.system 'realpath "$MYVIMRC"' },
+    command = 'source <afile> | PackerCompile',
+    group = packer_group,
+    pattern = { vim.fn.expand '$MYVIMRC', vim.fn.system 'realpath "$MYVIMRC"' },
 })
 
 -- include other config files
@@ -170,5 +174,5 @@ require('cmp-conf')
 require('lsp')
 --require('dotnet')
 require('debugging')
-require('todo').setup{} -- this use from my config
+require('todo').setup {} -- this use from my config
 require('special-files')
