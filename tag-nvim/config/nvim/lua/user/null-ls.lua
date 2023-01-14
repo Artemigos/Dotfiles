@@ -19,10 +19,10 @@ null_ls.setup({
         -- diagnostics
         null_ls.builtins.diagnostics.editorconfig_checker,
         null_ls.builtins.diagnostics.fish,
+        null_ls.builtins.diagnostics.mypy,
         -- null_ls.builtins.diagnostics.eslint,
         -- null_ls.builtins.diagnostics.hadolint,
         -- null_ls.builtins.diagnostics.markdownlint,
-        -- null_ls.builtins.diagnostics.mypy,
         -- null_ls.builtins.diagnostics.selene,
         -- null_ls.builtins.diagnostics.yamllint,
 
@@ -30,6 +30,7 @@ null_ls.setup({
         null_ls.builtins.formatting.fish_indent,
         null_ls.builtins.formatting.shfmt,
         yq,
+        null_ls.builtins.formatting.black,
         -- null_ls.builtins.formatting.prettierd,
         -- null_ls.builtins.formatting.lua_format,
         -- null_ls.builtins.formatting.markdownlint,
@@ -47,4 +48,4 @@ local u = require('utils')
 u.nmap('gF', '<cmd>Format<CR>')
 u.nmap('<leader>cF', '<cmd>Format<CR>')
 
--- TODO: verify that needed, languages: Lua, Python, TS, Rust
+-- TODO: verify what's needed, languages: Lua, TS, Rust, Markdown

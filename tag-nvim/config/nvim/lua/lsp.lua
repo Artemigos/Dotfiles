@@ -60,6 +60,7 @@ local supported_servers = {
     'yamlls', -- YAML
     'cssls', -- CSS, LESS, SCSS
     'tsserver', -- Typescript, Javascript
+    'ruff_lsp', -- python linter
 }
 
 require('mason').setup({
