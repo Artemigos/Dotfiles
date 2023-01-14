@@ -113,6 +113,17 @@ require('packer').startup(function(use)
         'gbrlsnchs/telescope-lsp-handlers.nvim',
         config = function() require('telescope').load_extension('lsp_handlers') end,
     }
+    use {
+        "someone-stole-my-name/yaml-companion.nvim",
+        requires = {
+            { "neovim/nvim-lspconfig" },
+            { "nvim-lua/plenary.nvim" },
+            { "nvim-telescope/telescope.nvim" },
+        },
+        config = function()
+            require("telescope").load_extension("yaml_schema")
+        end,
+    }
 
     -- null-ls
     use 'jose-elias-alvarez/null-ls.nvim'

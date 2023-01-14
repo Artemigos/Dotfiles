@@ -50,7 +50,6 @@ require('lsp_signature').setup {}
 require('lspkind').init {}
 
 local supported_servers = {
-    -- 'omnisharp', -- C#
     'bashls', -- bash
     'rust_analyzer', -- Rust
     'jsonls', -- JSON
@@ -114,8 +113,10 @@ local function make_config(server)
                 },
             },
         }
-    elseif server == 'omnisharp' then
-        cfg.cmd = { 'OmniSharp', '--languageserver', '--hostPID', tostring(vim.fn.getpid()) }
+    elseif server == 'yamlls' then
+        cfg = require('yaml-companion').setup({
+            lspconfig = cfg,
+        })
     end
 
     return cfg
