@@ -18,7 +18,9 @@ null_ls.setup({
         -- null_ls.builtins.code_actions.refactoring,
 
         -- diagnostics
-        null_ls.builtins.diagnostics.editorconfig_checker,
+        null_ls.builtins.diagnostics.editorconfig_checker.with({
+            command = 'editorconfig-checker',
+        }),
         null_ls.builtins.diagnostics.fish,
         null_ls.builtins.diagnostics.mypy.with({
             extra_args = function(_)
