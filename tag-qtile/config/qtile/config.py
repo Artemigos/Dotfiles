@@ -70,9 +70,9 @@ def emulate_hotkey(qtile, hotkey: str):
             commands.appendleft('keydown ' + key)
             commands.append('keyup ' + key)
         commands.appendleft('xte')
-        utils.run_cmd(commands)
+        run_cmd(commands)
     else:
-        utils.run_cmd(['xte', 'key ' + keys[0]])
+        run_cmd(['xte', 'key ' + keys[0]])
 
 keys = [
     # Switch between windows

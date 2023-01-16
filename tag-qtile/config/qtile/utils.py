@@ -10,7 +10,7 @@ def dbg_log(msg):
         f.write(msg)
         f.write('\n')
 
-def run_cmd(cmd, timeout=5):
+def run_cmd(cmd, timeout=5) -> str | None:
     try:
         prc = subprocess.run(cmd, stdout=subprocess.PIPE, stderr=subprocess.DEVNULL, timeout=timeout)
     except TimeoutError:
