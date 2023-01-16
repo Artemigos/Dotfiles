@@ -76,7 +76,14 @@ require('lualine').setup {
         lualine_y = {},
         lualine_z = {}
     },
-    tabline = {},
+    tabline = {
+        lualine_a = {{'tabs'}},
+        lualine_b = {},
+        lualine_c = {},
+        lualine_x = {},
+        lualine_y = {},
+        lualine_z = {}
+    },
     winbar = {
         lualine_a = { { 'buffers', symbols = { alternate_file = '' } } },
         lualine_b = {},
@@ -100,3 +107,5 @@ require('lualine').setup {
         window_title_extenstion('Tasks', { 'OverseerList' }),
     },
 }
+
+vim.opt.showtabline = 1
