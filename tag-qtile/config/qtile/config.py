@@ -129,16 +129,16 @@ keys = [
     k('M-C-<space>', 'rofi -modi window -show window', 'Select a window'),
 
     # Menus
-    k('M-<slash>', 'system-menu show', 'Show system menu'),
-    k('M-<BackSpace>', 'powerctl show', 'Show power management menu'),
+    k('M-<slash>', 'd system show', 'Show system menu'),
+    k('M-<BackSpace>', 'd power show', 'Show power management menu'),
 
     # Audio controls
     k('<XF86AudioPrev>', 'sp prev', 'Previous song'),
     k('<XF86AudioNext>', 'sp next', 'Next song'),
     k('<XF86AudioPlay>', 'sp play', 'Play/pause'),
     k('<XF86AudioStop>', 'sp pause', 'Stop music'),
-    k('<XF86AudioLowerVolume>', 'audioctl decrease-volume', 'Increase volume'),
-    k('<XF86AudioRaiseVolume>', 'audioctl increase-volume', 'Decrease volume'),
+    k('<XF86AudioLowerVolume>', 'd audio decrease-volume', 'Increase volume'),
+    k('<XF86AudioRaiseVolume>', 'd audio increase-volume', 'Decrease volume'),
 
     # Utilities
     k('<Print>', 'scrotclip', 'Take a screenshot'),
@@ -146,7 +146,7 @@ keys = [
         'M-<grave>',
         lazy.group['scratchpad'].dropdown_toggle('term'),
         'Show terminal dropdown'),
-    k('M-S-<BackSpace>', 'powerctl lock', 'Lock the session'),
+    k('M-S-<BackSpace>', 'd power lock', 'Lock the session'),
     k('M-b', 'bwmenu', 'Run Bitwarden menu'),
     k('M-d', 'man_pdf', 'Select a manpage and show it as PDF.'),
     k('M-A-t', tickle_window, 'Tickles a window to help resize things.'),

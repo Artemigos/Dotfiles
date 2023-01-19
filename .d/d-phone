@@ -1,13 +1,15 @@
 #!/bin/bash
 
+set -euo pipefail
+
 main() {
     case ${1:-} in
         # menu options
-        connect) scrcpy -d ;;
-        connect-screen-off) scrcpy -dwS ;;
+        connect) d require scrcpy; scrcpy -d ;;
+        connect-screen-off) d require scrcpy; scrcpy -dwS ;;
         # menu handling
         list-x-options) listXOptions ;;
-        show) listXOptions | rofimenu ;;
+        show) listXOptions | d menu ;;
         *) exit 1 ;;
     esac
 }
@@ -19,11 +21,11 @@ listXOptions () {
     "commands": [
         {
             "description": "Connect",
-            "command": "phonectl connect"
+            "command": "d phone connect"
         },
         {
             "description": "Connect (screen off, no sleep)",
-            "command": "phonectl connect-screen-off"
+            "command": "d phone connect-screen-off"
         }
     ]
 }
@@ -31,4 +33,3 @@ EOF
 }
 
 main "$@"
-

@@ -15,7 +15,7 @@ def format_song(status, artist, song):
     return 'ﱘ'
 
 def open_menu():
-    run_cmd(['system-menu', 'show'])
+    run_cmd(['d', 'system', 'show'])
 
 widget_defaults = dict(
     font='Iosevka',
@@ -66,9 +66,9 @@ screens = [
                 VolumeOverride(
                     step=5,
                     fmt='墳 {}',
-                    get_volume_command=['audioctl', 'get-volume'],
-                    volume_down_command='audioctl decrease-volume',
-                    volume_up_command='audioctl increase-volume',
+                    get_volume_command=['d', 'audio', 'get-volume'],
+                    volume_down_command='d audio decrease-volume',
+                    volume_up_command='d audio increase-volume',
                 ),
                 widget.Sep(),
                 widget.Clock(format=' %H:%M'),

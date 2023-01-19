@@ -225,7 +225,7 @@ format-background = ${color.bg1}
 format-foreground = ${color.fg1}
 format-padding = 2
 tail = true
-click-left = packagectl show
+click-left = d packages show
 
 [module/volume]
 type = internal/pulseaudio

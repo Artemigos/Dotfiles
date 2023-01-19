@@ -2,7 +2,7 @@
 
 BAR_ICON=""
 
-get_total_updates() { UPDATES=$(packagectl upgradable-number 2> /dev/null); }
+get_total_updates() { UPDATES=$(d packages upgradable-number 2> /dev/null); }
 
 while true; do
     get_total_updates

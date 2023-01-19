@@ -12,9 +12,9 @@ d-require() {
         err "No command given"
     fi
 
-    RESULT=0
+    local RESULT=0
     while [ -n "${1:-}" ]; do
-        CMD=$1
+        local CMD=$1
         if [ ! -x "$CMD" ] && [ ! -x "$(which "$CMD" 2>/dev/null)" ]; then
             if type -t notify-send >/dev/null; then
                 notify-send --urgency critical "Command missing" "$CMD"
@@ -25,6 +25,29 @@ d-require() {
     done
 
     return $RESULT
+}
+
+d-require-one() {
+    if [[ $# -lt 1 ]]; then
+        err "No command given"
+    fi
+
+    local COMMANDS=$*
+
+    while [ -n "${1:-}" ]; do
+        local CMD=$1
+        if [ -x "$CMD" ] || [ -x "$(which "$CMD" 2>/dev/null)" ]; then
+            echo "$CMD"
+            return 0
+        fi
+        shift
+    done
+
+    if type -t notify-send >/dev/null; then
+        notify-send --urgency critical "One of commands required" "$COMMANDS"
+    fi
+
+    return 1
 }
 
 # print the dotfiles directory

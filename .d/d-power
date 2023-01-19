@@ -1,0 +1,48 @@
+#!/bin/bash
+
+set -euo pipefail
+
+main () {
+    case ${1:-} in
+        shutdown) d require shutdown; shutdown now ;;
+        reboot) d require reboot; reboot ;;
+        sleep) d require systemctl; systemctl suspend ;;
+        lock) d require light-locker-command; light-locker-command -l ;;
+        logout) d require qtile; qtile cmd-obj -o cmd -f shutdown ;;
+        list-x-options) listXOptions ;;
+        show) listXOptions | d menu ;;
+        *) exit 1 ;;
+    esac
+}
+
+listXOptions () {
+    cat <<EOF
+{
+    "prompt": "option",
+    "commands": [
+        {
+            "description": "Shutdown",
+            "command": "d power shutdown"
+        },
+        {
+            "description": "Reboot",
+            "command": "d power reboot"
+        },
+        {
+            "description": "Sleep",
+            "command": "d power sleep"
+        },
+        {
+            "description": "Lock",
+            "command": "d power lock"
+        },
+        {
+            "description": "Logout",
+            "command": "d power logout"
+        }
+    ]
+}
+EOF
+}
+
+main "$@"

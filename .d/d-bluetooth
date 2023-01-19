@@ -1,5 +1,7 @@
 #!/bin/bash
 
+set -euo pipefail
+
 main() {
     case ${1:-} in
         # menu options
@@ -17,54 +19,65 @@ main() {
         select-paired-device) selectPairedDevice ;;
         # menu handling
         list-x-options) listXOptions ;;
-        show) listXOptions | rofimenu ;;
+        show) listXOptions | d menu ;;
         *) exit 1 ;;
     esac
 }
 
 xConnect () {
+    d require bluetoothctl
     device=$(selectDevice) && bluetoothctl connect "$device"
 }
 
 xConnectPaired () {
+    d require bluetoothctl
     device=$(selectPairedDevice) && bluetoothctl connect "$device"
 }
 
 enableScan () {
+    d require bluetoothctl
     bluetoothctl scan on
 }
 
 xPair () {
+    d require bluetoothctl
     device=$(selectDevice) && bluetoothctl pair "$device"
 }
 
 xTrust () {
+    d require bluetoothctl
     device=$(selectDevice) && bluetoothctl trust "$device"
 }
 
 xSetControllerPower () {
+    d require bluetoothctl rofi
     option=$(echo -e "on\noff" | rofi -dmenu -p "option") && bluetoothctl power "$option"
 }
 
 xDisconnect () {
+    d require bluetoothctl
     device=$(selectDevice) && bluetoothctl disconnect "$device"
 }
 
 xUnpair () {
+    d require bluetoothctl
     device=$(selectDevice) && bluetoothctl cancel-pairing "$device"
 }
 
 xUntrust () {
+    d require bluetoothctl
     device=$(selectDevice) && bluetoothctl untrust "$device"
 }
 
 selectPairedDevice () {
-    selectDevice "$(bluetoothctl paired-devices)"
+    d require bluetoothctl
+    selectDevice "$(bluetoothctl devices Paired)"
 }
 
 selectDevice () {
+    d require bluetoothctl rofi cut
     devices=${1:-$(bluetoothctl devices)}
-    device=$(echo "$devices" | rofi -dmenu -p 'select device') && echo $device | cut -d' ' -f2
+    device=$(echo "$devices" | rofi -dmenu -p 'select device') && echo "$device" | cut -d' ' -f2
 }
 
 listXOptions () {
@@ -74,39 +87,39 @@ listXOptions () {
     "commands": [
         {
             "description": "Connect to a device",
-            "command": "btctl x-connect"
+            "command": "d bluetooth x-connect"
         },
         {
             "description": "Connect to a paired device",
-            "command": "btctl x-connect-paired"
+            "command": "d bluetooth x-connect-paired"
         },
         {
             "description": "Enable scanning",
-            "command": "btctl enable-scan"
+            "command": "d bluetooth enable-scan"
         },
         {
             "description": "Pair device",
-            "command": "btctl x-pair"
+            "command": "d bluetooth x-pair"
         },
         {
             "description": "Trust device",
-            "command": "btctl x-trust"
+            "command": "d bluetooth x-trust"
         },
         {
             "description": "Set controller power",
-            "command": "btctl x-set-controller-power"
+            "command": "d bluetooth x-set-controller-power"
         },
         {
             "description": "Disconnect from a device",
-            "command": "btctl x-disconnect"
+            "command": "d bluetooth x-disconnect"
         },
         {
             "description": "Unpair device",
-            "command": "btctl x-unpair"
+            "command": "d bluetooth x-unpair"
         },
         {
             "description": "Untrust device",
-            "command": "btctl x-untrust"
+            "command": "d bluetooth x-untrust"
         }
     ]
 }
@@ -114,4 +127,3 @@ EOF
 }
 
 main "$@"
-

@@ -1,0 +1,80 @@
+#!/bin/bash
+
+set -euo pipefail
+
+main () {
+    case ${1:-} in
+        list-sinks) listSinks ;;
+        x-set-default-sink) xSetDefaultSink ;;
+        get-volume) CMD=$(d require-one wpctl amixer) && "getVolume-$CMD" ;;
+        increase-volume) shift; CMD=$(d require-one wpctl amixer) && "increaseVolume-$CMD" "$@" ;;
+        decrease-volume) shift; CMD=$(d require-one wpctl amixer) && "decreaseVolume-$CMD" "$@" ;;
+        list-x-options) listXOptions ;;
+        show) listXOptions | d menu ;;
+        *) exit 1 ;;
+    esac
+}
+
+listSinks () {
+    d require pactl awk
+    pactl list short sinks | awk '{print $2}'
+}
+
+getVolume-wpctl () {
+    d require wpctl cut
+    wpctl get-volume @DEFAULT_AUDIO_SINK@ | cut -c 11-
+}
+
+getVolume-amixer () {
+    d require amixer sed head
+    amixer sget Master | sed -E 's/.*\[([0-9]{0,3})%\].*/\1/p;d' | head -n 1
+}
+
+increaseVolume-wpctl () {
+    d require wpctl printf
+    wpctl set-volume @DEFAULT_AUDIO_SINK@ "0.$(printf "%02d" "${1:-5}")+"
+}
+
+increaseVolume-amixer () {
+    d require amixer
+    amixer sset Master "${1:-5}%+"
+}
+
+decreaseVolume-wpctl () {
+    d require wpctl printf
+    wpctl set-volume @DEFAULT_AUDIO_SINK@ "0.$(printf "%02d" "${1:-5}")-"
+}
+
+decreaseVolume-amixer () {
+    d require amixer
+    amixer sset Master "${1:-5}%-"
+}
+
+xSetDefaultSink () {
+    d require rofi pactl
+    sink=$(listSinks | rofi -dmenu -p 'select sink') && pactl set-default-sink "$sink"
+}
+
+listXOptions () {
+    cat <<EOF
+{
+    "prompt": "option",
+    "commands": [
+        {
+            "description": "Set default sink",
+            "command": "d audio x-set-default-sink"
+        },
+        {
+            "description": "Increase volume",
+            "command": "d audio increase-volume"
+        },
+        {
+            "description": "Decrease volume",
+            "command": "d audio decrease-volume"
+        }
+    ]
+}
+EOF
+}
+
+main "$@"

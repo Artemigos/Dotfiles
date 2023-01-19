@@ -41,11 +41,11 @@ super + shift + Return
 
 # main UI menu
 super + slash
-	system-menu show
+	d system show
 
 # power options
 super + BackSpace
-	powerctl show
+	d power show
 
 # lock screen
 super + shift + BackSpace

@@ -1,0 +1,116 @@
+#!/bin/bash
+
+set -euo pipefail
+
+main () {
+    case ${1:-} in
+        update|upgrade|upgradable-number|x-update|x-upgrade)
+            "$1" ;;
+        list-x-options) listXOptions ;;
+        show) listXOptions | d menu ;;
+        *) exit 1 ;;
+    esac
+}
+
+upgradable-number-arch () {
+    d require pacman
+    pacman -Sup | wc -l
+}
+
+upgradable-number-ubuntu () {
+    d require apt
+    apt list --upgradable | tail -n +2 2> /dev/null | wc -l
+}
+
+upgradable-number () {
+    if d system os ubuntu; then
+        upgradable-number-ubuntu
+    elif d system os arch; then
+        upgradable-number-arch
+    else
+        echo "Unrecognized OS"
+        exit 1
+    fi
+}
+
+update-ubuntu () {
+    d require apt
+    sudo apt update
+    echo '---'
+    echo Operation finished.
+    read -r
+}
+
+update-arch () {
+    d require pacman
+    sudo pacman -Sy
+    echo '---'
+    echo Operation finished.
+    read -r
+}
+
+update () {
+    if d system os ubuntu; then
+        update-ubuntu
+    elif d system os arch; then
+        update-arch
+    else
+        echo "Unrecognized OS"
+        exit 1
+    fi
+}
+
+x-update() {
+    "$TERMINAL" -e d packages update
+}
+
+upgrade-arch () {
+    d require pacman
+    sudo pacman -Syu
+    echo '---'
+    echo Operation finished.
+    read -r
+}
+
+upgrade-ubuntu () {
+    d require apt
+    sudo apt upgrade
+    echo '---'
+    echo Operation finished.
+    read -r
+}
+
+upgrade () {
+    if d system os ubuntu; then
+        upgrade-ubuntu
+    elif d system os arch; then
+        upgrade-arch
+    else
+        echo "Unrecognized OS"
+        exit 1
+    fi
+}
+
+x-upgrade () {
+    "$TERMINAL" -e d packages upgrade
+}
+
+listXOptions () {
+    cat <<EOF
+{
+    "prompt": "option",
+    "commands": [
+        {
+            "description": "Update list",
+            "command": "d packages x-update"
+        },
+        {
+            "description": "Upgrade",
+            "command": "d packages x-upgrade"
+        }
+    ]
+}
+EOF
+}
+
+main "$@"

@@ -1,0 +1,77 @@
+#!/bin/bash
+
+main () {
+    case ${1:-} in
+        os) shift; os "$@" ;;
+        list-x-options) listXOptions ;;
+        show) listXOptions | d menu ;;
+        *) exit 1 ;;
+    esac
+}
+
+# get distro info
+getField () {
+    d require grep cut
+    grep "^$1=" /etc/*-release | cut -d= -f2
+}
+
+os () {
+    local query=$1
+    local ID
+    local VERSION_ID
+
+    ID=$(getField ID)
+    VERSION_ID=$(getField VERSION_ID)
+
+    # construct tag array
+    local tags[0]=$ID
+    [[ -z "$VERSION_ID" ]] || tags[1]="${ID}_$VERSION_ID"
+
+    if [[ -z "$query" ]]; then
+        # output all tags
+        for item in "${tags[@]}"
+        do
+            echo "$item"
+        done
+    else
+        # check if tag is present
+        for item in "${tags[@]}"
+        do
+            [[ "$item" == "$query" ]] && exit 0
+        done
+        exit 1
+    fi
+
+}
+
+listXOptions () {
+    cat <<EOF
+{
+    "prompt": "section",
+    "commands": [
+        {
+            "description": "Audio",
+            "command": "d audio show"
+        },
+        {
+            "description": "Bluetooth",
+            "command": "d bluetooth show"
+        },
+        {
+            "description": "Packages",
+            "command": "d packages show"
+        },
+        {
+            "description": "Phone",
+            "command": "d phone show"
+        },
+        {
+            "description": "Power",
+            "command": "d power show"
+        }
+    ]
+}
+EOF
+}
+
+main "$@"
