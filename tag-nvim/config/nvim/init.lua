@@ -185,6 +185,7 @@ vim.api.nvim_create_autocmd('BufWritePost', {
 
 -- include other config files
 require('user.keybindings')
+require('user.treesitter')
 require('user.cmp')
 require('user.lsp')
 require('user.debugging')

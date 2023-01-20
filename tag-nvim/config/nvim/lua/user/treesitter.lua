@@ -11,7 +11,7 @@ require('user.utils').which_key_leader({
 })
 
 require 'nvim-treesitter.configs'.setup {
-    ensure_installed = { 'help', 'lua', 'python', 'rust', 'typescript' },
+    ensure_installed = { 'help', 'lua', 'python', 'rust', 'typescript', 'query', 'comment' },
     highlight = { enable = true },
     incremental_selection = {
         enable = true,
