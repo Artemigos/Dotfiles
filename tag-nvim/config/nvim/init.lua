@@ -139,6 +139,11 @@ require('packer').startup(function(use)
     use { 'theHamsta/nvim-dap-virtual-text', requires = { 'mfussenegger/nvim-dap', 'nvim-treesitter/nvim-treesitter' } }
     use 'jbyuki/one-small-step-for-vimkind'
 
+    -- markdown editing
+    use { 'mickael-menu/zk-nvim', config = function() require('zk').setup({
+        picker = 'telescope',
+    }) end }
+
     -- misc
     use {
         'tpope/vim-fugitive',
