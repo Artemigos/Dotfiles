@@ -1,4 +1,4 @@
-EXCLUDES="LICENSE README.md required_software.txt verify_software"
+EXCLUDES="LICENSE Makefile README.md required_software.txt verify_software"
 SYMLINK_DIRS="bash-git-prompt vim/bundle/*"
 TAGS="bash qtile alacritty nvim"
 
