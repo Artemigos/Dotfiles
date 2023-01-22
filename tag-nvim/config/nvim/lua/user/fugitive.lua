@@ -51,3 +51,12 @@ nmap('<Leader>gf', ':Git fetch -p<CR>')
 vim.keymap.set('n', '<Leader>gg', toggle_fugitive, {desc = 'Toggle git window'})
 vim.keymap.set('n', '<Leader>gn', create_new_branch, {desc = 'New branch'})
 vim.keymap.set('n', '<Leader>gP', publish_branch, {desc = 'Publish (push+set upstream)'})
+
+vim.api.nvim_create_autocmd('WinLeave', {
+    pattern = '*',
+    callback = function()
+        if vim.o.filetype == 'fugitive' then
+            vim.api.nvim_win_close(0, false)
+        end
+    end,
+})

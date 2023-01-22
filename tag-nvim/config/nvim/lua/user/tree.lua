@@ -8,3 +8,8 @@ require('nvim-tree').setup {
 }
 
 u.nmap('<Leader>e', ':NvimTreeToggle<CR>')
+
+vim.api.nvim_create_autocmd('WinLeave', {
+    pattern = 'NvimTree_1',
+    command = 'close',
+})
