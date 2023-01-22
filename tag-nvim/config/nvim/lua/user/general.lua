@@ -90,3 +90,13 @@ vim.api.nvim_create_autocmd({ 'TermOpen' }, {
         vim.opt_local.signcolumn = 'no'
     end,
 })
+
+-- close some windows on <Esc>
+vim.api.nvim_create_autocmd('BufEnter', {
+    pattern = '*',
+    callback = function()
+        if vim.o.filetype == 'fugitive' or vim.o.filetype == 'NvimTree' then
+            vim.keymap.set('n', '<Esc>', ':close<CR>', { silent = true, buffer = true, desc = 'Close window' })
+        end
+    end,
+})
