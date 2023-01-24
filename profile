@@ -25,10 +25,8 @@ fi
 
 source_if_file "$HOME/.bw_credentials"
 
-add_dir_to_path "$HOME/bin"
 add_dir_to_path "$HOME/.local/bin"
 add_dir_to_path "$HOME/.cargo/bin"
-add_dir_to_path "$HOME/.bin"
 add_dir_to_path "$HOME/.emacs.d/bin"
 add_dir_to_path "$HOME/.dotnet/tools"
 export PATH
