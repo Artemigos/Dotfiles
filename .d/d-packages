@@ -4,7 +4,7 @@ set -euo pipefail
 
 main () {
     case ${1:-} in
-        update|upgrade|upgradable-number|x-update|x-upgrade)
+        update|upgrade|upgradable-number|remove-orphans|x-update|x-upgrade|x-remove-orphans)
             "$1" ;;
         list-x-options) listXOptions ;;
         show) listXOptions | d menu ;;
@@ -91,6 +91,43 @@ x-upgrade () {
     "$TERMINAL" --hold -e d packages upgrade
 }
 
+remove-orphans-arch () {
+    d require pacman sudo
+
+    local ORPHANS
+    ORPHANS=$(pacman -Qdtq || true) 
+    if [ -z "$ORPHANS" ]; then
+        echo There are no orphaned packages.
+    else
+        echo "2"
+        echo -n "$ORPHANS" | sudo pacman -Rns -
+        echo '---'
+        echo Operation finished.
+    fi
+}
+
+remove-orphans-ubuntu () {
+    d require apt
+    echo '---'
+    echo TODO
+    exit 1
+}
+
+remove-orphans () {
+    if d system os ubuntu; then
+        remove-orphans-ubuntu
+    elif d system os arch; then
+        remove-orphans-arch
+    else
+        echo "Unrecognized OS"
+        exit 1
+    fi
+}
+
+x-remove-orphans() {
+    "$TERMINAL" --hold -e d packages remove-orphans
+}
+
 listXOptions () {
     cat <<EOF
 {
@@ -103,6 +140,10 @@ listXOptions () {
         {
             "description": "Upgrade",
             "command": "d packages x-upgrade"
+        },
+        {
+            "description": "Remove orphaned packages",
+            "command": "d packages x-remove-orphans"
         }
     ]
 }
