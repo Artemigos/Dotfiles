@@ -2,7 +2,7 @@
 
 d require numlockx ibus-daemon xrdb redshift-gtk light-locker
 
-random_wallpaper
+d tools random-wallpaper
 # picom -b # broken AF
 numlockx on
 ibus-daemon -dxr

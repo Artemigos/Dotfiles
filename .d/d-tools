@@ -1,0 +1,31 @@
+#!/bin/bash
+
+set -euo pipefail
+
+main() {
+    case ${1:-} in
+        man-pdf) man-pdf ;;
+        random-wallpaper) random-wallpaper ;;
+        screenshot) screenshot ;;
+        *) exit 1 ;;
+    esac
+}
+
+man-pdf() {
+    d require fd sort rofi gzip groff zathura
+    CHOICE=$(fd '\.gz$' /usr/share/man | sort | rofi -dmenu) && gzip -dc "$CHOICE" | groff -man -T pdf - | zathura -
+}
+
+random-wallpaper() {
+    d require shuf head ln feh
+    WP=$(ls -1 "$XDG_CONFIG_HOME/wallpapers" --ignore=wallpaper | shuf | head -n 1)
+    ln -sf "$WP" "$XDG_CONFIG_HOME/wallpapers/wallpaper"
+    feh --bg-fill "$XDG_CONFIG_HOME/wallpapers/wallpaper"
+}
+
+screenshot() {
+    d require main xclip
+    maim -s -d 1 | xclip -selection clipboard -t image/png
+}
+
+main "$@"
