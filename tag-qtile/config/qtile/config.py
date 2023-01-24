@@ -31,7 +31,7 @@ todo = f'{terminal} -e nvim {home}/todo.txt'
 
 @hook.subscribe.startup_once
 def autostart():
-    subprocess.call(['autostart.sh'])
+    subprocess.call(['d', 'autostart'])
 
 @hook.subscribe.client_new
 def rules(win: Window):

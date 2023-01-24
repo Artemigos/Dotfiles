@@ -1,5 +1,7 @@
 #!/bin/sh
 
+d require numlockx ibus-daemon xrdb redshift-gtk light-locker
+
 random_wallpaper
 # picom -b # broken AF
 numlockx on
