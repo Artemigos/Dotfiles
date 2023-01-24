@@ -13,12 +13,12 @@ main () {
 }
 
 upgradable-number-arch () {
-    d require pacman
+    d require pacman wc
     pacman -Sup | wc -l
 }
 
 upgradable-number-ubuntu () {
-    d require apt
+    d require apt tail wc
     apt list --upgradable | tail -n +2 2> /dev/null | wc -l
 }
 
@@ -34,19 +34,17 @@ upgradable-number () {
 }
 
 update-ubuntu () {
-    d require apt
+    d require apt sudo
     sudo apt update
     echo '---'
     echo Operation finished.
-    read -r
 }
 
 update-arch () {
-    d require pacman
+    d require pacman sudo
     sudo pacman -Sy
     echo '---'
     echo Operation finished.
-    read -r
 }
 
 update () {
@@ -61,23 +59,21 @@ update () {
 }
 
 x-update() {
-    "$TERMINAL" -e d packages update
+    "$TERMINAL" --hold -e d packages update
 }
 
 upgrade-arch () {
-    d require pacman
+    d require pacman sudo
     sudo pacman -Syu
     echo '---'
     echo Operation finished.
-    read -r
 }
 
 upgrade-ubuntu () {
-    d require apt
+    d require apt sudo
     sudo apt upgrade
     echo '---'
     echo Operation finished.
-    read -r
 }
 
 upgrade () {
@@ -92,7 +88,7 @@ upgrade () {
 }
 
 x-upgrade () {
-    "$TERMINAL" -e d packages upgrade
+    "$TERMINAL" --hold -e d packages upgrade
 }
 
 listXOptions () {
