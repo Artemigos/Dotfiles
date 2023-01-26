@@ -1,0 +1,76 @@
+#!/bin/bash
+
+set -euo pipefail
+
+main () {
+    case ${1:-} in
+        x-connect) x-connect ;;
+        x-disconnect) x-disconnect ;;
+        list-x-options) listXOptions ;;
+        show) listXOptions | d menu ;;
+        *) exit 1 ;;
+    esac
+}
+
+get-connections-json() {
+    d require nmcli sed awk wc
+    CONN=$(nmcli -m multiline con \
+        | sed -r 's/^(.+): +(.+)$/"\1": "\2"/' \
+        | awk '{
+            if (NR % 4 == 1) printf "  {%s, ",$0;
+            else if (NR % 4 == 0) printf "%s}\n",$0;
+            else printf "%s, ",$0
+        }')
+    LN=$(<<<"$CONN" wc -l)
+
+    echo '['
+    <<<"$CONN" awk "{ if (NR == $LN) print; else printf \"%s,\\n\",\$0 }"
+    echo ']'
+}
+
+get-connections-of-type-json() {
+    d require jq
+    TYPE=${1:?Connection type required}
+    get-connections-json | jq "map(select(.TYPE == \"$TYPE\"))"
+}
+
+x-select-type() {
+    d require jq rofi sort
+    TYPE=${1:?Connection type required}
+    VPNS=$(get-connections-of-type-json "$TYPE")
+    NAMES=$(<<<"$VPNS" jq -r '.[].NAME' | sort)
+    CHOICE=$(<<<"$NAMES" rofi -dmenu -p "VPN")
+    <<<"$VPNS" jq -r "map(select(.NAME == \"$CHOICE\"))[0].UUID"
+}
+
+x-connect () {
+    d require nmcli
+    VPN=$(x-select-type vpn)
+    nmcli con up "$VPN"
+}
+
+x-disconnect () {
+    d require nmcli
+    VPN=$(x-select-type vpn)
+    nmcli con down "$VPN"
+}
+
+listXOptions () {
+    cat <<EOF
+{
+    "prompt": "option",
+    "commands": [
+        {
+            "description": "Connect",
+            "command": "d vpn x-connect"
+        },
+        {
+            "description": "Disconnect",
+            "command": "d vpn x-disconnect"
+        }
+    ]
+}
+EOF
+}
+
+main "$@"

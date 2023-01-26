@@ -68,6 +68,10 @@ listXOptions () {
         {
             "description": "Power",
             "command": "d power show"
+        },
+        {
+            "description": "VPN",
+            "command": "d vpn show"
         }
     ]
 }
