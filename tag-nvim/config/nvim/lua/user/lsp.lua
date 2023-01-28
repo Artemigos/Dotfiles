@@ -34,6 +34,14 @@ nmap('<Leader>cX', ':Telescope diagnostics<CR>')
 
 nmap('<Leader>rr', '<cmd>lua vim.lsp.buf.rename()<CR>')
 
+-- diagnostic signs
+vim.cmd [[
+sign define DiagnosticSignError text= texthl=DiagnosticSignError linehl= numhl=
+sign define DiagnosticSignWarn text= texthl=DiagnosticSignWarn linehl= numhl=
+sign define DiagnosticSignInfo text= texthl=DiagnosticSignInfo linehl= numhl=
+sign define DiagnosticSignHint text= texthl=DiagnosticSignHint linehl= numhl=
+]]
+
 -- show diagnostics when cursor is on it
 -- TODO: does not work, figure out how to fix
 -- vim.api.nvim_create_augroup('reference_highlight', { clear = true })
