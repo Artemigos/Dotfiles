@@ -98,3 +98,7 @@ nmap('[d', ':lua vim.diagnostic.goto_prev()<CR>')
 nmap(']d', ':lua vim.diagnostic.goto_next()<CR>')
 nmap('gx', '<cmd>lua vim.diagnostic.open_float()<CR>')
 nmap('<Leader>cx', '<cmd>lua vim.diagnostic.open_float()<CR>')
+
+-- insert symbols
+defcmd('Symbols', 'lua require("user.symbols").choose()<CR>')
+nmap('<Leader>s', '<cmd>Symbols<CR>')
