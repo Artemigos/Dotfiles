@@ -1,5 +1,4 @@
 local u = require('user.utils')
-local nmap = u.nmap
 
 u.which_key_leader({ g = { name = '+git' } })
 
@@ -40,14 +39,14 @@ local function toggle_fugitive()
     end
 end
 
-nmap('<Leader>gi', ':Git commit<CR>')
-nmap('<Leader>gc', ':Telescope git_commits<CR>')
-nmap('<Leader>gp', ':Git push<CR>')
-nmap('<Leader>gl', ':Git pull<CR>')
-nmap('<Leader>gb', ':Telescope git_branches<CR>')
-nmap('<Leader>gs', ':Telescope git_stash<CR>')
-nmap('<Leader>gf', ':Git fetch -p<CR>')
+u.map('n', '<Leader>gi', ':Git commit<CR>')
+u.map('n', '<Leader>gc', ':Telescope git_commits<CR>')
+u.map('n', '<Leader>gp', ':Git push<CR>')
+u.map('n', '<Leader>gl', ':Git pull<CR>')
+u.map('n', '<Leader>gb', ':Telescope git_branches<CR>')
+u.map('n', '<Leader>gs', ':Telescope git_stash<CR>')
+u.map('n', '<Leader>gf', ':Git fetch -p<CR>')
 
-vim.keymap.set('n', '<Leader>gg', toggle_fugitive, {desc = 'Toggle git window'})
-vim.keymap.set('n', '<Leader>gn', create_new_branch, {desc = 'New branch'})
-vim.keymap.set('n', '<Leader>gP', publish_branch, {desc = 'Publish (push+set upstream)'})
+u.map('n', '<Leader>gg', toggle_fugitive, { desc = 'Toggle git window' })
+u.map('n', '<Leader>gn', create_new_branch, { desc = 'New branch' })
+u.map('n', '<Leader>gP', publish_branch, { desc = 'Publish (push+set upstream)' })

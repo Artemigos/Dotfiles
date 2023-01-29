@@ -1,3 +1,4 @@
+local u = require('user.utils')
 require('overseer').setup({
     task_editor = {
         bindings = {
@@ -8,5 +9,5 @@ require('overseer').setup({
     },
 })
 
-vim.keymap.set('n', '<leader>x<space>', '<cmd>OverseerToggle<CR>', { silent = true })
-vim.keymap.set('n', '<leader>xx', '<cmd>OverseerRun<CR>', { silent = true })
+u.map('n', '<leader>x<space>', '<cmd>OverseerToggle<CR>')
+u.map('n', '<leader>xx', '<cmd>OverseerRun<CR>')

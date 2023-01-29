@@ -13,4 +13,4 @@ require('nvim-tree').setup {
     },
 }
 
-u.nmap('<Leader>e', ':NvimTreeToggle<CR>')
+u.map('n', '<Leader>e', ':NvimTreeToggle<CR>', { desc = 'Toggle file tree' })

@@ -1,3 +1,4 @@
+local u = require('user.utils')
 local null_ls = require('null-ls')
 local formatter_factory = require('null-ls.helpers').formatter_factory
 
@@ -27,7 +28,7 @@ null_ls.setup({
                 return {
                     -- get around venv problems by using the current venv neovim is in
                     '--python-executable',
-                    vim.trim(require('user.utils').exec_cmd('which python')),
+                    vim.trim(u.exec_cmd('which python')),
                 }
             end,
         }),
@@ -55,8 +56,7 @@ require('mason-null-ls').setup({
     automatic_setup = false,
 })
 
-local u = require('user.utils')
-u.nmap('gF', '<cmd>Format<CR>')
-u.nmap('<leader>cF', '<cmd>Format<CR>')
+u.map('n', 'gF', '<cmd>Format<CR>')
+u.map('n', '<leader>cF', '<cmd>Format<CR>')
 
 -- TODO: verify what's needed, languages: Lua, TS, Rust, Markdown

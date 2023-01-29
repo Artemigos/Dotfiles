@@ -1,20 +1,17 @@
 local u = require('user.utils')
-local nmap = u.nmap
-local imap = u.imap
-local vmap = u.vmap
 
 -- keybindings
-nmap('gd', '<cmd>lua vim.lsp.buf.definition()<CR>')
-nmap('gD', '<cmd>lua vim.lsp.buf.implementation()<CR>')
-nmap('gr', '<cmd>lua vim.lsp.buf.references()<CR>')
-nmap('g<Space>', '<cmd>lua vim.lsp.buf.hover()<CR>')
-nmap('ga', '<cmd>lua vim.lsp.buf.code_action()<CR>')
-vmap('ga', ':<C-U>lua vim.lsp.buf.range_code_action()<CR>')
-nmap('gt', '<cmd>lua vim.lsp.buf.type_definition()<CR>')
-imap('<C-Space>', '<cmd>lua vim.lsp.buf.signature_help()<CR>')
-nmap('<C-Space>', '<cmd>lua vim.lsp.buf.signature_help()<CR>')
-nmap('gT', ':Telescope lsp_dynamic_workspace_symbols<CR>')
-nmap('gX', ':Telescope diagnostics<CR>')
+u.map('n', 'gd', '<cmd>lua vim.lsp.buf.definition()<CR>')
+u.map('n', 'gD', '<cmd>lua vim.lsp.buf.implementation()<CR>')
+u.map('n', 'gr', '<cmd>lua vim.lsp.buf.references()<CR>')
+u.map('n', 'g<Space>', '<cmd>lua vim.lsp.buf.hover()<CR>')
+u.map('n', 'ga', '<cmd>lua vim.lsp.buf.code_action()<CR>')
+u.map('v', 'ga', ':<C-U>lua vim.lsp.buf.range_code_action()<CR>')
+u.map('n', 'gt', '<cmd>lua vim.lsp.buf.type_definition()<CR>')
+u.map('i', '<C-Space>', '<cmd>lua vim.lsp.buf.signature_help()<CR>')
+u.map('n', '<C-Space>', '<cmd>lua vim.lsp.buf.signature_help()<CR>')
+u.map('n', 'gT', ':Telescope lsp_dynamic_workspace_symbols<CR>')
+u.map('n', 'gX', ':Telescope diagnostics<CR>')
 
 -- leader keybindings
 u.which_key_leader({
@@ -22,17 +19,17 @@ u.which_key_leader({
     r = { name = '+refactor' }
 })
 
-nmap('<Leader>cd', '<cmd>lua vim.lsp.buf.definition()<CR>')
-nmap('<Leader>cD', '<cmd>lua vim.lsp.buf.implementation()<CR>')
-nmap('<Leader>cr', '<cmd>lua vim.lsp.buf.references()<CR>')
-nmap('<Leader>c<Space>', '<cmd>lua vim.lsp.buf.hover()<CR>')
-nmap('<Leader>ca', '<cmd>lua vim.lsp.buf.code_action()<CR>')
-vmap('<Leader>ca', ':<C-U>lua vim.lsp.buf.range_code_action()<CR>')
-nmap('<Leader>ct', '<cmd>lua vim.lsp.buf.type_definition()<CR>')
-nmap('<Leader>cT', ':Telescope lsp_dynamic_workspace_symbols<CR>')
-nmap('<Leader>cX', ':Telescope diagnostics<CR>')
+u.map('n', '<Leader>cd', '<cmd>lua vim.lsp.buf.definition()<CR>')
+u.map('n', '<Leader>cD', '<cmd>lua vim.lsp.buf.implementation()<CR>')
+u.map('n', '<Leader>cr', '<cmd>lua vim.lsp.buf.references()<CR>')
+u.map('n', '<Leader>c<Space>', '<cmd>lua vim.lsp.buf.hover()<CR>')
+u.map('n', '<Leader>ca', '<cmd>lua vim.lsp.buf.code_action()<CR>')
+u.map('v', '<Leader>ca', ':<C-U>lua vim.lsp.buf.range_code_action()<CR>')
+u.map('n', '<Leader>ct', '<cmd>lua vim.lsp.buf.type_definition()<CR>')
+u.map('n', '<Leader>cT', ':Telescope lsp_dynamic_workspace_symbols<CR>')
+u.map('n', '<Leader>cX', ':Telescope diagnostics<CR>')
 
-nmap('<Leader>rr', '<cmd>lua vim.lsp.buf.rename()<CR>')
+u.map('n', '<Leader>rr', '<cmd>lua vim.lsp.buf.rename()<CR>')
 
 -- diagnostic signs
 vim.cmd [[

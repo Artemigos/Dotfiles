@@ -96,7 +96,7 @@ vim.api.nvim_create_autocmd('BufEnter', {
     pattern = '*',
     callback = function()
         if vim.o.filetype == 'fugitive' or vim.o.filetype == 'NvimTree' then
-            vim.keymap.set('n', '<Esc>', ':close<CR>', { silent = true, buffer = true, desc = 'Close window' })
+            u.map('n', '<Esc>', ':close<CR>', { buffer = true, desc = 'Close window' })
         end
     end,
 })
