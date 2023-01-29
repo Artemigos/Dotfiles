@@ -50,11 +50,9 @@ screens = [
                     urgent_alert_method='text',
                     urgent_text='ff5555',
                 ),
-                widget.Sep(),
-                widget.Prompt(),
-                widget.WindowName(),
+                widget.Spacer(),
                 SimpleMpris2(display_formatter=format_song),
-                widget.Sep(),
+                widget.Spacer(),
                 widget.CheckUpdates(
                     distro='Arch_checkupdates',
                     fmt=' {}',
