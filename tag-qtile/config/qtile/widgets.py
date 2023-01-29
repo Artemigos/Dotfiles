@@ -1,4 +1,4 @@
-from libqtile import bar, widget
+from libqtile import bar, widget, qtile
 from libqtile.config import Screen
 
 from simple_mpris2 import SimpleMpris2, PlaybackStatus
@@ -33,6 +33,37 @@ class VolumeOverride(widget.Volume):
         except:
             return -1
 
+def mpris_left():
+    assert mpris is not None
+    status = mpris.info()['status']
+    if status is not None:
+        run_cmd(['sp', 'play'])
+    else:
+        qtile.spawn('spotify') # TODO: get it from a common place
+
+def mpris_right():
+    assert mpris is not None
+    status = mpris.info()['status']
+    if status == PlaybackStatus.Playing or status == PlaybackStatus.Paused:
+        run_cmd(['sp', 'next'])
+
+def mpris_middle():
+    assert mpris is not None
+    status = mpris.info()['status']
+    if status is not None:
+        for w in qtile.windows_map.values():
+            if w.name == 'Spotify':
+                w.kill()
+                break
+
+mpris = SimpleMpris2(
+        display_formatter=format_song,
+        mouse_callbacks={
+            'Button1': mpris_left,
+            'Button2': mpris_middle,
+            'Button3': mpris_right,
+        })
+
 screens = [
     Screen(
         top=bar.Bar(
@@ -51,7 +82,7 @@ screens = [
                     urgent_text='ff5555',
                 ),
                 widget.Spacer(),
-                SimpleMpris2(display_formatter=format_song),
+                mpris,
                 widget.Spacer(),
                 widget.CheckUpdates(
                     distro='Arch_checkupdates',
