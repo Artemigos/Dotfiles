@@ -15,12 +15,17 @@ function M.defcmd(lhs, rhs, opts)
     vim.api.nvim_create_user_command(lhs, rhs, opts)
 end
 
-function M.exec_cmd(cmd)
+function M.try_exec(cmd)
     local output = vim.fn.system(cmd)
-    if vim.v.shell_error == 0 then
+    return vim.v.shell_error, output
+end
+
+function M.exec(cmd)
+    local code, output = M.try_exec(cmd)
+    if code == 0 then
         return output
     end
-    return nil
+    error('Command "' .. cmd .. '" exited with code ' .. code)
 end
 
 function M.select_file_and_run(filter, handler)

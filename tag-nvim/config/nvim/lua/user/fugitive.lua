@@ -19,7 +19,7 @@ local function create_new_branch()
 end
 
 local function publish_branch()
-    local branch = u.exec_cmd('git branch --show-current')
+    local branch = u.exec('git branch --show-current')
     if branch == nil then
         vim.notify('Not in git repo?', vim.log.levels.ERROR)
         return

@@ -28,7 +28,7 @@ null_ls.setup({
                 return {
                     -- get around venv problems by using the current venv neovim is in
                     '--python-executable',
-                    vim.trim(u.exec_cmd('which python')),
+                    vim.trim(u.exec('which python')),
                 }
             end,
         }),
