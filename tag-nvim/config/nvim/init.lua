@@ -183,6 +183,14 @@ vim.api.nvim_create_autocmd('BufWritePost', {
     pattern = { vim.fn.expand '$MYVIMRC', vim.trim(vim.fn.system 'realpath "$MYVIMRC"') },
 })
 
+-- automatically format rust code
+local format_group = vim.api.nvim_create_augroup('Rust', { clear = true })
+vim.api.nvim_create_autocmd('BufWritePre', {
+    command = 'Format',
+    group = format_group,
+    pattern = '*.rs',
+})
+
 -- include other config files
 require('user.keybindings')
 require('user.treesitter')
