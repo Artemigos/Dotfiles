@@ -180,7 +180,7 @@ local packer_group = vim.api.nvim_create_augroup('Packer', { clear = true })
 vim.api.nvim_create_autocmd('BufWritePost', {
     command = 'source <afile> | PackerCompile',
     group = packer_group,
-    pattern = { vim.fn.expand '$MYVIMRC', vim.fn.system 'realpath "$MYVIMRC"' },
+    pattern = { vim.fn.expand '$MYVIMRC', vim.trim(vim.fn.system 'realpath "$MYVIMRC"') },
 })
 
 -- include other config files
