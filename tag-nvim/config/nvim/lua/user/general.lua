@@ -92,10 +92,11 @@ vim.api.nvim_create_autocmd({ 'TermOpen' }, {
 })
 
 -- close some windows on <Esc>
+local closable_ft = { 'fugitive', 'NvimTree', 'OverseerList' }
 vim.api.nvim_create_autocmd('BufEnter', {
     pattern = '*',
     callback = function()
-        if vim.o.filetype == 'fugitive' or vim.o.filetype == 'NvimTree' then
+        if vim.tbl_contains(closable_ft, vim.o.filetype) then
             u.map('n', '<Esc>', ':close<CR>', { buffer = true, desc = 'Close window' })
         end
     end,
