@@ -25,10 +25,14 @@ null_ls.setup({
         null_ls.builtins.diagnostics.fish,
         null_ls.builtins.diagnostics.mypy.with({
             extra_args = function(_)
+                local found, python = pcall(u.exec, 'which python3')
+                if not found then
+                    python = u.exec('which python')
+                end
                 return {
                     -- get around venv problems by using the current venv neovim is in
                     '--python-executable',
-                    vim.trim(u.exec('which python')),
+                    vim.trim(python),
                 }
             end,
         }),
