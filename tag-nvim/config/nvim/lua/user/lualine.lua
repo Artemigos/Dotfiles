@@ -33,6 +33,14 @@ local function window_title_extenstion(title, filetypes)
     return opts
 end
 
+local function get_schema()
+    local schema = require("yaml-companion").get_buf_schema(0)
+    if schema.result[1].name == "none" then
+        return ""
+    end
+    return " " .. schema.result[1].name
+end
+
 require('lualine').setup {
     options = {
         icons_enabled = true,
@@ -63,7 +71,7 @@ require('lualine').setup {
     sections = {
         lualine_a = { { 'mode', fmt = format_mode } },
         lualine_b = { 'branch', 'diff', 'diagnostics' },
-        lualine_c = { 'filename' },
+        lualine_c = { 'filename', get_schema },
         lualine_x = { 'encoding', 'fileformat', 'filetype' },
         lualine_y = { 'progress' },
         lualine_z = { 'location' }
