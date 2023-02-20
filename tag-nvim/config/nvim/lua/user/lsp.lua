@@ -63,7 +63,7 @@ local supported_servers = {
     'bashls', -- bash
     'rust_analyzer', -- Rust
     'jsonls', -- JSON
-    'sumneko_lua', -- LUA
+    'lua_ls', -- LUA
     'pyright', -- Python
     'vimls', -- VimL
     'yamlls', -- YAML
@@ -101,7 +101,7 @@ local function make_config(server)
         capabilities = capabilities,
     }
 
-    if server == 'sumneko_lua' then
+    if server == 'lua_ls' then
         local runtime_path = vim.split(package.path, ';')
         table.insert(runtime_path, "lua/?.lua")
         table.insert(runtime_path, "lua/?/init.lua")

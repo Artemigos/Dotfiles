@@ -20,7 +20,7 @@ end
 return {
     check = function()
         health.report_start('LSP servers')
-        check_server('sumneko', check_exec('lua-language-server'), 'on Arch: pacman -S lua-language-server')
+        check_server('luals', check_exec('lua-language-server'), 'on Arch: pacman -S lua-language-server')
         check_server('bashls', check_exec('bash-language-server'), 'npm i -g bash-language-server')
         check_server('jedi', check_exec('jedi-language-server'), 'pip install -U jedi_language_server')
         check_server('vimls', check_exec('vim-language-server'), 'npm i -g vim-language-server')
