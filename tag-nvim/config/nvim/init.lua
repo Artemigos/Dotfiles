@@ -81,6 +81,14 @@ require('packer').startup(function(use)
         end,
     }
     use {
+        'rcarriga/nvim-notify',
+        config = function()
+            local n = require('notify')
+            n.setup({ render = 'compact' })
+            vim.notify = n
+        end,
+    }
+    use {
         'echasnovski/mini.bufremove',
         config = function() require('mini.bufremove').setup({}) end,
     }
