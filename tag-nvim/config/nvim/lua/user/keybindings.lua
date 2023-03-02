@@ -41,8 +41,8 @@ u.map('n', '<S-TAB>', ':bprev<CR>')
 u.map('n', '<Leader>bb', ':Telescope buffers<CR>')
 u.map('n', '<Leader>bn', ':bnext<CR>')
 u.map('n', '<Leader>bp', ':bprev<CR>')
-u.map('n', '<Leader>bd', ':bdelete<CR>')
-u.map('n', '<Leader>bD', ':bdelete!<CR>')
+u.map('n', '<Leader>bd', require('mini.bufremove').delete)
+u.map('n', '<Leader>bD', function() require('mini.bufremove').delete(0, true) end)
 
 u.map('n', '<Leader><Leader>', '<C-^>')
 

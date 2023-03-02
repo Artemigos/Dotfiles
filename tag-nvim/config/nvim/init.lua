@@ -80,6 +80,10 @@ require('packer').startup(function(use)
             })
         end,
     }
+    use {
+        'echasnovski/mini.bufremove',
+        config = function() require('mini.bufremove').setup({}) end,
+    }
 
     -- telescope
     use 'nvim-lua/plenary.nvim'
