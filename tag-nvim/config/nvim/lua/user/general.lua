@@ -101,3 +101,10 @@ vim.api.nvim_create_autocmd('BufEnter', {
         end
     end,
 })
+
+-- mouse menu
+vim.cmd [[
+aunmenu PopUp
+anoremenu PopUp.Help\ I'm\ stuck <cmd>help :q<CR>
+anoremenu PopUp.Quit <cmd>confirm qa<CR>
+]]
