@@ -1,4 +1,0 @@
-rofi.theme: themes/full.rasi
-rofi.fullscreen: true
-rofi.sidebar-mode: true
-#rofi.matching: fuzzy
