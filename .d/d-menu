@@ -32,4 +32,31 @@ d-menu-dmenu() {
     fi
 }
 
+d-menu-command() {
+    local SELECTOR
+    SELECTOR=$(d require-one wofi rofi)
+
+    if [ "$SELECTOR" == "rofi" ]; then
+        rofi -modi run -show run
+    else
+        wofi --show run 2>/dev/null
+    fi
+}
+
+d-menu-app() {
+    local SELECTOR
+    SELECTOR=$(d require-one wofi rofi)
+
+    if [ "$SELECTOR" == "rofi" ]; then
+        rofi -modi drun -show drun -show-icons
+    else
+        wofi --show drun -I 2>/dev/null
+    fi
+}
+
+d-menu-window() {
+    d require rofi # TODO: wofi doesn't support selecting windows, maybe hack something for myself
+    rofi -modi window -show window
+}
+
 forward-cmd d-menu- "$@"

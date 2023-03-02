@@ -123,10 +123,10 @@ keys = [
     k('M-S-<F3>', alt_explorer, 'Launch alternative file explorer'),
 
     # Launchers
-    k('M-<space>', 'rofi -modi run -show run', 'Run a command'),
-    k('M-S-<space>', 'rofi -modi drun -show drun -show-icons', 'Run an app'),
+    k('M-<space>', 'd menu command', 'Run a command'),
+    k('M-S-<space>', 'd menu app', 'Run an app'),
     k('M-A-<space>', 'd dotfiles select', 'Select and edit a dotfile'),
-    k('M-C-<space>', 'rofi -modi window -show window', 'Select a window'),
+    k('M-C-<space>', 'd menu window', 'Select a window'),
 
     # Menus
     k('M-<slash>', 'd system show', 'Show system menu'),
