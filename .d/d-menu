@@ -17,14 +17,19 @@ d-menu-from-json() {
 }
 
 d-menu-dmenu() {
-    d require wofi
+    local SELECTOR
+    SELECTOR=$(d require-one wofi rofi)
 
-    PROMPT_ARGS=()
+    local PROMPT_ARGS=()
     if [ -n "${1:-}" ]; then
         PROMPT_ARGS+=("-p" "$1")
     fi
 
-    rofi -dmenu -i "${PROMPT_ARGS[@]}"
+    if [ "$SELECTOR" == "rofi" ]; then
+        rofi -dmenu -i -p "${PROMPT_ARGS[@]}"
+    else
+        wofi -d -i "${PROMPT_ARGS[@]}" 2>/dev/null
+    fi
 }
 
 forward-cmd d-menu- "$@"
