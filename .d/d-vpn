@@ -7,7 +7,7 @@ main () {
         x-connect) x-connect ;;
         x-disconnect) x-disconnect ;;
         list-x-options) listXOptions ;;
-        show) listXOptions | d menu ;;
+        show) listXOptions | d menu from-json ;;
         *) exit 1 ;;
     esac
 }
@@ -35,11 +35,11 @@ get-connections-of-type-json() {
 }
 
 x-select-type() {
-    d require jq rofi sort
+    d require jq sort
     TYPE=${1:?Connection type required}
     VPNS=$(get-connections-of-type-json "$TYPE")
     NAMES=$(<<<"$VPNS" jq -r '.[].NAME' | sort)
-    CHOICE=$(<<<"$NAMES" rofi -dmenu -p "VPN")
+    CHOICE=$(<<<"$NAMES" d menu dmenu "VPN")
     <<<"$VPNS" jq -r "map(select(.NAME == \"$CHOICE\"))[0].UUID"
 }
 

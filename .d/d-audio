@@ -10,7 +10,7 @@ main () {
         increase-volume) shift; CMD=$(d require-one wpctl amixer) && "increaseVolume-$CMD" "$@" ;;
         decrease-volume) shift; CMD=$(d require-one wpctl amixer) && "decreaseVolume-$CMD" "$@" ;;
         list-x-options) listXOptions ;;
-        show) listXOptions | d menu ;;
+        show) listXOptions | d menu from-json ;;
         *) exit 1 ;;
     esac
 }
@@ -51,8 +51,8 @@ decreaseVolume-amixer () {
 }
 
 xSetDefaultSink () {
-    d require rofi pactl
-    sink=$(listSinks | rofi -dmenu -p 'select sink') && pactl set-default-sink "$sink"
+    d require pactl
+    sink=$(listSinks | d menu dmenu 'select sink') && pactl set-default-sink "$sink"
 }
 
 listXOptions () {

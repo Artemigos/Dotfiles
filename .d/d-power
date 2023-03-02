@@ -10,7 +10,7 @@ main () {
         lock) d require light-locker-command; light-locker-command -l ;;
         logout) d require qtile; qtile cmd-obj -o cmd -f shutdown ;;
         list-x-options) listXOptions ;;
-        show) listXOptions | d menu ;;
+        show) listXOptions | d menu from-json ;;
         *) exit 1 ;;
     esac
 }

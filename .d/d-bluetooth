@@ -19,7 +19,7 @@ main() {
         select-paired-device) selectPairedDevice ;;
         # menu handling
         list-x-options) listXOptions ;;
-        show) listXOptions | d menu ;;
+        show) listXOptions | d menu from-json ;;
         *) exit 1 ;;
     esac
 }
@@ -50,8 +50,8 @@ xTrust () {
 }
 
 xSetControllerPower () {
-    d require bluetoothctl rofi
-    option=$(echo -e "on\noff" | rofi -dmenu -p "option") && bluetoothctl power "$option"
+    d require bluetoothctl
+    option=$(echo -e "on\noff" | d menu dmenu "option") && bluetoothctl power "$option"
 }
 
 xDisconnect () {
@@ -75,9 +75,9 @@ selectPairedDevice () {
 }
 
 selectDevice () {
-    d require bluetoothctl rofi cut
+    d require bluetoothctl cut
     devices=${1:-$(bluetoothctl devices)}
-    device=$(echo "$devices" | rofi -dmenu -p 'select device') && echo "$device" | cut -d' ' -f2
+    device=$(echo "$devices" | d menu dmenu 'select device') && echo "$device" | cut -d' ' -f2
 }
 
 listXOptions () {

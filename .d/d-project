@@ -11,8 +11,7 @@ d-project-list() {
 }
 
 d-project-open() {
-    d require rofi
-    repo=$(d project list | rofi -dmenu -p "Repository") && $TERMINAL -d "$HOME/$repo" -e "$EDITOR" -c NvimTreeToggle -c RooterToggle
+    repo=$(d project list | d menu dmenu "Repository") && $TERMINAL -d "$HOME/$repo" -e "$EDITOR" -c NvimTreeToggle -c RooterToggle
 }
 
 forward-cmd d-project- "$@"

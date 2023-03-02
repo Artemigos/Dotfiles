@@ -12,8 +12,8 @@ main() {
 }
 
 man-pdf() {
-    d require fd sort rofi gzip groff zathura
-    CHOICE=$(fd '\.gz$' /usr/share/man | sort | rofi -dmenu) && gzip -dc "$CHOICE" | groff -man -T pdf - | zathura -
+    d require fd sort gzip groff zathura
+    CHOICE=$(fd '\.gz$' /usr/share/man | sort | d menu dmenu) && gzip -dc "$CHOICE" | groff -man -T pdf - | zathura -
 }
 
 random-wallpaper() {

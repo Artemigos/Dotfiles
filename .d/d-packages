@@ -7,7 +7,7 @@ main () {
         update|upgrade|upgradable-number|remove-orphans|x-update|x-upgrade|x-remove-orphans)
             "$1" ;;
         list-x-options) listXOptions ;;
-        show) listXOptions | d menu ;;
+        show) listXOptions | d menu from-json ;;
         *) exit 1 ;;
     esac
 }

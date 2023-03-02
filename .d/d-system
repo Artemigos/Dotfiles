@@ -4,7 +4,7 @@ main () {
     case ${1:-} in
         os) shift; os "$@" ;;
         list-x-options) listXOptions ;;
-        show) listXOptions | d menu ;;
+        show) listXOptions | d menu from-json ;;
         *) exit 1 ;;
     esac
 }

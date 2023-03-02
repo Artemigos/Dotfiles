@@ -14,8 +14,7 @@ d-dotfiles-list() {
 
 # select a dotfile and open it in a editor
 d-dotfiles-select() {
-    d require rofi
-    CHOICE=$(d dotfiles list | rofi -dmenu -p file)
+    CHOICE=$(d dotfiles list | d menu dmenu file)
     "$TERMINAL" -e "$EDITOR" "$CHOICE"
 }
 
