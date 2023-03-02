@@ -26,7 +26,7 @@ d-menu-dmenu() {
     fi
 
     if [ "$SELECTOR" == "rofi" ]; then
-        rofi -dmenu -i -p "${PROMPT_ARGS[@]}"
+        rofi -dmenu -i "${PROMPT_ARGS[@]}"
     else
         wofi -d -i "${PROMPT_ARGS[@]}" 2>/dev/null
     fi
