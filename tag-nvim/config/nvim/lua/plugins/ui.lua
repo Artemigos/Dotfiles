@@ -10,14 +10,17 @@ return {
     },
     {
         'kyazdani42/nvim-web-devicons',
-        config = function() require('nvim-web-devicons').setup { default = true } end,
+        lazy = true,
+        opts = { default = true },
     },
     {
         'folke/which-key.nvim',
+        event = 'VeryLazy',
         config = function() require('which-key').setup {} end,
     },
     {
         'nvim-lualine/lualine.nvim',
+        event = 'VeryLazy',
         dependencies = { 'kyazdani42/nvim-web-devicons' },
         config = function() require('user.lualine') end,
     },
@@ -28,19 +31,20 @@ return {
     },
     {
         'j-hui/fidget.nvim',
-        config = function() require('fidget').setup() end,
+        event = 'VeryLazy',
+        opts = {},
     },
     {
         'lukas-reineke/indent-blankline.nvim',
-        config = function()
-            require('indent_blankline').setup({
-                space_char_blankline = ' ',
-                show_current_context = true,
-            })
-        end,
+        event = { 'BufReadPost', 'BufNewFile' },
+        opts = {
+            space_char_blankline = ' ',
+            show_current_context = true,
+        },
     },
     {
         'rcarriga/nvim-notify',
+        event = 'VeryLazy',
         config = function()
             local n = require('notify')
             n.setup({ render = 'compact' })
@@ -50,5 +54,6 @@ return {
     {
         'echasnovski/mini.bufremove',
         config = function() require('mini.bufremove').setup({}) end,
+        keys = { '<Leader>bd', '<Leader>bD' },
     },
 }

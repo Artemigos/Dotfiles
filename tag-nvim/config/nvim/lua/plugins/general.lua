@@ -8,7 +8,7 @@ return {
     { 'tpope/vim-sleuth', event = 'VeryLazy' },
     {
         'numToStr/Comment.nvim',
-        config = {},
+        opts = {},
         keys = {
             { 'gc', mode = { 'n', 'v' } },
             { 'gb', mode = { 'n', 'v' } },
