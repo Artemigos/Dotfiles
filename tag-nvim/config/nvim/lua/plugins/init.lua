@@ -7,12 +7,6 @@ return {
     { 'airblade/vim-rooter' },
     { 'michaeljsmith/vim-indent-object' },
     { 'tpope/vim-sleuth' },
-    {
-        'numToStr/Comment.nvim',
-        config = function()
-            require('Comment').setup()
-        end,
-    },
 
     -- treesitter
     {
