@@ -1,46 +1,48 @@
-require('impatient')
+pcall(function() require('impatient') end) -- do not fail if plugin isn't installed yet
 require('user.general')
 
--- bootstrap packer
-local install_path = vim.fn.stdpath('data') .. '/site/pack/packer/start/packer.nvim'
-local is_bootstrap = false
-if vim.fn.empty(vim.fn.glob(install_path)) > 0 then
-    is_bootstrap = true
-    vim.fn.execute('!git clone https://github.com/wbthomason/packer.nvim ' .. install_path)
-    vim.cmd [[packadd packer.nvim]]
+local lazypath = vim.fn.stdpath("data") .. "/lazy/lazy.nvim"
+if not vim.loop.fs_stat(lazypath) then
+    vim.fn.system({
+        "git",
+        "clone",
+        "--filter=blob:none",
+        "https://github.com/folke/lazy.nvim.git",
+        "--branch=stable", -- latest stable release
+        lazypath,
+    })
 end
+vim.opt.rtp:prepend(lazypath)
 
 -- install plugins
-require('packer').startup(function(use)
-    use 'wbthomason/packer.nvim' -- to prevent packer from removing itself
-
+require('lazy').setup({
     -- general
-    use 'tpope/vim-repeat'
-    use 'ggandor/lightspeed.nvim'
-    use 'tpope/vim-surround'
-    use 'wellle/targets.vim'
-    use 'airblade/vim-rooter'
-    use 'michaeljsmith/vim-indent-object'
-    use 'tpope/vim-sleuth'
-    use {
+    { 'tpope/vim-repeat' },
+    { 'ggandor/lightspeed.nvim' },
+    { 'tpope/vim-surround' },
+    { 'wellle/targets.vim' },
+    { 'airblade/vim-rooter' },
+    { 'michaeljsmith/vim-indent-object' },
+    { 'tpope/vim-sleuth' },
+    {
         'numToStr/Comment.nvim',
         config = function()
             require('Comment').setup()
         end,
-    }
+    },
 
     -- treesitter
-    use {
+    {
         'nvim-treesitter/nvim-treesitter',
-        run = function()
-            pcall(require('nvim-treesitter.install').update({ with_sync = true }))
+        build = function()
+            require('nvim-treesitter.install').update({ with_sync = true })
         end,
-    }
-    use { 'nvim-treesitter/nvim-treesitter-textobjects', after = 'nvim-treesitter' }
-    use { 'nvim-treesitter/playground', after = 'nvim-treesitter' }
+    },
+    { 'nvim-treesitter/nvim-treesitter-textobjects' },
+    { 'nvim-treesitter/playground' },
 
     -- ui
-    use {
+    {
         'Mofiqul/dracula.nvim',
         config = function()
             vim.cmd [[
@@ -48,30 +50,30 @@ require('packer').startup(function(use)
                 colorscheme dracula
             ]]
         end,
-    }
-    use {
+    },
+    {
         'kyazdani42/nvim-web-devicons',
         config = function() require('nvim-web-devicons').setup { default = true } end,
-    }
-    use {
+    },
+    {
         'folke/which-key.nvim',
         config = function() require('which-key').setup {} end,
-    }
-    use {
+    },
+    {
         'nvim-lualine/lualine.nvim',
-        requires = { 'kyazdani42/nvim-web-devicons', opt = true },
+        dependencies = { 'kyazdani42/nvim-web-devicons' },
         config = function() require('user.lualine') end,
-    }
-    use {
+    },
+    {
         'kyazdani42/nvim-tree.lua',
-        requires = { 'kyazdani42/nvim-web-devicons' },
+        dependencies = { 'kyazdani42/nvim-web-devicons' },
         config = function() require('user.tree') end,
-    }
-    use {
+    },
+    {
         'j-hui/fidget.nvim',
         config = function() require('fidget').setup() end,
-    }
-    use {
+    },
+    {
         'lukas-reineke/indent-blankline.nvim',
         config = function()
             require('indent_blankline').setup({
@@ -79,129 +81,107 @@ require('packer').startup(function(use)
                 show_current_context = true,
             })
         end,
-    }
-    use {
+    },
+    {
         'rcarriga/nvim-notify',
         config = function()
             local n = require('notify')
             n.setup({ render = 'compact' })
             vim.notify = n
         end,
-    }
-    use {
+    },
+    {
         'echasnovski/mini.bufremove',
         config = function() require('mini.bufremove').setup({}) end,
-    }
+    },
 
     -- telescope
-    use 'nvim-lua/plenary.nvim'
-    use {
+    { 'nvim-lua/plenary.nvim' },
+    {
         'nvim-telescope/telescope.nvim',
         branch = '0.1.x',
-        requires = { 'nvim-lua/plenary.nvim' },
+        dependencies = { 'nvim-lua/plenary.nvim' },
         config = function() require('user.telescope') end,
-    }
-    use {
+    },
+    {
         'nvim-telescope/telescope-fzf-native.nvim',
-        run = 'make',
-        requires = { 'nvim-telescope/telescope.nvim' },
+        build = 'make',
+        dependencies = { 'nvim-telescope/telescope.nvim' },
         config = function() require('telescope').load_extension('fzf') end,
-    }
-    use {
+    },
+    {
         'nvim-telescope/telescope-file-browser.nvim',
         config = function() require('telescope').load_extension('file_browser') end,
-    }
-    use 'stevearc/dressing.nvim'
+    },
+    { 'stevearc/dressing.nvim' },
 
     -- completion
-    use 'hrsh7th/cmp-nvim-lsp'
-    use 'hrsh7th/cmp-buffer'
-    use 'hrsh7th/cmp-path'
-    use 'hrsh7th/nvim-cmp'
-    use 'hrsh7th/cmp-vsnip'
-    use 'hrsh7th/vim-vsnip'
-    use 'hrsh7th/vim-vsnip-integ'
+    { 'hrsh7th/cmp-nvim-lsp' },
+    { 'hrsh7th/cmp-buffer' },
+    { 'hrsh7th/cmp-path' },
+    { 'hrsh7th/nvim-cmp' },
+    { 'hrsh7th/cmp-vsnip' },
+    { 'hrsh7th/vim-vsnip' },
+    { 'hrsh7th/vim-vsnip-integ' },
 
     -- lsp
-    use {
+    {
         'williamboman/mason.nvim',
         'williamboman/mason-lspconfig.nvim',
         'neovim/nvim-lspconfig',
-    }
-    use 'ray-x/lsp_signature.nvim'
-    use 'onsails/lspkind-nvim'
-    use {
+    },
+    { 'ray-x/lsp_signature.nvim' },
+    { 'onsails/lspkind-nvim' },
+    {
         'gbrlsnchs/telescope-lsp-handlers.nvim',
         config = function() require('telescope').load_extension('lsp_handlers') end,
-    }
-    use {
+    },
+    {
         "someone-stole-my-name/yaml-companion.nvim",
-        requires = {
-            { "neovim/nvim-lspconfig" },
-            { "nvim-lua/plenary.nvim" },
-            { "nvim-telescope/telescope.nvim" },
+        dependencies = {
+            "neovim/nvim-lspconfig",
+            "nvim-lua/plenary.nvim",
+            "nvim-telescope/telescope.nvim",
         },
         config = function()
             require("telescope").load_extension("yaml_schema")
         end,
-    }
+    },
 
     -- null-ls
-    use 'jose-elias-alvarez/null-ls.nvim'
-    use {
+    { 'jose-elias-alvarez/null-ls.nvim' },
+    {
         'jayp0521/mason-null-ls.nvim',
-        after = { 'null-ls.nvim', 'mason.nvim' },
         config = function() require('user.null-ls') end
-    }
+    },
 
     -- dap
-    use 'mfussenegger/nvim-dap'
-    use { 'rcarriga/nvim-dap-ui', requires = { 'mfussenegger/nvim-dap' } }
-    use { 'theHamsta/nvim-dap-virtual-text', requires = { 'mfussenegger/nvim-dap', 'nvim-treesitter/nvim-treesitter' } }
-    use 'jbyuki/one-small-step-for-vimkind'
+    { 'mfussenegger/nvim-dap' },
+    { 'rcarriga/nvim-dap-ui', dependencies = { 'mfussenegger/nvim-dap' } },
+    { 'theHamsta/nvim-dap-virtual-text', dependencies = { 'mfussenegger/nvim-dap', 'nvim-treesitter/nvim-treesitter' } },
+    { 'jbyuki/one-small-step-for-vimkind' },
 
     -- markdown editing
-    use { 'mickael-menu/zk-nvim', config = function() require('zk').setup({
+    { 'mickael-menu/zk-nvim', config = function() require('zk').setup({
         picker = 'telescope',
-    }) end }
+    }) end },
 
     -- misc
-    use {
+    {
         'tpope/vim-fugitive',
         config = function() require('user.fugitive') end,
-    }
-    use 'tridactyl/vim-tridactyl'
-    use 'gpanders/editorconfig.nvim'
-    use {
+    },
+    { 'tridactyl/vim-tridactyl' },
+    { 'gpanders/editorconfig.nvim' },
+    {
         'stevearc/overseer.nvim',
         config = function() require('user.overseer') end
-    }
+    },
 
     -- perf
-    use 'tweekmonster/startuptime.vim'
-    use 'lewis6991/impatient.nvim'
-    use 'nathom/filetype.nvim'
-
-    if is_bootstrap then
-        require('packer').sync()
-    end
-end)
-
-if is_bootstrap then
-    print '=================================='
-    print '    Plugins are being installed'
-    print '    Wait until Packer completes,'
-    print '       then restart nvim'
-    print '=================================='
-    return
-end
-
--- Automatically source and re-compile packer whenever you save this init.lua
-local packer_group = vim.api.nvim_create_augroup('Packer', { clear = true })
-vim.api.nvim_create_autocmd('BufWritePost', {
-    command = 'source <afile> | PackerCompile',
-    group = packer_group,
-    pattern = { vim.fn.expand '$MYVIMRC', vim.trim(vim.fn.system 'realpath "$MYVIMRC"') },
+    { 'tweekmonster/startuptime.vim' },
+    { 'lewis6991/impatient.nvim' },
+    { 'nathom/filetype.nvim' },
 })
 
 -- automatically format rust code
