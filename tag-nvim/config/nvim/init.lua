@@ -1,4 +1,3 @@
-pcall(function() require('impatient') end) -- do not fail if plugin isn't installed yet
 require('user.general')
 
 local lazypath = vim.fn.stdpath("data") .. "/lazy/lazy.nvim"

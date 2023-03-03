@@ -157,6 +157,5 @@ return {
 
     -- perf
     { 'tweekmonster/startuptime.vim' },
-    { 'lewis6991/impatient.nvim' },
     { 'nathom/filetype.nvim' },
 }
