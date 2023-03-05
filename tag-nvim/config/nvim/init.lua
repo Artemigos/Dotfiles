@@ -14,7 +14,7 @@ end
 vim.opt.rtp:prepend(lazypath)
 
 -- install plugins
-require('lazy').setup('plugins')
+require('lazy').setup('plugins', { ui = { border = 'rounded' } })
 
 -- automatically format rust code
 local format_group = vim.api.nvim_create_augroup('Rust', { clear = true })
