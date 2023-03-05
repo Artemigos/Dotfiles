@@ -54,6 +54,9 @@ return {
     {
         'echasnovski/mini.bufremove',
         config = function() require('mini.bufremove').setup({}) end,
-        keys = { '<Leader>bd', '<Leader>bD' },
+        keys = {
+            { '<Leader>bd', function() require('mini.bufremove').delete(0, false) end, desc='Delete buffer' },
+            { '<Leader>bD', function() require('mini.bufremove').delete(0, true) end, desc='Delete buffer (force)' },
+        },
     },
 }
