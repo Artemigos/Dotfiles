@@ -22,6 +22,7 @@ return {
             local wk = require('which-key')
             wk.setup({})
             wk.register({
+                d = { name = '+debugging', l = { name = '+launch' } },
                 f = { name = '+telescope' },
                 p = { name = '+peek' },
             }, { prefix = '<Leader>' })
