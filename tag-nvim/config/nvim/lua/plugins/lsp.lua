@@ -7,10 +7,6 @@ return {
     { 'ray-x/lsp_signature.nvim' },
     { 'onsails/lspkind-nvim' },
     {
-        'gbrlsnchs/telescope-lsp-handlers.nvim',
-        config = function() require('telescope').load_extension('lsp_handlers') end,
-    },
-    {
         "someone-stole-my-name/yaml-companion.nvim",
         dependencies = {
             "neovim/nvim-lspconfig",

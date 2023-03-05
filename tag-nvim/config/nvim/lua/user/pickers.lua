@@ -1,12 +1,12 @@
-local pickers = require'telescope.pickers'
-local finders = require'telescope.finders'
-local conf = require('telescope.config').values
-local actions = require'telescope.actions'
-local action_state = require'telescope.actions.state'
-
 local M = {}
 
 function M.makefile(opts)
+    local pickers = require('telescope.pickers')
+    local finders = require('telescope.finders')
+    local conf = require('telescope.config').values
+    local actions = require('telescope.actions')
+    local action_state = require('telescope.actions.state')
+
     opts = opts or {}
     local targets = vim.fn.system(
         [[sh -c "make -pRrq : 2>/dev/null |

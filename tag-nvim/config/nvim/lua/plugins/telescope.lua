@@ -13,7 +13,12 @@ return {
         'nvim-telescope/telescope.nvim',
         branch = '0.1.x',
         cmd = 'Telescope',
-        dependencies = { 'nvim-lua/plenary.nvim' },
+        dependencies = {
+            { 'nvim-lua/plenary.nvim' },
+            { 'nvim-telescope/telescope-fzf-native.nvim', build = 'make' },
+            { 'nvim-telescope/telescope-file-browser.nvim' },
+            { 'gbrlsnchs/telescope-lsp-handlers.nvim' },
+        },
         opts = {
             extensions = {
                 lsp_handlers = {
@@ -38,18 +43,13 @@ return {
             { '<Leader>fm', require("user.pickers").makefile, desc = 'Run make target' },
             { '<Leader>fr', t('resume'), desc = 'Resume last search' },
         },
-    },
-
-    {
-        'nvim-telescope/telescope-fzf-native.nvim',
-        build = 'make',
-        dependencies = { 'nvim-telescope/telescope.nvim' },
-        config = function() require('telescope').load_extension('fzf') end,
-    },
-
-    {
-        'nvim-telescope/telescope-file-browser.nvim',
-        config = function() require('telescope').load_extension('file_browser') end,
+        config = function(_, opts)
+            local ts = require('telescope')
+            ts.setup(opts)
+            ts.load_extension('fzf')
+            ts.load_extension('file_browser')
+            ts.load_extension('lsp_handlers')
+        end
     },
 
     {
