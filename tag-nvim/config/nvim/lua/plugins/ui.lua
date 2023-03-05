@@ -24,6 +24,7 @@ return {
             wk.register({
                 d = { name = '+debugging', l = { name = '+launch' } },
                 f = { name = '+telescope' },
+                g = { name = '+git' },
                 p = { name = '+peek' },
             }, { prefix = '<Leader>' })
         end,
