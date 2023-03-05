@@ -37,7 +37,22 @@ return {
     {
         'kyazdani42/nvim-tree.lua',
         dependencies = { 'kyazdani42/nvim-web-devicons' },
-        config = function() require('user.tree') end,
+        cmd = 'NvimTreeToggle',
+        opts = {
+            sync_root_with_cwd = true,
+            view = {
+                side = 'right',
+                width = 45,
+            },
+            diagnostics = {
+                enable = true,
+                show_on_dirs = true,
+                show_on_open_dirs = false,
+            },
+        },
+        keys = {
+            { '<Leader>e', function() require('nvim-tree.api').tree.toggle() end, desc = 'Toggle file tree' },
+        },
     },
 
     {
@@ -69,8 +84,8 @@ return {
         'echasnovski/mini.bufremove',
         config = function() require('mini.bufremove').setup({}) end,
         keys = {
-            { '<Leader>bd', function() require('mini.bufremove').delete(0, false) end, desc='Delete buffer' },
-            { '<Leader>bD', function() require('mini.bufremove').delete(0, true) end, desc='Delete buffer (force)' },
+            { '<Leader>bd', function() require('mini.bufremove').delete(0, false) end, desc = 'Delete buffer' },
+            { '<Leader>bD', function() require('mini.bufremove').delete(0, true) end, desc = 'Delete buffer (force)' },
         },
     },
 }
