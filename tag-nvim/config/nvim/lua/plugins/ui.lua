@@ -23,6 +23,7 @@ return {
             wk.setup({})
             wk.register({
                 f = { name = '+telescope' },
+                p = { name = '+peek' },
             }, { prefix = '<Leader>' })
         end,
     },
