@@ -8,32 +8,44 @@ return {
             ]]
         end,
     },
+
     {
         'kyazdani42/nvim-web-devicons',
         lazy = true,
         opts = { default = true },
     },
+
     {
         'folke/which-key.nvim',
         event = 'VeryLazy',
-        config = function() require('which-key').setup {} end,
+        config = function()
+            local wk = require('which-key')
+            wk.setup({})
+            wk.register({
+                f = { name = '+telescope' },
+            }, { prefix = '<Leader>' })
+        end,
     },
+
     {
         'nvim-lualine/lualine.nvim',
         event = 'VeryLazy',
         dependencies = { 'kyazdani42/nvim-web-devicons' },
         config = function() require('user.lualine') end,
     },
+
     {
         'kyazdani42/nvim-tree.lua',
         dependencies = { 'kyazdani42/nvim-web-devicons' },
         config = function() require('user.tree') end,
     },
+
     {
         'j-hui/fidget.nvim',
         event = 'VeryLazy',
         opts = {},
     },
+
     {
         'lukas-reineke/indent-blankline.nvim',
         event = { 'BufReadPost', 'BufNewFile' },
@@ -42,6 +54,7 @@ return {
             show_current_context = true,
         },
     },
+
     {
         'rcarriga/nvim-notify',
         event = 'VeryLazy',
@@ -51,6 +64,7 @@ return {
             vim.notify = n
         end,
     },
+
     {
         'echasnovski/mini.bufremove',
         config = function() require('mini.bufremove').setup({}) end,
