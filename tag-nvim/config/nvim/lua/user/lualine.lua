@@ -41,6 +41,10 @@ local function get_schema()
     return " " .. schema.result[1].name
 end
 
+local function is_yaml()
+    return vim.bo.filetype == 'yaml'
+end
+
 require('lualine').setup {
     options = {
         icons_enabled = true,
@@ -71,7 +75,7 @@ require('lualine').setup {
     sections = {
         lualine_a = { { 'mode', fmt = format_mode } },
         lualine_b = { 'branch', 'diff', 'diagnostics' },
-        lualine_c = { 'filename', get_schema },
+        lualine_c = { 'filename', { get_schema, cond = is_yaml } },
         lualine_x = { 'encoding', 'fileformat', 'filetype' },
         lualine_y = { 'progress' },
         lualine_z = { 'location' }
