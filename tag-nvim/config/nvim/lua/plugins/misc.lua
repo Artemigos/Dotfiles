@@ -53,7 +53,22 @@ return {
         },
     },
 
-    { 'tridactyl/vim-tridactyl' },
+    {
+        'tridactyl/vim-tridactyl',
+        ft = 'tridactyl',
+        init = function()
+            vim.api.nvim_create_autocmd('BufRead', {
+                group = vim.api.nvim_create_augroup('tridactyl', { clear = true }),
+                pattern = 'tridactylrc',
+                callback = function()
+                    vim.bo.filetype = 'tridactyl'
+                    vim.wo.foldmethod = 'marker'
+                    vim.wo.foldmarker = '"{,}"'
+                end,
+            })
+        end,
+    },
+
     { 'gpanders/editorconfig.nvim' },
 
     {

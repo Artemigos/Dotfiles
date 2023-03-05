@@ -28,4 +28,3 @@ vim.api.nvim_create_autocmd('BufWritePre', {
 require('user.keybindings')
 require('user.lsp')
 require('user.todo').setup {}
-require('user.special-files')
