@@ -5,9 +5,23 @@ return {
     },
     { 'tridactyl/vim-tridactyl' },
     { 'gpanders/editorconfig.nvim' },
+
     {
         'stevearc/overseer.nvim',
-        config = function() require('user.overseer') end
+        opts = {
+            task_editor = {
+                bindings = {
+                    n = {
+                        ['<Esc>'] = 'Cancel',
+                    },
+                },
+            },
+        },
+        keys = {
+            { '<leader>x<space>', '<cmd>OverseerToggle<CR>' },
+            { '<leader>xx', '<cmd>OverseerRun<CR>' },
+            { '<leader>xf', '<cmd>OverseerQuickAction open float<CR>' },
+        },
     },
 
     -- perf
