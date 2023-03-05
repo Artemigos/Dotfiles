@@ -83,9 +83,9 @@ return {
             },
         },
         keys = {
-            { '<leader>x<space>', '<cmd>OverseerToggle<CR>' },
-            { '<leader>xx', '<cmd>OverseerRun<CR>' },
-            { '<leader>xf', '<cmd>OverseerQuickAction open float<CR>' },
+            { '<leader>x<space>', '<cmd>OverseerToggle<CR>', desc = 'Show tasks' },
+            { '<leader>xx', '<cmd>OverseerRun<CR>', desc = 'Run task' },
+            { '<leader>xf', '<cmd>OverseerQuickAction open float<CR>', desc = 'Show last task' },
         },
     },
 

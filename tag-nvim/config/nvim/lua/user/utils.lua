@@ -1,10 +1,5 @@
 local M = {}
 
-function M.which_key_leader(spec, opts)
-    opts = vim.tbl_extend('force', { prefix = '<Leader>' }, opts or {})
-    require('which-key').register(spec, opts)
-end
-
 function M.map(mode, lhs, rhs, opts)
     opts = vim.tbl_extend('force', { silent = true }, opts or {})
     vim.keymap.set(mode, lhs, rhs, opts)

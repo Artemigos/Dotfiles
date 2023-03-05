@@ -22,12 +22,35 @@ return {
             local wk = require('which-key')
             wk.setup({})
             wk.register({
+                b = { name = '+buffers' },
                 c = { name = '+code' },
                 d = { name = '+debugging', l = { name = '+launch' } },
                 f = { name = '+telescope' },
                 g = { name = '+git' },
+                i = { name = '+init.lua' },
+                o = { name = '+open' },
                 p = { name = '+peek' },
-                r = { name = '+refactor' }
+                r = { name = '+refactor' },
+                t = {
+                    name = '+terminal',
+                    c = 'any command',
+                    v = {
+                        name = '+vertical split',
+                        c = 'any command',
+                        b = 'terminal bash',
+                        f = 'terminal fish',
+                        t = 'terminal',
+                    },
+                },
+                w = {
+                    name = '+windows',
+                    h = 'left-window',
+                    j = 'bottom-window',
+                    k = 'top-window',
+                    l = 'right-window',
+                    c = 'close-window',
+                },
+                x = { name = '+tasks' },
             }, { prefix = '<Leader>' })
         end,
     },

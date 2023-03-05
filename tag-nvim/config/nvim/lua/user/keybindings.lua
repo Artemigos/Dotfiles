@@ -1,30 +1,5 @@
 local u = require('user.utils')
 
-u.which_key_leader({
-    b = { name = '+buffers' },
-    i = { name = '+init.lua' },
-    w = {
-        name = '+windows',
-        h = 'left-window',
-        j = 'bottom-window',
-        k = 'top-window',
-        l = 'right-window',
-        c = 'close-window',
-    },
-    t = {
-        name = '+terminal',
-        c = 'any command',
-        v = {
-            name = '+vertical split',
-            c = 'any command',
-            b = 'terminal bash',
-            f = 'terminal fish',
-            t = 'terminal',
-        },
-    },
-    o = { name = '+open' },
-})
-
 -- working with init.vim
 u.defcmd('EditInit', 'e $MYVIMRC')
 u.defcmd('SourceInit', 'source $MYVIMRC')
