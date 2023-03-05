@@ -15,13 +15,13 @@ bind ;<Space> hint -c input,button,textarea,select
 
 "{1 MOUSE OPERATIONS
 
-bind ;m hint -F e => { const pos = tri.dom.getAbsoluteCentre(e); tri.excmds.exclaim_quiet("xdotool mousemove --sync " + window.devicePixelRatio * pos.x + " " + window.devicePixelRatio * pos.y)}
-bind m0 exclaim_quiet xdotool mousemove --sync 0 0
-bind m1 exclaim_quiet xdotool click 1
-bind m2 exclaim_quiet xdotool click 2
-bind m3 exclaim_quiet xdotool click 3
-bind m4 exclaim_quiet xdotool click 4
-bind m5 exclaim_quiet xdotool click 5
+"bind ;m hint -F e => { const pos = tri.dom.getAbsoluteCentre(e); tri.excmds.exclaim_quiet("xdotool mousemove --sync " + window.devicePixelRatio * pos.x + " " + window.devicePixelRatio * pos.y)}
+"bind m0 exclaim_quiet xdotool mousemove --sync 0 0
+"bind m1 exclaim_quiet xdotool click 1
+"bind m2 exclaim_quiet xdotool click 2
+"bind m3 exclaim_quiet xdotool click 3
+"bind m4 exclaim_quiet xdotool click 4
+"bind m5 exclaim_quiet xdotool click 5
 
 "{1 SITE SPECIFIC
 
