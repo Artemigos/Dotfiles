@@ -1,6 +1,6 @@
-local function t(type)
+local function t(type, opts)
     local function picker()
-        require('telescope.builtin')[type]()
+        require('telescope.builtin')[type](opts or {})
     end
 
     return picker
@@ -32,10 +32,10 @@ return {
             }
         },
         keys = {
-            { '<Leader>ff', t('find_files'), desc = 'Find file' },
+            { '<Leader>ff', t('find_files', { hidden = true }), desc = 'Find file' },
             { '<Leader>fg', t('git_files'), desc = 'Find git file' },
             { '<Leader>fb', t('buffers'), desc = 'Find buffer' },
-            { '<Leader>f/', t('live_grep'), desc = 'Live grep' },
+            { '<Leader>f/', t('live_grep', { additional_args = { '--hidden' } }), desc = 'Live grep' },
             { '<Leader>fd', ':Telescope file_browser<CR>', desc = 'File browser' },
             { '<Leader>fc', t('commands'), desc = 'Find command' },
             { '<Leader>fh', t('help_tags'), desc = 'Find help' },
