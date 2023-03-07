@@ -87,4 +87,6 @@ set searchurls.crate https://crates.io/search?q=
 set searchurls.crated https://crates.io/crates/
 set searchurls.cratedoc https://docs.rs/releases/search?query=
 set searchurls.cratedocd https://docs.rs/
+"}"
 
+" vim: ft=tridactyl

@@ -57,11 +57,10 @@ return {
         'tridactyl/vim-tridactyl',
         ft = 'tridactyl',
         init = function()
-            vim.api.nvim_create_autocmd('BufRead', {
+            vim.api.nvim_create_autocmd('FileType', {
                 group = vim.api.nvim_create_augroup('tridactyl', { clear = true }),
-                pattern = 'tridactylrc',
+                pattern = 'tridactyl',
                 callback = function()
-                    vim.bo.filetype = 'tridactyl'
                     vim.wo.foldmethod = 'marker'
                     vim.wo.foldmarker = '"{,}"'
                 end,
