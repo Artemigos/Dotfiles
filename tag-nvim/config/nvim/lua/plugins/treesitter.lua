@@ -104,4 +104,21 @@ return {
             },
         }
     },
+    {
+        'folke/todo-comments.nvim',
+        cmd = {
+            'TodoLocList',
+            'TodoQuickFix',
+            'TodoTrouble',
+            'TodoTelescope',
+        },
+        event = { 'BufReadPost', 'BufNewFile' },
+        dependencies = {
+            'nvim-lua/plenary.nvim',
+        },
+        opts = {},
+        keys = {
+            { '<Leader>fT', '<cmd>TodoTelescope<CR>' },
+        },
+    },
 }
