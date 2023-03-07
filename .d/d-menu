@@ -55,7 +55,8 @@ d-menu-app() {
 }
 
 d-menu-window() {
-    d require rofi # TODO: wofi doesn't support selecting windows, maybe hack something for myself
+    # TODO: wofi doesn't support selecting windows, maybe hack something for myself
+    d require rofi
     rofi -modi window -show window
 }
 

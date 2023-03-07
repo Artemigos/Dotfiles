@@ -64,7 +64,13 @@ d-script-base() {
 d-get-all-requires() {
     d require rg sed sort uniq
     readarray -t FILES <<<"$(d dotfiles list)"
-    rg '^\s*d require (.*)$' --replace '$1' --no-filename "${FILES[@]}" | sed 's/ /\n/g' | sort | uniq
+    rg '^.*\bd require ([a-zA-Z0-9_\- ]+)\b.*$' --replace '$1' --no-filename "${FILES[@]}" | sed 's/ /\n/g' | sort | uniq
+}
+
+# run `d require` on all the tools that are required in dotfiles scripts
+d-require-all() {
+    d require xargs
+    d-get-all-requires | xargs -n1 d require
 }
 
 forward-cmd "d-" "$@"
