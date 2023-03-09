@@ -1,0 +1,13 @@
+#!/bin/bash
+
+set -euo pipefail
+
+S=${1:?Session name required}
+
+d require tmux
+
+if tmux has -t "$S"; then
+    tmux attach -t  "$S"
+else
+    tmux new -s "$S"
+fi
