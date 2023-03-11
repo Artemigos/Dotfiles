@@ -1,8 +1,0 @@
-[time]
-disabled = false
-time_format = "%H:%M"
-format = "[$time]($style) "
-
-[directory]
-home_symbol = ""
-
