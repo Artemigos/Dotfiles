@@ -26,4 +26,9 @@ vim.api.nvim_create_autocmd('BufWritePre', {
 
 -- include other config files
 require('user.keybindings')
-require('user.todo').setup {}
+require('user.todo').setup({})
+
+-- override navigation if in TMUX
+if vim.fn.empty(vim.env['TMUX']) == 0 then
+    require('user.tmux-nav').setup()
+end
