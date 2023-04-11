@@ -68,8 +68,6 @@ return {
         end,
     },
 
-    { 'gpanders/editorconfig.nvim' },
-
     {
         'stevearc/overseer.nvim',
         opts = {
@@ -90,5 +88,4 @@ return {
 
     -- perf
     { 'tweekmonster/startuptime.vim' },
-    { 'nathom/filetype.nvim' },
 }
