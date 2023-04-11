@@ -1,4 +1,4 @@
-local health = require('health')
+local health = vim.health
 
 local function check_cmd(cmd)
     vim.cmd('silent !'..cmd)
