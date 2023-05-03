@@ -157,7 +157,7 @@ keys = [
 ]
 
 group_definitions = {
-    'main': ('1', '爵'),
+    'main': ('1', '󰖟'),
     'code': ('2', ''),
     'communication': ('3', ''),
     'IV': ('4', ''),

@@ -6,20 +6,20 @@ from utils import run_cmd
 
 def format_song(status, artist, song):
     if status == PlaybackStatus.Paused:
-        return f' {artist} - {song}'
+        return f'󰏤 {artist} - {song}'
     elif status == PlaybackStatus.Stopped:
-        return '栗'
+        return '󰓛'
     elif status == PlaybackStatus.Playing:
-        return f'契 {artist} - {song}'
+        return f'󰐊 {artist} - {song}'
 
-    return 'ﱘ'
+    return '󰝚'
 
 def open_menu():
     run_cmd(['d', 'system', 'show'])
 
 widget_defaults = dict(
-    font='Iosevka',
-    fontsize=24,
+    font='Iosevka Nerd Font',
+    fontsize=18,
     padding=10,
     foreground='#f8f8f2',
 )
@@ -69,7 +69,7 @@ screens = [
         top=bar.Bar(
             [
                 widget.TextBox(
-                    text='',
+                    text='󰍜',
                     background='#bd93f9',
                     mouse_callbacks={'Button1': open_menu},
                 ),
@@ -94,7 +94,7 @@ screens = [
                 widget.Sep(),
                 VolumeOverride(
                     step=5,
-                    fmt='墳 {}',
+                    fmt='󰕾 {}',
                     get_volume_command=['d', 'audio', 'get-volume'],
                     volume_down_command='d audio decrease-volume',
                     volume_up_command='d audio increase-volume',
