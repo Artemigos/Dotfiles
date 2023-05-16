@@ -18,8 +18,8 @@ def open_menu():
     run_cmd(['d', 'system', 'show'])
 
 widget_defaults = dict(
-    font='Iosevka Nerd Font',
-    fontsize=18,
+    font='Iosevka Nerd Font Mono',
+    fontsize=24,
     padding=10,
     foreground='#f8f8f2',
 )
