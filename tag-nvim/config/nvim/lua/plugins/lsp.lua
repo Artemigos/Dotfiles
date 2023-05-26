@@ -9,6 +9,7 @@ local supported_servers = {
     'cssls', -- CSS, LESS, SCSS
     'tsserver', -- Typescript, Javascript
     'ruff_lsp', -- python linter
+    'gopls', -- Golang
 }
 
 return {
@@ -239,6 +240,7 @@ return {
                     null_ls.builtins.formatting.shfmt,
                     yq,
                     null_ls.builtins.formatting.black,
+                    null_ls.builtins.formatting.gofumpt,
                     -- null_ls.builtins.formatting.prettierd,
                     -- null_ls.builtins.formatting.lua_format,
                     -- null_ls.builtins.formatting.markdownlint,

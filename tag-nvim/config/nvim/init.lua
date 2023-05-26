@@ -16,12 +16,12 @@ vim.opt.rtp:prepend(lazypath)
 -- install plugins
 require('lazy').setup('plugins', { ui = { border = 'rounded' } })
 
--- automatically format rust code
-local format_group = vim.api.nvim_create_augroup('Rust', { clear = true })
+-- automatically format some code
+local format_group = vim.api.nvim_create_augroup('AutoFormat', { clear = true })
 vim.api.nvim_create_autocmd('BufWritePre', {
     command = 'Format',
     group = format_group,
-    pattern = '*.rs',
+    pattern = { '*.rs', '*.go' },
 })
 
 -- include other config files
