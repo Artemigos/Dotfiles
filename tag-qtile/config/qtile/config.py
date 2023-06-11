@@ -1,7 +1,6 @@
 from collections import deque
 import os
 import subprocess
-from typing import List  # noqa: F401
 
 from libqtile import layout, hook
 from libqtile.backend.x11.window import Window
@@ -53,8 +52,9 @@ def tickle_window(qtile):
     pid = qtile.current_window.get_pid()
     run_cmd(['kill', '-SIGWINCH', str(pid)])
     children_pids = run_cmd(['bash', '-c', f'cat /proc/{pid}/task/*/children'])
-    for child_pid in children_pids.splitlines():
-        run_cmd(['kill', '-SIGWINCH', child_pid])
+    if children_pids is not None:
+        for child_pid in children_pids.splitlines():
+            run_cmd(['kill', '-SIGWINCH', child_pid])
 
 def k(key_spec: str, cmd, desc: str) -> Key:
     if isinstance(cmd, str):
