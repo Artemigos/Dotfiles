@@ -42,6 +42,7 @@ return {
             { '<Leader>f<Space>', t('builtin'), desc = 'Find telescope mode' },
             { '<Leader>fm', require("user.pickers").makefile, desc = 'Run make target' },
             { '<Leader>fr', t('resume'), desc = 'Resume last search' },
+            { '<Leader>fs', t('lsp_document_symbols'), desc = 'Find symbols in this file' },
         },
         config = function(_, opts)
             local ts = require('telescope')
