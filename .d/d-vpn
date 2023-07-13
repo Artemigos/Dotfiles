@@ -14,7 +14,7 @@ main () {
 
 get-connections-json() {
     d require nmcli sed awk wc
-    CONN=$(nmcli -m multiline con \
+    CONN=$(nmcli -m multiline -f name,uuid,type,active con \
         | sed -r 's/^(.+): +(.+)$/"\1": "\2"/' \
         | awk '{
             if (NR % 4 == 1) printf "  {%s, ",$0;
@@ -31,13 +31,19 @@ get-connections-json() {
 get-connections-of-type-json() {
     d require jq
     TYPE=${1:?Connection type required}
-    get-connections-json | jq "map(select(.TYPE == \"$TYPE\"))"
+    ACTIVE=$2
+    if [ -z "$ACTIVE" ]; then
+        get-connections-json | jq "map(select(.TYPE == \"$TYPE\"))"
+    else
+        get-connections-json | jq "map(select(.TYPE == \"$TYPE\" and .ACTIVE == \"$ACTIVE\"))"
+    fi
 }
 
 x-select-type() {
     d require jq sort
     TYPE=${1:?Connection type required}
-    VPNS=$(get-connections-of-type-json "$TYPE")
+    ACTIVE=${2:?Connection active state required}
+    VPNS=$(get-connections-of-type-json "$TYPE" "$ACTIVE")
     NAMES=$(<<<"$VPNS" jq -r '.[].NAME' | sort)
     CHOICE=$(<<<"$NAMES" d menu dmenu "VPN")
     <<<"$VPNS" jq -r "map(select(.NAME == \"$CHOICE\"))[0].UUID"
@@ -45,13 +51,13 @@ x-select-type() {
 
 x-connect () {
     d require nmcli
-    VPN=$(x-select-type vpn)
+    VPN=$(x-select-type vpn no)
     nmcli con up "$VPN"
 }
 
 x-disconnect () {
     d require nmcli
-    VPN=$(x-select-type vpn)
+    VPN=$(x-select-type vpn yes)
     nmcli con down "$VPN"
 }
 
