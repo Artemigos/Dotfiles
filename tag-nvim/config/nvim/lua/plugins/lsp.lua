@@ -206,6 +206,10 @@ return {
 
             return {
                 border = 'rounded',
+                should_attach = function(bufnr)
+                    local ft = vim.api.nvim_buf_get_option(bufnr, 'filetype')
+                    return not vim.tbl_contains({'fugitive', 'NvimTree', 'OverseerList'}, ft)
+                end,
                 sources = {
                     -- code actions
                     null_ls.builtins.code_actions.shellcheck,
