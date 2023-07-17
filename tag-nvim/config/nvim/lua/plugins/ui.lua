@@ -6,8 +6,9 @@ local function format_mode(mode)
     return mode:sub(1, 1)
 end
 
-local function window_title_extenstion(title, filetypes)
-    local txt = function() return title end
+local function window_title_extenstion()
+    local tw = require('user.tool-windows')
+    local txt = function() return tw.get_title(vim.o.filetype) end
     local winbar_opts = {
         lualine_a = {},
         lualine_b = {},
@@ -22,7 +23,7 @@ local function window_title_extenstion(title, filetypes)
     }
 
     local opts = {
-        filetypes = filetypes,
+        filetypes = tw.get_filetypes(),
         winbar = vim.deepcopy(winbar_opts),
         inactive_winbar = vim.deepcopy(winbar_opts),
         options = {
@@ -175,9 +176,7 @@ return {
             },
             extensions = {
                 'nvim-dap-ui',
-                window_title_extenstion('Git', { 'fugitive' }),
-                window_title_extenstion('File tree', { 'NvimTree' }),
-                window_title_extenstion('Tasks', { 'OverseerList' }),
+                window_title_extenstion(),
             },
         },
         config = function(_, opts)

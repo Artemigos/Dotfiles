@@ -208,7 +208,7 @@ return {
                 border = 'rounded',
                 should_attach = function(bufnr)
                     local ft = vim.api.nvim_buf_get_option(bufnr, 'filetype')
-                    return not vim.tbl_contains({'fugitive', 'NvimTree', 'OverseerList'}, ft)
+                    return not require('user.tool-windows').is_tool_ft(ft)
                 end,
                 sources = {
                     -- code actions

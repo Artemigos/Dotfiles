@@ -52,6 +52,7 @@ return {
             { '<Leader>gP', publish_branch, desc = 'Publish (push+set upstream)' },
             { '<Leader>gd', ':Git prune-local<CR>' },
             { '<Leader>gD', ':Git prune-local -D<CR>' },
+            { '<Leader>gm', ':Git blame<CR>' },
         },
     },
 
