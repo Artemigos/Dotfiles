@@ -50,6 +50,8 @@ return {
             { '<Leader>gg', toggle_fugitive, desc = 'Toggle git window' },
             { '<Leader>gn', create_new_branch, desc = 'New branch' },
             { '<Leader>gP', publish_branch, desc = 'Publish (push+set upstream)' },
+            { '<Leader>gd', ':Git prune-local<CR>' },
+            { '<Leader>gD', ':Git prune-local -D<CR>' },
         },
     },
 

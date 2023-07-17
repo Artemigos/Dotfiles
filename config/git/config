@@ -4,9 +4,12 @@
 	aa = add .
 	co = checkout
 	ci = commit
+	f = fetch -p
+	fma = fetch origin master:master
+	logline = log --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit
+	prune-local = !git branch -vv | grep ': gone]' | awk '{print $1}' | xargs git branch ${1:--d}
 
 [advice]
 	statusHints = false
 
 # vim: noet
-
