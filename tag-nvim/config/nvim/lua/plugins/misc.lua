@@ -35,6 +35,20 @@ local function toggle_fugitive()
     end
 end
 
+local function navigate_to_repo()
+    local u = require('user.utils')
+    local remote = u.exec('git remote get-url origin')
+    if remote == nil then
+        vim.notify('Cannot get the URL of remote "origin".', vim.log.levels.ERROR)
+        return
+    end
+    local url = remote:gsub('%s*$', ''):gsub('%.git$', ''):gsub(':', '/'):gsub('^git@', 'https://')
+    local function navigate(input_url)
+        vim.fn.jobstart('xdg-open ' .. input_url)
+    end
+    vim.ui.input({prompt='URL', default=url}, navigate)
+end
+
 return {
     {
         'tpope/vim-fugitive',
@@ -53,6 +67,7 @@ return {
             { '<Leader>gd', ':Git prune-local<CR>' },
             { '<Leader>gD', ':Git prune-local -D<CR>' },
             { '<Leader>gm', ':Git blame<CR>' },
+            { '<Leader>g@', navigate_to_repo, desc = 'Navigate to the repository URL' },
         },
     },
 
