@@ -20,7 +20,7 @@ return {
             ensure_installed = {
                 'bash',
                 'comment',
-                'help',
+                'vimdoc',
                 'json',
                 'lua',
                 'make',
