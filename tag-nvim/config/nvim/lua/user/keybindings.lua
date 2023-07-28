@@ -87,3 +87,7 @@ u.map('n', '<Leader>cx', vim.diagnostic.open_float)
 -- insert symbols
 u.defcmd('Symbols', 'lua require("user.symbols").choose()<CR>')
 u.map('n', '<Leader>s', '<cmd>Symbols<CR>')
+
+-- create notes
+u.map('n', '<Leader>nm', function() require('user.notes').ui_new_dated_note('!Work/Meetings') end, { desc = 'Create meeting note' })
+u.map('n', '<Leader>nd', function() require('user.notes').create_dated_note('Daily', 'Daily') end, { desc = 'Create daily note' })
