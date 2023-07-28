@@ -16,18 +16,11 @@ vim.opt.rtp:prepend(lazypath)
 -- install plugins
 require('lazy').setup('plugins', { ui = { border = 'rounded' } })
 
--- automatically format some code
-local format_group = vim.api.nvim_create_augroup('AutoFormat', { clear = true })
-vim.api.nvim_create_autocmd('BufWritePre', {
-    command = 'Format',
-    group = format_group,
-    pattern = { '*.rs', '*.go' },
-})
-
 -- include other config files
 require('user.keybindings')
 require('user.todo').setup({})
 require('user.md2jira').setup()
+require('user.auto-format').setup({ filetypes = {'rust', 'go', 'javascript', 'typescript', 'lua'} })
 
 -- override navigation if in TMUX
 if vim.fn.empty(vim.env['TMUX']) == 0 then

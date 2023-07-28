@@ -46,6 +46,18 @@ local function is_yaml()
     return vim.bo.filetype == 'yaml'
 end
 
+local auto_format_component = {
+    function() return '' end,
+    color = function()
+        if require('user.auto-format').is_auto_format_enabled(0) then
+            return { fg = require('dracula').colors().green }
+        else
+            return { fg = require('dracula').colors().comment }
+        end
+    end,
+    on_click = function() require('user.auto-format').toggle_auto_format(0) end,
+}
+
 return {
     {
         'Mofiqul/dracula.nvim',
@@ -138,7 +150,7 @@ return {
                 lualine_a = { { 'mode', fmt = format_mode } },
                 lualine_b = { 'branch', 'diff', 'diagnostics' },
                 lualine_c = { 'filename', { get_schema, cond = is_yaml } },
-                lualine_x = { 'encoding', 'fileformat', 'filetype' },
+                lualine_x = { 'encoding', auto_format_component, 'fileformat', 'filetype' },
                 lualine_y = { 'progress' },
                 lualine_z = { 'location' }
             },

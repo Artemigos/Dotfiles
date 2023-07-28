@@ -84,6 +84,7 @@ return {
             { '<C-Space>', vim.lsp.buf.signature_help, desc = 'Signature help' },
             { 'gT', ':Telescope lsp_dynamic_workspace_symbols<CR>', desc = 'Workspace symbols' },
             { 'gX', ':Telescope diagnostics<CR>', desc = 'Diagnostics' },
+            { 'gA', ':ToggleAutoFormat<CR>', desc = 'Toggle auto formatting' },
 
             { '<Leader>cd', vim.lsp.buf.definition, desc = 'Go to definition' },
             { '<Leader>cD', vim.lsp.buf.implementation, desc = 'Go to implementation' },
@@ -93,6 +94,7 @@ return {
             { '<Leader>ct', vim.lsp.buf.type_definition, desc = 'Go to type definition' },
             { '<Leader>cT', ':Telescope lsp_dynamic_workspace_symbols<CR>', desc = 'Workspace symbols' },
             { '<Leader>cX', ':Telescope diagnostics<CR>', desc = 'Diagnostics' },
+            { '<Leader>cA', ':ToggleAutoFormat<CR>', desc = 'Toggle auto formatting' },
 
             { '<Leader>rr', vim.lsp.buf.rename, desc = 'Rename' },
         },
@@ -119,14 +121,7 @@ return {
 
             local on_attach = function(_, bufnr)
                 vim.api.nvim_buf_set_option(0, 'omnifunc', 'v:lua.vim.lsp.omnifunc')
-
-                vim.api.nvim_buf_create_user_command(bufnr, 'Format', function(_)
-                    if vim.lsp.buf.format then
-                        vim.lsp.buf.format()
-                    elseif vim.lsp.buf.formatting then
-                        vim.lsp.buf.formatting()
-                    end
-                end, { desc = 'Format current buffer with LSP' })
+                require('user.auto-format').on_attach(bufnr)
             end
 
             local capabilities = require('cmp_nvim_lsp').default_capabilities(vim.lsp.protocol.make_client_capabilities())
