@@ -1,0 +1,110 @@
+#!/bin/bash
+
+set -euo pipefail
+
+# TODO: move to config somewhere
+TZS='Europe/Warsaw
+Europe/London
+Asia/Manila'
+
+main () {
+    case ${1:-} in
+        x-convert-tz) x-convert-tz ;;
+        x-gen-tz-summary-show) x-gen-tz-summary-show ;;
+        x-gen-tz-summary-copy) x-gen-tz-summary-copy ;;
+        list-x-options) listXOptions ;;
+        show) listXOptions | d menu from-json ;;
+        *) exit 1 ;;
+    esac
+}
+
+convert-tz() {
+    d require date
+    local TZ_FROM=${1:?Source timezone required}
+    local TZ_TO=${2:?Target timezone required}
+    local TIME=${3:?Time required}
+    local TIME_FORMAT=${4:-%R %Z}
+    local RESULT
+    RESULT=$(TZ="$TZ_TO" date -d "TZ=\"$TZ_FROM\" $TIME" +"$TIME_FORMAT")
+    echo "$RESULT"
+}
+
+gen-tz-summary() {
+    local TZ_FROM=${1:?Source timezone required}
+    local TIME=${2:?Time required}
+    local TIME_FORMAT=${3:-%R %Z}
+    while read -r line; do
+        convert-tz "$TZ_FROM" "$line" "$TIME" "$TIME_FORMAT"
+    done <<<"$TZS"
+}
+
+x-convert-tz() {
+    local TZ_FROM
+    local TZ_TO
+    local TIME
+    local RESULT
+
+    TZ_FROM=$(x-select-tz)
+    TIME=$(x-time-input)
+    TZ_TO=$(x-select-tz)
+    RESULT=$(convert-tz "$TZ_FROM" "$TZ_TO" "$TIME")
+    d menu message "$RESULT"
+}
+
+x-select-tz() {
+    d menu dmenu "Timezone" <<<"$TZS"
+}
+
+gen-times() {
+    for hour in $(seq 0 23); do
+        for minute in $(seq 0 15 45); do
+            printf "%.2d:%.2d\n" "$hour" "$minute"
+        done
+    done
+}
+
+x-time-input() {
+    gen-times | d menu dmenu "Time" # TODO: should this be generalized as "arbitrary user input"?
+}
+
+x-gen-tz-summary() {
+    local TZ_FROM
+    local TIME
+
+    TZ_FROM=$(x-select-tz)
+    TIME=$(x-time-input)
+    gen-tz-summary "$TZ_FROM" "$TIME" " 🕐%R %Z"
+}
+
+x-gen-tz-summary-show() {
+    d menu message "$(x-gen-tz-summary)"
+}
+
+x-gen-tz-summary-copy() {
+    d require xclip
+    x-gen-tz-summary | xclip -selection clipboard
+}
+
+listXOptions () {
+    cat <<EOF
+{
+    "prompt": "option",
+    "commands": [
+        {
+            "description": "Convert timezone",
+            "command": "d tz x-convert-tz"
+        },
+        {
+            "description": "Show time summary",
+            "command": "d tz x-gen-tz-summary-show"
+        },
+        {
+            "description": "Save time summary to clipboard",
+            "command": "d tz x-gen-tz-summary-copy"
+        }
+    ]
+}
+EOF
+}
+
+main "$@"

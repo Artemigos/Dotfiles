@@ -70,6 +70,10 @@ listXOptions () {
             "command": "d power show"
         },
         {
+            "description": "Timezones",
+            "command": "d tz show"
+        },
+        {
             "description": "VPN",
             "command": "d vpn show"
         }
