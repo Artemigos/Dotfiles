@@ -26,9 +26,7 @@ structured_data=$(tail -n +2 <<<"$data")
 username=$(yq '.user' <<<"$structured_data")
 
 [[ -n "$password" ]] || [[ -n "$username" ]] || {
-    if type -t notify-send >/dev/null; then
-        notify-send --urgency critical "Password or username missing" "$password_entry"
-    fi
+    d error "Password or username missing" "$password_entry"
     exit 1
 }
 

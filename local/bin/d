@@ -6,6 +6,14 @@ D_BASE=$DOTFILES_HOME/.d/base.sh
 # shellcheck source=../../.d/base.sh
 source "$D_BASE"
 
+d-error() {
+    TITLE=${1:?Title required}
+    SUBTITLE=${2:?Subtitle required}
+    if type -t notify-send >/dev/null; then
+        notify-send --urgency critical "$TITLE" "$SUBTITLE"
+    fi
+}
+
 # make sure that a command exists and notify about missing ones
 d-require() {
     if [[ $# -lt 1 ]]; then
@@ -16,9 +24,7 @@ d-require() {
     while [ -n "${1:-}" ]; do
         local CMD=$1
         if [ ! -x "$CMD" ] && [ ! -x "$(which "$CMD" 2>/dev/null)" ]; then
-            if type -t notify-send >/dev/null; then
-                notify-send --urgency critical "Command missing" "$CMD"
-            fi
+            d error "Command missing" "$CMD"
             RESULT=1
         fi
         shift
@@ -43,10 +49,7 @@ d-require-one() {
         shift
     done
 
-    if type -t notify-send >/dev/null; then
-        notify-send --urgency critical "One of commands required" "$COMMANDS"
-    fi
-
+    d error "One of commands required" "$COMMANDS"
     return 1
 }
 
