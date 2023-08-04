@@ -25,7 +25,7 @@ random-wallpaper() {
 }
 
 screenshot() {
-    d require main xclip
+    d require maim xclip
     maim -s -d 1 | xclip -selection clipboard -t image/png
 }
 
