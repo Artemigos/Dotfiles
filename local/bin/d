@@ -14,6 +14,11 @@ d-error() {
     fi
 }
 
+d-has-cmd() {
+    local CMD=${1:?Command required}
+    [ -x "$CMD" ] || [ -x "$(which "$CMD" 2>/dev/null)" ]
+}
+
 # make sure that a command exists and notify about missing ones
 d-require() {
     if [[ $# -lt 1 ]]; then
@@ -23,7 +28,7 @@ d-require() {
     local RESULT=0
     while [ -n "${1:-}" ]; do
         local CMD=$1
-        if [ ! -x "$CMD" ] && [ ! -x "$(which "$CMD" 2>/dev/null)" ]; then
+        if ! d has-cmd "$CMD"; then
             d error "Command missing" "$CMD"
             RESULT=1
         fi
@@ -42,7 +47,7 @@ d-require-one() {
 
     while [ -n "${1:-}" ]; do
         local CMD=$1
-        if [ -x "$CMD" ] || [ -x "$(which "$CMD" 2>/dev/null)" ]; then
+        if d has-cmd "$CMD"; then
             echo "$CMD"
             return 0
         fi
