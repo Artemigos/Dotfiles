@@ -8,6 +8,8 @@ main() {
         random-wallpaper) random-wallpaper ;;
         screenshot) screenshot ;;
         jwt-decode) shift; jwt-decode "$@" ;;
+        terminal-popup) shift; terminal-popup "$@" ;;
+        terminal-popup-msg) shift; terminal-popup-msg "$@" ;;
         *) exit 1 ;;
     esac
 }
@@ -48,6 +50,54 @@ jwt-decode() {
 
     base64 -d <<<"$DATA"
     echo
+}
+
+terminal-popup-backend-kitty() {
+    d require kitty
+
+    local WIDTH=${1:?Width required}
+    local HEIGHT=${2:?Height required}
+
+    shift 2
+    if [ $# -eq 0 ]; then
+        echo "Command required" 1>&2
+        return 1
+    fi
+
+    kitty --hold -o remember_window_size=no -o initial_window_width="$WIDTH" -o initial_window_height="$HEIGHT" "$@"
+}
+
+terminal-popup() {
+    if [ -z "$TERMINAL" ]; then
+        echo "Terminal not set" 1>&2
+        return 1
+    fi
+
+    local T
+    T=$(type -t "terminal-popup-backend-$TERMINAL")
+
+    if [ "$T" == "function" ]; then
+        terminal-popup-backend-"$TERMINAL" "$@"
+    else
+        echo "Backend '$TERMINAL' not supported" 1>&2
+        return 1
+    fi
+}
+
+terminal-popup-msg() {
+    local WIDTH=400
+    local HEIGHT=400
+    local MSG=
+
+    while [ $# -gt 0 ]; do
+        case "$1" in
+            -w|--width) WIDTH=$2; shift 2 ;;
+            -h|--height) HEIGHT=$2; shift 2 ;;
+            *) MSG=$1; shift ;;
+        esac
+    done
+
+    terminal-popup "$WIDTH" "$HEIGHT" echo "$MSG"
 }
 
 main "$@"
