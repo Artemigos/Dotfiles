@@ -61,15 +61,13 @@ d-menu-window() {
 }
 
 d-menu-message() {
-    local SELECTOR
-    SELECTOR=$(d require-one wofi rofi)
     local MSG=${1:?Message required}
 
-    if [ "$SELECTOR" == "rofi" ]; then
+    if d has-cmd rofi; then
         rofi -e "$MSG"
     else
-        # wofi -d -i 2>/dev/null
-        d error 'Not implemented' '"d menu message" not implemented for wofi backend'
+        # fallback to a terminal window
+        d tools terminal-popup-msg "$MSG"
     fi
 }
 
