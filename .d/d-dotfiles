@@ -8,8 +8,14 @@ source "$(d script-base)"
 # list all the dotfiles that might be a target for editing
 d-dotfiles-list() {
     d require find sed grep
-    find "$DOTFILES_HOME" -type f -print | grep -v "$(d git submodules "$DOTFILES_HOME" | sed 's/^/\^/')
+    find "$DOTFILES_HOME" -type f -print | grep -v "$(d dotfiles submodules "$DOTFILES_HOME" | sed 's/^/\^/')
 ^$DOTFILES_HOME/.git"
+}
+
+# list submodules in the dotfiles repository
+d-dotfiles-submodules() {
+    d require git awk
+    d git submodule | awk -v workdir="$DOTFILES_HOME" '{print workdir "/" $2}'
 }
 
 # select a dotfile and open it in a editor
