@@ -86,4 +86,9 @@ d-git() {
     exec git -C "$DOTFILES_HOME" "$@"
 }
 
+d-make() {
+    d require make
+    exec make -C "$DOTFILES_HOME" "$@"
+}
+
 forward-cmd "d-" "$@"
