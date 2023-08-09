@@ -81,4 +81,9 @@ d-require-all() {
     d-get-all-requires | xargs -n1 d require
 }
 
+d-git() {
+    d require git
+    exec git -C "$DOTFILES_HOME" "$@"
+}
+
 forward-cmd "d-" "$@"
