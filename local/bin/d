@@ -81,14 +81,24 @@ d-require-all() {
     d-get-all-requires | xargs -n1 d require
 }
 
+d-exec() {
+    cd "$DOTFILES_HOME"
+    exec "$@"
+}
+
 d-git() {
     d require git
-    exec git -C "$DOTFILES_HOME" "$@"
+    d exec git "$@"
 }
 
 d-make() {
     d require make
-    exec make -C "$DOTFILES_HOME" "$@"
+    d exec make "$@"
+}
+
+d-edit() {
+    d require "$EDITOR"
+    d exec "$EDITOR"
 }
 
 forward-cmd "d-" "$@"
