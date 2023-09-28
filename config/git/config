@@ -6,6 +6,7 @@
 	ci = commit
 	f = fetch -p
 	fma = fetch origin master:master
+	fmn = fetch origin main:main
 	logline = log --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit
 	prune-local = !git branch -vv | grep ': gone]' | awk '{print $1}' | xargs git branch ${1:--d}
 
