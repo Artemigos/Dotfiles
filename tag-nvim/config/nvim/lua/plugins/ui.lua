@@ -14,7 +14,7 @@ local function window_title_extenstion()
         lualine_b = {},
         lualine_c = {
             { "'%='", separator = '' },
-            { txt, separator = '' },
+            { txt,    separator = '' },
             { "'%='", separator = '' },
         },
         lualine_x = {},
@@ -228,6 +228,7 @@ return {
     {
         'lukas-reineke/indent-blankline.nvim',
         event = { 'BufReadPost', 'BufNewFile' },
+        main = 'ibl',
         opts = {
             space_char_blankline = ' ',
             show_current_context = true,
@@ -246,10 +247,11 @@ return {
 
     {
         'echasnovski/mini.bufremove',
-        config = function() require('mini.bufremove').setup({}) end,
+        main = 'mini.bufremove',
+        opts = {},
         keys = {
             { '<Leader>bd', function() require('mini.bufremove').delete(0, false) end, desc = 'Delete buffer' },
-            { '<Leader>bD', function() require('mini.bufremove').delete(0, true) end, desc = 'Delete buffer (force)' },
+            { '<Leader>bD', function() require('mini.bufremove').delete(0, true) end,  desc = 'Delete buffer (force)' },
         },
     },
 }

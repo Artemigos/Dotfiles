@@ -3,7 +3,7 @@ return {
     { 'ggandor/lightspeed.nvim', event = 'VeryLazy' },
     { 'tpope/vim-surround', event = 'VeryLazy' },
     { 'wellle/targets.vim', event = 'VeryLazy' },
-    { 'airblade/vim-rooter' },
+    { 'airblade/vim-rooter', enabled = false },
     { 'michaeljsmith/vim-indent-object', event = 'VeryLazy' },
     { 'tpope/vim-sleuth', event = 'VeryLazy' },
     {
