@@ -10,6 +10,7 @@ main() {
         jwt-decode) shift; jwt-decode "$@" ;;
         terminal-popup) shift; terminal-popup "$@" ;;
         terminal-popup-msg) shift; terminal-popup-msg "$@" ;;
+        wait-until) shift; wait-until "$@" ;;
         *) exit 1 ;;
     esac
 }
@@ -98,6 +99,13 @@ terminal-popup-msg() {
     done
 
     terminal-popup "$WIDTH" "$HEIGHT" echo "$MSG"
+}
+
+wait-until() {
+    while ! "$@"; do
+        sleep 5
+    done
+    notify-send "Command succeeded" "$*"
 }
 
 main "$@"
