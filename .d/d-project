@@ -5,13 +5,30 @@ set -euo pipefail
 # shellcheck source=base.sh
 source "$(d script-base)"
 
+session=main
+
 d-project-list() {
     d require fd cut xargs wc
     fd --hidden --type d "^\\.git\$" "$(d home)" ~/git | cut -c "$(echo "$HOME/" | wc -c)-" | xargs -n1 dirname
 }
 
 d-project-open() {
-    repo=$(d project list | d menu dmenu "Repository") && $TERMINAL -d "$HOME/$repo" -e "$EDITOR" -c NvimTreeToggle -c RooterToggle
+    repo=$(d project list | d menu dmenu "Repository")
+    if tmux has -t "$session"; then
+        d-project-open-tmux "$repo"
+    else
+        d-project-open-terminal "$repo"
+    fi
+}
+
+d-project-open-terminal() {
+    repo=${1:-$(d project list | d menu dmenu "Repository")}
+    $TERMINAL -d "$HOME/$repo" -e "$EDITOR" -c NvimTreeToggle
+}
+
+d-project-open-tmux() {
+    repo=${1:-$(d project list | d menu dmenu "Repository")}
+    tmux new-window -t "$session" -c "$HOME/$repo" "$EDITOR" -c NvimTreeToggle
 }
 
 forward-cmd d-project- "$@"
