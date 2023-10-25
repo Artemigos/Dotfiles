@@ -3,6 +3,21 @@ local function refactorMap(modes, key, op)
     return { key, function() require('refactoring').refactor(op) end, mode = modes, desc = op }
 end
 
+local function registerExtraGrammars()
+    local cfg = require('nvim-treesitter.parsers').get_parser_configs()
+    for _, lang in pairs({ 'vcl', 'vtc' }) do
+        cfg[lang] = {
+            install_info = {
+                url = 'https://github.com/M4R7iNP/varnishls',
+                branch = 'main',
+                location = 'vendor/tree-sitter-' .. lang,
+                files = { 'src/parser.c' },
+                requires_generate_from_grammar = true,
+            }
+        }
+    end
+end
+
 return {
     {
         'nvim-treesitter/nvim-treesitter',
@@ -10,6 +25,7 @@ return {
             require('nvim-treesitter.install').update({ with_sync = true })
         end,
         config = function(_, opts)
+            registerExtraGrammars()
             require('nvim-treesitter.configs').setup(opts)
             vim.api.nvim_set_hl(0, 'TSPlaygroundFocus', { link = 'Search' })
         end,

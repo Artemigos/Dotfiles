@@ -26,3 +26,11 @@ require('user.auto-format').setup({ filetypes = { 'rust', 'go', 'javascript', 't
 if vim.fn.empty(vim.env['TMUX']) == 0 then
     require('user.tmux-nav').setup()
 end
+
+-- filetypes
+vim.filetype.add({
+    extension = {
+        vcl = 'vcl',
+        vtc = 'vtc',
+    },
+})
