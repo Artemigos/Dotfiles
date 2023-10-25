@@ -1,6 +1,6 @@
 local function refactorMap(modes, key, op)
     key = '<leader>r' .. key
-    return { key, function() require('refactoring').refactor(op) end, mode = modes, desc = op  }
+    return { key, function() require('refactoring').refactor(op) end, mode = modes, desc = op }
 end
 
 return {
@@ -141,10 +141,10 @@ return {
             refactorMap('x', 'e', 'Extract Function'),
             refactorMap('x', 'E', 'Extract Function To File'),
             refactorMap('x', 'v', 'Extract Variable'),
-            refactorMap({'n', 'x'}, 'i', 'Inline Variable'),
+            refactorMap({ 'n', 'x' }, 'i', 'Inline Variable'),
             refactorMap('n', 'b', 'Extract Block'),
             refactorMap('n', 'B', 'Extract Block To File'),
-            { '<leader>r<space>', function() require('refactoring').select_refactor() end, mode = {'n', 'x'}, desc ='Select refactoring'  },
+            { '<leader>r<space>', function() require('refactoring').select_refactor() end, mode = { 'n', 'x' }, desc = 'Select refactoring' },
         },
     }
 }

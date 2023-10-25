@@ -79,15 +79,17 @@ u.map('n', '<Leader>ot', ':e ~/todo.txt<CR>')
 u.map('n', '<Leader>oi', ':EditAnyInit<CR>')
 
 -- diagnostics
-u.map('n', '[d', vim.diagnostic.goto_prev)
-u.map('n', ']d', vim.diagnostic.goto_next)
-u.map('n', 'gx', vim.diagnostic.open_float)
-u.map('n', '<Leader>cx', vim.diagnostic.open_float)
+u.map('n', '[d', vim.diagnostic.goto_prev, { desc = 'Go to previous diagnostic' })
+u.map('n', ']d', vim.diagnostic.goto_next, { desc = 'Go to next diagnostic' })
+u.map('n', 'gx', vim.diagnostic.open_float, { desc = 'Open diagnostic float' })
+u.map('n', '<Leader>cx', vim.diagnostic.open_float, { desc = 'Open diagnostic float' })
 
 -- insert symbols
 u.defcmd('Symbols', 'lua require("user.symbols").choose()<CR>')
 u.map('n', '<Leader>s', '<cmd>Symbols<CR>')
 
 -- create notes
-u.map('n', '<Leader>nm', function() require('user.notes').ui_new_dated_note('!Work/Meetings') end, { desc = 'Create meeting note' })
-u.map('n', '<Leader>nd', function() require('user.notes').create_dated_note('Daily', 'Daily') end, { desc = 'Create daily note' })
+u.map('n', '<Leader>nm', function() require('user.notes').ui_new_dated_note('!Work/Meetings') end,
+    { desc = 'Create meeting note' })
+u.map('n', '<Leader>nd', function() require('user.notes').create_dated_note('Daily', 'Daily') end,
+    { desc = 'Create daily note' })

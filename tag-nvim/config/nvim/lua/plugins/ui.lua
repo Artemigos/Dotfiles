@@ -88,6 +88,7 @@ return {
                 f = { name = '+telescope' },
                 g = { name = '+git' },
                 i = { name = '+init.lua' },
+                n = { name = '+notes' },
                 o = { name = '+open' },
                 p = { name = '+peek' },
                 r = { name = '+refactor' },

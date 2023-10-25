@@ -46,7 +46,7 @@ local function navigate_to_repo()
     local function navigate(input_url)
         vim.fn.jobstart('xdg-open ' .. input_url)
     end
-    vim.ui.input({prompt='URL', default=url}, navigate)
+    vim.ui.input({ prompt = 'URL', default = url }, navigate)
 end
 
 return {
@@ -54,20 +54,20 @@ return {
         'tpope/vim-fugitive',
         cmd = 'Git',
         keys = {
-            { '<Leader>gi', ':Git commit<CR>' },
-            { '<Leader>gc', ':Telescope git_commits<CR>' },
-            { '<Leader>gp', ':Git push<CR>' },
-            { '<Leader>gl', ':Git pull<CR>' },
-            { '<Leader>gb', ':Telescope git_branches<CR>' },
-            { '<Leader>gs', ':Telescope git_stash<CR>' },
-            { '<Leader>gf', ':Git fetch -p<CR>' },
-            { '<Leader>gg', toggle_fugitive, desc = 'Toggle git window' },
-            { '<Leader>gn', create_new_branch, desc = 'New branch' },
-            { '<Leader>gP', publish_branch, desc = 'Publish (push+set upstream)' },
-            { '<Leader>gd', ':Git prune-local<CR>' },
-            { '<Leader>gD', ':Git prune-local -D<CR>' },
-            { '<Leader>gm', ':Git blame<CR>' },
-            { '<Leader>g@', navigate_to_repo, desc = 'Navigate to the repository URL' },
+            { '<Leader>gi', ':Git commit<CR>',             desc = 'Git commit' },
+            { '<Leader>gc', ':Telescope git_commits<CR>',  desc = 'Find commit' },
+            { '<Leader>gp', ':Git push<CR>',               desc = 'Git push' },
+            { '<Leader>gl', ':Git pull<CR>',               desc = 'Git pull' },
+            { '<Leader>gb', ':Telescope git_branches<CR>', desc = 'Find branch' },
+            { '<Leader>gs', ':Telescope git_stash<CR>',    desc = 'Find stash' },
+            { '<Leader>gf', ':Git fetch -p<CR>',           desc = 'Git fetch -p' },
+            { '<Leader>gg', toggle_fugitive,               desc = 'Toggle git window' },
+            { '<Leader>gn', create_new_branch,             desc = 'New branch' },
+            { '<Leader>gP', publish_branch,                desc = 'Publish (push+set upstream)' },
+            { '<Leader>gd', ':Git prune-local<CR>',        desc = 'Git prune-local' },
+            { '<Leader>gD', ':Git prune-local -D<CR>',     desc = 'Git prune-local -D' },
+            { '<Leader>gm', ':Git blame<CR>',              desc = 'Git blame' },
+            { '<Leader>g@', navigate_to_repo,              desc = 'Navigate to the repository URL' },
         },
     },
 
@@ -98,9 +98,9 @@ return {
             },
         },
         keys = {
-            { '<leader>x<space>', '<cmd>OverseerToggle<CR>', desc = 'Show tasks' },
-            { '<leader>xx', '<cmd>OverseerRun<CR>', desc = 'Run task' },
-            { '<leader>xf', '<cmd>OverseerQuickAction open float<CR>', desc = 'Show last task' },
+            { '<leader>x<space>', '<cmd>OverseerToggle<CR>',                 desc = 'Show tasks' },
+            { '<leader>xx',       '<cmd>OverseerRun<CR>',                    desc = 'Run task' },
+            { '<leader>xf',       '<cmd>OverseerQuickAction open float<CR>', desc = 'Show last task' },
         },
     },
 
