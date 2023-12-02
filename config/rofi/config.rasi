@@ -16,7 +16,7 @@
 
     foreground: @drac-fgd;
     background-color: @drac-bgd;
-    active-background: @drac-pnk;
+    active-background: @drac-cur;
     urgent-background: @drac-red;
     urgent-foreground: @drac-bgd;
     
@@ -24,39 +24,39 @@
     selected-urgent-background: @urgent-background;
     selected-active-background: @active-background;
     separatorcolor: @active-background;
-    bordercolor: #6272a4;
+    bordercolor: @drac-pur;
 }
 
 #window {
     background-color: @background-color;
     border:           3;
-    border-radius: 6;
     border-color: @bordercolor;
-    padding:          5;
+    padding:          0;
 }
 #mainbox {
     border:  0;
-    padding: 5;
+    padding: 0;
 }
 #message {
-    border:       1px dash 0px 0px ;
+    border:       0px;
     border-color: @separatorcolor;
     padding:      1px ;
 }
 #textbox {
+    padding: 5px;
     text-color: @foreground;
 }
 #listview {
     fixed-height: 0;
-    border:       2px dash 0px 0px ;
+    border:       2px 0px 0px 0px;
     border-color: @bordercolor;
     spacing:      2px ;
     scrollbar:    false;
-    padding:      2px 0px 0px ;
+    padding:      0px;
 }
 #element {
     border:  0;
-    padding: 1px ;
+    padding: 5px ;
 }
 #element.normal.normal {
     background-color: @background-color;
@@ -71,7 +71,7 @@
     text-color:       @background-color;
 }
 #element.selected.normal {
-    background-color: @selected-background;
+    background-image: linear-gradient(to right, #44475a, #ff79c6);
     text-color:       @foreground;
 }
 #element.selected.urgent {
@@ -111,7 +111,7 @@
 #inputbar {
     spacing:    0;
     text-color: @foreground;
-    padding:    1px ;
+    padding:    5px ;
 }
 #case-indicator {
     spacing:    0;
@@ -133,8 +133,4 @@
     str:        ":";
     margin:     0px 0.3em 0em 0em ;
     text-color: @drac-grn;
-}
-element-text, element-icon {
-    background-color: inherit;
-    text-color: inherit;
 }
