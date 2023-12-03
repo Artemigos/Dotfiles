@@ -16,9 +16,21 @@ d-menu-from-json() {
     eval "$CMD"
 }
 
+d-menu-tool() {
+    if [ "$XDG_SESSION_TYPE" == "x11" ]; then
+        echo rofi
+    elif [ "$XDG_SESSION_TYPE" == "wayland" ]; then
+        echo wofi
+    else
+        d error "Unknown session type" "$XDG_SESSION_TYPE"
+        return 1
+    fi
+}
+
 d-menu-dmenu() {
     local SELECTOR
-    SELECTOR=$(d require-one wofi rofi)
+    SELECTOR=$(d menu tool)
+    d require "$SELECTOR"
 
     local PROMPT_ARGS=()
     if [ -n "${1:-}" ]; then
@@ -34,7 +46,8 @@ d-menu-dmenu() {
 
 d-menu-command() {
     local SELECTOR
-    SELECTOR=$(d require-one wofi rofi)
+    SELECTOR=$(d menu tool)
+    d require "$SELECTOR"
 
     if [ "$SELECTOR" == "rofi" ]; then
         rofi -modi run -show run
@@ -45,7 +58,8 @@ d-menu-command() {
 
 d-menu-app() {
     local SELECTOR
-    SELECTOR=$(d require-one wofi rofi)
+    SELECTOR=$(d menu tool)
+    d require "$SELECTOR"
 
     if [ "$SELECTOR" == "rofi" ]; then
         rofi -modi drun -show drun -show-icons
