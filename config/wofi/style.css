@@ -1,0 +1,54 @@
+@define-color drac-bgd #282a36;
+@define-color drac-cur #44475a;
+@define-color drac-fgd #f8f8f2;
+@define-color drac-cmt #6272a4;
+@define-color drac-cya #8be9fd;
+@define-color drac-grn #50fa7b;
+@define-color drac-ora #ffb86c;
+@define-color drac-pnk #ff79c6;
+@define-color drac-pur #bd93f9;
+@define-color drac-red #ff5555;
+@define-color drac-yel #f1fa8c;
+
+#window {
+    background: @drac-bgd;
+    border: 3px solid @drac-pur;
+    color: @drac-fgd;
+    font-family: "FiraCode Nerd Font";
+    font-size: 16px;
+}
+
+#outer-box {
+    margin: 3px;
+}
+
+#input {
+    background: none;
+    border-radius: 0;
+    border: 0;
+    border-bottom: 2px solid @drac-pur;
+    color: @drac-cya;
+    caret-color: @drac-cya;
+    margin: 0;
+}
+
+/* this is the only way I managed to make them invisible */
+#input image {
+    color: @drac-bgd;
+}
+
+#img {
+    margin-right: 5px;
+}
+
+#entry {
+    padding: 3px;
+}
+
+#entry:selected {
+    background-image: linear-gradient(to right, @drac-cur, @drac-pnk);
+}
+
+#entry:focus {
+    outline: 0;
+}
