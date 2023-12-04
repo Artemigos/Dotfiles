@@ -1,11 +1,22 @@
 return {
-    { 'tpope/vim-repeat', event = 'VeryLazy' },
-    { 'ggandor/lightspeed.nvim', event = 'VeryLazy' },
-    { 'tpope/vim-surround', event = 'VeryLazy' },
-    { 'wellle/targets.vim', event = 'VeryLazy' },
-    { 'airblade/vim-rooter', enabled = false },
+    { 'tpope/vim-repeat',                event = 'VeryLazy' },
+    {
+        'ggandor/leap.nvim',
+        config = function()
+            local function leap(opts)
+                return function()
+                    require('leap').leap(opts or {})
+                end
+            end
+            vim.keymap.set('n', 's', leap(), { desc = 'Leap motion' });
+            vim.keymap.set('n', 'S', leap({ backward = true }), { desc = 'Backward leap motion' });
+        end,
+    },
+    { 'tpope/vim-surround',              event = 'VeryLazy' },
+    { 'wellle/targets.vim',              event = 'VeryLazy' },
+    { 'airblade/vim-rooter',             enabled = false },
     { 'michaeljsmith/vim-indent-object', event = 'VeryLazy' },
-    { 'tpope/vim-sleuth', event = 'VeryLazy' },
+    { 'tpope/vim-sleuth',                event = 'VeryLazy' },
     {
         'numToStr/Comment.nvim',
         opts = {},
