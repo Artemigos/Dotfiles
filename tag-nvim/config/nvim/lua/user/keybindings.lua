@@ -71,7 +71,8 @@ u.map('v', '>', '>gv')
 -- other
 u.map('n', '<Space><Backspace>', ':nohl<CR>')
 u.map('i', 'jk', '<ESC>')
-u.map('v', 'p', '"_dP') -- keep default register when substitute-putting in visual mode
+-- disabled: breaks when selection is at the end of the line or at last line of the buffer
+-- u.map('v', 'p', '"_dP') -- keep default register when substitute-putting in visual mode
 
 -- text files
 u.map('n', '<Leader>os', ':e ~/scratch.txt<CR>')
