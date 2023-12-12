@@ -79,6 +79,8 @@ d-menu-message() {
 
     if d has-cmd rofi; then
         rofi -e "$MSG"
+    elif d has-cmd zenity; then
+        zenity --info --text "$MSG"
     else
         # fallback to a terminal window
         d tools terminal-popup-msg "$MSG"
