@@ -1,6 +1,7 @@
 from libqtile import bar, widget, qtile
 from libqtile.config import Screen
 
+from rounded_container import RoundedContainer
 from simple_mpris2 import SimpleMpris2, PlaybackStatus
 from utils import run_cmd
 
@@ -19,9 +20,10 @@ def open_menu():
 
 widget_defaults = dict(
     font='Iosevka NFM',
-    fontsize=24,
-    padding=10,
+    fontsize=16,
+    padding=0,
     foreground='#f8f8f2',
+    background='#282a36',
 )
 extension_defaults = widget_defaults.copy()
 
@@ -64,51 +66,52 @@ mpris = SimpleMpris2(
             'Button3': mpris_right,
         })
 
+space = widget.Spacer(length=10, background='#00000000')
 screens = [
     Screen(
         top=bar.Bar(
             [
-                widget.TextBox(
-                    text='󰍜',
-                    background='#bd93f9',
-                    mouse_callbacks={'Button1': open_menu},
-                ),
-                widget.GroupBox(
-                    active='f8f8f2',
-                    this_current_screen_border='44475a',
-                    highlight_method='block',
-                    inactive='6272a4',
+                # widget.TextBox(
+                #     text='󰍜',
+                #     background='#bd93f9',
+                #     mouse_callbacks={'Button1': open_menu},
+                # ),
+                RoundedContainer(widget=widget.GroupBox(
+                    active='f8f8f2', # has windows, not in view
+                    this_current_screen_border='bd93f9', # currently in view
+                    highlight_method='text',
+                    inactive='6272a4', # no windows, not in view
                     urgent_alert_method='text',
                     urgent_text='ff5555',
-                ),
-                widget.Spacer(),
-                mpris,
-                widget.Spacer(),
-                widget.CheckUpdates(
+                )),
+                widget.Spacer(background='#00000000'),
+                RoundedContainer(widget=mpris),
+                widget.Spacer(background='#00000000'),
+                RoundedContainer(widget=widget.CheckUpdates(
                     distro='Arch_checkupdates',
                     fmt=' {}',
                     display_format='{updates}',
                     no_update_string='0',
                     update_interval=300,
-                ),
-                widget.Sep(),
-                VolumeOverride(
+                )),
+                space,
+                RoundedContainer(widget=VolumeOverride(
                     step=5,
                     fmt='󰕾 {}',
                     get_volume_command=['d', 'audio', 'get-volume'],
                     volume_down_command='d audio decrease-volume',
                     volume_up_command='d audio increase-volume',
-                ),
-                widget.Sep(),
-                widget.Clock(format=' %H:%M'),
-                widget.Sep(),
-                widget.Clock(format=' %d/%m'),
-                widget.Sep(),
-                widget.Systray(icon_size=24, padding=8),
+                )),
+                space,
+                RoundedContainer(widget=widget.Clock(format=' %H:%M')),
+                space,
+                RoundedContainer(widget=widget.Clock(format=' %d/%m')),
+                space,
+                widget.Systray(background='#00000000', icon_size=16, padding=8),
             ],
-            32,
-            margin=0,
-            background='#282a36',
+            20,
+            margin=[2, 5, 0, 5],
+            background='#00000000',
         ),
     ),
 ]
