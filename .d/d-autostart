@@ -4,6 +4,7 @@ d require numlockx ibus-daemon xrdb redshift-gtk light-locker
 
 d tools random-wallpaper
 # picom -b # broken AF
+compfy -b # TODO: configure - ignore bar, rofi, tooltips, dnd data preview
 numlockx on
 ibus-daemon -dxr
 setxkbmap -option caps:ctrl_modifier
