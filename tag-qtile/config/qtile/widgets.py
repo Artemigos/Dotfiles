@@ -77,8 +77,8 @@ screens = [
                 #     mouse_callbacks={'Button1': open_menu},
                 # ),
                 RoundedContainer(widget=widget.GroupBox(
-                    active='f8f8f2', # has windows, not in view
-                    this_current_screen_border='bd93f9', # currently in view
+                    active='bd93f9', # has windows, not in view
+                    this_current_screen_border='f8f8f2', # currently in view
                     highlight_method='text',
                     inactive='6272a4', # no windows, not in view
                     urgent_alert_method='text',
