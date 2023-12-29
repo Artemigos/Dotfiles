@@ -156,20 +156,14 @@ keys = [
     k('M-x', 'xdotool click 2', 'Emulates right mouse click'),
 ]
 
-group_definitions = {
-    'main': ('1', '󰖟'),
-    'code': ('2', ''),
-    'communication': ('3', ''),
-    'IV': ('4', ''),
-    'music': ('5', ''),
-}
 scratchpad = ScratchPad('scratchpad', [
     DropDown('term', todo, width=0.9, height=0.6, x=0.05, warp_pointer=False),
 ])
-groups = [Group(k, label=v[1]) for k, v in group_definitions.items()]
+groups_num = 5
+groups = [Group(str(i), label='') for i in range(1, groups_num+1)]
 
 for i in groups:
-    group_key = group_definitions[i.name][0]
+    group_key = i.name
     keys.extend([
         k(f'M-{group_key}', lazy.group[i.name].toscreen(), f'Switch to group {i.name}'),
         k(
@@ -193,9 +187,9 @@ layouts = [
 
 mouse = [
     Drag([mod], 'Button1', lazy.window.set_position_floating(),
-         start=lazy.window.get_position()),
+        start=lazy.window.get_position()),
     Drag([mod], 'Button3', lazy.window.set_size_floating(),
-         start=lazy.window.get_size()),
+        start=lazy.window.get_size()),
     Click([mod], 'Button2', lazy.window.bring_to_front()),
     Click([], 'Button9', emulate_hotkey('XF86AudioPlay')),
     Click([], 'Button8', emulate_hotkey('XF86AudioNext')),
