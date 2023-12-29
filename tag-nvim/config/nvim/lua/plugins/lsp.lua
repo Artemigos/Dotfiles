@@ -1,15 +1,16 @@
 local supported_servers = {
-    'bashls', -- bash
+    'bashls',        -- bash
     'rust_analyzer', -- Rust
-    'jsonls', -- JSON
-    'lua_ls', -- LUA
-    'pyright', -- Python
-    'vimls', -- VimL
-    'yamlls', -- YAML
-    'cssls', -- CSS, LESS, SCSS
-    'tsserver', -- Typescript, Javascript
-    'ruff_lsp', -- python linter
-    'gopls', -- Golang
+    'jsonls',        -- JSON
+    'lua_ls',        -- LUA
+    'pyright',       -- Python
+    'vimls',         -- VimL
+    'yamlls',        -- YAML
+    'cssls',         -- CSS, LESS, SCSS
+    'tsserver',      -- Typescript, Javascript
+    'ruff_lsp',      -- python linter
+    'gopls',         -- Golang
+    'marksman',      -- Markdown notetaking
 }
 
 return {
