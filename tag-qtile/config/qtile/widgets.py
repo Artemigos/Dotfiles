@@ -71,11 +71,12 @@ screens = [
     Screen(
         top=bar.Bar(
             [
-                # widget.TextBox(
-                #     text='󰍜',
-                #     background='#bd93f9',
-                #     mouse_callbacks={'Button1': open_menu},
-                # ),
+                RoundedContainer(background='#bd93f9', widget=widget.TextBox(
+                    text='󰍜',
+                    background='#bd93f9',
+                    mouse_callbacks={'Button1': open_menu},
+                )),
+                space,
                 RoundedContainer(widget=widget.GroupBox(
                     active='bd93f9', # has windows, not in view
                     this_current_screen_border='f8f8f2', # currently in view
