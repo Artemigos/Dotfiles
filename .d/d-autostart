@@ -1,15 +1,15 @@
 #!/bin/sh
 
-d require numlockx ibus-daemon xrdb redshift-gtk light-locker
+d require compfy numlockx ibus-daemon xrdb redshift-gtk nm-applet light-locker
 
 d tools random-wallpaper
-# picom -b # broken AF
-compfy -b # TODO: configure - ignore bar, rofi, tooltips, dnd data preview
+compfy -b # TODO: configure - ignore rofi
 numlockx on
 ibus-daemon -dxr
 setxkbmap -option caps:ctrl_modifier
 xrdb -merge "$HOME/.Xresources"
 redshift-gtk &
+nm-applet &
 light-locker --lock-after-screensaver=0 --lock-on-suspend &
 
 # personally used software
