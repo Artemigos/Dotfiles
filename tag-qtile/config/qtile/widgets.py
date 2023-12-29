@@ -1,6 +1,7 @@
 from libqtile import bar, widget, qtile
 from libqtile.config import Screen
 
+from battery import BatteryOverride, machine_has_battery
 from rounded_container import RoundedContainer
 from simple_mpris2 import SimpleMpris2, PlaybackStatus
 from utils import run_cmd
@@ -58,6 +59,8 @@ def mpris_middle():
                 w.kill()
                 break
 
+space = widget.Spacer(length=10, background='#00000000')
+
 mpris = SimpleMpris2(
         display_formatter=format_song,
         mouse_callbacks={
@@ -66,7 +69,21 @@ mpris = SimpleMpris2(
             'Button3': mpris_right,
         })
 
-space = widget.Spacer(length=10, background='#00000000')
+bat = []
+if machine_has_battery():
+    bat.append(RoundedContainer(widget=BatteryOverride(
+        charge_char='󰂄',
+        discharge_char='󰁾',
+        empty_char='󰂃',
+        format='{char} {percent:2.0%} {hour:d}:{min:02d}',
+        full_char='󰁹',
+        low_foreground='ff5555',
+        notify_below=10,
+        unknown_char='󰂃',
+        update_interval=10,
+    )))
+    bat.append(space)
+
 screens = [
     Screen(
         top=bar.Bar(
@@ -108,6 +125,7 @@ screens = [
                 space,
                 RoundedContainer(widget=widget.Clock(format=' %d/%m')),
                 space,
+                *bat,
                 widget.Systray(background='#00000000', icon_size=16, padding=8),
             ],
             20,
