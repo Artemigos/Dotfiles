@@ -116,3 +116,11 @@ screens = [
         ),
     ),
 ]
+
+# mark the Qtile bar as a "dock" window type to match it in compositor rules
+if qtile.core.name == 'x11':
+    def set_bar_window_type():
+        w = screens[0].top.window.window
+        a = qtile.core.conn.atoms['_NET_WM_WINDOW_TYPE_DOCK']
+        w.set_property('_NET_WM_WINDOW_TYPE', a)
+    qtile.call_soon(set_bar_window_type)
