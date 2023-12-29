@@ -54,7 +54,7 @@ def mpris_middle():
     status = mpris.info()['status']
     if status is not None:
         for w in qtile.windows_map.values():
-            if w.name == 'Spotify':
+            if 'Spotify' in w.name:
                 w.kill()
                 break
 
