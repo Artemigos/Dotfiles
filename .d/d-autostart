@@ -3,7 +3,7 @@
 d require compfy numlockx ibus-daemon xrdb redshift-gtk nm-applet light-locker
 
 d tools random-wallpaper
-compfy -b # TODO: configure - ignore rofi
+compfy -b
 numlockx on
 ibus-daemon -dxr
 setxkbmap -option caps:ctrl_modifier
