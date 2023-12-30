@@ -2,10 +2,9 @@
 
 set -euo pipefail
 
-S=${1:?Session name required}
-
 d require tmux
 
+S=${1:-main}
 if tmux has -t "$S"; then
     tmux attach -t  "$S"
 else
