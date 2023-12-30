@@ -61,12 +61,18 @@ local auto_format_component = {
 return {
     {
         'Mofiqul/dracula.nvim',
-        config = function()
+        config = function(_, opts)
+            require('dracula').setup(opts)
             vim.cmd [[
                 syntax enable
                 colorscheme dracula
             ]]
         end,
+        opts = {
+            overrides = {
+                NvimTreeNormal = { link = 'Normal' },
+            },
+        },
     },
 
     {
