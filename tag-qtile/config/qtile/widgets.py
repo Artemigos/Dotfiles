@@ -5,6 +5,7 @@ from battery import BatteryOverride, machine_has_battery
 from rounded_container import RoundedContainer
 from simple_mpris2 import SimpleMpris2, PlaybackStatus
 from utils import run_cmd
+from custom_poll_command import CustomPollCommand, preprocess_sep_to_sep
 
 def format_song(status, artist, song):
     if status == PlaybackStatus.Paused:
@@ -84,6 +85,19 @@ if machine_has_battery():
     )))
     bat.append(space)
 
+vpn = []
+if True:
+    vpn.append(RoundedContainer(widget=CustomPollCommand(
+        cmd=['d', 'vpn', 'list-vpn-connections'],
+        format='󰖂 {}',
+        empty_format='󰖂',
+        preprocess=preprocess_sep_to_sep(),
+        mouse_callbacks={
+            'Button1': lambda: run_cmd(['d', 'vpn', 'show']),
+        },
+    )))
+    vpn.append(space)
+
 screens = [
     Screen(
         top=bar.Bar(
@@ -105,6 +119,7 @@ screens = [
                 widget.Spacer(background='#00000000'),
                 RoundedContainer(widget=mpris),
                 widget.Spacer(background='#00000000'),
+                *vpn,
                 RoundedContainer(widget=widget.CheckUpdates(
                     distro='Arch_checkupdates',
                     fmt=' {}',
