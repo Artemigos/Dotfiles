@@ -17,6 +17,7 @@ main() {
         # utilities
         select-device) shift; selectDevice "$@" ;;
         select-paired-device) selectPairedDevice ;;
+        list-connected-devices) listConnectedDevices ;;
         # menu handling
         list-x-options) listXOptions ;;
         show) listXOptions | d menu from-json ;;
@@ -78,6 +79,11 @@ selectDevice () {
     d require bluetoothctl cut
     devices=${1:-$(bluetoothctl devices)}
     device=$(echo "$devices" | d menu dmenu 'select device') && echo "$device" | cut -d' ' -f2
+}
+
+listConnectedDevices () {
+    d require bluetoothctl
+    bluetoothctl devices Connected
 }
 
 listXOptions () {

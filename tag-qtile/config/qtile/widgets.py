@@ -98,6 +98,24 @@ if True:
     )))
     vpn.append(space)
 
+bt = []
+if True:
+    def preproc_devices(text: str) -> str:
+        if text is None:
+            return text
+        devices = [x.split(' ')[2] for x in text.split('\n')]
+        return ', '.join(devices)
+    bt.append(RoundedContainer(widget=CustomPollCommand(
+        cmd=['d', 'bluetooth', 'list-connected-devices'],
+        format=' {}',
+        empty_format='',
+        preprocess=preproc_devices,
+        mouse_callbacks={
+            'Button1': lambda: run_cmd(['d', 'bluetooth', 'show']),
+        },
+    )))
+    bt.append(space)
+
 screens = [
     Screen(
         top=bar.Bar(
@@ -119,6 +137,7 @@ screens = [
                 widget.Spacer(background='#00000000'),
                 RoundedContainer(widget=mpris),
                 widget.Spacer(background='#00000000'),
+                *bt,
                 *vpn,
                 RoundedContainer(widget=widget.CheckUpdates(
                     distro='Arch_checkupdates',
