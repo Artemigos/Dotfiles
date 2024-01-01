@@ -101,7 +101,7 @@ if True:
 bt = []
 if True:
     def preproc_devices(text: str) -> str:
-        if text is None:
+        if text is None or text == '':
             return text
         devices = [x.split(' ')[2] for x in text.split('\n')]
         return ', '.join(devices)
