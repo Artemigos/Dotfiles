@@ -86,7 +86,7 @@ if machine_has_battery():
     bat.append(space)
 
 vpn = []
-if True:
+if run_cmd_test(['d', 'vpn', 'has-any-vpns']):
     vpn.append(RoundedContainer(widget=CustomPollCommand(
         cmd=['d', 'vpn', 'list-vpn-connections'],
         format='󰖂 {}',

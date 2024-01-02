@@ -7,6 +7,8 @@ main () {
         x-connect) x-connect ;;
         x-disconnect) x-disconnect ;;
         list-connected-vpns) list-connected-vpns ;;
+        list-all-vpns) list-all-vpns ;;
+        has-any-vpns) has-any-vpns ;;
         list-x-options) listXOptions ;;
         show) listXOptions | d menu from-json ;;
         *) exit 1 ;;
@@ -32,7 +34,7 @@ get-connections-json() {
 get-connections-of-type-json() {
     d require jq
     TYPE=${1:?Connection type required}
-    ACTIVE=$2
+    ACTIVE=${2:-}
     if [ -z "$ACTIVE" ]; then
         get-connections-json | jq "map(select(.TYPE == \"$TYPE\"))"
     else
@@ -65,6 +67,16 @@ x-disconnect () {
 list-connected-vpns () {
     VPNS=$(get-connections-of-type-json vpn yes)
     <<<"$VPNS" jq -r '.[].NAME' | sort
+}
+
+list-all-vpns () {
+    VPNS=$(get-connections-of-type-json vpn)
+    <<<"$VPNS" jq -r '.[].NAME' | sort
+}
+
+has-any-vpns () {
+    VPNS=$(list-all-vpns | wc -l)
+    [[ "$VPNS" -gt 0 ]] || return 1
 }
 
 listXOptions () {
