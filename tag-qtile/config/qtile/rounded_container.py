@@ -32,7 +32,7 @@ class RoundedContainer(base._Widget):
 
     @property
     def height(self):
-        return self.widget.height - self.bar.margin[0] - self.bar.margin[2]
+        return self.widget.height
 
     def draw(self) -> None:
         self.drawer.clear(self.bar.background)
