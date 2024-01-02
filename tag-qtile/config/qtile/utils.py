@@ -19,3 +19,9 @@ def run_cmd(cmd, timeout=5) -> str | None:
         return None
     return str(prc.stdout, encoding='utf8').strip()
 
+def run_cmd_test(cmd, timeout=5) -> bool:
+    try:
+        prc = subprocess.run(cmd, stdout=subprocess.PIPE, stderr=subprocess.DEVNULL, timeout=timeout)
+    except TimeoutError:
+        return False
+    return prc.returncode == 0

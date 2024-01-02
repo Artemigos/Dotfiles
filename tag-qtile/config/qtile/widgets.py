@@ -4,7 +4,7 @@ from libqtile.config import Screen
 from battery import BatteryOverride, machine_has_battery
 from rounded_container import RoundedContainer
 from simple_mpris2 import SimpleMpris2, PlaybackStatus
-from utils import run_cmd
+from utils import run_cmd, run_cmd_test
 from custom_poll_command import CustomPollCommand, preprocess_sep_to_sep
 
 def format_song(status, artist, song):
@@ -99,7 +99,7 @@ if True:
     vpn.append(space)
 
 bt = []
-if True:
+if run_cmd_test(['d', 'bluetooth', 'is-available']):
     def preproc_devices(text: str) -> str:
         if text is None or text == '':
             return text

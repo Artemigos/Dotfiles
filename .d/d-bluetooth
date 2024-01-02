@@ -18,6 +18,7 @@ main() {
         select-device) shift; selectDevice "$@" ;;
         select-paired-device) selectPairedDevice ;;
         list-connected-devices) listConnectedDevices ;;
+        is-available) isAvilable ;;
         # menu handling
         list-x-options) listXOptions ;;
         show) listXOptions | d menu from-json ;;
@@ -84,6 +85,13 @@ selectDevice () {
 listConnectedDevices () {
     d require bluetoothctl
     bluetoothctl devices Connected
+}
+
+isAvilable () {
+    d require bluetoothctl wc
+    local CONTROLLERS
+    CONTROLLERS=$(bluetoothctl list | wc -l)
+    [[ "$CONTROLLERS" -gt 0 ]] || return 1
 }
 
 listXOptions () {
