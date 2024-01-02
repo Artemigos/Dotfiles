@@ -6,7 +6,6 @@ d tools random-wallpaper
 compfy -b
 numlockx on
 ibus-daemon -dxr
-setxkbmap -option caps:ctrl_modifier
 xrdb -merge "$HOME/.Xresources"
 redshift-gtk &
 nm-applet &
