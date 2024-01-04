@@ -44,7 +44,9 @@ local function navigate_to_repo()
     end
     local url = remote:gsub('%s*$', ''):gsub('%.git$', ''):gsub(':', '/'):gsub('^git@', 'https://')
     local function navigate(input_url)
-        vim.fn.jobstart('xdg-open ' .. input_url)
+        if input_url then
+            vim.fn.jobstart('xdg-open ' .. input_url)
+        end
     end
     vim.ui.input({ prompt = 'URL', default = url }, navigate)
 end

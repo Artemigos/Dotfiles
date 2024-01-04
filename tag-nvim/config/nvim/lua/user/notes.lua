@@ -11,7 +11,7 @@ function M.create_note(dir, title, file)
 
     vim.cmd('edit ' .. vim.fn.fnameescape(path))
     vim.api.nvim_buf_set_lines(0, 0, -1, false, lines)
-    vim.api.nvim_win_set_cursor(0, {2, 0})
+    vim.api.nvim_win_set_cursor(0, { 2, 0 })
 end
 
 function M.create_dated_note(dir, title)
@@ -21,11 +21,25 @@ function M.create_dated_note(dir, title)
 end
 
 function M.ui_new_note(dir)
-    vim.ui.input({ prompt = 'Title' }, function(title) M.create_note(dir, title) end)
+    local opts = { prompt = 'Name' }
+    local function on_confirm(title)
+        if title == nil then
+            return
+        end
+        M.create_note(dir, title)
+    end
+    vim.ui.input(opts, on_confirm)
 end
 
 function M.ui_new_dated_note(dir)
-    vim.ui.input({ prompt = 'Title' }, function(title) M.create_dated_note(dir, title) end)
+    local opts = { prompt = 'Title' }
+    local function on_confirm(title)
+        if title == nil then
+            return
+        end
+        M.create_dated_note(dir, title)
+    end
+    vim.ui.input(opts, on_confirm)
 end
 
 return M
