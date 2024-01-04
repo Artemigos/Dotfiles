@@ -94,3 +94,5 @@ u.map('n', '<Leader>nm', function() require('user.notes').ui_new_dated_note('!Wo
     { desc = 'Create meeting note' })
 u.map('n', '<Leader>nd', function() require('user.notes').create_dated_note('Daily', 'Daily') end,
     { desc = 'Create daily note' })
+u.map('n', '<Leader>nt', function() require('user.notes').ui_new_note('Things') end,
+    { desc = 'Create a thing note' })
