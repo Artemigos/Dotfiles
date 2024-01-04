@@ -20,8 +20,24 @@ function M.create_dated_note(dir, title)
     M.create_note(dir, title, file)
 end
 
-function M.ui_new_note(dir)
+function M.find_link_text_under_cursor()
+    local node = vim.treesitter.get_node({ ignore_injections = false })
+    while node ~= nil and node:type() ~= 'link_text' do
+        node = node:parent()
+    end
+
+    if node ~= nil then
+        return vim.treesitter.get_node_text(node, 0)
+    end
+
+    return nil
+end
+
+function M.ui_new_note(dir, default)
     local opts = { prompt = 'Name' }
+    if default ~= nil then
+        opts.default = default
+    end
     local function on_confirm(title)
         if title == nil then
             return
@@ -31,8 +47,11 @@ function M.ui_new_note(dir)
     vim.ui.input(opts, on_confirm)
 end
 
-function M.ui_new_dated_note(dir)
+function M.ui_new_dated_note(dir, default)
     local opts = { prompt = 'Title' }
+    if default ~= nil then
+        opts.default = default
+    end
     local function on_confirm(title)
         if title == nil then
             return
