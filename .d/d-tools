@@ -7,6 +7,7 @@ main() {
         man-pdf) man-pdf ;;
         random-wallpaper) random-wallpaper ;;
         screenshot) screenshot ;;
+        qr-website) qr-website ;;
         jwt-decode) shift; jwt-decode "$@" ;;
         terminal-popup) shift; terminal-popup "$@" ;;
         terminal-popup-msg) shift; terminal-popup-msg "$@" ;;
@@ -30,6 +31,11 @@ random-wallpaper() {
 screenshot() {
     d require maim xclip
     maim -s -d 1 | xclip -selection clipboard -t image/png
+}
+
+qr-website() {
+    d require maim xargs zbarimg xdg-open
+    zbarimg -q --raw <(maim -s) | xargs xdg-open
 }
 
 # usage: d tools jwt-decode [-1|-2|-3]

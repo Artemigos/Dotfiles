@@ -142,6 +142,7 @@ keys = [
 
     # Utilities
     k('<Print>', 'd tools screenshot', 'Take a screenshot'),
+    k('M-<Print>', 'd tools qr-website', 'Select a QR code on screen and open URL'),
     k(
         'M-<grave>',
         lazy.group['scratchpad'].dropdown_toggle('term'),
