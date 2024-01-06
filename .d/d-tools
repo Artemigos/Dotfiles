@@ -7,6 +7,7 @@ main() {
         man-pdf) man-pdf ;;
         random-wallpaper) random-wallpaper ;;
         screenshot) screenshot ;;
+        pick-qr) pick-qr ;;
         qr-website) qr-website ;;
         jwt-decode) shift; jwt-decode "$@" ;;
         terminal-popup) shift; terminal-popup "$@" ;;
@@ -33,9 +34,14 @@ screenshot() {
     maim -s -d 1 | xclip -selection clipboard -t image/png
 }
 
+pick-qr() {
+    d require maim zbarimg
+    maim -s | zbarimg -q --raw -
+}
+
 qr-website() {
-    d require maim xargs zbarimg xdg-open
-    zbarimg -q --raw <(maim -s) | xargs xdg-open
+    d require xargs xdg-open
+    d tools pick-qr | xargs xdg-open
 }
 
 # usage: d tools jwt-decode [-1|-2|-3]
