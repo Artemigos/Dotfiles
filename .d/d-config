@@ -1,0 +1,21 @@
+#!/bin/bash
+
+set -euo pipefail
+
+# shellcheck source=base.sh
+source "$(d script-base)"
+
+CONFIG_DIR=${XDG_CONFIG_HOME:-$HOME/.config}/d
+CONFIG_FILE=$CONFIG_DIR/config.toml
+
+d-config-get() {
+    d require toml
+    local KEY=${1:?Key required}
+    toml get -r "$CONFIG_FILE" "$KEY"
+}
+
+d-config-edit() {
+    "$EDITOR" "$CONFIG_FILE"
+}
+
+forward-cmd d-config- "$@"
