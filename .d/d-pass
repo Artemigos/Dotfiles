@@ -1,11 +1,20 @@
 #!/bin/bash
 
 set -euo pipefail
-shopt -s nullglob globstar
 
-d require printf ydotool pass head tail yq
+main() {
+    case ${1:-} in
+        list) list ;;
+        x-autotype) x-autotype ;;
+        get-meta) shift; get-meta "$@" ;;
+        set-meta) shift; set-meta "$@" ;;
+        *) exit 1 ;;
+    esac
+}
 
-list-passwords() {
+list() {
+    d require printf
+
     local prefix=${PASSWORD_STORE_DIR-~/.password-store}
     local password_files=( "$prefix"/**/*.gpg )
     password_files=( "${password_files[@]#"$prefix"/}" )
@@ -14,55 +23,86 @@ list-passwords() {
     printf '%s\n' "${password_files[@]}"
 }
 
-dmenu="d menu dmenu"
-do_type="ydotool type --key-delay=10 --key-hold=5 --escape=0"
-do_tab="ydotool key --key-delay=10 15:1 15:0"
-do_enter="ydotool key --key-delay=10 28:1 28:0"
+x-autotype() {
+    shopt -s nullglob globstar
 
-password_entry=$(list-passwords | $dmenu)
-data=$(pass show "$password_entry")
-password=$(head -n1 <<<"$data")
-structured_data=$(tail -n +2 <<<"$data")
-username=$(yq '.user' <<<"$structured_data")
+    d require printf ydotool pass head tail yq
 
-[[ -n "$password" ]] || [[ -n "$username" ]] || {
-    d error "Password or username missing" "$password_entry"
-    exit 1
+    dmenu="d menu dmenu"
+    do_type="ydotool type --key-delay=10 --key-hold=5 --escape=0"
+    do_tab="ydotool key --key-delay=10 15:1 15:0"
+    do_enter="ydotool key --key-delay=10 28:1 28:0"
+
+    password_entry=$(list | $dmenu)
+    data=$(pass show "$password_entry")
+    password=$(head -n1 <<<"$data")
+    structured_data=$(tail -n +2 <<<"$data")
+    username=$(yq '.user' <<<"$structured_data")
+
+    [[ -n "$password" ]] || [[ -n "$username" ]] || {
+        d error "Password or username missing" "$password_entry"
+        exit 1
+    }
+
+    user_pass_option="User <Tab> password"
+    pass_option="Password"
+    user_option="User"
+    user_pass_enter_option="User <Tab> password <Enter>"
+    pass_enter_option="Password <Enter>"
+
+    autofill_options=(
+        "$user_pass_option"
+        "$pass_option"
+        "$user_option"
+        "$user_pass_enter_option"
+        "$pass_enter_option"
+    )
+
+    option=$(printf '%s\n' "${autofill_options[@]}" | $dmenu)
+
+    case $option in
+        "$user_pass_option")
+            $do_type "$username"
+            $do_tab
+            $do_type "$password"
+            ;;
+        "$pass_option") $do_type "$password" ;;
+        "$user_option") $do_type "$username" ;;
+        "$user_pass_enter_option")
+            $do_type "$username"
+            $do_tab
+            $do_type "$password"
+            $do_enter
+            ;;
+        "$pass_enter_option")
+            $do_type "$password"
+            $do_enter
+            ;;
+        *) echo "Unknown option" >&2; exit 1 ;;
+    esac
 }
 
-user_pass_option="User <Tab> password"
-pass_option="Password"
-user_option="User"
-user_pass_enter_option="User <Tab> password <Enter>"
-pass_enter_option="Password <Enter>"
+get-meta() {
+    local PASS=${1:?Password path required}
+    local META_KEY=${2:?Metadata key required}
+    pass show "$PASS" | tail -n +2 | yq ".$META_KEY"
+}
 
-autofill_options=(
-    "$user_pass_option"
-    "$pass_option"
-    "$user_option"
-    "$user_pass_enter_option"
-    "$pass_enter_option"
-)
+set-meta() {
+    local PASS=${1:?Password path required}
+    local META_KEY=${2:?Metadata key required}
+    local VALUE=${3:?Metadata value required}
+    local FULL_DATA
+    FULL_DATA=$(pass show "$PASS")
+    local PASSWORD
+    PASSWORD=$(head -n1 <<<"$FULL_DATA")
+    local STRUCTURED_DATA
+    STRUCTURED_DATA=$(tail -n +2 <<<"$FULL_DATA")
+    local UPDATED_STRUCTURED_DATA
+    UPDATED_STRUCTURED_DATA=$(yq ".$META_KEY = \"$VALUE\"" <<<"$STRUCTURED_DATA")
+    local UPDATED_FULL_DATA
+    UPDATED_FULL_DATA=$(printf "%s\n%s" "$PASSWORD" "$UPDATED_STRUCTURED_DATA")
+    pass insert "$PASS" -fm <<<"$UPDATED_FULL_DATA"
+}
 
-option=$(printf '%s\n' "${autofill_options[@]}" | $dmenu)
-
-case $option in
-    "$user_pass_option")
-        $do_type "$username"
-        $do_tab
-        $do_type "$password"
-        ;;
-    "$pass_option") $do_type "$password" ;;
-    "$user_option") $do_type "$username" ;;
-    "$user_pass_enter_option")
-        $do_type "$username"
-        $do_tab
-        $do_type "$password"
-        $do_enter
-        ;;
-    "$pass_enter_option")
-        $do_type "$password"
-        $do_enter
-        ;;
-    *) echo "Unknown option" >&2; exit 1 ;;
-esac
+main "$@"
