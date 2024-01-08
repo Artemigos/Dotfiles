@@ -45,10 +45,15 @@ os () {
 }
 
 listXOptions () {
+    local PLAY_PAUSE_OPTION_CONFIG
+    local PLAY_PAUSE_OPTION
+    PLAY_PAUSE_OPTION_CONFIG=$(d config get toggles.playPauseOption false)
+    [[ "$PLAY_PAUSE_OPTION_CONFIG" == "true" ]] && PLAY_PAUSE_OPTION='{ "description": "Play/pause", "command": "sp play" }' || PLAY_PAUSE_OPTION=""
     cat <<EOF
 {
     "prompt": "section",
     "commands": [
+        $PLAY_PAUSE_OPTION,
         {
             "description": "Audio",
             "command": "d audio show"

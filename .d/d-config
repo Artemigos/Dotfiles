@@ -11,7 +11,8 @@ CONFIG_FILE=$CONFIG_DIR/config.toml
 d-config-get() {
     d require toml
     local KEY=${1:?Key required}
-    toml get -r "$CONFIG_FILE" "$KEY"
+    local DEFAULT=${2:-}
+    [[ -f "$CONFIG_FILE" ]] && toml get -r "$CONFIG_FILE" "$KEY" || echo "$DEFAULT"
 }
 
 d-config-edit() {
