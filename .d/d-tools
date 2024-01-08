@@ -13,6 +13,8 @@ main() {
         terminal-popup) shift; terminal-popup "$@" ;;
         terminal-popup-msg) shift; terminal-popup-msg "$@" ;;
         wait-until) shift; wait-until "$@" ;;
+        list-x-options) listXOptions ;;
+        show) listXOptions | d menu from-json ;;
         *) exit 1 ;;
     esac
 }
@@ -118,6 +120,32 @@ wait-until() {
         sleep 5
     done
     notify-send "Command succeeded" "$*"
+}
+
+listXOptions() {
+    cat <<EOF
+{
+    "prompt": "tool",
+    "commands": [
+        {
+            "description": "Manual (pdf)",
+            "command": "d tools man-pdf"
+        },
+        {
+            "description": "Open QR code URL",
+            "command": "d tools qr-website"
+        },
+        {
+            "description": "Change to random wallpaper",
+            "command": "d tools random-wallpaper"
+        },
+        {
+            "description": "Screenshot",
+            "command": "d tools screenshot"
+        }
+    ]
+}
+EOF
 }
 
 main "$@"

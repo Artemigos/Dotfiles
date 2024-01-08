@@ -79,6 +79,10 @@ listXOptions () {
             "command": "d tz show"
         },
         {
+            "description": "Tools",
+            "command": "d tools show"
+        },
+        {
             "description": "VPN",
             "command": "d vpn show"
         }
