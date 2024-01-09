@@ -5,7 +5,7 @@ set -euo pipefail
 main() {
     case ${1:-} in
         list) list ;;
-        x-autotype) x-autotype ;;
+        x-autotype) shift; x-autotype "$@" ;;
         get-meta) shift; get-meta "$@" ;;
         set-meta) shift; set-meta "$@" ;;
         *) exit 1 ;;
@@ -14,6 +14,8 @@ main() {
 
 list() {
     d require printf
+
+    shopt -s nullglob globstar
 
     local prefix=${PASSWORD_STORE_DIR-~/.password-store}
     local password_files=( "$prefix"/**/*.gpg )
@@ -24,8 +26,6 @@ list() {
 }
 
 x-autotype() {
-    shopt -s nullglob globstar
-
     d require printf ydotool pass head tail yq
 
     dmenu="d menu dmenu"
@@ -33,7 +33,7 @@ x-autotype() {
     do_tab="ydotool key --key-delay=10 15:1 15:0"
     do_enter="ydotool key --key-delay=10 28:1 28:0"
 
-    password_entry=$(list | $dmenu)
+    password_entry=${1:-$(list | $dmenu)}
     data=$(pass show "$password_entry")
     password=$(head -n1 <<<"$data")
     structured_data=$(tail -n +2 <<<"$data")

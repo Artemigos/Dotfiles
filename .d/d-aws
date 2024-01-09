@@ -1,0 +1,90 @@
+#!/bin/bash
+
+set -euo pipefail
+
+# shellcheck source=base.sh
+source "$(d script-base)"
+
+join() {
+    local IFS="$1"
+    shift
+    echo "$*"
+}
+
+open-in-container() {
+    d require firefox
+    local URL=${1:?URL required}
+    local CONTAINER=${2:-}
+
+    if [ -n "$CONTAINER" ]; then
+        firefox "ext+container:name=$CONTAINER&url=$URL"
+    else
+        firefox "$URL"
+    fi
+}
+
+container-for-account() {
+    local ACCOUNT=${1:?Account required}
+    d config get "aws.account-containers.$ACCOUNT"
+}
+
+d-aws-x-perform-login() {
+    local ACCOUNT CONTAINER
+    ACCOUNT=${1:?Account required}
+    CONTAINER=$(container-for-account "$ACCOUNT")
+    open-in-container "https://$ACCOUNT.signin.aws.amazon.com/console" "$CONTAINER"
+    d pass x-autotype "CUP/AWS/$ACCOUNT"
+}
+
+d-aws-x-select-account() {
+    d require jq
+    d config get aws.accounts | jq -r '.[]' | d menu dmenu
+}
+
+d-aws-x-signin() {
+    ACCOUNT=$(d-aws-x-select-account)
+    d-aws-x-perform-login "$ACCOUNT"
+}
+
+d-aws-x-select-service() {
+    d require cut sed
+    local DATA_FILE CHOICE
+    DATA_FILE=$DOTFILES_HOME/.for-reuse/aws-services.tsv
+    CHOICE=$(cut -f1 "$DATA_FILE" | d menu dmenu)
+    sed -n "/^$CHOICE\t/p" "$DATA_FILE" | cut -f2
+}
+
+d-aws-x-open-service() {
+    d require envsubst
+    local ACCOUNT SERVICE CONTAINER REGION
+    REGION=$(d config get aws.region)
+    export REGION
+    ACCOUNT=$(d-aws-x-select-account)
+    SERVICE=$(d-aws-x-select-service | envsubst '$REGION')
+    CONTAINER=$(container-for-account "$ACCOUNT")
+    open-in-container "$SERVICE" "$CONTAINER"
+}
+
+d-aws-list-x-options() {
+    cat <<EOF
+{
+    "prompt": "aws",
+    "commands": [
+        {
+            "description": "Sign in",
+            "command": "d aws x-signin"
+        },
+        {
+            "description": "Open service",
+            "command": "d aws x-open-service"
+        }
+    ]
+}
+EOF
+}
+
+d-aws-show() {
+    d-aws-list-x-options | d menu from-json
+}
+
+forward-cmd d-aws- "$@"
