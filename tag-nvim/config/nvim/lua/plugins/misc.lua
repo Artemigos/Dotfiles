@@ -1,3 +1,5 @@
+local u = require('user.utils')
+
 local function create_new_branch()
     vim.ui.input('New branch name:', function(branch)
         if branch == nil then
@@ -107,5 +109,19 @@ return {
     },
 
     -- perf
+    {
+        'github/copilot.vim',
+        config = function()
+            vim.g.copilot_no_tab_map = true
+            vim.keymap.set('i', '<M-Enter>', 'copilot#Accept("\\<CR>")', {
+                expr = true,
+                replace_keycodes = false,
+            })
+        end,
+        cond = function()
+            local result = u.exec('d config get toggles.copilot false')
+            return vim.trim(result) == 'true'
+        end,
+    },
     { 'tweekmonster/startuptime.vim' },
 }
