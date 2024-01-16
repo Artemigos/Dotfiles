@@ -13,6 +13,11 @@ local supported_servers = {
     'marksman',      -- Markdown notetaking
 }
 
+local function on_attach(_, bufnr)
+    vim.api.nvim_buf_set_option(0, 'omnifunc', 'v:lua.vim.lsp.omnifunc')
+    require('user.auto-format').on_attach(bufnr)
+end
+
 return {
     {
         'williamboman/mason.nvim',
@@ -120,11 +125,6 @@ return {
             --     callback = vim.lsp.buf.clear_references,
             -- })
 
-            local on_attach = function(_, bufnr)
-                vim.api.nvim_buf_set_option(0, 'omnifunc', 'v:lua.vim.lsp.omnifunc')
-                require('user.auto-format').on_attach(bufnr)
-            end
-
             local capabilities = require('cmp_nvim_lsp').default_capabilities(vim.lsp.protocol.make_client_capabilities())
 
             local function make_config(server)
@@ -206,6 +206,7 @@ return {
                     local ft = vim.api.nvim_buf_get_option(bufnr, 'filetype')
                     return not require('user.tool-windows').is_tool_ft(ft)
                 end,
+                on_attach = on_attach,
                 sources = {
                     -- code actions
                     null_ls.builtins.code_actions.shellcheck,
