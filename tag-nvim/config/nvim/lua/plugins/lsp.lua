@@ -200,6 +200,17 @@ return {
                 filetypes = { 'yaml' },
             }
 
+            local vcl_formatter = {
+                name = 'vcl-formatter',
+                method = null_ls.methods.FORMATTING,
+                generator = formatter_factory({
+                    command = 'vcl-formatter',
+                    to_stdin = true,
+                    args = { '-i', '2', '-' },
+                }),
+                filetypes = { 'vcl' },
+            }
+
             return {
                 border = 'rounded',
                 should_attach = function(bufnr)
@@ -246,6 +257,7 @@ return {
                     -- null_ls.builtins.formatting.lua_format,
                     -- null_ls.builtins.formatting.markdownlint,
                     -- null_ls.builtins.formatting.rustfmt,
+                    vcl_formatter,
                 },
             }
 
