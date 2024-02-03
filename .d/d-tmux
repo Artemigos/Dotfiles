@@ -1,0 +1,16 @@
+#!/bin/bash
+
+set -euo pipefail
+
+# shellcheck source=base.sh
+source "$(d script-base)"
+
+d-tmux-pick-window() {
+    local S=${1:-main}
+    local CHOICE NUM
+    CHOICE=$(tmux list-windows -t "$S" -F "#I: #W" | d menu dmenu)
+    NUM=$(echo -n "$CHOICE" | cut -d: -f1)
+    tmux select-window -t "$S:$NUM"
+}
+
+forward-cmd d-tmux- "$@"

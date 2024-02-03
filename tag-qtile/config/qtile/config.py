@@ -151,6 +151,7 @@ keys = [
     k('M-b', 'bwmenu', 'Run Bitwarden menu'),
     k('M-d', 'd tools man-pdf', 'Select a manpage and show it as PDF.'),
     k('M-A-t', tickle_window, 'Tickles a window to help resize things.'),
+    k('M-t', 'd tmux pick-window', 'Select a tmux window in the main session.'),
 
     # Mouse
     k('M-z', 'xdotool click 1', 'Emulates left mouse click'),
