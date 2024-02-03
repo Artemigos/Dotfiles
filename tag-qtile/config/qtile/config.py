@@ -152,6 +152,9 @@ keys = [
     k('M-d', 'd tools man-pdf', 'Select a manpage and show it as PDF.'),
     k('M-A-t', tickle_window, 'Tickles a window to help resize things.'),
     k('M-t', 'd tmux pick-window', 'Select a tmux window in the main session.'),
+    k('M-v', 'd vpn x-connect', 'Pick a VPN profile and connect to it.'),
+    k('M-S-v', 'd vpn x-disconnect', 'Pick a VPN profile and disconnect from it.'),
+    k('M-b', 'd pass x-autotype', 'Password manager.'),
 
     # Mouse
     k('M-z', 'xdotool click 1', 'Emulates left mouse click'),
