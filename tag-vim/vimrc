@@ -1,17 +1,7 @@
-runtime bundle/vim-pathogen/autoload/pathogen.vim
-
-execute pathogen#infect()
 syntax on
 filetype plugin indent on
 
 set nocompatible
-
-" C# method text objects
-let g:method_regex='\(\(public\|private\|async\|static\|virtual\|abstract\|override\|new\|protected\|internal\)\s\+\)*\a\+\s\+\a\+\(<.\{-1,}>\)\=(.\{-})\_s\{-}{'
-exec 'vnoremap am :<C-U>?'.g:method_regex.'<CR>v/{<CR>%'
-exec 'vnoremap im :<C-U>?'.g:method_regex.'<CR>/{<CR>vi{'
-omap am :normal vam<CR>
-omap im :normal vim<CR>
 
 " indenting settings
 set modeline
@@ -35,7 +25,6 @@ set t_8f=[38;2;%lu;%lu;%lum
 set t_8b=[48;2;%lu;%lu;%lum
 set t_Co=256
 set termguicolors
-colors dracula
 
 " quality of life
 set wildmenu
@@ -53,10 +42,6 @@ endif
 set autoread
 set showtabline=2
 set laststatus=2
-
-let g:airline_powerline_fonts = 1
-let g:airline#extensions#tabline#enabled = 1
-let g:airline_theme='dracula'
 
 nnoremap <C-N> :bn<CR>
 nnoremap <C-P> :bp<CR>
