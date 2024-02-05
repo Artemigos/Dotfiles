@@ -32,7 +32,7 @@ return {
             }
         },
         keys = {
-            { '<Leader>ff', t('find_files', { hidden = true }), desc = 'Find file' },
+            { '<Leader>ff', t('find_files'), desc = 'Find file' },
             { '<Leader>fg', t('git_files'), desc = 'Find git file' },
             { '<Leader>fb', t('buffers'), desc = 'Find buffer' },
             { '<Leader>f/', t('live_grep', { additional_args = { '--hidden' } }), desc = 'Live grep' },
