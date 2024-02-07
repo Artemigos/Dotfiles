@@ -20,7 +20,7 @@ function M.on_attach(bufnr)
     end, { desc = 'Toggle auto formatting for this buffer' })
 
     local ft = vim.api.nvim_buf_get_option(bufnr, 'filetype')
-    if vim.tbl_contains(M.default_enabled_filetypes, ft) then
+    if vim.tbl_contains(M.default_enabled_filetypes, ft) and not M.is_auto_format_enabled(bufnr) then
         M.toggle_auto_format(bufnr)
     end
 end
