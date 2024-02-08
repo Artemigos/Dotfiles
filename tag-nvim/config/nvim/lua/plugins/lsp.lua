@@ -206,7 +206,10 @@ return {
                 generator = formatter_factory({
                     command = 'vcl-formatter',
                     to_stdin = true,
-                    args = { '-i', '2', '-' },
+                    args = function(params)
+                        local indent = vim.api.nvim_buf_get_option(params.bufnr, 'shiftwidth')
+                        return { '-i', tostring(indent), '-' }
+                    end,
                 }),
                 filetypes = { 'vcl' },
             }
