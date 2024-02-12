@@ -69,10 +69,9 @@ return {
             ]]
         end,
         opts = {
-            overrides = function(colors)
+            overrides = function()
                 return {
                     NvimTreeNormal = { link = 'Normal' },
-                    Visual = { bg = colors.menu },
                 }
             end,
         },
