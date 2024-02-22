@@ -25,7 +25,7 @@ d-project-open() {
 d-project-open-terminal() {
     local repo
     repo=${1:-$(d project list | d menu dmenu "Repository")}
-    $TERMINAL -d "$HOME/$repo" -e "$EDITOR" -c NvimTreeToggle
+    $TERMINAL -d "$HOME/$repo" -e "$EDITOR"
 }
 
 d-project-open-tmux() {
@@ -33,7 +33,7 @@ d-project-open-tmux() {
     local display_name
     repo=${1:-$(d project list | d menu dmenu "Repository")}
     display_name=$(basename "$repo")
-    tmux new-window -t "$session" -n "$display_name" -c "$HOME/$repo" "$EDITOR" -c NvimTreeToggle
+    tmux new-window -t "$session" -n "$display_name" -c "$HOME/$repo" "$EDITOR"
 }
 
 forward-cmd d-project- "$@"

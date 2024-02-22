@@ -208,6 +208,7 @@ return {
 
     {
         'kyazdani42/nvim-tree.lua',
+        enabled = false,
         dependencies = { 'kyazdani42/nvim-web-devicons' },
         cmd = 'NvimTreeToggle',
         opts = {
@@ -224,6 +225,41 @@ return {
         },
         keys = {
             { '<Leader>e', function() require('nvim-tree.api').tree.toggle() end, desc = 'Toggle file tree' },
+        },
+    },
+
+    {
+        'echasnovski/mini.files',
+        version = '*',
+        opts = {
+            windows = {
+                preview = true,
+            },
+        },
+        config = function(_, opts)
+            require('mini.files').setup(opts)
+            local show_dotfiles = true
+
+            local filter_show = function(_) return true end
+            local filter_hide = function(fs_entry)
+                return not vim.startswith(fs_entry.name, '.')
+            end
+
+            local toggle_dotfiles = function()
+                show_dotfiles = not show_dotfiles
+                local new_filter = show_dotfiles and filter_show or filter_hide
+                MiniFiles.refresh({ content = { filter = new_filter } })
+            end
+
+            vim.api.nvim_create_autocmd('User', {
+                pattern = 'MiniFilesBufferCreate',
+                callback = function(args)
+                    vim.keymap.set('n', 'I', toggle_dotfiles, { buffer = args.data.buf_id })
+                end,
+            })
+        end,
+        keys = {
+            { '<Leader>e', function() if not MiniFiles.close() then MiniFiles.open() end end, desc = 'Toggle file explorer' },
         },
     },
 
