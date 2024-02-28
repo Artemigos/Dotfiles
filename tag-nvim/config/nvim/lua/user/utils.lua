@@ -12,15 +12,18 @@ end
 
 function M.try_exec(cmd)
     local output = vim.fn.system(cmd)
-    return vim.v.shell_error, output
+    return {
+        code = vim.v.shell_error,
+        output = output,
+    }
 end
 
 function M.exec(cmd)
-    local code, output = M.try_exec(cmd)
-    if code == 0 then
-        return output
+    local result = M.try_exec(cmd)
+    if result.code == 0 then
+        return result.output
     end
-    error('Command "' .. cmd .. '" exited with code ' .. code)
+    error('Command "' .. cmd .. '" exited with code ' .. result.code)
 end
 
 function M.select_file_and_run(filter, handler)
@@ -53,22 +56,19 @@ function M.select_file_and_run(filter, handler)
     }):find()
 end
 
-function M.cached_exec(cmd, timeout)
-    local R = {}
-    R.last_eval_ts = 0
-    R.value = nil
-    R.status = nil
+function M.cached(timeout, reeval, ...)
+    local last_eval_ts = 0
+    local value = nil
+    local varg = { ... }
 
-    function R.get()
+    return function()
         local now = vim.loop.now()
-        if now - R.last_eval_ts > timeout then
-            R.last_eval_ts = now
-            R.status, R.value = M.try_exec(cmd)
+        if now - last_eval_ts > timeout then
+            last_eval_ts = now
+            value = reeval(unpack(varg))
         end
-        return R.status, R.value
+        return value
     end
-
-    return R
 end
 
 return M

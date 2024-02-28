@@ -245,7 +245,8 @@ return {
         config = function(_, opts)
             local show_dotfiles = true
             local show_gitignored = true
-            local ls_files = u.cached_exec('git ls-files --cached --other --exclude-standard | xargs realpath', 5000)
+            local ls_files = u.cached(5000, u.try_exec,
+                'git ls-files --cached --other --exclude-standard | xargs realpath')
             local filter = function(fs_entry)
                 if show_dotfiles and show_gitignored then
                     return true
@@ -259,12 +260,12 @@ return {
                     return true
                 end
 
-                local status, output = ls_files.get()
-                if status ~= 0 then
+                local result = ls_files()
+                if result.code ~= 0 then
                     return true
                 end
 
-                local lines = vim.split(output, '\n')
+                local lines = vim.split(result.output, '\n')
                 for _, entry in ipairs(lines) do
                     if vim.startswith(entry, fs_entry.path) then
                         return true
