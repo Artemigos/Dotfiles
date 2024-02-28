@@ -1,3 +1,5 @@
+local u = require('user.utils')
+
 local function format_mode(mode)
     local dash_pos = mode:find('-')
     if dash_pos ~= nil then
@@ -232,29 +234,64 @@ return {
         'echasnovski/mini.files',
         version = '*',
         opts = {
+            mappings = {
+                go_in_plus = '<CR>',
+            },
             windows = {
                 preview = true,
+                width_preview = 40,
             },
         },
         config = function(_, opts)
-            require('mini.files').setup(opts)
             local show_dotfiles = true
+            local show_gitignored = true
+            local ls_files = u.cached_exec('git ls-files --cached --other --exclude-standard | xargs realpath', 5000)
+            local filter = function(fs_entry)
+                if show_dotfiles and show_gitignored then
+                    return true
+                end
 
-            local filter_show = function(_) return true end
-            local filter_hide = function(fs_entry)
-                return not vim.startswith(fs_entry.name, '.')
+                if not show_dotfiles and vim.startswith(fs_entry.name, '.') then
+                    return false
+                end
+
+                if show_gitignored then
+                    return true
+                end
+
+                local status, output = ls_files.get()
+                if status ~= 0 then
+                    return true
+                end
+
+                local lines = vim.split(output, '\n')
+                for _, entry in ipairs(lines) do
+                    if vim.startswith(entry, fs_entry.path) then
+                        return true
+                    end
+                end
+
+                return false
             end
+
+            opts.content = { filter = filter }
+            require('mini.files').setup(opts)
 
             local toggle_dotfiles = function()
                 show_dotfiles = not show_dotfiles
-                local new_filter = show_dotfiles and filter_show or filter_hide
-                MiniFiles.refresh({ content = { filter = new_filter } })
+                MiniFiles.refresh({ content = { filter = filter } })
+            end
+
+            local toggle_gitignored = function()
+                show_gitignored = not show_gitignored
+                MiniFiles.refresh({ content = { filter = filter } })
             end
 
             vim.api.nvim_create_autocmd('User', {
                 pattern = 'MiniFilesBufferCreate',
                 callback = function(args)
                     vim.keymap.set('n', 'I', toggle_dotfiles, { buffer = args.data.buf_id })
+                    vim.keymap.set('n', 'G', toggle_gitignored, { buffer = args.data.buf_id })
                 end,
             })
         end,

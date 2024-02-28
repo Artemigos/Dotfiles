@@ -53,4 +53,22 @@ function M.select_file_and_run(filter, handler)
     }):find()
 end
 
+function M.cached_exec(cmd, timeout)
+    local R = {}
+    R.last_eval_ts = 0
+    R.value = nil
+    R.status = nil
+
+    function R.get()
+        local now = vim.loop.now()
+        if now - R.last_eval_ts > timeout then
+            R.last_eval_ts = now
+            R.status, R.value = M.try_exec(cmd)
+        end
+        return R.status, R.value
+    end
+
+    return R
+end
+
 return M
