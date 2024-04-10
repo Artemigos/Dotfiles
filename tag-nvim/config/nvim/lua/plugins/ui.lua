@@ -261,7 +261,7 @@ return {
                 end
 
                 local result = ls_files()
-                if result.code ~= 0 then
+                if result == nil or result.code ~= 0 then
                     return true
                 end
 
