@@ -23,18 +23,18 @@ convert-tz() {
     local TZ_FROM=${1:?Source timezone required}
     local TZ_TO=${2:?Target timezone required}
     local TIME=${3:?Time required}
-    local TIME_FORMAT=${4:-%R %Z}
-    local RESULT
-    RESULT=$(TZ="$TZ_TO" date -d "TZ=\"$TZ_FROM\" $TIME" +"$TIME_FORMAT")
+    local RESULT TARGET_TIME CLOCK
+    TARGET_TIME=$(TZ="$TZ_TO" date -d "TZ=\"$TZ_FROM\" $TIME" +"%R")
+    CLOCK=$(clock-face-for-time "$TARGET_TIME")
+    RESULT=$(TZ="$TZ_TO" date -d "TZ=\"$TZ_FROM\" $TIME" +" $CLOCK%R %Z")
     echo "$RESULT"
 }
 
 gen-tz-summary() {
     local TZ_FROM=${1:?Source timezone required}
     local TIME=${2:?Time required}
-    local TIME_FORMAT=${3:-%R %Z}
     while read -r line; do
-        convert-tz "$TZ_FROM" "$line" "$TIME" "$TIME_FORMAT"
+        convert-tz "$TZ_FROM" "$line" "$TIME"
     done <<<"$TZS"
 }
 
@@ -63,6 +63,40 @@ gen-times() {
     done
 }
 
+clock-face-for-time() {
+    local TIME=${1:?Time required}
+    local HOUR
+    local MINUTE
+    HOUR=$(( $(cut -d: -f1 <<<"$TIME") % 12 ))
+    MINUTE=$(( $(cut -d: -f2 <<<"$TIME") / 30 ))
+    case "$HOUR$MINUTE" in
+        00) echo "🕛" ;;
+        10) echo "🕐" ;;
+        20) echo "🕑" ;;
+        30) echo "🕒" ;;
+        40) echo "🕓" ;;
+        50) echo "🕔" ;;
+        60) echo "🕕" ;;
+        70) echo "🕖" ;;
+        80) echo "🕗" ;;
+        90) echo "🕘" ;;
+        100) echo "🕙" ;;
+        110) echo "🕚" ;;
+        01) echo "🕧" ;;
+        11) echo "🕜" ;;
+        21) echo "🕝" ;;
+        31) echo "🕞" ;;
+        41) echo "🕟" ;;
+        51) echo "🕠" ;;
+        61) echo "🕡" ;;
+        71) echo "🕢" ;;
+        81) echo "🕣" ;;
+        91) echo "🕤" ;;
+        101) echo "🕥" ;;
+        111) echo "🕦" ;;
+    esac
+}
+
 x-time-input() {
     gen-times | d menu dmenu "Time" # TODO: should this be generalized as "arbitrary user input"?
 }
@@ -73,7 +107,7 @@ x-gen-tz-summary() {
 
     TZ_FROM=$(x-select-tz)
     TIME=$(x-time-input)
-    gen-tz-summary "$TZ_FROM" "$TIME" " 🕐%R %Z"
+    gen-tz-summary "$TZ_FROM" "$TIME"
 }
 
 x-gen-tz-summary-show() {
