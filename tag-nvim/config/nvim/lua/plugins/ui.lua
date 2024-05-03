@@ -297,7 +297,11 @@ return {
             })
         end,
         keys = {
-            { '<Leader>e', function() if not MiniFiles.close() then MiniFiles.open() end end, desc = 'Toggle file explorer' },
+            {
+                '<Leader>e',
+                function() if not MiniFiles.close() then MiniFiles.open() end end,
+                desc = 'Toggle file explorer'
+            },
         },
     },
 
@@ -312,10 +316,7 @@ return {
         'lukas-reineke/indent-blankline.nvim',
         event = { 'BufReadPost', 'BufNewFile' },
         main = 'ibl',
-        opts = {
-            space_char_blankline = ' ',
-            show_current_context = true,
-        },
+        opts = {},
     },
 
     {
