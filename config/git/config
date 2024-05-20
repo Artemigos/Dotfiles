@@ -10,6 +10,7 @@
 	logline = log --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit
 	prune-local = !git branch -vv | grep ': gone]' | awk '{print $1}' | xargs git branch ${1:--d}
 	pull-preview = !git fetch && git diff HEAD..origin/$(git rev-parse --abbrev-ref HEAD)
+	lastdiff = diff HEAD@{1}..HEAD
 
 [advice]
 	statusHints = false
