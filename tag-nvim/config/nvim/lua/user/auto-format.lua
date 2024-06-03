@@ -7,13 +7,17 @@ function M.setup(opts)
 end
 
 function M.on_attach(bufnr)
-    vim.api.nvim_buf_create_user_command(bufnr, 'Format', function(_)
-        if vim.lsp.buf.format then
-            vim.lsp.buf.format()
-        elseif vim.lsp.buf.formatting then
-            vim.lsp.buf.formatting()
+    vim.api.nvim_buf_create_user_command(bufnr, 'Format', function(args)
+        local range = nil
+        if args.count ~= -1 then
+            local end_line = vim.api.nvim_buf_get_lines(0, args.line2 - 1, args.line2, true)[1]
+            range = {
+                start = { args.line1, 0 },
+                ["end"] = { args.line2, end_line:len() },
+            }
         end
-    end, { desc = 'Format current buffer with LSP' })
+        require("conform").format({ lsp_fallback = true, range = range })
+    end, { desc = 'Format current buffer with LSP', range = true })
 
     vim.api.nvim_buf_create_user_command(bufnr, 'ToggleAutoFormat', function(_)
         M.toggle_auto_format(bufnr)

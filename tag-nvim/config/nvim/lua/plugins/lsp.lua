@@ -177,6 +177,42 @@ return {
         end,
     },
 
+    {
+        'stevearc/conform.nvim',
+        event = { 'BufWritePre' },
+        cmd = { 'ConformInfo' },
+        keys = {
+            { 'gF',         '<cmd>Format<CR>', desc = 'Format code' },
+            { '<leader>cF', '<cmd>Format<CR>', desc = 'Format code' },
+        },
+        opts = {
+            formatters_by_ft = {
+                python = { 'isort', 'black' },
+                go = { 'gofumpt' },
+                sh = { 'shfmt' },
+                fish = { 'fish_indent' },
+                yaml = { 'yq' },
+            },
+            -- TODO:
+            -- local vcl_formatter = {
+            --     name = 'vcl-formatter',
+            --     method = null_ls.methods.FORMATTING,
+            --     generator = formatter_factory({
+            --         command = 'vcl-formatter',
+            --         to_stdin = true,
+            --         args = function(params)
+            --             local indent = vim.api.nvim_buf_get_option(params.bufnr, 'shiftwidth')
+            --             return { '-i', tostring(indent), '-' }
+            --         end,
+            --     }),
+            --     filetypes = { 'vcl' },
+            -- }
+        },
+        init = function()
+            vim.o.formatexpr = "v:lua.require'conform'.formatexpr()"
+        end,
+    },
+
     -- null-ls
     {
         'jose-elias-alvarez/null-ls.nvim',
@@ -184,35 +220,9 @@ return {
             'williamboman/mason.nvim',
         },
         event = { 'BufReadPre', 'BufNewFile' },
-        keys = {
-            { 'gF',         '<cmd>Format<CR>', desc = 'Format code' },
-            { '<leader>cF', '<cmd>Format<CR>', desc = 'Format code' },
-        },
         opts = function()
             local u = require('user.utils')
             local null_ls = require('null-ls')
-            local formatter_factory = require('null-ls.helpers').formatter_factory
-
-            local yq = {
-                name = 'yq',
-                method = null_ls.methods.FORMATTING,
-                generator = formatter_factory({ command = 'yq', to_stdin = true, }),
-                filetypes = { 'yaml' },
-            }
-
-            local vcl_formatter = {
-                name = 'vcl-formatter',
-                method = null_ls.methods.FORMATTING,
-                generator = formatter_factory({
-                    command = 'vcl-formatter',
-                    to_stdin = true,
-                    args = function(params)
-                        local indent = vim.api.nvim_buf_get_option(params.bufnr, 'shiftwidth')
-                        return { '-i', tostring(indent), '-' }
-                    end,
-                }),
-                filetypes = { 'vcl' },
-            }
 
             return {
                 border = 'rounded',
@@ -225,8 +235,6 @@ return {
                     -- code actions
                     null_ls.builtins.code_actions.shellcheck,
                     null_ls.builtins.code_actions.gitrebase,
-                    -- null_ls.builtins.code_actions.eslint,
-                    -- null_ls.builtins.code_actions.refactoring,
 
                     -- diagnostics
                     null_ls.builtins.diagnostics.editorconfig_checker,
@@ -244,23 +252,6 @@ return {
                             }
                         end,
                     }),
-                    -- null_ls.builtins.diagnostics.eslint,
-                    -- null_ls.builtins.diagnostics.hadolint,
-                    -- null_ls.builtins.diagnostics.markdownlint,
-                    -- null_ls.builtins.diagnostics.selene,
-                    -- null_ls.builtins.diagnostics.yamllint,
-
-                    -- formatters
-                    null_ls.builtins.formatting.fish_indent,
-                    null_ls.builtins.formatting.shfmt,
-                    yq,
-                    null_ls.builtins.formatting.black,
-                    null_ls.builtins.formatting.gofumpt,
-                    -- null_ls.builtins.formatting.prettierd,
-                    -- null_ls.builtins.formatting.lua_format,
-                    -- null_ls.builtins.formatting.markdownlint,
-                    -- null_ls.builtins.formatting.rustfmt,
-                    vcl_formatter,
                 },
             }
 
