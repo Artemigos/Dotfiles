@@ -276,16 +276,17 @@ return {
             end
 
             opts.content = { filter = filter }
-            require('mini.files').setup(opts)
+            local mf = require('mini.files')
+            mf.setup(opts)
 
             local toggle_dotfiles = function()
                 show_dotfiles = not show_dotfiles
-                MiniFiles.refresh({ content = { filter = filter } })
+                mf.refresh({ content = { filter = filter } })
             end
 
             local toggle_gitignored = function()
                 show_gitignored = not show_gitignored
-                MiniFiles.refresh({ content = { filter = filter } })
+                mf.refresh({ content = { filter = filter } })
             end
 
             vim.api.nvim_create_autocmd('User', {
@@ -299,7 +300,7 @@ return {
         keys = {
             {
                 '<Leader>e',
-                function() if not MiniFiles.close() then MiniFiles.open() end end,
+                function() if not require('mini.files').close() then require('mini.files').open() end end,
                 desc = 'Toggle file explorer'
             },
         },

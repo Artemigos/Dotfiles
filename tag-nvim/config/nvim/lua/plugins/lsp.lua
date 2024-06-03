@@ -14,7 +14,7 @@ local supported_servers = {
 }
 
 local function on_attach(_, bufnr)
-    vim.api.nvim_buf_set_option(0, 'omnifunc', 'v:lua.vim.lsp.omnifunc')
+    vim.api.nvim_set_option_value('omnifunc', 'v:lua.vim.lsp.omnifunc', { buf = 0 })
     require('user.auto-format').on_attach(bufnr)
 end
 
@@ -227,7 +227,7 @@ return {
             return {
                 border = 'rounded',
                 should_attach = function(bufnr)
-                    local ft = vim.api.nvim_buf_get_option(bufnr, 'filetype')
+                    local ft = vim.api.nvim_get_option_value('filetype', { buf = bufnr })
                     return not require('user.tool-windows').is_tool_ft(ft)
                 end,
                 on_attach = on_attach,
