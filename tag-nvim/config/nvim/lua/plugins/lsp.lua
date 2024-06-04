@@ -20,6 +20,7 @@ local auto_install_tools = {
     'go-debug-adapter',
     'js-debug-adapter',
     -- linters
+    'editorconfig-checker',
     'mypy',
     'shellcheck',
     -- formatters
@@ -51,6 +52,8 @@ return {
                     if ok then
                         vim.notify('[Mason] Installing ' .. tool .. '...', vim.log.levels.INFO)
                         pkg:install()
+                    else
+                        vim.notify('[Mason] Unknown tool: ' .. tool, vim.log.levels.WARN)
                     end
                 end
             end
