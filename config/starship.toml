@@ -1,3 +1,6 @@
+[directory]
+home_symbol = "󰋜"
+
 [time]
 disabled = false
 time_format = "%H:%M"
