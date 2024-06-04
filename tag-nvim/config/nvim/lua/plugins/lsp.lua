@@ -13,6 +13,22 @@ local supported_servers = {
     'marksman',      -- Markdown notetaking
 }
 
+local auto_install_tools = {
+    -- DAPs
+    'bash-debug-adapter',
+    'codelldb',
+    'go-debug-adapter',
+    'js-debug-adapter',
+    -- linters
+    'mypy',
+    'shellcheck',
+    -- formatters
+    'isort',
+    'black',
+    'gofumpt',
+    'shfmt',
+}
+
 local function on_attach(_, bufnr)
     vim.api.nvim_set_option_value('omnifunc', 'v:lua.vim.lsp.omnifunc', { buf = 0 })
     require('user.auto-format').on_attach(bufnr)
@@ -27,6 +43,18 @@ return {
                 border = 'rounded',
             },
         },
+        init = function(_)
+            local reg = require('mason-registry')
+            for _, tool in ipairs(auto_install_tools) do
+                if not reg.is_installed(tool) then
+                    local ok, pkg = pcall(reg.get_package, tool)
+                    if ok then
+                        vim.notify('[Mason] Installing ' .. tool .. '...', vim.log.levels.INFO)
+                        pkg:install()
+                    end
+                end
+            end
+        end,
     },
     {
         'neovim/nvim-lspconfig',
@@ -37,17 +65,6 @@ return {
                 'williamboman/mason-lspconfig.nvim',
                 opts = {
                     ensure_installed = supported_servers,
-                },
-            },
-            {
-                'jayp0521/mason-null-ls.nvim',
-                dependencies = {
-                    'jose-elias-alvarez/null-ls.nvim',
-                },
-                opts = {
-                    ensure_installed = nil,
-                    automatic_installation = true,
-                    automatic_setup = false,
                 },
             },
             {
