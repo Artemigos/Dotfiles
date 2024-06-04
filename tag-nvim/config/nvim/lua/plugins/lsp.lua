@@ -80,29 +80,45 @@ return {
             },
         },
         keys = {
-            { 'gd',               vim.lsp.buf.definition,                         desc = 'Go to definition' },
-            { 'gD',               vim.lsp.buf.implementation,                     desc = 'Go to implementation' },
-            { 'gr',               vim.lsp.buf.references,                         desc = 'References' },
-            { 'g<Space>',         vim.lsp.buf.hover,                              desc = 'Hint' },
-            { 'ga',               vim.lsp.buf.code_action,                        mode = { 'n', 'v' },            desc = 'Show code actions' },
+            { 'gd',       vim.lsp.buf.definition,     desc = 'Go to definition' },
+            { 'gD',       vim.lsp.buf.implementation, desc = 'Go to implementation' },
+            { 'gr',       vim.lsp.buf.references,     desc = 'References' },
+            { 'g<Space>', vim.lsp.buf.hover,          desc = 'Hint' },
+            {
+                'ga',
+                vim.lsp.buf.code_action,
+                mode = { 'n', 'v' },
+                desc =
+                'Show code actions'
+            },
             { 'gt',               vim.lsp.buf.type_definition,                    desc = 'Go to type definition' },
-            { '<C-Space>',        vim.lsp.buf.signature_help,                     mode = 'i',                     desc = 'Signature help' },
+            {
+                '<C-Space>',
+                vim.lsp.buf.signature_help,
+                mode = 'i',
+                desc =
+                'Signature help'
+            },
             { '<C-Space>',        vim.lsp.buf.signature_help,                     desc = 'Signature help' },
             { 'gT',               ':Telescope lsp_dynamic_workspace_symbols<CR>', desc = 'Workspace symbols' },
             { 'gX',               ':Telescope diagnostics<CR>',                   desc = 'Diagnostics' },
             { 'gA',               ':ToggleAutoFormat<CR>',                        desc = 'Toggle auto formatting' },
-
             { '<Leader>cd',       vim.lsp.buf.definition,                         desc = 'Go to definition' },
             { '<Leader>cD',       vim.lsp.buf.implementation,                     desc = 'Go to implementation' },
             { '<Leader>cr',       vim.lsp.buf.references,                         desc = 'References' },
             { '<Leader>c<Space>', vim.lsp.buf.hover,                              desc = 'Hint' },
-            { '<Leader>ca',       vim.lsp.buf.code_action,                        mode = { 'n', 'v' },            desc = 'Show code actions' },
-            { '<Leader>ct',       vim.lsp.buf.type_definition,                    desc = 'Go to type definition' },
-            { '<Leader>cT',       ':Telescope lsp_dynamic_workspace_symbols<CR>', desc = 'Workspace symbols' },
-            { '<Leader>cX',       ':Telescope diagnostics<CR>',                   desc = 'Diagnostics' },
-            { '<Leader>cA',       ':ToggleAutoFormat<CR>',                        desc = 'Toggle auto formatting' },
-
-            { '<Leader>rr',       vim.lsp.buf.rename,                             desc = 'Rename' },
+            {
+                '<Leader>ca',
+                vim.lsp.buf.code_action,
+                mode = { 'n', 'v' },
+                desc =
+                'Show code actions'
+            },
+            { '<Leader>ct', vim.lsp.buf.type_definition,                    desc = 'Go to type definition' },
+            { '<Leader>cT', ':Telescope lsp_dynamic_workspace_symbols<CR>', desc = 'Workspace symbols' },
+            { '<Leader>cX', ':Telescope diagnostics<CR>',                   desc = 'Diagnostics' },
+            { '<Leader>cA', ':ToggleAutoFormat<CR>',                        desc = 'Toggle auto formatting' },
+            { '<Leader>rr', vim.lsp.buf.rename,                             desc = 'Rename' },
         },
         config = function()
             -- diagnostic signs
