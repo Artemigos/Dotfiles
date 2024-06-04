@@ -292,8 +292,8 @@ return {
             vim.api.nvim_create_autocmd('User', {
                 pattern = 'MiniFilesBufferCreate',
                 callback = function(args)
-                    vim.keymap.set('n', 'I', toggle_dotfiles, { buffer = args.data.buf_id })
-                    vim.keymap.set('n', 'G', toggle_gitignored, { buffer = args.data.buf_id })
+                    vim.keymap.set('n', 'Id', toggle_dotfiles, { buffer = args.data.buf_id })
+                    vim.keymap.set('n', 'Ig', toggle_gitignored, { buffer = args.data.buf_id })
                 end,
             })
         end,
