@@ -13,7 +13,7 @@ def dbg_log(msg):
 def run_cmd(cmd, timeout=5) -> str | None:
     try:
         prc = subprocess.run(cmd, stdout=subprocess.PIPE, stderr=subprocess.DEVNULL, timeout=timeout)
-    except TimeoutError:
+    except subprocess.TimeoutExpired:
         return None
     if prc.returncode != 0:
         return None
@@ -22,6 +22,6 @@ def run_cmd(cmd, timeout=5) -> str | None:
 def run_cmd_test(cmd, timeout=5) -> bool:
     try:
         prc = subprocess.run(cmd, stdout=subprocess.PIPE, stderr=subprocess.DEVNULL, timeout=timeout)
-    except TimeoutError:
+    except subprocess.TimeoutExpired:
         return False
     return prc.returncode == 0
