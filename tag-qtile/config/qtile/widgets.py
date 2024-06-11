@@ -33,9 +33,9 @@ class VolumeOverride(widget.Volume):
     def get_volume(self):
         try:
             out = self.call_process(self.get_volume_command)
-            return int(out)
+            return int(out), 0
         except:
-            return -1
+            return -1, 0
 
 def mpris_left():
     assert mpris is not None
