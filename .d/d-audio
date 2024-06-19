@@ -9,6 +9,8 @@ main () {
         get-volume) CMD=$(d require-one wpctl pactl) && "getVolume-$CMD" ;;
         increase-volume) shift; CMD=$(d require-one wpctl pactl) && "increaseVolume-$CMD" "$@" ;;
         decrease-volume) shift; CMD=$(d require-one wpctl pactl) && "decreaseVolume-$CMD" "$@" ;;
+        set-volume) shift; CMD=$(d require-one wpctl pactl) && "setVolume-$CMD" "$@" ;;
+        x-set-volume) xSetVolume ;;
         list-x-options) listXOptions ;;
         show) listXOptions | d menu from-json ;;
         *) exit 1 ;;
@@ -50,9 +52,26 @@ decreaseVolume-pactl () {
     pactl set-sink-volume @DEFAULT_SINK@ "-${1:-5}%"
 }
 
+setVolume-wpctl () {
+    d require wpctl printf
+    wpctl set-volume @DEFAULT_AUDIO_SINK@ "0.$(printf "%02d" "${1:?Volume value required.}")"
+}
+
+setVolume-pactl () {
+    d require pactl
+    pactl set-sink-volume @DEFAULT_SINK@ "${1:?Volume value required.}%"
+}
+
 xSetDefaultSink () {
     d require pactl
     sink=$(listSinks | d menu dmenu 'select sink') && pactl set-default-sink "$sink"
+}
+
+xSetVolume () {
+    d require seq printf tr
+    local VOLUME
+    VOLUME=$(seq 5 5 100 | sed 's/.*/\0%/' | d menu dmenu "Volume" | tr -d '%')
+    main set-volume "$VOLUME"
 }
 
 listXOptions () {
@@ -63,6 +82,10 @@ listXOptions () {
         {
             "description": "Set default sink",
             "command": "d audio x-set-default-sink"
+        },
+        {
+            "description": "Set volume",
+            "command": "d audio x-set-volume"
         },
         {
             "description": "Increase volume",
