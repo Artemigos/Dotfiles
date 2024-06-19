@@ -6,9 +6,9 @@ main () {
     case ${1:-} in
         list-sinks) listSinks ;;
         x-set-default-sink) xSetDefaultSink ;;
-        get-volume) CMD=$(d require-one wpctl amixer) && "getVolume-$CMD" ;;
-        increase-volume) shift; CMD=$(d require-one wpctl amixer) && "increaseVolume-$CMD" "$@" ;;
-        decrease-volume) shift; CMD=$(d require-one wpctl amixer) && "decreaseVolume-$CMD" "$@" ;;
+        get-volume) CMD=$(d require-one wpctl pactl) && "getVolume-$CMD" ;;
+        increase-volume) shift; CMD=$(d require-one wpctl pactl) && "increaseVolume-$CMD" "$@" ;;
+        decrease-volume) shift; CMD=$(d require-one wpctl pactl) && "decreaseVolume-$CMD" "$@" ;;
         list-x-options) listXOptions ;;
         show) listXOptions | d menu from-json ;;
         *) exit 1 ;;
@@ -25,9 +25,9 @@ getVolume-wpctl () {
     wpctl get-volume @DEFAULT_AUDIO_SINK@ | cut -c 11-
 }
 
-getVolume-amixer () {
-    d require amixer sed head
-    amixer sget Master | sed -E 's/.*\[([0-9]{0,3})%\].*/\1/p;d' | head -n 1
+getVolume-pactl () {
+    d require pactl sed head
+    pactl get-sink-volume @DEFAULT_SINK@ | head -n1 | sed -E 's/.* ([[:digit:]]+%).*/\1/p;d'
 }
 
 increaseVolume-wpctl () {
@@ -35,9 +35,9 @@ increaseVolume-wpctl () {
     wpctl set-volume @DEFAULT_AUDIO_SINK@ "0.$(printf "%02d" "${1:-5}")+"
 }
 
-increaseVolume-amixer () {
-    d require amixer
-    amixer sset Master "${1:-5}%+"
+increaseVolume-pactl () {
+    d require pactl
+    pactl set-sink-volume @DEFAULT_SINK@ "+${1:-5}%"
 }
 
 decreaseVolume-wpctl () {
@@ -45,9 +45,9 @@ decreaseVolume-wpctl () {
     wpctl set-volume @DEFAULT_AUDIO_SINK@ "0.$(printf "%02d" "${1:-5}")-"
 }
 
-decreaseVolume-amixer () {
-    d require amixer
-    amixer sset Master "${1:-5}%-"
+decreaseVolume-pactl () {
+    d require pactl
+    pactl set-sink-volume @DEFAULT_SINK@ "-${1:-5}%"
 }
 
 xSetDefaultSink () {
