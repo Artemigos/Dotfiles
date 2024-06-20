@@ -8,8 +8,15 @@ main() {
         x-autotype) shift; x-autotype "$@" ;;
         get-meta) shift; get-meta "$@" ;;
         set-meta) shift; set-meta "$@" ;;
+        set-pass) shift; set-pass "$@" ;;
+        regenerate-pass) shift; regenerate-pass "$@" ;;
+        gen) gen ;;
         *) exit 1 ;;
     esac
+}
+
+gen() {
+    pwgen -ys 16 1
 }
 
 list() {
@@ -83,12 +90,16 @@ x-autotype() {
 }
 
 get-meta() {
+    d require pass tail yq
+
     local PASS=${1:?Password path required}
     local META_KEY=${2:?Metadata key required}
     pass show "$PASS" | tail -n +2 | yq ".$META_KEY"
 }
 
 set-meta() {
+    d require pass head tail yq printf
+
     local PASS=${1:?Password path required}
     local META_KEY=${2:?Metadata key required}
     local VALUE=${3:?Metadata value required}
@@ -103,6 +114,33 @@ set-meta() {
     local UPDATED_FULL_DATA
     UPDATED_FULL_DATA=$(printf "%s\n%s" "$PASSWORD" "$UPDATED_STRUCTURED_DATA")
     pass insert "$PASS" -fm <<<"$UPDATED_FULL_DATA"
+}
+
+set-pass() {
+    d require pass head tail
+
+    local PASS=${1:?Password path required}
+    local VALUE=${2:?Password value required}
+    local FULL_DATA
+    FULL_DATA=$(pass show "$PASS")
+    local PASSWORD
+    PASSWORD=$(head -n1 <<<"$FULL_DATA")
+    local STRUCTURED_DATA
+    STRUCTURED_DATA=$(tail -n +2 <<<"$FULL_DATA")
+    local UPDATED_STRUCTURED_DATA
+    UPDATED_STRUCTURED_DATA=$(yq ".previous = \"$PASSWORD\"" <<<"$STRUCTURED_DATA")
+    local UPDATED_FULL_DATA
+    UPDATED_FULL_DATA=$(printf "%s\n%s" "$VALUE" "$UPDATED_STRUCTURED_DATA")
+    pass insert "$PASS" -fm <<<"$UPDATED_FULL_DATA"
+}
+
+regenerate-pass() {
+    d require pass pwgen head
+
+    local PASS=${1:?Password path required}
+    local NEW_PASSWORD
+    NEW_PASSWORD=$(gen)
+    set-pass "$PASS" "$NEW_PASSWORD"
 }
 
 main "$@"
