@@ -110,7 +110,7 @@ set-meta() {
     local STRUCTURED_DATA
     STRUCTURED_DATA=$(tail -n +2 <<<"$FULL_DATA")
     local UPDATED_STRUCTURED_DATA
-    UPDATED_STRUCTURED_DATA=$(yq ".$META_KEY = \"$VALUE\"" <<<"$STRUCTURED_DATA")
+    UPDATED_STRUCTURED_DATA=$(val=$VALUE yq ".$META_KEY = strenv(val)" <<<"$STRUCTURED_DATA")
     local UPDATED_FULL_DATA
     UPDATED_FULL_DATA=$(printf "%s\n%s" "$PASSWORD" "$UPDATED_STRUCTURED_DATA")
     pass insert "$PASS" -fm <<<"$UPDATED_FULL_DATA"
@@ -128,7 +128,7 @@ set-pass() {
     local STRUCTURED_DATA
     STRUCTURED_DATA=$(tail -n +2 <<<"$FULL_DATA")
     local UPDATED_STRUCTURED_DATA
-    UPDATED_STRUCTURED_DATA=$(yq ".previous = \"$PASSWORD\"" <<<"$STRUCTURED_DATA")
+    UPDATED_STRUCTURED_DATA=$(prev=$PASSWORD yq ".previous = strenv(prev)" <<<"$STRUCTURED_DATA")
     local UPDATED_FULL_DATA
     UPDATED_FULL_DATA=$(printf "%s\n%s" "$VALUE" "$UPDATED_STRUCTURED_DATA")
     pass insert "$PASS" -fm <<<"$UPDATED_FULL_DATA"
