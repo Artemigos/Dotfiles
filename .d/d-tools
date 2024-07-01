@@ -26,21 +26,25 @@ man-pdf() {
 
 random-wallpaper() {
     d require shuf head ln
-    WP=$(ls -1 "$XDG_CONFIG_HOME/wallpapers" --ignore=wallpaper | shuf | head -n 1)
-    ln -sf "$WP" "$XDG_CONFIG_HOME/wallpapers/wallpaper"
     local BACKEND
     BACKEND=$(d config get backends.wallpaper feh)
     if [ "$BACKEND" = "feh" ]; then
         d require feh
-        feh --bg-fill "$XDG_CONFIG_HOME/wallpapers/wallpaper"
     elif [ "$BACKEND" = "gnome" ]; then
         d require gsettings
+    else
+        d error "Unknown wallpaper backend: $BACKEND"
+    fi
+
+    WP=$(ls -1 "$XDG_CONFIG_HOME/wallpapers" --ignore=wallpaper | shuf | head -n 1)
+    ln -sf "$WP" "$XDG_CONFIG_HOME/wallpapers/wallpaper"
+    if [ "$BACKEND" = "feh" ]; then
+        feh --bg-fill "$XDG_CONFIG_HOME/wallpapers/wallpaper"
+    else
         local FILE
         FILE=$(realpath "$XDG_CONFIG_HOME/wallpapers/wallpaper")
         gsettings set org.gnome.desktop.background picture-uri "file://$FILE"
         gsettings set org.gnome.desktop.background picture-uri-dark "file://$FILE"
-    else
-        d error "Unknown wallpaper backend: $BACKEND"
     fi
 }
 
