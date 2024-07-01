@@ -9,7 +9,7 @@ session=main
 
 d-project-list() {
     d require fd cut xargs wc
-    fd --hidden --no-ignore-vcs --type d "^\\.git\$" "$(d home)" ~/git | cut -c "$(echo "$HOME/" | wc -c)-" | xargs -n1 dirname
+    fd --hidden --no-ignore-vcs --type d --max-depth 2 "^\\.git\$" "$(d home)" ~/git | cut -c "$(echo "$HOME/" | wc -c)-" | xargs -n1 dirname
 }
 
 d-project-open() {
