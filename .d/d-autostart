@@ -13,4 +13,3 @@ light-locker --lock-after-screensaver=0 --lock-on-suspend &
 
 # personally used software
 /opt/Mullvad\ VPN/mullvad-gui &
-

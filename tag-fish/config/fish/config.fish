@@ -3,6 +3,7 @@ end
 
 if status is-interactive
     starship init fish | source
+    source "$XDG_CONFIG_HOME/fish/osc133.fish"
 
     bind \cZ 'fg'
 end
