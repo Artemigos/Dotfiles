@@ -29,7 +29,7 @@ getVolume-wpctl () {
 
 getVolume-pactl () {
     d require pactl sed head
-    pactl get-sink-volume @DEFAULT_SINK@ | head -n1 | sed -E 's/.* ([[:digit:]]+%).*/\1/p;d'
+    pactl get-sink-volume @DEFAULT_SINK@ | head -n1 | sed -E 's/.* ([[:digit:]]+)%.*/\1/p;d'
 }
 
 increaseVolume-wpctl () {
