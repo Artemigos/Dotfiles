@@ -4,11 +4,15 @@ set -euo pipefail
 
 main() {
     case ${1:-} in
+        show-clipboard-as-qr) show-clipboard-as-qr ;;
         man-pdf) man-pdf ;;
         random-wallpaper) random-wallpaper ;;
         screenshot) screenshot ;;
         pick-qr) pick-qr ;;
         qr-website) qr-website ;;
+        pick-cam) pick-cam ;;
+        pick-cam-qr) pick-cam-qr ;;
+        qr-cam-website) qr-cam-website ;;
         jwt-decode) shift; jwt-decode "$@" ;;
         terminal-popup) shift; terminal-popup "$@" ;;
         terminal-popup-msg) shift; terminal-popup-msg "$@" ;;
@@ -61,6 +65,34 @@ pick-qr() {
 qr-website() {
     d require xargs xdg-open
     d tools pick-qr | xargs xdg-open
+}
+
+pick-cam() {
+    {
+        echo "[Default]"
+        find /dev/v4l/by-id/ -mindepth 1 -exec basename {} \;
+    } | d menu dmenu
+}
+
+pick-cam-qr() {
+    d require zbarcam
+    local CAM
+    CAM=$(d tools pick-cam)
+    if [ "$CAM" = "[Default]" ]; then
+        zbarcam
+    else
+        zbarcam /dev/v4l/by-id/"$CAM"
+    fi
+}
+
+qr-cam-website() {
+    d require xargs xdg-open
+    d tools pick-cam-qr | xargs xdg-open
+}
+
+show-clipboard-as-qr() {
+    d require xclip qrencode feh
+    xclip -o | qrencode -o- -s5 | feh -
 }
 
 # usage: d tools jwt-decode [-1|-2|-3]
@@ -144,6 +176,10 @@ listXOptions() {
 {
     "prompt": "tool",
     "commands": [
+        {
+            "description": "Show clipboard as QR code",
+            "command": "d tools show-clipboard-as-qr"
+        },
         {
             "description": "Manual (pdf)",
             "command": "d tools man-pdf"
