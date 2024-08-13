@@ -228,6 +228,8 @@ return {
                 sh = { 'shfmt' },
                 fish = { 'fish_indent' },
                 yaml = { 'yq' },
+                typescript = { 'prettier' },
+                javascript = { 'prettier' },
             },
             -- TODO:
             -- local vcl_formatter = {
