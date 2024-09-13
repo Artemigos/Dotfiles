@@ -7,7 +7,7 @@ local supported_servers = {
     'vimls',         -- VimL
     'yamlls',        -- YAML
     'cssls',         -- CSS, LESS, SCSS
-    'tsserver',      -- Typescript, Javascript
+    'ts_ls',         -- Typescript, Javascript
     'ruff_lsp',      -- python linter
     'gopls',         -- Golang
     'marksman',      -- Markdown notetaking
