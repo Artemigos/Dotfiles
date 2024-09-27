@@ -98,8 +98,13 @@ show-clipboard-as-qr() {
 # usage: d tools jwt-decode [-1|-2|-3]
 jwt-decode() {
     d require base64 cut cat tr
-    if [ $# -eq 0 ] || [ "$1" = "-1" ] || [ "$1" = "-2" ] || [ "$1" = "-3" ]; then
-        FIELD=$(cut -c 2- <<<"${1:--2}")
+    if [ $# -eq 0 ]; then
+        DATA=$(cat -)
+        echo -n "$DATA" | jwt-decode -1 | jq
+        echo -n "$DATA" | jwt-decode -2 | jq
+        return 0
+    elif [ "$1" = "-1" ] || [ "$1" = "-2" ] || [ "$1" = "-3" ]; then
+        FIELD=$(cut -c 2- <<<"$1")
     else
         echo "Unknown argument: '$1'" 1>&2
         return 1
