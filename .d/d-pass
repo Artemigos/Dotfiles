@@ -36,7 +36,7 @@ x-autotype() {
     d require printf ydotool pass head tail yq
 
     dmenu="d menu dmenu"
-    do_type="ydotool type --key-delay=10 --key-hold=5 --escape=0"
+    do_type="ydotool type --key-delay=10 --key-hold=5 --escape=0 --"
     do_tab="ydotool key --key-delay=10 15:1 15:0"
     do_enter="ydotool key --key-delay=10 28:1 28:0"
 
