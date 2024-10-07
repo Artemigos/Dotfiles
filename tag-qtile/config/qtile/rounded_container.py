@@ -1,5 +1,5 @@
 import math
-from typing import Any, Optional
+from typing import Any, Optional, Tuple
 
 from libqtile import bar
 from libqtile.widget import base
@@ -75,13 +75,23 @@ class RoundedContainer(base._Widget):
         self.widget.finalize()
         super().finalize()
 
+    def _inner_pos(self, x, y) -> Tuple[bool, int, int]:
+        nx = x - self._radius()
+        if nx < 0 or nx >= self.widget.width:
+            return False, 0, 0
+        return True, nx, y
+
     def button_press(self, x, y, button):
         super().button_press(x, y, button)
-        self.widget.button_press(x, y, button)
+        is_in, nx, ny = self._inner_pos(x, y)
+        if is_in:
+            self.widget.button_press(nx, ny, button)
 
     def button_release(self, x, y, button):
         super().button_release(x, y, button)
-        self.widget.button_release(x, y, button)
+        is_in, nx, ny = self._inner_pos(x, y)
+        if is_in:
+            self.widget.button_release(nx, ny, button)
 
     def mouse_enter(self, x, y):
         self.widget.mouse_enter(x, y)
