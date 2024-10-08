@@ -1,0 +1,10 @@
+[directory]
+home_symbol = "󰋜"
+
+[kubernetes]
+disabled = false
+
+[time]
+disabled = false
+time_format = "%H:%M"
+format = "[$time]($style) "
