@@ -15,6 +15,12 @@ d-config-get() {
     [[ -f "$CONFIG_FILE" ]] && yq ".$KEY" "$CONFIG_FILE" || echo "$DEFAULT"
 }
 
+d-config-get-arr() {
+    d require yq
+    local KEY=${1:?Key required}
+    yq eval ".${KEY}[]" "$CONFIG_FILE"
+}
+
 d-config-edit() {
     "$EDITOR" "$CONFIG_FILE"
 }
