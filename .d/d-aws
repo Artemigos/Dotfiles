@@ -38,7 +38,7 @@ d-aws-x-perform-login() {
 
 d-aws-x-select-account() {
     d require jq
-    d config get aws.accounts | jq -r '.[]' | d menu dmenu
+    d config get-arr aws.accounts | d menu dmenu
 }
 
 d-aws-x-signin() {
