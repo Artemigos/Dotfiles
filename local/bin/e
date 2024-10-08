@@ -1,0 +1,4 @@
+#!/bin/bash
+
+[ -t 0 ] && exec nvim "${1?File name required.}"
+exec nvim -
