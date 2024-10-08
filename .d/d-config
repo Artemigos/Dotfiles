@@ -9,10 +9,10 @@ CONFIG_DIR=${XDG_CONFIG_HOME:-$HOME/.config}/d
 CONFIG_FILE=$CONFIG_DIR/config.toml
 
 d-config-get() {
-    d require toml
+    d require yq
     local KEY=${1:?Key required}
     local DEFAULT=${2:-}
-    [[ -f "$CONFIG_FILE" ]] && toml get -r "$CONFIG_FILE" "$KEY" || echo "$DEFAULT"
+    [[ -f "$CONFIG_FILE" ]] && yq ".$KEY" "$CONFIG_FILE" || echo "$DEFAULT"
 }
 
 d-config-edit() {
