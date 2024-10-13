@@ -12,7 +12,15 @@ d-config-get() {
     d require yq
     local KEY=${1:?Key required}
     local DEFAULT=${2:-}
-    [[ -f "$CONFIG_FILE" ]] && yq ".$KEY" "$CONFIG_FILE" || echo "$DEFAULT"
+    if [[ -f "$CONFIG_FILE" ]]; then
+        local VALUE
+        VALUE=$(yq ".$KEY" "$CONFIG_FILE")
+        if [[ "$VALUE" != 'null' ]]; then
+            echo "$VALUE"
+            return
+        fi
+    fi
+    echo "$DEFAULT"
 }
 
 d-config-get-arr() {
