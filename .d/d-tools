@@ -51,7 +51,7 @@ random-wallpaper() {
     elif [ "$BACKEND" = "gnome" ]; then
         d require gsettings
     else
-        d error "Unknown wallpaper backend: $BACKEND"
+        d error "Unknown wallpaper backend" "$BACKEND"
     fi
 
     WP=$(ls -1 "$XDG_CONFIG_HOME/wallpapers" --ignore=wallpaper | shuf | head -n 1)
