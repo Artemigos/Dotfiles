@@ -65,6 +65,12 @@ d-aws-x-open-service() {
     open-in-container "$SERVICE" "$CONTAINER"
 }
 
+d-aws-find-instances() {
+    d require aws jq
+    local query=${1:?Query required}
+    aws ec2 describe-instances | jq '[.Reservations[].Instances[]] | map(select(.State.Name == "running" and any(.Tags[]; .Key == "Name" and (.Value | contains($query)))))' --arg query "$query" | jq -r '.[] | .InstanceId + "   " + (.Tags | map(select(.Key == "Name")))[0].Value'
+}
+
 d-aws-list-x-options() {
     cat <<EOF
 {
