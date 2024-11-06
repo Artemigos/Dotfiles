@@ -33,7 +33,7 @@ d-widget-tz-clock() {
     d require cut date
     local _tz=${1:?Timezone required.}
     local _city
-    _city=$(echo -n "$_tz" | cut -d'/' -f2)
+    _city=$(echo -n "$_tz" | cut -d'/' -f2 | tr '_' ' ')
     echo -n "$_city "
     TZ=$_tz date +'%H:%M %Z'
 }
