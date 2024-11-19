@@ -21,6 +21,8 @@ d-menu-tool() {
         echo rofi
     elif [ "$XDG_SESSION_TYPE" == "wayland" ]; then
         echo wofi
+    elif [ "$XDG_SESSION_TYPE" == "tty" ]; then # TEMPORARY, for niri testing
+        echo fuzzel
     else
         d error "Unknown session type" "$XDG_SESSION_TYPE"
         return 1
@@ -39,6 +41,8 @@ d-menu-dmenu() {
 
     if [ "$SELECTOR" == "rofi" ]; then
         rofi -dmenu -i "${PROMPT_ARGS[@]}"
+    elif [ "$SELECTOR" == "fuzzel" ]; then
+        fuzzel --dmenu "${PROMPT_ARGS[@]}"
     else
         wofi -d -i "${PROMPT_ARGS[@]}" 2>/dev/null
     fi
@@ -51,6 +55,8 @@ d-menu-command() {
 
     if [ "$SELECTOR" == "rofi" ]; then
         rofi -modi run -show run
+    elif [ "$SELECTOR" == "fuzzel" ]; then
+        fuzzel --list-executables-in-path
     else
         wofi --show run 2>/dev/null
     fi
@@ -63,6 +69,8 @@ d-menu-app() {
 
     if [ "$SELECTOR" == "rofi" ]; then
         rofi -modi drun -show drun -show-icons
+    elif [ "$SELECTOR" == "fuzzel" ]; then
+        fuzzel
     else
         wofi --show drun -I 2>/dev/null
     fi
