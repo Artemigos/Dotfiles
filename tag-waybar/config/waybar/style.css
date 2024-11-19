@@ -1,0 +1,56 @@
+/* TODO: dracula */
+
+/* defaults */
+* {
+    background: none;
+    border: none;
+    border-radius: 10px;
+    font-family: Iosevka Nerd Font, Font Awesome, Roboto, Arial, sans-serif;
+    font-size: 14px;
+    font-weight: bold;
+    margin: 0;
+    min-height: 0;
+    padding: 0;
+}
+
+/* inset */
+window#waybar>box {
+    margin: 5px 5px 0 5px;
+}
+
+/* all modules */
+.module {
+    background: #444444;
+    margin: 0 5px;
+    padding: 0 10px;
+}
+
+/* module-specific */
+#workspaces {
+    background: #444444;
+    padding: 0 10px 0 5px;
+}
+
+#workspaces button label {
+    font-size: 8px;
+}
+
+#workspaces button:not(.focused) label {
+    color: #888888;
+}
+
+#pulseaudio.muted {
+    color: #cc3436;
+}
+
+#battery.charging {
+    color: #2dcc36;
+}
+
+#battery.warning:not(.charging) {
+    color: #e6e600;
+}
+
+#battery.critical:not(.charging) {
+    color: #cc3436;
+}

@@ -1,0 +1,63 @@
+{
+    "height": 20,
+    "modules-left": [
+        "niri/workspaces"
+    ],
+    "modules-center": [
+        "mpris"
+    ],
+    "modules-right": [
+        "bluetooth",
+        "pulseaudio",
+        "network",
+        "clock",
+        "tray"
+    ],
+    "niri/workspaces": {
+        "format": ""
+    },
+    "mpris": {
+        "player": "spotify"
+    },
+    "bluetooth": {
+        "format": "",
+        "format-connected": "󰂱 {device_alias}",
+        "format-disabled": "",
+        "format-off": "",
+        "on-click": "d bluetooth show"
+    },
+    "network": {
+        "format-wifi": " ",
+        "format-ethernet": "󰌘",
+        "format-disconnected": "",
+        "on-click": "kitty -e 'nmtui'"
+    },
+    "tray": {
+        "icon-size": 15,
+        "spacing": 10
+    },
+    "clock": {},
+    "pulseaudio": {
+        "format": "{icon} {volume}%",
+        "format-bluetooth": "{icon} {volume}% {format_source}",
+        "format-bluetooth-muted": " {icon} {format_source}",
+        "format-muted": "{icon} 0%",
+        "format-source": " {volume}%",
+        "format-source-muted": "",
+        "format-icons": {
+            "headphone": "",
+            "hands-free": "",
+            "headset": "",
+            "phone": "",
+            "portable": "",
+            "car": "",
+            "default": [
+                "",
+                "",
+                ""
+            ]
+        },
+        "on-click": null
+    }
+}
+// vim: ft=jsonc
