@@ -50,6 +50,8 @@ random-wallpaper() {
         d require feh
     elif [ "$BACKEND" = "gnome" ]; then
         d require gsettings
+    elif [ "$BACKEND" = "swww" ]; then
+        d require swww
     else
         d error "Unknown wallpaper backend" "$BACKEND"
     fi
@@ -58,6 +60,8 @@ random-wallpaper() {
     ln -sf "$WP" "$XDG_CONFIG_HOME/wallpapers/wallpaper"
     if [ "$BACKEND" = "feh" ]; then
         feh --bg-fill "$XDG_CONFIG_HOME/wallpapers/wallpaper"
+    elif [ "$BACKEND" = "swww" ]; then
+        swww img "$XDG_CONFIG_HOME/wallpapers/wallpaper"
     else
         local FILE
         FILE=$(realpath "$XDG_CONFIG_HOME/wallpapers/wallpaper")
