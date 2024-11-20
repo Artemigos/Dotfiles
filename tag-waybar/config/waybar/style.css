@@ -40,18 +40,6 @@ window#waybar>box {
     color: #6272a4;
 }
 
-#pulseaudio.muted {
-    color: #cc3436;
-}
-
-#battery.charging {
-    color: #2dcc36;
-}
-
-#battery.warning:not(.charging) {
-    color: #e6e600;
-}
-
 #battery.critical:not(.charging) {
     color: #cc3436;
 }
