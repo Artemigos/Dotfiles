@@ -17,7 +17,17 @@
         "format": ""
     },
     "mpris": {
-        "player": "spotify"
+        "player": "spotify",
+        "format": "{status_icon} {dynamic}",
+        "status-icons": {
+            "playing": "󰐊",
+            "paused": "󰏤",
+            "stopped": "󰓛"
+        },
+        "dynamic-order": [
+            "artist",
+            "title"
+        ]
     },
     "bluetooth": {
         "format": "",
