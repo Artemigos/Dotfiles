@@ -10,6 +10,7 @@
     "modules-right": [
         "bluetooth",
         "custom/vpn",
+        "custom/updates",
         "pulseaudio",
         "network",
         "clock",
@@ -48,9 +49,15 @@
         "exec-if": "d vpn has-any-vpns",
         "exec": "d vpn list-vpn-connections",
         "format": "󰖂 {}",
-        "interval": "5",
+        "interval": 5,
         "on-click": "d vpn show",
         "tooltip": false
+    },
+    "custom/updates": {
+        "format": " {}",
+        "interval": 3600,
+        "exec": "checkupdates | wc -l",
+        "on-click": "d packages show"
     },
     "network": {
         "format-wifi": " ",
