@@ -274,7 +274,7 @@ binds {
     Mod+Ctrl+Return { spawn "kitty" "-e" "nvim"; }
     Mod+Alt+Return { spawn "d" "project" "open"; }
     Mod+F1 { spawn "firefox"; }
-    Mod+F2 { spawn "spotify"; }
+    Mod+F2 { spawn "spotify" "--enable-features=UseOzonePlatform" "--ozone-platform=wayland"; }
     // Super+Alt+L { spawn "swaylock"; }
 
     // Launchers
