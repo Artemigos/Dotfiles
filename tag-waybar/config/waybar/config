@@ -12,6 +12,7 @@
         "pulseaudio",
         "network",
         "clock",
+        "clock#date",
         "tray"
     ],
     "niri/workspaces": {
@@ -55,7 +56,12 @@
         "icon-size": 15,
         "spacing": 10
     },
-    "clock": {},
+    "clock": {
+        "format": " {:%H:%M}"
+    },
+    "clock#date": {
+        "format": " {:%d/%m}"
+    },
     "pulseaudio": {
         "format": "{icon} {volume}%",
         "format-bluetooth": "{icon} {volume}% {format_source}",
