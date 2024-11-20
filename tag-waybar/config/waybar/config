@@ -8,6 +8,7 @@
     ],
     "modules-right": [
         "bluetooth",
+        "custom/vpn",
         "pulseaudio",
         "network",
         "clock",
@@ -35,6 +36,14 @@
         "format-disabled": "",
         "format-off": "",
         "on-click": "d bluetooth show"
+    },
+    "custom/vpn": {
+        "exec-if": "d vpn has-any-vpns",
+        "exec": "d vpn list-vpn-connections",
+        "format": "󰖂 {}",
+        "interval": "5",
+        "on-click": "d vpn show",
+        "tooltip": false
     },
     "network": {
         "format-wifi": " ",
