@@ -1,6 +1,7 @@
 {
     "height": 20,
     "modules-left": [
+        "custom/menu",
         "niri/workspaces"
     ],
     "modules-center": [
@@ -15,6 +16,10 @@
         "clock#date",
         "tray"
     ],
+    "custom/menu": {
+        "format": "󰍜",
+        "on-click": "d system show"
+    },
     "niri/workspaces": {
         "format": ""
     },

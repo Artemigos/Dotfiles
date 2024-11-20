@@ -26,6 +26,10 @@ window#waybar>box {
 }
 
 /* module-specific */
+#custom-menu {
+    background: #bd93f9;
+}
+
 #workspaces {
     background: #444444;
     padding: 0 10px 0 5px;
