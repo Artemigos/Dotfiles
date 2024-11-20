@@ -59,30 +59,6 @@
         "exec": "checkupdates | wc -l",
         "on-click": "d packages show"
     },
-    "network": {
-        "format-wifi": " ",
-        "format-ethernet": "󰌘",
-        "format-disconnected": "",
-        "on-click": "kitty -e 'nmtui'"
-    },
-    "tray": {
-        "icon-size": 15,
-        "spacing": 10
-    },
-    "clock": {
-        "format": " {:%H:%M}"
-    },
-    "clock#date": {
-        "format": " {:%d/%m}"
-    },
-    "battery": {
-        "format": "{icon} {capacity}%",
-        "format-icons": [
-            "󰁺",
-            "󰁾",
-            "󰁹"
-        ]
-    },
     "pulseaudio": {
         "format": "{icon} {volume}%",
         "format-bluetooth": "{icon} {volume}% {format_source}",
@@ -104,6 +80,30 @@
             ]
         },
         "on-click": null
+    },
+    "network": {
+        "format-wifi": " ",
+        "format-ethernet": "󰌘",
+        "format-disconnected": "",
+        "on-click": "kitty -e 'nmtui'"
+    },
+    "clock": {
+        "format": " {:%H:%M}"
+    },
+    "clock#date": {
+        "format": " {:%d/%m}"
+    },
+    "battery": {
+        "format": "{icon} {capacity}%",
+        "format-icons": [
+            "󰁺",
+            "󰁾",
+            "󰁹"
+        ]
+    },
+    "tray": {
+        "icon-size": 15,
+        "spacing": 10
     }
 }
 // vim: ft=jsonc
