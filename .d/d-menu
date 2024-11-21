@@ -20,9 +20,7 @@ d-menu-tool() {
     if [ "$XDG_SESSION_TYPE" == "x11" ]; then
         echo rofi
     elif [ "$XDG_SESSION_TYPE" == "wayland" ]; then
-        echo wofi
-    elif [ "$XDG_SESSION_TYPE" == "tty" ]; then # TEMPORARY, for niri testing
-        echo fuzzel
+        d require-one fuzzel wofi
     else
         d error "Unknown session type" "$XDG_SESSION_TYPE"
         return 1
