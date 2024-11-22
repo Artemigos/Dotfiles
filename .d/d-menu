@@ -40,6 +40,7 @@ d-menu-dmenu() {
     if [ "$SELECTOR" == "rofi" ]; then
         rofi -dmenu -i "${PROMPT_ARGS[@]}"
     elif [ "$SELECTOR" == "fuzzel" ]; then
+        PROMPT_ARGS[1]="${PROMPT_ARGS[1]}: "
         fuzzel --dmenu "${PROMPT_ARGS[@]}"
     else
         wofi -d -i "${PROMPT_ARGS[@]}" 2>/dev/null
