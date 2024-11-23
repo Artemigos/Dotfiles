@@ -6,7 +6,7 @@
         "niri/workspaces"
     ],
     "modules-center": [
-        "mpris"
+        "custom/mpris"
     ],
     "modules-right": [
         "bluetooth",
@@ -26,18 +26,9 @@
     "niri/workspaces": {
         "format": ""
     },
-    "mpris": {
-        "player": "spotify",
-        "format": "{status_icon} {dynamic}",
-        "status-icons": {
-            "playing": "󰐊",
-            "paused": "󰏤",
-            "stopped": "󰓛"
-        },
-        "dynamic-order": [
-            "artist",
-            "title"
-        ]
+    "custom/mpris": {
+        "exec": "d widget music-run",
+        "tooltip": false
     },
     "bluetooth": {
         "format": "",
