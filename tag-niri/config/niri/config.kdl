@@ -226,9 +226,6 @@ animations {
 // Work around WezTerm's initial configure bug
 // by setting an empty default-column-width.
 window-rule {
-    // This regular expression is intentionally made as specific as possible,
-    // since this is the default config, and we want no false positives.
-    // You can get away with just app-id="wezterm" if you want.
     match app-id=r#"^org\.wezfurlong\.wezterm$"#
     default-column-width {}
 }
@@ -271,11 +268,11 @@ binds {
     Mod+Shift+Slash { show-hotkey-overlay; }
 
     // Programs
-    Mod+Return { spawn "kitty" "-e" "fish"; }
-    Mod+Ctrl+Return { spawn "kitty" "-e" "nvim"; }
+    Mod+Return { spawn "d" "launch" "terminal"; }
+    Mod+Ctrl+Return { spawn "d" "launch" "editor"; }
     Mod+Alt+Return { spawn "d" "project" "open"; }
-    Mod+F1 { spawn "firefox"; }
-    Mod+F2 { spawn "spotify" "--enable-features=UseOzonePlatform" "--ozone-platform=wayland"; }
+    Mod+F1 { spawn "d" "launch" "browser"; }
+    Mod+F2 { spawn "d" "launch" "music"; }
     // Super+Alt+L { spawn "swaylock"; }
 
     // Launchers
@@ -296,6 +293,7 @@ binds {
     XF86AudioLowerVolume allow-when-locked=true { spawn "d" "audio" "decrease-volume"; }
     // XF86AudioMute        allow-when-locked=true { spawn "wpctl" "set-mute" "@DEFAULT_AUDIO_SINK@" "toggle"; }
     // XF86AudioMicMute     allow-when-locked=true { spawn "wpctl" "set-mute" "@DEFAULT_AUDIO_SOURCE@" "toggle"; }
+    // TODO: mouse buttons not supported
 
     Mod+W { close-window; }
 
@@ -457,7 +455,7 @@ binds {
     // Mod+Space       { switch-layout "next"; }
     // Mod+Shift+Space { switch-layout "prev"; }
 
-    Print { spawn "bash" "-c" "grim -g \"$(slurp)\" -t ppm - | satty -f - --early-exit"; }
+    Print { spawn "d" "launch" "screenshot"; }
     // Ctrl+Print { screenshot-screen; }
     // Alt+Print { screenshot-window; }
 

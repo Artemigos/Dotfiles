@@ -1,0 +1,32 @@
+#!/bin/bash
+
+set -euo pipefail
+
+# shellcheck source=base.sh
+source "$(d script-base)"
+
+d-launch-music() {
+    if [ "$XDG_SESSION_TYPE" == "wayland" ]; then
+        exec spotify --enable-features=UseOzonePlatform --ozone-platform=wayland
+    else
+        exec spotify
+    fi
+}
+
+d-launch-browser() {
+    exec firefox
+}
+
+d-launch-terminal() {
+    exec kitty -e fish
+}
+
+d-launch-editor() {
+    exec kitty -e nvim
+}
+
+d-launch-screenshot() {
+    exec grim -g "$(slurp)" -t ppm - | satty -f - --early-exit
+}
+
+forward-cmd d-launch- "$@"
