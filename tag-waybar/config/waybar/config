@@ -21,7 +21,8 @@
     ],
     "custom/menu": {
         "format": "󰍜",
-        "on-click": "d system show"
+        "on-click": "d system show",
+        "tooltip": false
     },
     "niri/workspaces": {
         "format": ""
@@ -52,7 +53,8 @@
         "format": " {}",
         "interval": 3600,
         "exec": "checkupdates | wc -l",
-        "on-click": "d packages show"
+        "on-click": "d packages show",
+        "tooltip": false
     },
     "pulseaudio": {
         "format": "{icon} {volume}%",
@@ -80,7 +82,8 @@
         "format-wifi": " ",
         "format-ethernet": "󰌘",
         "format-disconnected": "",
-        "on-click": "kitty -e 'nmtui'"
+        "on-click": "kitty -e 'nmtui'",
+        "tooltip": false
     },
     "clock": {
         "format": " {:%H:%M}"
