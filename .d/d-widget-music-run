@@ -1,0 +1,133 @@
+#!/bin/python3
+
+from asyncio import get_event_loop, new_event_loop
+from dataclasses import dataclass
+from typing import Callable, Optional
+
+from dbus_next.aio.message_bus import MessageBus
+from dbus_next.constants import BusType, MessageType
+from dbus_next.message import Message
+
+class PlaybackStatus:
+    Paused = 'Paused'
+    Playing = 'Playing'
+    Stopped = 'Stopped'
+
+@dataclass
+class SongData:
+    status: PlaybackStatus
+    artist: Optional[str]
+    title: Optional[str]
+
+SongHandler = Callable[[Optional[SongData]], None]
+
+class MprisTracker:
+    player_name_prefix = 'org.mpris.MediaPlayer2.'
+    player_path = '/org/mpris/MediaPlayer2'
+    player_interface = 'org.mpris.MediaPlayer2.Player'
+    properties_interface = 'org.freedesktop.DBus.Properties'
+    tracking_name = 'org.freedesktop.DBus'
+    tracking_path = '/org/freedesktop/DBus'
+    tracking_interface = 'org.freedesktop.DBus.Monitoring'
+    signal_tracking_interface = 'org.freedesktop.DBus'
+
+    def __init__(self, player_name: str, song_handler: SongHandler):
+        self.objname = MprisTracker.player_name_prefix + player_name
+        self.song_handler = song_handler
+        self.last_song: Optional[SongData] = None
+
+    async def init_async(self):
+        await self._track_song_changes()
+        await self._fetch_current_song()
+        await self._track_name_acquisition()
+
+    async def _fetch_current_song(self):
+        try:
+            bus = await MessageBus(bus_type=BusType.SESSION).connect()
+            introspection = await bus.introspect(self.objname, MprisTracker.player_path)
+            obj = bus.get_proxy_object(self.objname, MprisTracker.player_path, introspection)
+            props_iface = obj.get_interface(MprisTracker.properties_interface)
+            props = await props_iface.call_get_all(MprisTracker.player_interface) # pyright: ignore[reportAttributeAccessIssue]
+            self._handle_prop_change(MprisTracker.player_interface, props, [])
+            bus.disconnect()
+        except:
+            self.song_handler(None)
+
+    async def _track_song_changes(self):
+        bus = await MessageBus(bus_type=BusType.SESSION).connect()
+        introspection = await bus.introspect(MprisTracker.tracking_name, MprisTracker.tracking_path)
+        obj = bus.get_proxy_object(MprisTracker.tracking_name, MprisTracker.tracking_path, introspection)
+        iface = obj.get_interface(MprisTracker.signal_tracking_interface)
+        await iface.call_add_match(f"type='signal',member='PropertiesChanged',sender='{self.objname}'") # pyright: ignore[reportAttributeAccessIssue]
+        bus.add_message_handler(self._handle_prop_change_message)
+
+    async def _track_name_acquisition(self):
+        bus = await MessageBus(bus_type=BusType.SESSION).connect()
+        introspection = await bus.introspect(MprisTracker.tracking_name, MprisTracker.tracking_path)
+        obj = bus.get_proxy_object(MprisTracker.tracking_name, MprisTracker.tracking_path, introspection)
+        iface = obj.get_interface(MprisTracker.tracking_interface)
+        await iface.call_become_monitor([f"type='signal',member='NameLost',arg0='{self.objname}'"], 0) # pyright: ignore[reportAttributeAccessIssue]
+        bus.add_message_handler(self._handle_name_change_message)
+
+    def _handle_prop_change_message(self, msg: Message):
+        if msg.message_type == MessageType.SIGNAL and msg.member == 'PropertiesChanged':
+            self._handle_prop_change(*msg.body)
+
+    def _handle_prop_change(self, iface, changed_properties: dict, _):
+        if iface != MprisTracker.player_interface:
+            return
+
+        status = self.last_song and self.last_song.status
+        artist = self.last_song and self.last_song.artist
+        title = self.last_song and self.last_song.title
+
+        new_status = changed_properties.get('PlaybackStatus')
+        new_status = new_status and new_status.value or status
+
+        if new_status is None:
+            self.last_song = None
+            self.song_handler(None)
+            return
+
+        meta = changed_properties.get('Metadata')
+        meta = meta and meta.value
+        new_artist = meta and meta.get('xesam:artist')
+        new_artist = new_artist and new_artist.value[0] or artist # TODO: handle multiple artists
+        new_title = meta and meta.get('xesam:title')
+        new_title = new_title and new_title.value or title
+
+        self.last_song = SongData(new_status, new_artist, new_title)
+        self.song_handler(self.last_song)
+        if self.last_song.artist is None or self.last_song.title is None:
+            get_event_loop().create_task(self._fetch_current_song())
+
+    def _handle_name_change_message(self, msg: Message):
+        if msg.message_type == MessageType.SIGNAL and msg.member == 'NameLost':
+            self.song_handler(None)
+
+def _default_formatter(song_data: SongData):
+    status, artist, title = song_data.status, song_data.artist, song_data.title
+    if status == PlaybackStatus.Paused:
+        return f'󰏤 {artist} - {title}'
+    elif status == PlaybackStatus.Stopped:
+        return '󰓛'
+    elif status == PlaybackStatus.Playing:
+        return f'󰐊 {artist} - {title}'
+
+    raise Exception('unknown playback status: ' + str(status))
+
+if __name__ == '__main__':
+    def print_format_handler(song_data: Optional[SongData]):
+        if song_data is None:
+            print('󰝚', flush=True)
+        else:
+            print(_default_formatter(song_data), flush=True)
+
+    loop = new_event_loop()
+    tracker = MprisTracker('spotify', print_format_handler)
+
+    try:
+        loop.run_until_complete(tracker.init_async())
+        loop.run_forever()
+    except KeyboardInterrupt:
+        pass
