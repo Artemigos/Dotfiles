@@ -23,4 +23,20 @@ d-widget-music-poll() {
     echo "$SPOTIFY_ARTIST - $SPOTIFY_TITLE"
 }
 
+d-widget-music-left-click() {
+    if pidof 'spotify'; then
+        sp play
+    else
+        d launch music
+    fi
+}
+
+d-widget-music-middle-click() {
+    sp quit
+}
+
+d-widget-music-right-click() {
+    sp next
+}
+
 forward-cmd d-widget-music- "$@"
