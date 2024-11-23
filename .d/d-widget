@@ -5,24 +5,6 @@ set -euo pipefail
 # shellcheck source=base.sh
 source "$(d script-base)"
 
-d-widget-music() {
-    local _status
-    _status=$(sp status || echo -n "")
-    if [[ -z "$_status" ]]; then
-        echo "󰝚 "
-        return 0
-    elif [[ "$_status" == "Stopped" ]]; then
-        echo " "
-        return 0
-    elif [[ "$_status" == "Playing" ]]; then
-        echo -n "  "
-    else
-        echo -n "  "
-    fi
-    eval "$(sp eval)"
-    echo "$SPOTIFY_ARTIST - $SPOTIFY_TITLE"
-}
-
 d-widget-volume() {
     echo -n '󰕾  '
     echo -n "$(d audio get-volume)"

@@ -27,7 +27,7 @@
         "format": ""
     },
     "custom/mpris": {
-        "exec": "d widget music-run",
+        "exec": "d widget music run",
         "tooltip": false
     },
     "bluetooth": {
