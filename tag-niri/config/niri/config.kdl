@@ -228,6 +228,7 @@ animations {
 // by setting an empty default-column-width.
 window-rule {
     match app-id=r#"^org\.wezfurlong\.wezterm$"#
+    match app-id="scrcpy"
     default-column-width {}
 }
 
