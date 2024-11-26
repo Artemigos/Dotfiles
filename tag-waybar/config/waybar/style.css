@@ -28,6 +28,11 @@ window#waybar>box {
     background: #bd93f9;
 }
 
+#custom-mpris.off,
+#custom-mpris.stopped {
+    padding-right: 8px;
+}
+
 #workspaces {
     padding: 0 10px 0 5px;
 }

@@ -28,10 +28,11 @@
         "format": ""
     },
     "custom/mpris": {
-        "exec": "d widget music run",
+        "exec": "d widget music run-json",
         "on-click": "d widget music left-click",
         "on-click-middle": "d widget music middle-click",
         "on-click-right": "d widget music right-click",
+        "return-type": "json",
         "tooltip": false
     },
     "bluetooth": {
