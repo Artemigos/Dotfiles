@@ -5,22 +5,86 @@ set -euo pipefail
 # shellcheck source=base.sh
 source "$(d script-base)"
 
-d-widget-music-poll() {
-    local _status
-    _status=$(sp status || echo -n "")
-    if [[ -z "$_status" ]]; then
-        echo "󰝚 "
-        return 0
-    elif [[ "$_status" == "Stopped" ]]; then
+PLAYER=$(d config get music.player spotify)
+
+_pctl() {
+    playerctl metadata -s --player "$PLAYER" --format $'{{status}}\t{{artist}}\t{{title}}' "$@"
+}
+
+report-off() {
+    echo '󰝚 '
+}
+
+report-status() {
+    local STATUS=${1:?Status required}
+    local ARTIST=${2:?Artist required}
+    local TITLE=${3:?Title required}
+    if [ "$STATUS" == "Stopped" ]; then
         echo " "
-        return 0
-    elif [[ "$_status" == "Playing" ]]; then
-        echo -n "  "
+    elif [ "$STATUS" == "Playing" ]; then
+        echo "  $ARTIST - $TITLE"
+    elif [ "$STATUS" == "Paused" ]; then
+        echo "  $ARTIST - $TITLE"
     else
-        echo -n "  "
+        echo "󰝚 "
     fi
-    eval "$(sp eval)"
-    echo "$SPOTIFY_ARTIST - $SPOTIFY_TITLE"
+}
+
+report-text() {
+    local INFO=$1
+    if [ -z "$INFO" ]; then
+        report-off
+    else
+        IFS=$'\t' read -r STATUS ARTIST TITLE <<<"$INFO"
+        report-status "$STATUS" "$ARTIST" "$TITLE"
+    fi
+}
+
+report-json() {
+    d require jq
+
+    local INFO=$1
+    local TEXT CLASS
+    if [ -z "$INFO" ]; then
+        TEXT=$(report-off)
+        CLASS=off
+    else
+        IFS=$'\t' read -r STATUS ARTIST TITLE <<<"$INFO"
+        TEXT=$(report-status "$STATUS" "$ARTIST" "$TITLE")
+        if [[ "$STATUS" =~ (Stopped|Playing|Paused) ]]; then
+            CLASS=${STATUS,,}
+        else
+            CLASS=unknown
+        fi
+    fi
+
+    jq -ncM '{ text: $text, class: $class }' --arg text "$TEXT" --arg class "$CLASS"
+}
+
+d-widget-music-poll() {
+    d require playerctl
+    report-text "$(_pctl)"
+}
+
+d-widget-music-poll-json() {
+    d require playerctl
+    report-json "$(_pctl)"
+}
+
+d-widget-music-run() {
+    d require playerctl
+    report-text ""
+    _pctl --follow | while IFS=$'\n' read -r LINE; do
+        report-text "$LINE"
+    done
+}
+
+d-widget-music-run-json() {
+    d require playerctl
+    report-json ""
+    _pctl --follow | while IFS=$'\n' read -r LINE; do
+        report-json "$LINE"
+    done
 }
 
 d-widget-music-left-click() {
