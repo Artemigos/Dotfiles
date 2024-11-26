@@ -8,6 +8,7 @@ source "$(d script-base)"
 PLAYER=$(d config get music.player spotify)
 
 _pctl() {
+    d require playerctl
     playerctl metadata -s --player "$PLAYER" --format $'{{status}}\t{{artist}}\t{{title}}' "$@"
 }
 
@@ -62,17 +63,14 @@ report-json() {
 }
 
 d-widget-music-poll() {
-    d require playerctl
     report-text "$(_pctl)"
 }
 
 d-widget-music-poll-json() {
-    d require playerctl
     report-json "$(_pctl)"
 }
 
 d-widget-music-run() {
-    d require playerctl
     report-text ""
     _pctl --follow | while IFS=$'\n' read -r LINE; do
         report-text "$LINE"
@@ -80,7 +78,6 @@ d-widget-music-run() {
 }
 
 d-widget-music-run-json() {
-    d require playerctl
     report-json ""
     _pctl --follow | while IFS=$'\n' read -r LINE; do
         report-json "$LINE"
