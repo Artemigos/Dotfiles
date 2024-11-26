@@ -3,6 +3,9 @@
 // Check the wiki for a full description of the configuration:
 // https://github.com/YaLTeR/niri/wiki/Configuration:-Overview
 
+workspace "main"
+workspace "secondary"
+
 // https://github.com/YaLTeR/niri/wiki/Configuration:-Input
 input {
     keyboard {
