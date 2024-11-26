@@ -5,28 +5,36 @@ set -euo pipefail
 # shellcheck source=base.sh
 source "$(d script-base)"
 
+app-exec() {
+    if [ "$DESKTOP_SESSION" = "niri" ]; then
+        niri msg action spawn -- "$@"
+    else
+        exec "$@"
+    fi
+}
+
 d-launch-music() {
     if [ "$XDG_SESSION_TYPE" == "wayland" ]; then
-        exec spotify --enable-features=UseOzonePlatform --ozone-platform=wayland
+        app-exec spotify --enable-features=UseOzonePlatform --ozone-platform=wayland
     else
-        exec spotify
+        app-exec spotify
     fi
 }
 
 d-launch-browser() {
-    exec firefox
+    app-exec firefox
 }
 
 d-launch-terminal() {
-    exec kitty -e fish
+    app-exec kitty -e fish
 }
 
 d-launch-editor() {
-    exec kitty -e nvim
+    app-exec kitty -e nvim
 }
 
 d-launch-screenshot() {
-    exec grim -g "$(slurp)" -t ppm - | satty -f - --early-exit
+    app-exec grim -g "$(slurp)" -t ppm - | satty -f - --early-exit
 }
 
 forward-cmd d-launch- "$@"
