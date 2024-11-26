@@ -26,10 +26,12 @@ window#waybar>box {
 /* module-specific */
 #custom-menu {
     background: #bd93f9;
+    padding-left: 5px;
 }
 
 #custom-mpris.off,
-#custom-mpris.stopped {
+#custom-mpris.stopped,
+#network {
     padding-right: 8px;
 }
 
