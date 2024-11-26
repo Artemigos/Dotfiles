@@ -241,6 +241,12 @@ window-rule {
 }
 
 window-rule {
+    match app-id="spotify"
+    match app-id="thunderbird"
+    open-on-workspace "secondary"
+}
+
+window-rule {
     geometry-corner-radius 5
     clip-to-geometry true
 }
