@@ -98,7 +98,8 @@
             "󰁺",
             "󰁾",
             "󰁹"
-        ]
+        ],
+        "tooltip": false
     },
     "tray": {
         "icon-size": 15,
