@@ -44,7 +44,7 @@
     },
     "custom/vpn": {
         "exec-if": "d vpn has-any-vpns",
-        "exec": "d vpn list-vpn-connections",
+        "exec": "d vpn list-connected-vpns",
         "format": "󰖂 {}",
         "interval": 5,
         "on-click": "d vpn show",
