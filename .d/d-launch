@@ -14,11 +14,7 @@ app-exec() {
 }
 
 d-launch-music() {
-    if [ "$XDG_SESSION_TYPE" == "wayland" ]; then
-        app-exec spotify --enable-features=UseOzonePlatform --ozone-platform=wayland
-    else
-        app-exec spotify
-    fi
+    app-exec spotify --ozone-platform-hint=auto
 }
 
 d-launch-browser() {
