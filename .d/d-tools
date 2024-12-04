@@ -18,6 +18,8 @@ main() {
         terminal-popup-msg) shift; terminal-popup-msg "$@" ;;
         wait-until) shift; wait-until "$@" ;;
         mouse-button-listener) shift; mouse-button-listener "$@" ;;
+        wayland-protocol-supported) shift; wayland-protocol-supported "$@" ;;
+        layer-shell-supported) layer-shell-supported ;;
         list-x-options) listXOptions ;;
         show) listXOptions | d menu from-json ;;
         *) exit 1 ;;
@@ -227,6 +229,20 @@ EOF
             niri msg action spawn -- sp play
         fi
     done
+}
+
+wayland-protocol-supported() {
+    d require wayland-info
+    local protocol=${1:?Protocol required}
+    local result
+    result=$(wayland-info -i "$protocol")
+    if [ -z "$result" ]; then
+        return 1
+    fi
+}
+
+layer-shell-supported() {
+    wayland-protocol-supported wlr_layer_shell_v1
 }
 
 listXOptions() {

@@ -20,7 +20,11 @@ d-menu-tool() {
     if [ "$XDG_SESSION_TYPE" == "x11" ]; then
         echo rofi
     elif [ "$XDG_SESSION_TYPE" == "wayland" ]; then
-        d require-one fuzzel wofi
+        if d tools layer-shell-supported; then
+            echo fuzzel
+        else
+            echo wofi
+        fi
     else
         d error "Unknown session type" "$XDG_SESSION_TYPE"
         return 1
