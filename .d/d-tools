@@ -20,6 +20,7 @@ main() {
         mouse-button-listener) shift; mouse-button-listener "$@" ;;
         wayland-protocol-supported) shift; wayland-protocol-supported "$@" ;;
         layer-shell-supported) layer-shell-supported ;;
+        md-preview) shift; md-preview "$@" ;;
         list-x-options) listXOptions ;;
         show) listXOptions | d menu from-json ;;
         *) exit 1 ;;
@@ -248,6 +249,46 @@ layer-shell-supported() {
         return 1
     fi
     wayland-protocol-supported wlr_layer_shell_v1
+}
+
+md-preview() {
+    d require jq curl pulldown-cmark
+    local file=${1:?File required}
+    cat <<EOF | "$BROWSER" "data:text/html;base64,$(base64 -w0 <&0)" 2>/dev/null
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Markdown Preview</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/github-markdown-css/5.8.1/github-markdown-dark.min.css" integrity="sha512-OtEVQKlou4M/GacGwvUl27uo+XNyHfUlMP/furdKClgpkU++3SepORomgRC1uV7qjJ5fnV8ENVt2qXkR8enD1w==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <meta charset="utf-8">
+    <style>
+    body {
+        background-color: #0d1117;
+    }
+
+    .markdown-body {
+        box-sizing: border-box;
+        min-width: 200px;
+        max-width: 980px;
+        margin: 0 auto;
+        padding: 45px;
+    }
+
+    @media (max-width: 767px) {
+        .markdown-body {
+            padding: 15px;
+        }
+    }
+    </style>
+</head>
+<body>
+    <article class="markdown-body">
+    $(pulldown-cmark -TFSL <"$file")
+    </article>
+</body>
+</html>
+EOF
 }
 
 listXOptions() {
