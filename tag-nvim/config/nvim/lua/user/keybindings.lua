@@ -82,6 +82,10 @@ u.map('n', '<Leader>oi', ':EditAnyInit<CR>')
 -- diagnostics
 u.map('n', '[d', vim.diagnostic.goto_prev, { desc = 'Go to previous diagnostic' })
 u.map('n', ']d', vim.diagnostic.goto_next, { desc = 'Go to next diagnostic' })
+u.map('n', '[e', function() vim.diagnostic.goto_prev({ severity = vim.diagnostic.severity.ERROR }) end,
+    { desc = 'Go to previous error' })
+u.map('n', ']e', function() vim.diagnostic.goto_next({ severity = vim.diagnostic.severity.ERROR }) end,
+    { desc = 'Go to next error' })
 u.map('n', 'gx', vim.diagnostic.open_float, { desc = 'Open diagnostic float' })
 u.map('n', '<Leader>cx', vim.diagnostic.open_float, { desc = 'Open diagnostic float' })
 
