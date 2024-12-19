@@ -298,7 +298,13 @@ return {
         event = 'VeryLazy',
         config = function()
             local n = require('notify')
-            n.setup({ render = 'compact' })
+            n.setup({
+                timeout = 2000,
+                max_width = 80,
+                render = 'minimal',
+                stages = 'no_animation',
+                fps = 60,
+            })
             vim.notify = n
         end,
     },
