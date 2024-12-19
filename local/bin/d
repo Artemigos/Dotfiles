@@ -98,6 +98,7 @@ d-make() {
 
 d-edit() {
     d require "$EDITOR"
+    cd "$DOTFILES_HOME"
     d exec "$EDITOR"
 }
 
