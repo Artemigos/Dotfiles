@@ -21,7 +21,6 @@ local auto_install_tools = {
     'js-debug-adapter',
     -- linters
     'editorconfig-checker',
-    'mypy',
     'shellcheck',
     -- formatters
     'isort',
@@ -259,7 +258,6 @@ return {
         },
         event = { 'BufReadPre', 'BufNewFile' },
         opts = function()
-            local u = require('user.utils')
             local null_ls = require('null-ls')
 
             return {
@@ -277,19 +275,6 @@ return {
                     -- diagnostics
                     null_ls.builtins.diagnostics.editorconfig_checker,
                     null_ls.builtins.diagnostics.fish,
-                    null_ls.builtins.diagnostics.mypy.with({
-                        extra_args = function(_)
-                            local found, python = pcall(u.exec, 'which python3')
-                            if not found then
-                                python = u.exec('which python')
-                            end
-                            return {
-                                -- get around venv problems by using the current venv neovim is in
-                                '--python-executable',
-                                vim.trim(python),
-                            }
-                        end,
-                    }),
                 },
             }
 
