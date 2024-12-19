@@ -38,7 +38,6 @@ local function toggle_fugitive()
 end
 
 local function navigate_to_repo()
-    local u = require('user.utils')
     local remote = u.exec('git remote get-url origin')
     if remote == nil then
         vim.notify('Cannot get the URL of remote "origin".', vim.log.levels.ERROR)
@@ -76,40 +75,6 @@ return {
     },
 
     {
-        'tridactyl/vim-tridactyl',
-        ft = 'tridactyl',
-        init = function()
-            vim.api.nvim_create_autocmd('FileType', {
-                group = vim.api.nvim_create_augroup('tridactyl', { clear = true }),
-                pattern = 'tridactyl',
-                callback = function()
-                    vim.wo.foldmethod = 'marker'
-                    vim.wo.foldmarker = '"{,}"'
-                end,
-            })
-        end,
-    },
-
-    {
-        'stevearc/overseer.nvim',
-        opts = {
-            task_editor = {
-                bindings = {
-                    n = {
-                        ['<Esc>'] = 'Cancel',
-                    },
-                },
-            },
-        },
-        keys = {
-            { '<leader>x<space>', '<cmd>OverseerToggle<CR>',                 desc = 'Show tasks' },
-            { '<leader>xx',       '<cmd>OverseerRun<CR>',                    desc = 'Run task' },
-            { '<leader>xf',       '<cmd>OverseerQuickAction open float<CR>', desc = 'Show last task' },
-        },
-    },
-
-    -- perf
-    {
         'github/copilot.vim',
         config = function()
             vim.g.copilot_filetypes = {
@@ -126,5 +91,4 @@ return {
             return vim.trim(result) == 'true'
         end,
     },
-    { 'tweekmonster/startuptime.vim' },
 }

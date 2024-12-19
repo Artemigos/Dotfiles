@@ -31,7 +31,6 @@ return {
         end,
         dependencies = {
             { 'nvim-treesitter/nvim-treesitter-textobjects' },
-            { 'nvim-treesitter/playground' },
         },
         event = { 'BufReadPost', 'BufNewFile' },
         opts = {

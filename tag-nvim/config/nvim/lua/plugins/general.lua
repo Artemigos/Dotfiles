@@ -14,7 +14,6 @@ return {
     },
     { 'tpope/vim-surround',              event = 'VeryLazy' },
     { 'wellle/targets.vim',              event = 'VeryLazy' },
-    { 'airblade/vim-rooter',             enabled = false },
     { 'michaeljsmith/vim-indent-object', event = 'VeryLazy' },
     { 'tpope/vim-sleuth',                event = 'VeryLazy' },
     {

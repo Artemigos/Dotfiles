@@ -204,28 +204,6 @@ return {
     },
 
     {
-        'kyazdani42/nvim-tree.lua',
-        enabled = false,
-        dependencies = { 'kyazdani42/nvim-web-devicons' },
-        cmd = 'NvimTreeToggle',
-        opts = {
-            sync_root_with_cwd = true,
-            view = {
-                side = 'right',
-                width = 45,
-            },
-            diagnostics = {
-                enable = true,
-                show_on_dirs = true,
-                show_on_open_dirs = false,
-            },
-        },
-        keys = {
-            { '<Leader>e', function() require('nvim-tree.api').tree.toggle() end, desc = 'Toggle file tree' },
-        },
-    },
-
-    {
         'echasnovski/mini.files',
         version = '*',
         opts = {
