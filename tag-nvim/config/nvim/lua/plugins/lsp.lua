@@ -248,31 +248,4 @@ return {
             vim.o.formatexpr = "v:lua.require'conform'.formatexpr()"
         end,
     },
-
-    -- null-ls
-    {
-        'jose-elias-alvarez/null-ls.nvim',
-        dependencies = {
-            'williamboman/mason.nvim',
-        },
-        event = { 'BufReadPre', 'BufNewFile' },
-        opts = function()
-            local null_ls = require('null-ls')
-
-            return {
-                border = 'rounded',
-                should_attach = function(bufnr)
-                    local ft = vim.api.nvim_get_option_value('filetype', { buf = bufnr })
-                    return not require('user.tool-windows').is_tool_ft(ft)
-                end,
-                on_attach = on_attach,
-                sources = {
-                    -- diagnostics
-                    null_ls.builtins.diagnostics.fish,
-                },
-            }
-
-            -- TODO: verify what's needed, languages: Lua, TS, Rust, Markdown
-        end,
-    },
 }
