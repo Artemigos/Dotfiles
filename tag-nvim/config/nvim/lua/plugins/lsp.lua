@@ -20,7 +20,6 @@ local auto_install_tools = {
     'go-debug-adapter',
     'js-debug-adapter',
     -- linters
-    'editorconfig-checker',
     'shellcheck',
     -- formatters
     'isort',
@@ -273,7 +272,6 @@ return {
                     null_ls.builtins.code_actions.gitrebase,
 
                     -- diagnostics
-                    null_ls.builtins.diagnostics.editorconfig_checker,
                     null_ls.builtins.diagnostics.fish,
                 },
             }
