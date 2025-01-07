@@ -14,7 +14,11 @@ app-exec() {
 }
 
 d-launch-music() {
-    app-exec spotify --ozone-platform-hint=auto
+    if flatpak list --app | grep ^Spotify; then
+        app-exec flatpak run com.spotify.Client
+    else
+        app-exec spotify --ozone-platform-hint=auto
+    fi
 }
 
 d-launch-browser() {
