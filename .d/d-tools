@@ -75,8 +75,8 @@ random-wallpaper() {
 }
 
 screenshot() {
-    d require maim xclip
-    maim -s -d 1 | xclip -selection clipboard -t image/png
+    d require grim slurp satty
+    grim -g "$(slurp)" -t ppm - | satty -f - --early-exit
 }
 
 pick-qr() {

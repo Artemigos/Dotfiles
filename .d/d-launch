@@ -34,11 +34,7 @@ d-launch-editor() {
 }
 
 d-launch-screenshot() {
-    app-exec d launch _screenshot
-}
-
-d-launch-_screenshot() {
-    grim -g "$(slurp)" -t ppm - | satty -f - --early-exit
+    app-exec d tools screenshot
 }
 
 forward-cmd d-launch- "$@"
