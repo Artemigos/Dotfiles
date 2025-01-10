@@ -80,8 +80,8 @@ screenshot() {
 }
 
 pick-qr() {
-    d require maim zbarimg
-    maim -s | zbarimg -q --raw -
+    d require grim slurp zbarimg
+    grim -g "$(slurp)" -t ppm - | zbarimg -q --raw -
 }
 
 qr-website() {
