@@ -113,8 +113,13 @@ qr-cam-website() {
 }
 
 show-clipboard-as-qr() {
-    d require xclip qrencode feh
-    xclip -o | qrencode -o- -s5 | feh -
+    d require mktemp touch wl-paste qrencode imv
+    local file
+    file=$(mktemp)
+    touch "$file"
+    trap "rm '$file'" EXIT
+    wl-paste | qrencode -o- -s5 >"$file"
+    imv "$file"
 }
 
 # usage: d tools jwt-decode [-1|-2|-3]
