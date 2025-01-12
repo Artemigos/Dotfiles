@@ -7,9 +7,8 @@ source "$(d script-base)"
 
 # list all the dotfiles that might be a target for editing
 d-dotfiles-list() {
-    d require find sed grep
-    find "$DOTFILES_HOME" -type f -print | grep -v "$(d dotfiles submodules "$DOTFILES_HOME" | sed 's/^/\^/')
-^$DOTFILES_HOME/.git"
+    d require fd
+    fd --type f --hidden --ignore --exclude '\.git' . "$DOTFILES_HOME"
 }
 
 # list submodules in the dotfiles repository
