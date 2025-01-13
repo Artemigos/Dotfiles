@@ -50,3 +50,15 @@ window#waybar>box {
 #battery.critical:not(.charging) {
     color: #cc3436;
 }
+
+#tray menu {
+    background: #282a36;
+}
+
+#tray menuitem:disabled label {
+    color: #6272a4;
+}
+
+#tray menuitem:hover {
+    background: #6272a4;
+}
