@@ -30,8 +30,7 @@ window#waybar>box {
 }
 
 #custom-mpris.off,
-#custom-mpris.stopped,
-#network {
+#custom-mpris.stopped {
     padding-right: 8px;
 }
 
