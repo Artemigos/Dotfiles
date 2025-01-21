@@ -74,10 +74,12 @@
         "on-click": null
     },
     "clock": {
-        "format": " {:%H:%M}"
+        "format": " {:%H:%M}",
+        "tooltip": false
     },
     "clock#date": {
-        "format": " {:%d/%m}"
+        "format": " {:%d/%m}",
+        "tooltip": false
     },
     "battery": {
         "format": "{icon} {capacity}%",
