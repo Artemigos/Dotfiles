@@ -62,3 +62,8 @@ window#waybar>box {
 #tray menuitem:hover {
     background: #6272a4;
 }
+
+tooltip {
+    background: #282a36;
+    border: 1px solid black;
+}
