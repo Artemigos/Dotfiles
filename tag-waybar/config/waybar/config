@@ -2,7 +2,6 @@
     "layer": "top",
     "height": 20,
     "modules-left": [
-        "custom/menu",
         "niri/workspaces"
     ],
     "modules-center": [
@@ -18,11 +17,6 @@
         "battery",
         "tray"
     ],
-    "custom/menu": {
-        "format": "󰍜",
-        "on-click": "d system show",
-        "tooltip": false
-    },
     "niri/workspaces": {
         "format": ""
     },
