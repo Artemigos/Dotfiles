@@ -32,4 +32,17 @@ d-gnome-move-window() {
     d gnome eval "global.get_window_actors().find(w => w.meta_window.title.includes('$titleMatch') || w.meta_window.wm_class.includes('$titleMatch')).meta_window.change_workspace_by_index($workspace, false)"
 }
 
+d-gnome-reset-windows() {
+    d require yq
+    local layout len
+    layout=$(d config get-yaml 'gnome.window-layout')
+    len=$(yq length <<<"$layout")
+    for i in $(seq 0 $((len - 1))); do
+        local item
+        item=$(yq ".[$i]" <<<"$layout")
+        IFS=$'\n' readarray -t args <<<"$(yq '[.name, .x, .y, .w, .h, .workspace]| .[]' <<<"$item" )"
+        d gnome move-window "${args[@]}"
+    done
+}
+
 forward-cmd d-gnome- "$@"

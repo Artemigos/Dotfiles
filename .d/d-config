@@ -29,6 +29,12 @@ d-config-get-arr() {
     yq eval ".${KEY}[]" "$CONFIG_FILE"
 }
 
+d-config-get-yaml() {
+    d require yq
+    local KEY=${1:?Key required}
+    yq -oy ".$KEY" "$CONFIG_FILE"
+}
+
 d-config-edit() {
     "$EDITOR" "$CONFIG_FILE"
 }
