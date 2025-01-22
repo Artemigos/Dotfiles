@@ -67,7 +67,7 @@ clock-face-for-time() {
     local TIME=${1:?Time required}
     local HOUR
     local MINUTE
-    HOUR=$(( $(cut -d: -f1 <<<"$TIME") % 12 ))
+    HOUR=$(( 10#$(cut -d: -f1 <<<"$TIME") % 12 ))
     MINUTE=$(( $(cut -d: -f2 <<<"$TIME") / 30 ))
     case "$HOUR$MINUTE" in
         00) echo "🕛" ;;
