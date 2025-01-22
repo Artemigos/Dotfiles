@@ -63,14 +63,4 @@ return {
             { '<leader>di', '<cmd>lua require"dap".step_into()<CR>', desc = 'Step into' },
         },
     },
-
-    {
-        'jbyuki/one-small-step-for-vimkind',
-        lazy = true,
-        keys = {
-            { '<leader>dll', '<cmd>lua require"osv".launch({port = 7182})<CR>', desc = 'Launch Vim debugging' },
-            { '<leader>dls', '<cmd>lua require"osv".stop()<CR>', desc = 'Stop Vim debugging' },
-            { '<leader>dlr', '<cmd>lua require"osv".run_this()<CR>', desc = 'Debug this' },
-        },
-    },
 }
