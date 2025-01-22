@@ -1,0 +1,35 @@
+#!/bin/bash
+
+set -euo pipefail
+
+# shellcheck source=base.sh
+source "$(d script-base)"
+
+d-gnome-eval() {
+    d require gdbus
+    local expr=${1:?Expression required}
+    local result
+    result=$(gdbus call --session \
+        --dest org.gnome.Shell \
+        --object-path /org/gnome/Shell \
+        --method org.gnome.Shell.Eval \
+        "$expr")
+
+    if [[ "$result" =~ ^\(false ]]; then
+        d error "Failed to eval" "Gnome unsafe flag not enabled?"
+        return 1
+    fi
+}
+
+d-gnome-move-window() {
+    local titleMatch=${1:?Title match required}
+    local x=${2:?X required}
+    local y=${3:?Y required}
+    local w=${4:?Width required}
+    local h=${5:?Height required}
+    local workspace=${6:?Workspace required}
+    d gnome eval "global.get_window_actors().find(w => w.meta_window.title.includes('$titleMatch') || w.meta_window.wm_class.includes('$titleMatch')).meta_window.move_resize_frame(0, $x, $y, $w, $h)"
+    d gnome eval "global.get_window_actors().find(w => w.meta_window.title.includes('$titleMatch') || w.meta_window.wm_class.includes('$titleMatch')).meta_window.change_workspace_by_index($workspace, false)"
+}
+
+forward-cmd d-gnome- "$@"
