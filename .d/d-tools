@@ -259,6 +259,10 @@ layer-shell-supported() {
 md-preview() {
     d require jq curl pulldown-cmark
     local file=${1:?File required}
+    if [[ ! -r "$file" ]]; then
+        echo "Could not read file: $file" 1>&2
+        return 1
+    fi
     cat <<EOF | "$BROWSER" "data:text/html;base64,$(base64 -w0 <&0)" 2>/dev/null
 <!DOCTYPE html>
 <html>
