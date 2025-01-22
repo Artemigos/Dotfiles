@@ -1,5 +1,14 @@
 local u = require('user.utils')
 
+local function flag_condition(flag)
+    return function()
+        local result = u.exec('d config get toggles.' .. flag .. ' false')
+        return vim.trim(result) == 'true'
+    end
+end
+
+local copilot_condition = flag_condition('copilot')
+
 local function create_new_branch()
     vim.ui.input('New branch name:', function(branch)
         if branch == nil then
@@ -86,9 +95,18 @@ return {
                 replace_keycodes = false,
             })
         end,
-        cond = function()
-            local result = u.exec('d config get toggles.copilot false')
-            return vim.trim(result) == 'true'
-        end,
+        cond = copilot_condition,
+    },
+
+    {
+        "CopilotC-Nvim/CopilotChat.nvim",
+        cond = copilot_condition,
+        branch = "canary",
+        dependencies = {
+            { "github/copilot.vim" },
+            { "nvim-lua/plenary.nvim" },
+        },
+        -- build = "make tiktoken",
+        opts = {},
     },
 }
