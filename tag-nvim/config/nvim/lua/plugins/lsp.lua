@@ -68,15 +68,7 @@ return {
                     ensure_installed = supported_servers,
                 },
             },
-            {
-                'ray-x/lsp_signature.nvim',
-                opts = {
-                    bind = true,
-                    handler_opts = {
-                        border = 'rounded',
-                    },
-                },
-            },
+            { 'saghen/blink.cmp' },
             {
                 'onsails/lspkind-nvim',
                 opts = {},
@@ -110,13 +102,6 @@ return {
                 'Show code actions'
             },
             { 'gt',               vim.lsp.buf.type_definition,                    desc = 'Go to type definition' },
-            {
-                '<C-Space>',
-                vim.lsp.buf.signature_help,
-                mode = 'i',
-                desc =
-                'Signature help'
-            },
             { '<C-Space>',        vim.lsp.buf.signature_help,                     desc = 'Signature help' },
             { 'gT',               ':Telescope lsp_dynamic_workspace_symbols<CR>', desc = 'Workspace symbols' },
             { 'gX',               ':Telescope diagnostics<CR>',                   desc = 'Diagnostics' },
@@ -159,7 +144,7 @@ return {
             --     callback = vim.lsp.buf.clear_references,
             -- })
 
-            local capabilities = require('cmp_nvim_lsp').default_capabilities(vim.lsp.protocol.make_client_capabilities())
+            local capabilities = require('blink.cmp').get_lsp_capabilities()
 
             local function make_config(server)
                 local cfg = {
