@@ -19,18 +19,6 @@ return {
             { 'nvim-telescope/telescope-file-browser.nvim' },
             { 'gbrlsnchs/telescope-lsp-handlers.nvim' },
         },
-        opts = {
-            extensions = {
-                lsp_handlers = {
-                    code_action = {
-                        telescope = require('telescope.themes').get_cursor {},
-                    }
-                },
-                ['ui-select'] = {
-                    require('telescope.themes').get_dropdown {}
-                }
-            }
-        },
         keys = {
             { '<Leader>ff', t('find_files'), desc = 'Find file' },
             { '<Leader>fg', t('git_files'), desc = 'Find git file' },
@@ -44,8 +32,20 @@ return {
             { '<Leader>fr', t('resume'), desc = 'Resume last search' },
             { '<Leader>fs', t('lsp_document_symbols'), desc = 'Find symbols in this file' },
         },
-        config = function(_, opts)
+        config = function(_, _)
             local ts = require('telescope')
+            local opts = {
+                extensions = {
+                    lsp_handlers = {
+                        code_action = {
+                            telescope = require('telescope.themes').get_cursor {},
+                        }
+                    },
+                    ['ui-select'] = {
+                        require('telescope.themes').get_dropdown {}
+                    }
+                }
+            }
             ts.setup(opts)
             ts.load_extension('fzf')
             ts.load_extension('file_browser')
