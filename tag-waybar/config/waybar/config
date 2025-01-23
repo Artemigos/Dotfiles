@@ -26,6 +26,7 @@
         "on-click-middle": "d widget music middle-click",
         "on-click-right": "d widget music right-click",
         "return-type": "json",
+        "escape": true,
         "tooltip": false
     },
     "bluetooth": {
@@ -42,6 +43,7 @@
         "format": "󰖂 {}",
         "interval": 5,
         "on-click": "d vpn show",
+        "escape": true,
         "tooltip": false
     },
     "custom/updates": {
@@ -49,6 +51,7 @@
         "interval": 3600,
         "exec": "checkupdates | wc -l",
         "on-click": "d packages show",
+        "escape": true,
         "tooltip": false
     },
     "pulseaudio": {
