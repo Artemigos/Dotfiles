@@ -85,6 +85,8 @@ return {
 
     {
         'github/copilot.vim',
+        cond = copilot_condition,
+        event = 'VeryLazy',
         config = function()
             vim.g.copilot_filetypes = {
                 text = false,
@@ -95,12 +97,12 @@ return {
                 replace_keycodes = false,
             })
         end,
-        cond = copilot_condition,
     },
 
     {
         "CopilotC-Nvim/CopilotChat.nvim",
         cond = copilot_condition,
+        event = 'VeryLazy',
         branch = "canary",
         dependencies = {
             { "github/copilot.vim" },
