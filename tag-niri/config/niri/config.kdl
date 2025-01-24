@@ -195,6 +195,9 @@ binds {
     Mod+Ctrl+H  { consume-or-expel-window-left; }
     Mod+Ctrl+L { consume-or-expel-window-right; }
 
+    Mod+Shift+Z { toggle-window-floating; }
+    Mod+Z { switch-focus-between-floating-and-tiling; }
+
     Mod+R { switch-preset-column-width; }
     Mod+Shift+R { switch-preset-window-height; }
     Mod+Ctrl+R { reset-window-height; }
