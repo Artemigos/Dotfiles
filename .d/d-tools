@@ -17,7 +17,6 @@ main() {
         terminal-popup) shift; terminal-popup "$@" ;;
         terminal-popup-msg) shift; terminal-popup-msg "$@" ;;
         wait-until) shift; wait-until "$@" ;;
-        mouse-button-listener) shift; mouse-button-listener "$@" ;;
         wayland-protocol-supported) shift; wayland-protocol-supported "$@" ;;
         layer-shell-supported) layer-shell-supported ;;
         md-preview) shift; md-preview "$@" ;;
@@ -201,40 +200,6 @@ wait-until() {
         sleep 5
     done
     notify-send "Command succeeded" "$*"
-}
-
-mouse-button-listener() {
-    # NOTE: Yes, I'm aware this is somewhat cursed.
-    # This is a dirty workaround until Niri implements a way to achieve this.
-    # https://github.com/YaLTeR/niri/issues/761
-    MOUSE=$(libinput list-devices | python3 -c "$(cat <<EOF
-import sys
-for device_desc in sys.stdin.read().split('\n\n'):
-    device_desc = device_desc.strip()
-    if device_desc == '':
-        continue
-    dev = {}
-    for entry in device_desc.splitlines():
-        l, r = entry.split(':')
-        dev[l.strip()] = r.strip()
-    caps = dev['Capabilities'].split()
-    name = dev['Device']
-    if 'pointer' in caps and 'ydotool' not in name:
-        print(dev['Kernel'])
-        break
-else:
-    exit(1)
-EOF
-)")
-    evtest "$MOUSE" | while read -r line; do
-        if [[ "$line" == *"code 275"* && "$line" == *"value 1"* ]]; then
-            niri msg action spawn -- sp next
-        fi
-
-        if [[ "$line" == *"code 276"* && "$line" == *"value 1"* ]]; then
-            niri msg action spawn -- sp play
-        fi
-    done
 }
 
 wayland-protocol-supported() {
