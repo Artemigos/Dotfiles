@@ -30,7 +30,6 @@ local auto_install_tools = {
 
 local function on_attach(_, bufnr)
     vim.api.nvim_set_option_value('omnifunc', 'v:lua.vim.lsp.omnifunc', { buf = 0 })
-    require('user.auto-format').on_attach(bufnr)
 end
 
 return {

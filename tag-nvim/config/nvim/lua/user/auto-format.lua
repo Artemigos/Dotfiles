@@ -4,10 +4,8 @@ function M.setup(opts)
     opts = opts or {}
     M.default_enabled_filetypes = opts.filetypes or {}
     M.augroup = vim.api.nvim_create_augroup('AutoFormat', { clear = true })
-end
 
-function M.on_attach(bufnr)
-    vim.api.nvim_buf_create_user_command(bufnr, 'Format', function(args)
+    vim.api.nvim_create_user_command('Format', function(args)
         local range = nil
         if args.count ~= -1 then
             local end_line = vim.api.nvim_buf_get_lines(0, args.line2 - 1, args.line2, true)[1]
@@ -17,16 +15,22 @@ function M.on_attach(bufnr)
             }
         end
         require("conform").format({ lsp_fallback = true, range = range })
-    end, { desc = 'Format current buffer with LSP', range = true })
+    end, { desc = 'Format current buffer', range = true })
 
-    vim.api.nvim_buf_create_user_command(bufnr, 'ToggleAutoFormat', function(_)
-        M.toggle_auto_format(bufnr)
+    vim.api.nvim_create_user_command('ToggleAutoFormat', function(_)
+        M.toggle_auto_format(0)
     end, { desc = 'Toggle auto formatting for this buffer' })
 
-    local ft = vim.api.nvim_get_option_value('filetype', { buf = bufnr })
-    if vim.tbl_contains(M.default_enabled_filetypes, ft) and not M.is_auto_format_enabled(bufnr) then
-        M.toggle_auto_format(bufnr)
-    end
+    vim.api.nvim_create_autocmd('FileType', {
+        group = M.augroup,
+        callback = function(ev)
+            local should_enable = vim.tbl_contains(M.default_enabled_filetypes, ev.match)
+            local is_enabled = M.is_auto_format_enabled(ev.buf)
+            if should_enable ~= is_enabled then
+                M.toggle_auto_format(ev.buf)
+            end
+        end,
+    })
 end
 
 function M.toggle_auto_format(bufnr)
@@ -35,7 +39,7 @@ function M.toggle_auto_format(bufnr)
         buffer = bufnr,
     })
 
-    if vim.tbl_count(existingCmds) > 0 then
+    if #existingCmds > 0 then
         for _, cmd in pairs(existingCmds) do
             vim.api.nvim_del_autocmd(cmd.id)
         end
@@ -54,7 +58,7 @@ function M.is_auto_format_enabled(bufnr)
         buffer = bufnr,
     })
 
-    return vim.tbl_count(existingCmds) > 0
+    return #existingCmds > 0
 end
 
 return M
