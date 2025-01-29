@@ -28,6 +28,11 @@ container-for-account() {
     d config get "aws.account-containers.$ACCOUNT"
 }
 
+profile-for-account() {
+    local ACCOUNT=${1:?Account required}
+    d config get "aws.account-profiles.$ACCOUNT"
+}
+
 d-aws-x-perform-login() {
     local ACCOUNT CONTAINER
     ACCOUNT=${1:?Account required}
@@ -66,9 +71,20 @@ d-aws-x-open-service() {
 }
 
 d-aws-find-instances() {
-    d require aws jq
+    d require aws jq column
     local query=${1:?Query required}
-    aws ec2 describe-instances | jq '[.Reservations[].Instances[]] | map(select(.State.Name == "running" and any(.Tags[]; .Key == "Name" and (.Value | ascii_downcase | contains($query | ascii_downcase)))))' --arg query "$query" | jq -r '.[] | .InstanceId + "   " + (.Tags | map(select(.Key == "Name")))[0].Value'
+    aws ec2 describe-instances | jq '[.Reservations[].Instances[]] | map(select(.State.Name == "running" and any(.Tags[]; .Key == "Name" and (.Value | ascii_downcase | contains($query | ascii_downcase)))))' --arg query "$query" | jq -r '.[] | .InstanceId + "   " + (.Tags | map(select(.Key == "Name")))[0].Value' | column --table
+}
+
+d-aws-x-open-instance() {
+    d require zenity awk
+    REGION=$(d config get aws.region)
+    ACCOUNT=$(d-aws-x-select-account)
+    QUERY=$(zenity --entry --text="Instance name query" --title="AWS instance search")
+    CONTAINER=$(container-for-account "$ACCOUNT")
+    PROFILE=$(profile-for-account "$ACCOUNT")
+    INSTANCE=$(AWS_PROFILE=$PROFILE d-aws-find-instances "$QUERY" | d menu dmenu | awk '{print $1}')
+    open-in-container "https://$REGION.console.aws.amazon.com/ec2/home?region=$REGION#InstanceDetails:instanceId=$INSTANCE" "$CONTAINER"
 }
 
 d-aws-list-x-options() {
