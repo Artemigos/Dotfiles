@@ -212,21 +212,17 @@ return {
                 yaml = { 'yq' },
                 typescript = { 'prettier' },
                 javascript = { 'prettier' },
+                vcl = { 'vcl_formatter' },
             },
-            -- TODO:
-            -- local vcl_formatter = {
-            --     name = 'vcl-formatter',
-            --     method = null_ls.methods.FORMATTING,
-            --     generator = formatter_factory({
-            --         command = 'vcl-formatter',
-            --         to_stdin = true,
-            --         args = function(params)
-            --             local indent = vim.api.nvim_buf_get_option(params.bufnr, 'shiftwidth')
-            --             return { '-i', tostring(indent), '-' }
-            --         end,
-            --     }),
-            --     filetypes = { 'vcl' },
-            -- }
+            formatters = {
+                vcl_formatter = {
+                    command = 'vcl-formatter',
+                    args = function(_, ctx)
+                        return { '-i', tostring(ctx.shiftwidth), '-' }
+                    end,
+                    stdin = true,
+                },
+            },
         },
         init = function()
             vim.o.formatexpr = "v:lua.require'conform'.formatexpr()"
