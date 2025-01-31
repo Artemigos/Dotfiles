@@ -75,6 +75,10 @@ listXOptions () {
             "command": "d power show"
         },
         {
+            "description": "Read",
+            "command": "d read show"
+        },
+        {
             "description": "Timezones",
             "command": "d tz show"
         },

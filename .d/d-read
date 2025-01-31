@@ -1,0 +1,38 @@
+#!/bin/bash
+
+set -euo pipefail
+
+# shellcheck source=base.sh
+source "$(d script-base)"
+
+d-read-list-documents() {
+    d require fd
+    fd -e pdf '.*' "$HOME/Documents" "$HOME/Downloads"
+}
+
+d-read-documents() {
+    d require zathura
+    local DOC
+    DOC=$(d-read-list-documents | d menu dmenu)
+    zathura --fork "$DOC"
+}
+
+d-read-list-x-options() {
+    cat <<EOF
+{
+    "prompt": "read",
+    "commands": [
+        {
+            "description": "Documents",
+            "command": "d read documents"
+        }
+    ]
+}
+EOF
+}
+
+d-read-show() {
+    d-read-list-x-options | d menu from-json
+}
+
+forward-cmd d-read- "$@"
