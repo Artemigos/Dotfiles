@@ -1,0 +1,1 @@
+osprey completion fish | source
