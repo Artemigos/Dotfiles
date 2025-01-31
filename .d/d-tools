@@ -5,7 +5,7 @@ set -euo pipefail
 main() {
     case ${1:-} in
         show-clipboard-as-qr) show-clipboard-as-qr ;;
-        man-pdf) man-pdf ;;
+        man-pdf) shift; man-pdf "$@" ;;
         random-wallpaper) random-wallpaper ;;
         screenshot) screenshot ;;
         pick-qr) pick-qr ;;
@@ -28,21 +28,7 @@ main() {
 
 man-pdf() {
     d require fd sort gzip groff zathura
-    local CHOICE
-    local SECTIONS
-    local SECTION
-    local FILE
-    CHOICE=$(man -k . | awk '{print $1}' | sort -u | d menu dmenu)
-    SECTIONS=$(man -f "$CHOICE" | awk '{print $2}' | sort | tr -d '()')
-    if [[ "$(echo "$SECTIONS" | wc -l)" -gt 1 ]]; then
-        SECTION=$(echo "$SECTIONS" | d menu dmenu)
-    else
-        SECTION=$SECTIONS
-    fi
-    FILE=$(man -w -s "$SECTION" "$CHOICE")
-    echo "$FILE"
-    file "$FILE"
-    gzip -dc "$FILE" | groff -man -T pdf - | zathura -
+    man "$@" | groff -man -T pdf - | zathura --mode=fullscreen -
 }
 
 random-wallpaper() {

@@ -1,3 +1,3 @@
-function pman
-    man -t $argv[1] | ps2pdf - - | zathura --fork --mode=fullscreen -
+function pman -w man
+    d tools man-pdf $argv
 end
