@@ -8,7 +8,7 @@ local supported_servers = {
     'yamlls',        -- YAML
     'cssls',         -- CSS, LESS, SCSS
     'ts_ls',         -- Typescript, Javascript
-    'ruff_lsp',      -- python linter
+    'ruff',          -- python linter
     'gopls',         -- Golang
     'marksman',      -- Markdown notetaking
 }
@@ -28,7 +28,7 @@ local auto_install_tools = {
     'shfmt',
 }
 
-local function on_attach(_, bufnr)
+local function on_attach(_, _)
     vim.api.nvim_set_option_value('omnifunc', 'v:lua.vim.lsp.omnifunc', { buf = 0 })
 end
 
