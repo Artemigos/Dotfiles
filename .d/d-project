@@ -8,8 +8,12 @@ source "$(d script-base)"
 session=main
 
 d-project-list() {
-    d require fd cut xargs wc
-    fd --hidden --no-ignore-vcs --max-depth 2 "^\\.git\$" "$(d home)" ~/git | cut -c "$(echo "$HOME/" | wc -c)-" | xargs -n1 dirname
+    d require fd xargs sort
+    cd "$HOME"
+    echo .dotfiles
+    [ -d notes ] && echo notes
+    [ -d notes/work ] && echo notes/work
+    fd --hidden --no-ignore-vcs --relative-path --color never --max-depth 2 "^\\.git\$" git | xargs -n1 dirname | sort
 }
 
 d-project-open() {
