@@ -45,13 +45,44 @@ local function toggle_fugitive()
     end
 end
 
-local function navigate_to_repo()
-    local remote = u.exec('git remote get-url origin')
+local function find_repo_web_url()
+    local remote = vim.trim(u.exec('git remote get-url origin'))
     if remote == nil then
+        return nil
+    end
+    local host, path
+    if vim.startswith(remote, 'https://') then
+        local trimmed = remote:sub(9):gsub('%.git$', '')
+        local slash_start = trimmed:find('/')
+        assert(slash_start)
+        host = trimmed:sub(1, slash_start - 1)
+        path = trimmed:sub(slash_start + 0)
+    else
+        local at_start = remote:find('@')
+        local colon_start = remote:find(':')
+        assert(at_start)
+        assert(colon_start)
+        host = remote:sub(at_start + 1, colon_start - 1)
+        path = '/' .. remote:sub(colon_start + 1):gsub('%.git$', '')
+    end
+
+    local config = require('user.localconf').get({ 'git-remotes-host-mapping', host }, {})
+    if config.host_override ~= nil then
+        host = config.host_override
+    end
+    if config.path_prefix ~= nil then
+        path = config.path_prefix .. path
+    end
+
+    return 'https://' .. host .. path
+end
+
+local function navigate_to_repo()
+    local url = find_repo_web_url()
+    if url == nil then
         vim.notify('Cannot get the URL of remote "origin".', vim.log.levels.ERROR)
         return
     end
-    local url = remote:gsub('%s*$', ''):gsub('%.git$', ''):gsub(':', '/'):gsub('^git@', 'https://')
     local function navigate(input_url)
         if input_url then
             vim.fn.jobstart('xdg-open ' .. input_url)
