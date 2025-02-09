@@ -2,8 +2,7 @@ local u = require('user.utils')
 
 local function flag_condition(flag)
     return function()
-        local result = u.exec('d config get toggles.' .. flag .. ' false')
-        return vim.trim(result) == 'true'
+        return require('user.localconf').get({ 'toggles', flag }, false)
     end
 end
 

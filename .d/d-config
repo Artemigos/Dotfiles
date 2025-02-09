@@ -39,4 +39,18 @@ d-config-edit() {
     "$EDITOR" "$CONFIG_FILE"
 }
 
+d-config-path() {
+    [ -f "$CONFIG_FILE" ] && echo "$CONFIG_FILE"
+}
+
+d-config-cat() {
+    d require cat
+    cat "$CONFIG_FILE"
+}
+
+d-config-cat-json() {
+    d require yq
+    yq -oj "." "$CONFIG_FILE"
+}
+
 forward-cmd d-config- "$@"
