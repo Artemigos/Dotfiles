@@ -7,7 +7,7 @@ source "$(d script-base)"
 
 d-read-list-documents() {
     d require fd
-    fd -e pdf '.*' "$HOME/Documents" "$HOME/Downloads"
+    fd -e pdf -e epub '.*' "$HOME/Documents" "$HOME/Downloads"
 }
 
 d-read-documents() {
