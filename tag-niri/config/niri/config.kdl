@@ -70,10 +70,7 @@ hotkey-overlay {
     skip-at-startup
 }
 
-spawn-at-startup "waybar"
-spawn-at-startup "swww-daemon"
 spawn-at-startup "d" "tools" "random-wallpaper"
-spawn-at-startup "gammastep"
 
 prefer-no-csd
 screenshot-path "~/Pictures/Screenshots/Screenshot from %Y-%m-%d %H-%M-%S.png"

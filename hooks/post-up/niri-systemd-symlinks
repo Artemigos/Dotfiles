@@ -1,0 +1,34 @@
+#!/bin/bash
+
+has-tag() {
+    local match_to=$1
+    shift
+    while [[ $# -gt 0 ]]; do
+        if [ "$1" = "$match_to" ]; then
+            return 0
+        fi
+        shift
+    done
+    return 1
+}
+
+link-systemd() {
+    local what=${1:?Unit to link required}
+    local where=$XDG_CONFIG_HOME/systemd/user/${2:?Path under ~/.config/systemd/user required}
+
+    if [[ ! -f "$where" ]]; then
+        echo "linking $what -> $where"
+        ln -s "$what" "$where"
+    elif [[ "$(readlink "$where")" != "$what" ]]; then
+        echo "link differs ($where), REMOVE TO OVERRIDE"
+    else
+        echo "identical $where"
+    fi
+}
+
+[ -f "$HOME/.rcrc" ] && source "$HOME/.rcrc"
+if has-tag niri $TAGS; then
+    link-systemd /usr/lib/systemd/user/gammastep.service niri.service.wants/gammastep.service
+    link-systemd "$XDG_CONFIG_HOME/systemd/user/swww-daemon.service" niri.service.wants/swww-daemon.service
+    link-systemd /usr/lib/systemd/user/waybar.service niri.service.wants/waybar.service
+fi
