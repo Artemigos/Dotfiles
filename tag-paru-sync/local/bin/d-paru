@@ -66,7 +66,7 @@ if [[ -n "$explicit_to_dep" ]]; then
 fi
 
 # ask for permission
-if [[ -z "$missing_explicit$missing_deps$superfluous_explicit" ]]; then
+if [[ -z "$missing_explicit$missing_deps$superfluous_explicit$dep_to_explicit$explicit_to_dep" ]]; then
     echo "Nothing to do."
     exit 0
 fi
