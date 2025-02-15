@@ -29,6 +29,7 @@ explicit_to_dep=$({
     comm -12 <(echo "$superfluous_explicit") <(echo "$optional_deps")
 } | sort -u)
 superfluous_explicit=$(comm -23 <(echo "$superfluous_explicit") <(echo "$explicit_to_dep"))
+missing_deps=$(comm -23 <(echo "$missing_deps") <(echo "$explicit_to_dep"))
 
 dep_to_explicit=$(comm -12 <(echo "$missing_explicit") <(echo "$current_deps"))
 missing_explicit=$(comm -23 <(echo "$missing_explicit") <(echo "$dep_to_explicit"))
