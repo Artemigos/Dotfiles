@@ -1,0 +1,102 @@
+#!/bin/bash
+
+d require yq paru sort comm
+
+# config
+file=$XDG_CONFIG_HOME/d/packages.yaml
+if [[ ! -r "$file" ]]; then
+    echo "Cannot read config file: $file" 1>&2
+    exit 1
+fi
+
+# TODO: validate that no package appears twice across both lists
+# TODO: should we update before doing anything?
+# TODO: should optional dependencies be a strict list as well? (i.e. support removing them)
+
+# collect data
+explicit=$(yq '.explicit[]' "$file" | sort -u)
+optional_deps=$(yq '.optional_deps[]' "$file" | sort -u)
+
+current_explicit=$(paru -Qqe | sort)
+current_deps=$(paru -Qqd | sort)
+
+missing_explicit=$(comm -23 <(echo "$explicit") <(echo "$current_explicit"))
+superfluous_explicit=$(comm -13 <(echo "$explicit") <(echo "$current_explicit"))
+missing_deps=$(comm -23 <(echo "$optional_deps") <(echo "$current_deps"))
+
+explicit_to_dep=$({
+    comm -23 <(echo "$superfluous_explicit") <(paru -Qqt | sort)
+    comm -12 <(echo "$superfluous_explicit") <(echo "$optional_deps")
+} | sort -u)
+superfluous_explicit=$(comm -23 <(echo "$superfluous_explicit") <(echo "$explicit_to_dep"))
+
+dep_to_explicit=$(comm -12 <(echo "$missing_explicit") <(echo "$current_deps"))
+missing_explicit=$(comm -23 <(echo "$missing_explicit") <(echo "$dep_to_explicit"))
+
+# verify status
+had_section=
+if [[ -n "$missing_explicit" ]]; then
+    echo "Install (as explicit):"
+    echo "$missing_explicit"
+    had_section=true
+fi
+if [[ -n "$missing_deps" ]]; then
+    [[ -n "$had_section" ]] && echo
+    echo "Install (as deps):"
+    echo "$missing_deps"
+    had_section=true
+fi
+if [[ -n "$superfluous_explicit" ]]; then
+    [[ -n "$had_section" ]] && echo
+    echo "Remove:"
+    echo "$superfluous_explicit"
+    had_section=true
+fi
+if [[ -n "$dep_to_explicit" ]]; then
+    [[ -n "$had_section" ]] && echo
+    echo "Mark package as explicit:"
+    echo "$dep_to_explicit"
+    had_section=true
+fi
+if [[ -n "$explicit_to_dep" ]]; then
+    [[ -n "$had_section" ]] && echo
+    echo "Mark package as dep:"
+    echo "$explicit_to_dep"
+    had_section=true
+fi
+
+# ask for permission
+if [[ -z "$missing_explicit$missing_deps$superfluous_explicit" ]]; then
+    echo "Nothing to do."
+    exit 0
+fi
+
+echo
+echo -n "Do you want to apply changes? [Y/n] "
+read -r apply
+if [[ -z "$apply" ]]; then
+    apply=y
+fi
+case $apply in
+    y|Y) ;;
+    n|N) exit 1 ;;
+    *) echo "Invalid command: $apply"; exit 1 ;;
+esac
+
+# apply changes
+set -e
+if [[ -n "$missing_explicit" ]]; then
+    echo "$missing_explicit" | xargs paru -S --noconfirm
+fi
+if [[ -n "$missing_deps" ]]; then
+    echo "$missing_deps" | xargs paru -S --noconfirm --asdeps
+fi
+if [[ -n "$superfluous_explicit" ]]; then
+    echo "$superfluous_explicit" | xargs paru -R --noconfirm
+fi
+if [[ -n "$dep_to_explicit" ]]; then
+    echo "$dep_to_explicit" | xargs paru -D --noconfirm --asexplicit
+fi
+if [[ -n "$explicit_to_dep" ]]; then
+    echo "$explicit_to_dep" | xargs paru -D --noconfirm --asdeps
+fi
