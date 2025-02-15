@@ -18,6 +18,7 @@ link-systemd() {
 
     if [[ ! -f "$where" ]]; then
         echo "linking $what -> $where"
+        mkdir -p "$(dirname "$where")"
         ln -s "$what" "$where"
     elif [[ "$(readlink "$where")" != "$what" ]]; then
         echo "link differs ($where), REMOVE TO OVERRIDE"
