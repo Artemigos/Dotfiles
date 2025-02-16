@@ -1,11 +1,11 @@
 #!/bin/bash
 
-d require yq paru sort comm
+d require yq paru sort comm find
 
 # config
-file=$XDG_CONFIG_HOME/d/packages.yaml
-if [[ ! -r "$file" ]]; then
-    echo "Cannot read config file: $file" 1>&2
+dir=$XDG_CONFIG_HOME/paru-sync
+if [[ ! -d "$dir" ]]; then
+    echo "Config directory missing: $dir" 1>&2
     exit 1
 fi
 
@@ -14,8 +14,8 @@ fi
 # TODO: should optional dependencies be a strict list as well? (i.e. support removing them)
 
 # collect data
-explicit=$(yq '.explicit[]' "$file" | sort -u)
-optional_deps=$(yq '.optional_deps[]' "$file" | sort -u)
+explicit=$(find "$dir" -maxdepth 1 -type f -exec yq '.explicit[]' '{}' \; | sort -u)
+optional_deps=$(find "$dir" -maxdepth 1 -type f -exec yq '.optional_deps[]' '{}' \; | sort -u)
 
 current_explicit=$(paru -Qqe | sort)
 current_deps=$(paru -Qqd | sort)
