@@ -9,13 +9,12 @@ if [[ ! -d "$dir" ]]; then
     exit 1
 fi
 
-# TODO: validate that no package appears twice across both lists
 # TODO: should we update before doing anything?
 # TODO: should optional dependencies be a strict list as well? (i.e. support removing them)
 
 # collect data
-explicit=$(find "$dir" -maxdepth 1 -type f -exec yq '.explicit[]' '{}' \; | sort -u)
-optional_deps=$(find "$dir" -maxdepth 1 -type f -exec yq '.optional_deps[]' '{}' \; | sort -u)
+explicit=$(find "$dir" -maxdepth 1 -type f -exec yq 'keys[]' '{}' \; | sort -u)
+optional_deps=$(find "$dir" -maxdepth 1 -type f -exec yq 'to_entries[] | .value[]' '{}' \; | sort -u)
 
 current_explicit=$(paru -Qqe | sort)
 current_deps=$(paru -Qqd | sort)
