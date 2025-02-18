@@ -100,6 +100,7 @@ return {
             { '<Leader>gc', ':Telescope git_commits<CR>',  desc = 'Find commit' },
             { '<Leader>gp', ':Git push<CR>',               desc = 'Git push' },
             { '<Leader>gl', ':Git pull<CR>',               desc = 'Git pull' },
+            { '<Leader>gL', ':Git pull --autostash<CR>',   desc = 'Git pull --autostash' },
             { '<Leader>gb', ':Telescope git_branches<CR>', desc = 'Find branch' },
             { '<Leader>gs', ':Telescope git_stash<CR>',    desc = 'Find stash' },
             { '<Leader>gf', ':Git fetch -p<CR>',           desc = 'Git fetch -p' },
