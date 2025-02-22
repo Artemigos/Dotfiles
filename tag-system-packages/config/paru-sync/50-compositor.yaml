@@ -1,0 +1,25 @@
+dunst:
+  - libnotify
+gammastep:
+  # for gammastep-indicator
+  - python-gobject
+  - python-pyxdg
+  - gtk3
+  - libappindicator-gtk3
+greetd:
+greetd-tuigreet:
+grim:
+libnotify:
+niri:
+  - fuzzel
+  - waybar
+  - xwayland-satellite
+  - xdg-desktop-portal-gnome
+  - xdg-desktop-portal-gtk
+  - gnome-keyring
+satty:
+slurp:
+swww:
+wl-clipboard:
+  - xdg-utils
+  - mailcap

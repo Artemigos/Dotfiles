@@ -1,0 +1,9 @@
+firefox:
+flatpak:
+kitty:
+  - imagemagick
+  - libcanberra
+scrcpy:
+thunderbird:
+zathura:
+  - zathura-pdf-mupdf

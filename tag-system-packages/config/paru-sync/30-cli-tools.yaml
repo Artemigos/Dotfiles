@@ -1,0 +1,38 @@
+7zip:
+bind:
+eza:
+fd:
+fish:
+git:
+  - openssh
+go:
+go-yq:
+htop:
+  - lsof
+  - strace
+hyperfine:
+imv:
+jq:
+neovim:
+  - wl-clipboard
+net-tools:
+nodejs:
+  - npm
+pacman-contrib:
+  - fakeroot
+pass:
+pwgen:
+python:
+python-pip:
+python-virtualenv:
+rclone:
+  - fuse3
+ripgrep:
+starship:
+the_silver_searcher:
+tmux:
+unzip:
+uv:
+zbar:
+  - gtk3
+zenity:

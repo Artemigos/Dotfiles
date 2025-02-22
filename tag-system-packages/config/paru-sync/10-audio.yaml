@@ -1,0 +1,9 @@
+blueman:
+bluez:
+bluez-tools:
+bluez-utils:
+pipewire:
+  - pipewire-alsa
+  - pipewire-audio
+  - pipewire-pulse
+  - wireplumber
