@@ -15,6 +15,7 @@ fi
 # collect data
 explicit=$(find "$dir" -maxdepth 1 -type f -exec yq 'keys[]' '{}' \; | sort -u)
 optional_deps=$(find "$dir" -maxdepth 1 -type f -exec yq 'to_entries[] | .value[]' '{}' \; | sort -u)
+optional_deps=$(comm -23 <(echo "$optional_deps") <(echo "$explicit"))
 
 current_explicit=$(paru -Qqe | sort)
 current_deps=$(paru -Qqd | sort)
