@@ -61,7 +61,7 @@ random-wallpaper() {
 
 screenshot() {
     d require grim slurp satty
-    grim -g "$(slurp)" -t ppm - | satty -f - --early-exit
+    grim -g "$(slurp)" -t ppm - | satty -f - --early-exit --copy-command wl-copy
 }
 
 pick-qr() {
