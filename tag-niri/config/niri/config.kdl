@@ -36,6 +36,10 @@ output "DP-1" {
     scale 1
 }
 
+output "LG Display 0x05FF Unknown" {
+    off
+}
+
 // https://github.com/YaLTeR/niri/wiki/Configuration:-Layout
 layout {
     gaps 10
