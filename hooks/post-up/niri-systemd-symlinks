@@ -29,6 +29,7 @@ link-systemd() {
 
 [ -f "$HOME/.rcrc" ] && source "$HOME/.rcrc"
 if has-tag niri $TAGS; then
+    link-systemd "$XDG_CONFIG_HOME/systemd/user/clipse.service" niri.service.wants/clipse.service
     link-systemd /usr/lib/systemd/user/gammastep.service niri.service.wants/gammastep.service
     link-systemd "$XDG_CONFIG_HOME/systemd/user/swww-daemon.service" niri.service.wants/swww-daemon.service
     link-systemd /usr/lib/systemd/user/waybar.service niri.service.wants/waybar.service
