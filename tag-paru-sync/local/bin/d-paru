@@ -1,6 +1,6 @@
 #!/bin/bash
 
-d require yq paru sort comm find
+d require yq paru sort comm find xargs
 
 # config
 dir=$XDG_CONFIG_HOME/paru-sync
@@ -13,8 +13,8 @@ fi
 # TODO: should optional dependencies be a strict list as well? (i.e. support removing them)
 
 # collect data
-explicit=$(find "$dir" -maxdepth 1 -type f -exec yq 'keys[]' '{}' \; | sort -u)
-optional_deps=$(find "$dir" -maxdepth 1 -type f -exec yq 'to_entries[] | .value[]' '{}' \; | sort -u)
+explicit=$(find "$dir" -maxdepth 1 -type f,l -exec yq 'keys[]' '{}' \; | sort -u)
+optional_deps=$(find "$dir" -maxdepth 1 -type f,l -exec yq 'to_entries[] | .value[]' '{}' \; | sort -u)
 optional_deps=$(comm -23 <(echo "$optional_deps") <(echo "$explicit"))
 
 current_explicit=$(paru -Qqe | sort)
