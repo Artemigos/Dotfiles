@@ -91,8 +91,13 @@ window-rule {
 }
 
 window-rule {
-    match app-id="kitty"
+    match app-id=r#"^kitty(-.+)?$"#
     draw-border-with-background false
+}
+
+window-rule {
+    match app-id="kitty-clipse"
+    open-floating true
 }
 
 window-rule {
@@ -124,6 +129,7 @@ binds {
     // Menus
     Mod+Slash { spawn "d" "system" "show"; }
     Mod+BackSpace { spawn "d" "power" "show"; }
+    Mod+Ctrl+V { spawn "kitty" "--app-id" "kitty-clipse" "--title" "Clipboard" "clipse"; }
 
     // Audio controls
     XF86AudioPrev allow-when-locked=true { spawn "sp" "prev"; }
