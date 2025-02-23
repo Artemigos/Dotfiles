@@ -66,5 +66,5 @@ source_if_file /usr/share/fzf/completion.bash
 # VI mode
 set -o vi
 
-source /home/artemigos/.config/broot/launcher/bash/br
+source_if_file /home/artemigos/.config/broot/launcher/bash/br
 eval "$(starship init bash)"
