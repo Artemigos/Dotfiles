@@ -1,0 +1,157 @@
+#!/bin/bash
+
+set -eufo pipefail
+
+# shellcheck source=base.sh
+source "$(d script-base)"
+
+collect-env() {
+    d require sort cat
+    tags=$(d config get-arr restore.tags | sort -u)
+    src=$(d home)
+    dst=$HOME
+    host=$(d config get restore.host "$(cat /etc/hostname)")
+}
+
+fd-cmd() {
+    d require fd
+    local path=${1:?Source dir required}
+    shift
+    fd \
+        --color never \
+        --base-directory "$path" \
+        --relative-path \
+        --strip-cwd-prefix \
+        --no-hidden \
+        --no-global-ignore-file \
+        --ignore-file "$src/.restore-ignore" \
+        "$@"
+}
+
+find-bare-files() {
+    local path=${1:?Source dir required}
+    fd-cmd "$path" '.*' \
+        --type f \
+        --exclude 'tag-*' \
+        --exclude 'host-*' \
+        --exclude hooks
+}
+
+find-enabled-tag-dirs() {
+    d require cut tr comm sort xargs
+    local path=${1:?Source dir required}
+    local all_tags common_tags
+    all_tags=$(fd-cmd "$path" 'tag-.*' \
+        --type d \
+        --max-depth 1 \
+        | cut -c 5- \
+        | tr -d '/' \
+        | sort -u
+    )
+    common_tags=$(comm -12 <(echo "$tags") <(echo "$all_tags"))
+    if [ -n "$common_tags" ]; then
+        echo "$common_tags" | xargs -n1 printf 'tag-%s\n'
+    fi
+}
+
+find-hooks() {
+    local path=${1:?Source dir required}
+    if [ -d "$path/hooks" ]; then
+        fd-cmd "$path/hooks" '.*' \
+            --type x
+    fi
+}
+
+collect-files() {
+    files=()
+    file_paths=()
+    hooks=()
+    dirs=("")
+
+    while [[ "${#dirs[@]}" -gt 0 ]]; do
+        dir=${dirs[0]}
+        unset 'dirs[0]'
+        dirs=("${dirs[@]}")
+
+        while IFS=$'\n' read -r file; do
+            files+=("$file")
+            if [ -n "$dir" ]; then
+                file_paths+=("$src/$dir/$file")
+            else
+                file_paths+=("$src/$file")
+            fi
+        done <<<"$(find-bare-files "$src/$dir")"
+
+        if [ -d "$src/$dir/host-$host" ]; then
+            if [ -n "$dir" ]; then
+                dirs+=("$dir/host-$host")
+            else
+                dirs+=("host-$host")
+            fi
+        fi
+
+        while IFS=$'\n' read -r tag_dir; do
+            if [ -z "$tag_dir" ]; then
+                continue
+            fi
+            if [ -n "$dir" ]; then
+                dirs+=("$dir/$tag_dir")
+            else
+                dirs+=("$tag_dir")
+            fi
+        done <<<"$(find-enabled-tag-dirs "$src/$dir")"
+
+        while IFS=$'\n' read -r hook_file; do
+            if [ -z "$hook_file" ]; then
+                continue
+            fi
+            if [ -n "$dir" ]; then
+                hooks+=("$dir/hooks/$hook_file")
+            else
+                hooks+=("hooks/$hook_file")
+            fi
+        done <<<"$(find-hooks "$src/$dir")"
+    done
+}
+
+configure-links() {
+    for file_k in "${!files[@]}"; do
+        local file=${files[file_k]}
+        local what=${file_paths[file_k]}
+        local where=$dst/.$file
+        d restore symlink "$what" "$where"
+    done
+}
+
+run-hooks() {
+    if [[ "${#hooks[@]}" -gt 0 ]]; then
+        echo "running post-up hooks for $src"
+        for hook in "${hooks[@]}"; do
+            "$src/$hook"
+        done
+    fi
+}
+
+d-restore-symlink() {
+    d require mkdir ln dirname readlink
+    local what=${1:?Symlink target required}
+    local where=${2:?Symlink path required}
+    if [[ ! -f "$where" ]]; then
+        echo "linking $what -> $where"
+        mkdir -p "$(dirname "$where")"
+        ln -s "$what" "$where"
+    elif [[ "$(readlink "$where")" != "$what" ]]; then
+        echo "link differs ($where), REMOVE TO OVERRIDE"
+    else
+        echo "identical $where"
+    fi
+}
+
+d-restore-up() {
+    collect-env
+    collect-files
+    configure-links
+    run-hooks
+}
+
+forward-cmd d-restore- "$@"
