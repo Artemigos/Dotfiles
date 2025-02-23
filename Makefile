@@ -1,18 +1,23 @@
-has_rcm_config:
-	@stat ~/.rcrc >/dev/null 2>/dev/null
+export PATH := local/bin:$(PATH)
 
-.PHONY: has_rcm_config
+install:
+	d restore up
 
-install: has_rcm_config
-	# `d` not guaranteed to be in PATH, so use relative repo path
-	local/bin/d require rcup
-	rcup -v
-
-.PHONY: install
-
-uninstall: has_rcm_config
-	# `d` not guaranteed to be in PATH, so use relative repo path
-	local/bin/d require rcdn
-	rcdn -v
-
-.PHONY: uninstall
+# has_rcm_config:
+# 	@stat ~/.rcrc >/dev/null 2>/dev/null
+#
+# .PHONY: has_rcm_config
+#
+# install: has_rcm_config
+# 	# `d` not guaranteed to be in PATH, so use relative repo path
+# 	local/bin/d require rcup
+# 	rcup -v
+#
+# .PHONY: install
+#
+# uninstall: has_rcm_config
+# 	# `d` not guaranteed to be in PATH, so use relative repo path
+# 	local/bin/d require rcdn
+# 	rcdn -v
+#
+# .PHONY: uninstall
