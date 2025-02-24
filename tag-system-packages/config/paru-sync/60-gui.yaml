@@ -1,8 +1,11 @@
+blueman:
 firefox:
 flatpak:
 kitty:
   - imagemagick
   - libcanberra
+mpv:
+network-manager-applet:
 scrcpy:
 thunderbird:
 zathura:

@@ -1,5 +1,6 @@
 7zip:
 bind:
+docker:
 eza:
 fd:
 fish:
@@ -21,18 +22,27 @@ nodejs:
 pacman-contrib:
   - fakeroot
 pass:
+playerctl:
 pwgen:
 python:
 python-pip:
+python-pipx:
 python-virtualenv:
+qrencode:
 rclone:
   - fuse3
+reflector:
 ripgrep:
+rsync:
+rustup:
 starship:
 the_silver_searcher:
 tmux:
+tree:
+unrar:
 unzip:
 uv:
+wget:
 zbar:
   - gtk3
 zenity:

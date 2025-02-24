@@ -1,6 +1,5 @@
-blueman:
 bluez:
-bluez-tools:
+# bluez-tools: # don't think it's needed
 bluez-utils:
 pipewire:
   - pipewire-alsa

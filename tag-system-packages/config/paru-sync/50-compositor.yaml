@@ -20,6 +20,9 @@ niri:
 satty:
 slurp:
 swww:
+wayland-utils:
+wev:
 wl-clipboard:
   - xdg-utils
   - mailcap
+ydotool:

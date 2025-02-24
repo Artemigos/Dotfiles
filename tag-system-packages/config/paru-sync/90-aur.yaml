@@ -1,10 +1,8 @@
 clipse-bin:
   - wl-clipboard
-dracula-gtk-theme-git:
-dracula-icons-git:
+dracula-gtk-theme:
 footswitch-git:
-kora-icon-theme:
 neovim-symlinks:
 paru-bin:
 rcm:
-ttf-twemoji:
+ttf-kanjistrokeorders:
