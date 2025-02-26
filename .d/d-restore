@@ -62,6 +62,31 @@ find-hooks() {
     fi
 }
 
+remove-more-shallow-instances-of-file() {
+    local dir=${1:?Dir required}
+    local file=${2:?File required}
+
+    for file_k in "${!files[@]}"; do
+        local existing_file=${files[file_k]}
+        if [ "$file" = "$existing_file" ]; then
+            local file_path=$dir$file
+            local existing_file_path=${file_paths[file_k]}
+            local slashes=${file_path//[^\/]}
+            local existing_slashes=${existing_file_path//[^\/]}
+
+            if [[ ${#existing_slashes} -gt ${#slashes} ]]; then
+                return 1
+            else
+                unset 'files[file_k]'
+                unset 'file_paths[file_k]'
+                files=("${files[@]}")
+                file_paths=("${file_paths[@]}")
+                return 0
+            fi
+        fi
+    done
+}
+
 collect-files() {
     files=()
     file_paths=()
@@ -69,47 +94,37 @@ collect-files() {
     dirs=("")
 
     while [[ "${#dirs[@]}" -gt 0 ]]; do
-        dir=${dirs[0]}
+        local dir=${dirs[0]}
         unset 'dirs[0]'
         dirs=("${dirs[@]}")
+        local dir_segment=$dir
+        if [[ -n "$dir" ]]; then
+            dir_segment="$dir/"
+        fi
 
         while IFS=$'\n' read -r file; do
-            files+=("$file")
-            if [ -n "$dir" ]; then
-                file_paths+=("$src/$dir/$file")
-            else
-                file_paths+=("$src/$file")
+            if remove-more-shallow-instances-of-file "$src/$dir_segment" "$file"; then
+                files+=("$file")
+                file_paths+=("$src/$dir_segment$file")
             fi
         done <<<"$(find-bare-files "$src/$dir")"
 
         if [ -d "$src/$dir/host-$host" ]; then
-            if [ -n "$dir" ]; then
-                dirs+=("$dir/host-$host")
-            else
-                dirs+=("host-$host")
-            fi
+            dirs+=("${dir_segment}host-$host")
         fi
 
         while IFS=$'\n' read -r tag_dir; do
             if [ -z "$tag_dir" ]; then
                 continue
             fi
-            if [ -n "$dir" ]; then
-                dirs+=("$dir/$tag_dir")
-            else
-                dirs+=("$tag_dir")
-            fi
+            dirs+=("$dir_segment$tag_dir")
         done <<<"$(find-enabled-tag-dirs "$src/$dir")"
 
         while IFS=$'\n' read -r hook_file; do
             if [ -z "$hook_file" ]; then
                 continue
             fi
-            if [ -n "$dir" ]; then
-                hooks+=("$dir/hooks/$hook_file")
-            else
-                hooks+=("hooks/$hook_file")
-            fi
+            hooks+=("${dir_segment}hooks/$hook_file")
         done <<<"$(find-hooks "$src/$dir")"
     done
 }
