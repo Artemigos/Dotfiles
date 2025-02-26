@@ -11,8 +11,8 @@ d-project-list() {
     d require fd xargs sort
     cd "$HOME"
     echo .dotfiles
-    [ -d notes ] && echo notes
-    [ -d notes/work ] && echo notes/work
+    [ -d mount/notes ] && echo mount/notes
+    [ -d mount/notes/work ] && echo mount/notes/work
     fd --hidden --no-ignore-vcs --relative-path --color never --max-depth 2 "^\\.git\$" git | xargs -n1 dirname | sort
 }
 
