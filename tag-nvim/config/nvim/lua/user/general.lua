@@ -80,7 +80,23 @@ vim.api.nvim_create_autocmd('TextYankPost', {
 })
 
 -- diagnostics
-vim.diagnostic.config({ float = { border = 'rounded' } })
+vim.diagnostic.config({
+    virtual_text = {},
+    signs = {
+        text = {
+            [vim.diagnostic.severity.ERROR] = '',
+            [vim.diagnostic.severity.WARN] = '',
+            [vim.diagnostic.severity.INFO] = '',
+            [vim.diagnostic.severity.HINT] = '',
+        },
+    },
+    float = {
+        scope = 'cursor',
+        border = 'rounded',
+    },
+    update_in_insert = true,
+    severity_sort = true,
+})
 
 -- terminal window setup
 local term_setup_group = vim.api.nvim_create_augroup('term_setup', { clear = true })

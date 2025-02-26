@@ -123,26 +123,6 @@ return {
             { '<Leader>rr', vim.lsp.buf.rename,                             desc = 'Rename' },
         },
         config = function()
-            -- diagnostic signs
-            vim.cmd [[
-            sign define DiagnosticSignError text= texthl=DiagnosticSignError linehl= numhl=
-            sign define DiagnosticSignWarn text= texthl=DiagnosticSignWarn linehl= numhl=
-            sign define DiagnosticSignInfo text= texthl=DiagnosticSignInfo linehl= numhl=
-            sign define DiagnosticSignHint text= texthl=DiagnosticSignHint linehl= numhl=
-            ]]
-
-            -- show diagnostics when cursor is on it
-            -- TODO: does not work, figure out how to fix
-            -- vim.api.nvim_create_augroup('reference_highlight', { clear = true })
-            -- vim.api.nvim_create_autocmd({ 'CursorHold', 'CursorHoldI' }, {
-            --     group = 'reference_highlight',
-            --     callback = vim.lsp.buf.document_highlight,
-            -- })
-            -- vim.api.nvim_create_autocmd('CursorMoved', {
-            --     group = 'reference_highlight',
-            --     callback = vim.lsp.buf.clear_references,
-            -- })
-
             local capabilities = require('blink.cmp').get_lsp_capabilities()
 
             local function make_config(server)
