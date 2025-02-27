@@ -4,4 +4,5 @@ dracula-gtk-theme:
 footswitch-git:
 neovim-symlinks:
 paru-bin:
+  - bat
 ttf-kanjistrokeorders:
