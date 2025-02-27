@@ -200,6 +200,16 @@ return {
         config = function(_, opts)
             require('lualine').setup(opts)
             vim.opt.showtabline = 1
+            vim.api.nvim_create_autocmd('BufEnter', {
+                pattern = '*',
+                group = vim.api.nvim_create_augroup('lualine_refresh', {}),
+                callback = function()
+                    require('lualine').refresh({
+                        place = { 'winbar' },
+                        scope = 'all',
+                    })
+                end,
+            })
         end,
     },
 
