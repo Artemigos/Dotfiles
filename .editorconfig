@@ -12,3 +12,6 @@ indent_style = tab
 
 [lazy-lock.json]
 indent_size = 2
+
+[*.yaml]
+indent_size = 2
