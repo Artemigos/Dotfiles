@@ -1,5 +1,6 @@
 7zip:
 bind:
+ddcutil:
 docker:
 eza:
 fd:
