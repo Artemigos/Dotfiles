@@ -12,3 +12,4 @@ link-systemd /usr/lib/systemd/user/gammastep.service
 link-systemd /usr/lib/systemd/user/gammastep-indicator.service
 link-systemd "$XDG_CONFIG_HOME/systemd/user/swww-daemon.service"
 link-systemd /usr/lib/systemd/user/waybar.service
+link-systemd /usr/lib/systemd/user/xwayland-satellite.service
