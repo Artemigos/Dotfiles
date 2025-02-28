@@ -1,0 +1,70 @@
+#!/bin/bash
+
+set -euo pipefail
+
+d require flatpak tail sort yq comm xargs
+
+config_file=$XDG_CONFIG_HOME/flatpak-sync/apps.yaml
+
+if [[ ! -r "$config_file" ]]; then
+    echo 'Could not read config'
+    exit 1
+fi
+
+current_apps=$(flatpak list --app --columns=application | tail -n +1 | sort)
+declare -A install_ops
+
+# collect missing packages
+while read -r i; do
+    repo_name=$(yq ".[$i].repoName" "$config_file")
+    repo_url=$(yq ".[$i].repoUrl" "$config_file")
+    wanted_apps=$(yq ".[$i].apps[]" "$config_file" | sort -u)
+    missing=$(comm -13 <(echo "$current_apps") <(echo "$wanted_apps"))
+
+    flatpak remote-add --if-not-exists "$repo_name" "$repo_url"
+
+    if [ -n "$missing" ]; then
+        install_ops["$repo_name"]=$missing
+    fi
+done <<<"$(yq 'keys[]' "$config_file")"
+
+# collect packages to remove
+all_wanted_apps=$(yq '.[].apps[]' "$config_file" | sort -u)
+to_remove=$(comm -23 <(echo "$current_apps") <(echo "$all_wanted_apps"))
+
+# report changes to be applied
+has_changes=
+for repo_name in "${!install_ops[@]}"; do
+    echo "${install_ops["$repo_name"]}" | xargs echo "Install ($repo_name):"
+    has_changes=y
+done
+if [ -n "$to_remove" ]; then
+    echo "$to_remove" | xargs echo "Remove:"
+    has_changes=y
+fi
+
+if [ -z "$has_changes" ]; then
+    echo "Nothing to do."
+    exit 0
+fi
+
+# ask whether to apply reported changes
+echo
+echo -n "Do you want to apply changes? [Y/n] "
+read -r apply
+if [[ -z "$apply" ]]; then
+    apply=y
+fi
+case $apply in
+    y|Y) ;;
+    n|N) exit 1 ;;
+    *) echo "Invalid command: $apply"; exit 1 ;;
+esac
+
+# apply
+for repo_name in "${!install_ops[@]}"; do
+    echo "${install_ops["$repo_name"]}" | xargs flatpak install --noninteractive "$repo_name"
+done
+if [ -n "$to_remove" ]; then
+    echo "$to_remove" | xargs flatpak uninstall --noninteractive
+fi
