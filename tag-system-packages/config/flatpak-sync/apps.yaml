@@ -1,0 +1,8 @@
+- repoName: flathub
+  repoUrl: https://dl.flathub.org/repo/
+  apps:
+    - com.github.tchx84.Flatseal
+    - com.saivert.pwvucontrol
+    - com.spotify.Client
+    - com.usebottles.bottles
+    - org.gnome.dspy
