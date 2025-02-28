@@ -205,7 +205,7 @@ return {
                 group = vim.api.nvim_create_augroup('lualine_refresh', {}),
                 callback = function()
                     require('lualine').refresh({
-                        place = { 'winbar' },
+                        place = { 'winbar', 'statusline' },
                         scope = 'all',
                     })
                 end,
