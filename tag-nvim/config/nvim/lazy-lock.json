@@ -17,6 +17,7 @@
   "mason.nvim": { "branch": "main", "commit": "e2f7f9044ec30067bc11800a9e266664b88cda22" },
   "mini.bufremove": { "branch": "main", "commit": "bba1d8b413d37081756f59200b8cf756181e5b9a" },
   "mini.files": { "branch": "main", "commit": "01001e0cfc1e79f581d055ae3f70fbac96a2f378" },
+  "minuet-ai.nvim": { "branch": "main", "commit": "b96c93b2f496f94603ff3c755540b17658d62408" },
   "nvim-dap": { "branch": "master", "commit": "b4f27d451c187de912fa8d3229025a952917eb9e" },
   "nvim-dap-ui": { "branch": "master", "commit": "bc81f8d3440aede116f821114547a476b082b319" },
   "nvim-dap-virtual-text": { "branch": "master", "commit": "df66808cd78b5a97576bbaeee95ed5ca385a9750" },

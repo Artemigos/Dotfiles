@@ -7,6 +7,14 @@ local function flag_condition(flag)
 end
 
 local copilot_condition = flag_condition('copilot')
+local ollama_flag = flag_condition('ollama')
+
+local function ollama_condition()
+    if copilot_condition() then
+        return false
+    end
+    return ollama_flag()
+end
 
 local function create_new_branch()
     vim.ui.input('New branch name:', function(branch)
@@ -141,5 +149,37 @@ return {
         },
         -- build = "make tiktoken",
         opts = {},
+    },
+
+    {
+        'milanglacier/minuet-ai.nvim',
+        cond = ollama_condition,
+        event = 'VeryLazy',
+        opts = {
+            provider = 'openai_fim_compatible',
+            n_completions = 1,
+            context_window = 512,
+            provider_options = {
+                openai_fim_compatible = {
+                    name = 'Ollama',
+                    api_key = 'TERM',
+                    end_point = 'http://127.0.0.1:11434/v1/completions',
+                    model = 'qwen2.5-coder:3b',
+                    optional = {
+                        max_tokens = 256,
+                        top_p = 0.9,
+                    },
+                },
+            },
+            virtualtext = {
+                auto_trigger_ft = {},
+                keymap = {
+                    accept = '<M-Enter>',
+                    accept_line = '<M-\\>',
+                    prev = '<M-[>',
+                    next = '<M-]>',
+                },
+            },
+        },
     },
 }
