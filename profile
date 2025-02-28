@@ -46,7 +46,7 @@ export DOTFILES_HOME="$HOME/.dotfiles"
 export TERMINAL="kitty"
 export EDITOR="nvim"
 export ALT_EDITOR="emacs"
-export BROWSER="firefox"
+export BROWSER="flatpak run net.waterfox.waterfox"
 export ALT_BROWSER="chromium-browser"
 
 # teach GUI to use IBus

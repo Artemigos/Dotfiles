@@ -22,7 +22,7 @@ d-launch-music() {
 }
 
 d-launch-browser() {
-    app-exec firefox
+    app-exec flatpak run net.waterfox.waterfox
 }
 
 d-launch-terminal() {

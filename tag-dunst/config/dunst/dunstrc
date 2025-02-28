@@ -48,8 +48,8 @@
 
     # Misc/Advanced
 
-    dmenu = /usr/bin/rofi -dmenu -p dunst:
-    browser = /usr/bin/firefox -new-tab
+    dmenu = fuzzel --dmenu -p dunst:
+    browser = flatpak run net.waterfox.waterfox -new-tab
     always_run_script = true
     title = Dunst
     class = Dunst
