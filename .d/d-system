@@ -76,7 +76,7 @@ listXOptions () {
         },
         {
             "description": "Read",
-            "command": "d read show"
+            "command": "d read show-menu"
         },
         {
             "description": "Timezones",
