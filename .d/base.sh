@@ -34,3 +34,84 @@ forward-cmd() {
     echo "Command \"$BASE_CMD\" not found." >&2
     return 1
 }
+
+SUBCOMMANDS=()
+SUB_NAMES=()
+SUB_LEVELS=()
+declare -A REV_MAP=()
+
+# shellcheck disable=SC2317 # those functions are used in other files that source this one
+@setup() {
+    PREFIX=${1:?Prefix required}
+    PROMPT=${2:-option}
+
+    @reg() {
+        local cmd=${1:?Subcommand required}
+        local name=${2:?Name required}
+        local level=${3:-0}
+        REV_MAP["$cmd"]=${#SUBCOMMANDS[@]}
+        SUBCOMMANDS+=("$cmd")
+        SUB_NAMES+=("$name")
+        SUB_LEVELS+=("$level")
+    }
+
+    @main() {
+        if [[ $# -eq 0 ]]; then
+            err 'Subcommand expected.'
+        fi
+        case $1 in
+            list-commands) shift; @list-commands "$@"; return 0 ;;
+            show-menu) shift; @show-menu "$@"; return 0 ;;
+            list-x-options)
+                d notify 'Deprecated entry point' 'Please stop using "list-x-options"'
+                shift
+                @list-commands "$@"
+                return 0
+                ;;
+            show)
+                d notify 'Deprecated entry point' 'Please stop using "show"'
+                shift
+                @show-menu "$@"
+                return 0
+                ;;
+        esac
+        if [[ -v ${REV_MAP["$1"]-} ]]; then
+            local i=${REV_MAP["$1"]}
+            local cmd=${SUBCOMMANDS[$i]}
+            $cmd
+        else
+            echo "Unknown command: $1"
+        fi
+    }
+
+    @list-commands() {
+        local max_level=${1:-0}
+        local had_items=0
+        echo '{'
+        echo '  "prompt": "'"$PROMPT"'",'
+        echo -n '  "commands": ['
+        for i in "${!SUBCOMMANDS[@]}"; do
+            local level=${SUB_LEVELS[$i]}
+            if [[ $level -gt $max_level ]]; then
+                continue
+            fi
+            if [[ $had_items -gt 0 ]]; then
+                echo ','
+            else
+                echo
+            fi
+            echo '    {'
+            echo '      "description": "'"${SUB_NAMES[$i]}"'",'
+            echo '      "command": "'"$PREFIX${SUBCOMMANDS[$i]}"'"'
+            echo -n '    }'
+            had_items=$((had_items + 1))
+        done
+        echo
+        echo '  ]'
+        echo '}'
+    }
+
+    @show-menu() {
+        @list-commands "$@" | d menu from-json
+    }
+}

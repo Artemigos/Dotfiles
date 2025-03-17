@@ -14,6 +14,14 @@ d-error() {
     fi
 }
 
+d-notify() {
+    TITLE=${1:?Title required}
+    SUBTITLE=${2:?Subtitle required}
+    if type -t notify-send >/dev/null; then
+        notify-send "$TITLE" "$SUBTITLE"
+    fi
+}
+
 d-has-cmd() {
     local CMD=${1:?Command required}
     [ -x "$CMD" ] || [ -x "$(which "$CMD" 2>/dev/null)" ]
