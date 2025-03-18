@@ -75,7 +75,7 @@ declare -A REV_MAP=()
                 return 0
                 ;;
         esac
-        if [[ -v ${REV_MAP["$1"]-} ]]; then
+        if [[ -n "${REV_MAP["$1"]-}" ]]; then
             local i=${REV_MAP["$1"]}
             local cmd=${SUBCOMMANDS[$i]}
             $cmd
