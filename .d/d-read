@@ -20,4 +20,9 @@ documents() {
     zathura --fork "$DOC"
 }
 
+@reg confluence 'Confluence'
+confluence() {
+    d confluence x-open-page
+}
+
 @main "$@"

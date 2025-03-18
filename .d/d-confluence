@@ -1,0 +1,47 @@
+#!/bin/bash
+
+set -euo pipefail
+
+# shellcheck source=base.sh
+source "$(d script-base)"
+@setup 'd confluence '
+
+@reg list-pages 'List all pages in the configured space' 1
+list-pages() {
+    d require curl jq pass
+
+    user=$(d config get confluence.user)
+    token=$(pass "$(d config get confluence.pass_key)")
+    space_id=$(d config get confluence.space_id)
+    base_url=$(d config get confluence.base_url)
+
+    auth=(-u "$user:$token")
+    cget=("${auth[@]}" -s -X GET -H 'Content-Type: application/json')
+
+    local response next
+    local next_url=${base_url}/wiki/api/v2/spaces/${space_id}/pages
+
+    while true; do
+        response=$(curl "${cget[@]}" "$next_url")
+        echo "$response" | jq -r '.results[] | .title + "\t" + ._links.tinyui'
+        next=$(echo "$response" | jq -r '._links.next')
+        if [[ -n "$next" && "$next" != "null" ]]; then
+            next_url=$base_url$next
+        else
+            break
+        fi
+    done
+}
+
+@reg x-open-page 'Open a page in the browser'
+x-open-page() {
+    d require xdg-open cut
+    base_url=$(d config get confluence.base_url)
+
+    local page url
+    page=$(list-pages | d menu dmenu)
+    url=$(echo "$page" | cut -d$'\t' -f2)
+    xdg-open "$base_url/wiki$url"
+}
+
+@main "$@"
