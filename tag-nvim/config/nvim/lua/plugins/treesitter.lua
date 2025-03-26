@@ -16,6 +16,13 @@ local function registerExtraGrammars()
             }
         }
     end
+    cfg.alloy = {
+        install_info = {
+            url = 'https://github.com/Artemigos/tree-sitter-alloy',
+            branch = 'main',
+            files = { 'src/parser.c' },
+        }
+    }
 end
 
 return {

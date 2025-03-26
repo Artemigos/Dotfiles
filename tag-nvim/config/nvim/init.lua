@@ -32,5 +32,6 @@ vim.filetype.add({
     extension = {
         vcl = 'vcl',
         vtc = 'vtc',
+        alloy = 'alloy',
     },
 })
