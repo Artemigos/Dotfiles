@@ -1,0 +1,81 @@
+#!/bin/bash
+
+set -euo pipefail
+
+d require yq kubectl helm grep cat diff mktemp mkdir
+
+normalizeYamlToProps() {
+    # to produce stable diffs:
+    # - strip comments
+    # - sort documents by "kind/namespace/name"
+    # - sort keys in objects
+    # - pretty print
+    # - output as "props" format
+    yq '... comments=""' |\
+        yq ea '[.] | sort_by(.kind + "/" + .metadata.namespace + "/" + .metadata.name) | .[] | splitDoc' |\
+        yq -P -o=props 'sort_keys(..)'
+}
+
+echo 'Extracting HelmRelease info...'
+helm_release=$(cat "${1:?HelmRelease file is required.}")
+name=$(echo "$helm_release" | yq -r '.metadata.name')
+namespace=$(echo "$helm_release" | yq -r '.metadata.namespace')
+values=$(echo "$helm_release" | yq '.spec.values')
+patches=$(echo "$helm_release" | yq '.spec.postRenderers[0].kustomize') # NOTE: only one supported for now
+echo "Release: $namespace/$name"
+
+echo
+echo 'Extracting remote helm chart info...'
+chart=$(echo "$helm_release" | yq -r '.spec.chart.spec.chart')
+version=$(echo "$helm_release" | yq -r '.spec.chart.spec.version')
+repo_name=$(echo "$helm_release" | yq -r '.spec.chart.spec.sourceRef.name')
+repo_namespace=$(echo "$helm_release" | yq -r '.spec.chart.spec.sourceRef.namespace')
+echo "Chart: $chart@$version"
+echo "Repo object: $repo_namespace/$repo_name"
+
+# NOTE:
+# I'm assuming HelmRepository here, also this is an additional cluster API call,
+# that could be avoided by passing the repo URL or repo manifest file to the script.
+helm_repo=$(kubectl get helmrepository -n "$repo_namespace" "$repo_name" -o yaml)
+repo_url=$(echo "$helm_repo" | yq -r '.spec.url')
+echo "Repo URL: $repo_url"
+
+echo
+echo 'Fetching current release manifests...'
+# remove fluxcd labels (locally templeted version won't have them)
+current_manifests=$(helm get manifest -n "$namespace" "$name" |\
+    normalizeYamlToProps |\
+    grep -v '^metadata.labels.helm.toolkit.fluxcd.io')
+
+echo 'Templating new release...'
+# --no-hooks - hooks aren't reported by current manifests
+# --validate - we don't care about validation, but it forces helm
+#     to template with supported API versions from current kube context;
+#     unfortunately, it also makes this command much slower
+new_manifests=$(helm template \
+    -n "$namespace" --version "$version" "$name" \
+    --repo "$repo_url" "$chart" \
+    --values <(echo "$values") \
+    --no-hooks --validate)
+
+if echo "$patches" | yq -e '.' >/dev/null 2>/dev/null; then
+    echo
+    echo 'Applying post-render patches...'
+
+    out_dir=$(mktemp -d)
+    kustomization_file=$out_dir/kustomization.yaml
+    resources_file=$out_dir/resources.yaml
+    mkdir -p "$out_dir"
+    trap 'rm -rf "$out_dir"' EXIT
+
+    echo "$new_manifests" > "$resources_file"
+    cat <<EOF > "$kustomization_file"
+resources:
+- ./resources.yaml
+$patches
+EOF
+
+    new_manifests=$(kubectl kustomize "$out_dir")
+fi
+
+diff -u --color <(echo "$current_manifests") <(echo "$new_manifests" | normalizeYamlToProps)
