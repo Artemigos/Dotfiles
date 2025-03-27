@@ -195,6 +195,7 @@ return {
                 typescript = { 'prettier' },
                 javascript = { 'prettier' },
                 vcl = { 'vcl_formatter' },
+                alloy = { 'alloy_fmt' },
             },
             formatters = {
                 vcl_formatter = {
@@ -202,6 +203,11 @@ return {
                     args = function(_, ctx)
                         return { '-i', tostring(ctx.shiftwidth), '-' }
                     end,
+                    stdin = true,
+                },
+                alloy_fmt = {
+                    command = 'alloy',
+                    args = { 'fmt', '-' },
                     stdin = true,
                 },
             },
