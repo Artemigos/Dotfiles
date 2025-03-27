@@ -32,6 +32,12 @@ local function on_attach(_, _)
     vim.api.nvim_set_option_value('omnifunc', 'v:lua.vim.lsp.omnifunc', { buf = 0 })
 end
 
+local function hover()
+    vim.lsp.buf.hover({
+        border = 'rounded',
+    })
+end
+
 return {
     {
         'williamboman/mason.nvim',
@@ -92,7 +98,7 @@ return {
             { 'gd',       vim.lsp.buf.definition,     desc = 'Go to definition' },
             { 'gD',       vim.lsp.buf.implementation, desc = 'Go to implementation' },
             { 'gr',       vim.lsp.buf.references,     desc = 'References' },
-            { 'g<Space>', vim.lsp.buf.hover,          desc = 'Hint' },
+            { 'g<Space>', hover,                      desc = 'Hint' },
             {
                 'ga',
                 vim.lsp.buf.code_action,
@@ -108,7 +114,7 @@ return {
             { '<Leader>cd',       vim.lsp.buf.definition,                         desc = 'Go to definition' },
             { '<Leader>cD',       vim.lsp.buf.implementation,                     desc = 'Go to implementation' },
             { '<Leader>cr',       vim.lsp.buf.references,                         desc = 'References' },
-            { '<Leader>c<Space>', vim.lsp.buf.hover,                              desc = 'Hint' },
+            { '<Leader>c<Space>', hover,                                          desc = 'Hint' },
             {
                 '<Leader>ca',
                 vim.lsp.buf.code_action,
@@ -168,10 +174,6 @@ return {
             end
 
             require('lspconfig.ui.windows').default_options.border = 'rounded'
-            vim.lsp.handlers['textDocument/hover'] =
-                vim.lsp.with(vim.lsp.handlers.hover, {
-                    border = 'rounded',
-                })
         end,
     },
 

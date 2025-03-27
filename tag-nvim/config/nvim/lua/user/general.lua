@@ -73,7 +73,7 @@ vim.g.maplocalleader = ','
 local highlight_group = vim.api.nvim_create_augroup('YankHighlight', { clear = true })
 vim.api.nvim_create_autocmd('TextYankPost', {
     callback = function()
-        vim.highlight.on_yank()
+        vim.hl.on_yank()
     end,
     group = highlight_group,
     pattern = '*',
@@ -81,7 +81,7 @@ vim.api.nvim_create_autocmd('TextYankPost', {
 
 -- diagnostics
 vim.diagnostic.config({
-    virtual_text = {},
+    virtual_text = true,
     signs = {
         text = {
             [vim.diagnostic.severity.ERROR] = '',
@@ -124,6 +124,7 @@ vim.api.nvim_create_autocmd('BufEnter', {
 -- mouse menu
 vim.cmd [[
 aunmenu PopUp
+autocmd! nvim.popupmenu
 anoremenu PopUp.Help\ I'm\ stuck <cmd>help :q<CR>
 anoremenu PopUp.Quit <cmd>confirm qa<CR>
 ]]

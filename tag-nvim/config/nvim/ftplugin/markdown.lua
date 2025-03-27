@@ -24,14 +24,14 @@ vim.api.nvim_create_user_command('MarkdownPreview', function()
                 },
             },
         },
-        root_dir = vim.loop.cwd(),
+        root_dir = vim.uv.cwd(),
     })
 end, {})
 
 vim.api.nvim_create_user_command('MarkdownStopPreview', function()
     local client = find_mdpls()
     if client then
-        client.stop()
+        client:stop()
     else
         vim.notify('No preview server running', vim.log.levels.INFO)
     end

@@ -62,7 +62,7 @@ function M.cached(timeout, reeval, ...)
     local varg = { ... }
 
     return function()
-        local now = vim.loop.now()
+        local now = vim.uv.now()
         if now - last_eval_ts > timeout then
             last_eval_ts = now
             value = reeval(unpack(varg))
