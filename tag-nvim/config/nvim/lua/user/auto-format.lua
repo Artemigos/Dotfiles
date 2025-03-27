@@ -18,22 +18,36 @@ function M.setup(opts)
     end, { desc = 'Format current buffer', range = true })
 
     vim.api.nvim_create_user_command('ToggleAutoFormat', function(_)
-        M.toggle_auto_format(0)
+        M.toggle(0)
     end, { desc = 'Toggle auto formatting for this buffer' })
 
     vim.api.nvim_create_autocmd('FileType', {
         group = M.augroup,
         callback = function(ev)
             local should_enable = vim.tbl_contains(M.default_enabled_filetypes, ev.match)
-            local is_enabled = M.is_auto_format_enabled(ev.buf)
-            if should_enable ~= is_enabled then
-                M.toggle_auto_format(ev.buf)
+            if should_enable then
+                M.enable(ev.buf)
             end
         end,
     })
 end
 
-function M.toggle_auto_format(bufnr)
+function M.enable(bufnr)
+    bufnr = bufnr or 0
+    if not M.is_enabled(bufnr) then
+        M.toggle(bufnr)
+    end
+end
+
+function M.disable(bufnr)
+    bufnr = bufnr or 0
+    if M.is_enabled(bufnr) then
+        M.toggle(bufnr)
+    end
+end
+
+function M.toggle(bufnr)
+    bufnr = bufnr or 0
     local existingCmds = vim.api.nvim_get_autocmds({
         group = M.augroup,
         buffer = bufnr,
@@ -52,7 +66,8 @@ function M.toggle_auto_format(bufnr)
     end
 end
 
-function M.is_auto_format_enabled(bufnr)
+function M.is_enabled(bufnr)
+    bufnr = bufnr or 0
     local existingCmds = vim.api.nvim_get_autocmds({
         group = M.augroup,
         buffer = bufnr,

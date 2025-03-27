@@ -51,13 +51,13 @@ end
 local auto_format_component = {
     function() return '' end,
     color = function()
-        if require('user.auto-format').is_auto_format_enabled(0) then
+        if require('user.auto-format').is_enabled() then
             return { fg = require('dracula').colors().green }
         else
             return { fg = require('dracula').colors().comment }
         end
     end,
-    on_click = function() require('user.auto-format').toggle_auto_format(0) end,
+    on_click = function() require('user.auto-format').toggle() end,
 }
 
 return {
