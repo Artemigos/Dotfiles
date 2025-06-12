@@ -291,7 +291,7 @@ return {
 
     {
         'j-hui/fidget.nvim',
-        branch = 'legacy',
+        version = '1.*',
         event = 'VeryLazy',
         opts = {},
     },

@@ -142,7 +142,7 @@ return {
         "CopilotC-Nvim/CopilotChat.nvim",
         cond = copilot_condition,
         event = 'VeryLazy',
-        branch = "canary",
+        branch = 'main',
         dependencies = {
             { "github/copilot.vim" },
             { "nvim-lua/plenary.nvim" },

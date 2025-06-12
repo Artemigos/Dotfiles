@@ -3,7 +3,7 @@ return {
         'saghen/blink.cmp',
         dependencies = 'rafamadriz/friendly-snippets',
         event = 'VeryLazy',
-        version = 'v0.10.0',
+        version = '1.*',
         opts = {
             keymap = {
                 preset = 'enter',
