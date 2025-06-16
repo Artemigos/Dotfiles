@@ -9,7 +9,7 @@ source "$(d script-base)"
 @reg x-connect 'Connect to a device'
 x-connect () {
     d require bluetoothctl
-    device=$(select-device) && bluetoothctl connect "$device"
+    device=$(select-any-device) && bluetoothctl connect "$device"
 }
 
 @reg x-connect-paired 'Connect to a paired device'
@@ -27,13 +27,13 @@ enable-scan () {
 @reg x-pair 'Pair device'
 x-pair () {
     d require bluetoothctl
-    device=$(select-device) && bluetoothctl pair "$device"
+    device=$(select-any-device) && bluetoothctl pair "$device"
 }
 
 @reg x-trust 'Trust device'
 x-trust () {
     d require bluetoothctl
-    device=$(select-device) && bluetoothctl trust "$device"
+    device=$(select-any-device) && bluetoothctl trust "$device"
 }
 
 @reg x-set-controller-power 'Set controller power'
@@ -45,46 +45,97 @@ x-set-controller-power () {
 @reg x-disconnect 'Disconnect from a device'
 x-disconnect () {
     d require bluetoothctl
-    device=$(select-device) && bluetoothctl disconnect "$device"
+    device=$(select-connected-device) && bluetoothctl disconnect "$device"
 }
 
 @reg x-unpair 'Unpair device'
 x-unpair () {
     d require bluetoothctl
-    device=$(select-device) && bluetoothctl cancel-pairing "$device"
+    device=$(select-paired-device) && bluetoothctl cancel-pairing "$device"
 }
 
 @reg x-untrust 'Untrust device'
 x-untrust () {
     d require bluetoothctl
-    device=$(select-device) && bluetoothctl untrust "$device"
+    device=$(select-trusted-device) && bluetoothctl untrust "$device"
+}
+
+@reg select-connected-device 'Select a connected device' 1
+select-connected-device () {
+    select-device "$(list-connected-devices | format-devices)"
 }
 
 @reg select-paired-device 'Select a paired device' 1
 select-paired-device () {
-    d require bluetoothctl
-    select-device "$(bluetoothctl devices Paired)"
+    select-device "$(list-paired-devices | format-devices)"
+}
+
+@reg select-trusted-device 'Select a trusted device' 1
+select-trusted-device () {
+    select-device "$(list-trusted-devices | format-devices)"
+}
+
+@reg select-any-device 'Select a device' 1
+select-any-device () {
+    select-device "$(list-devices | format-devices)"
 }
 
 @reg select-device 'Select a device' 1
 select-device () {
     d require bluetoothctl cut
-    devices=${1:-$(bluetoothctl devices)}
+    devices=${1:-}
+    if [[ -z "$devices" ]]; then
+        d notify '[bluetooth]' 'No devices provided to select'
+        return 1
+    fi
     device=$(echo "$devices" | d menu dmenu 'select device') && echo "$device" | cut -d' ' -f2
 }
 
 @reg list-connected-devices 'List connected devices' 1
 list-connected-devices () {
-    d require bluetoothctl
-    bluetoothctl devices Connected
+    d require jq
+    list-devices | jq -r 'map(select(.Connected))'
+}
+
+@reg list-paired-devices 'List paired devices' 1
+list-paired-devices () {
+    d require jq
+    list-devices | jq -r 'map(select(.Paired))'
+}
+
+@reg list-trusted-devices 'List trusted devices' 1
+list-trusted-devices () {
+    d require jq
+    list-devices | jq -r 'map(select(.Trusted))'
 }
 
 @reg is-available 'Check if bluetooth is available' 1
-is-avilable () {
-    d require bluetoothctl wc
+is-available () {
+    d require jq
     local CONTROLLERS
-    CONTROLLERS=$(bluetoothctl list | wc -l)
+    CONTROLLERS=$(list-controllers | jq length)
     [[ "$CONTROLLERS" -gt 0 ]] || return 1
+}
+
+@reg list-devices 'List all devices in JSON format' 1
+list-devices() {
+    list-objects 'org.bluez.Device1'
+}
+
+@reg list-controllers 'List all controllers in JSON format' 1
+list-controllers() {
+    list-objects 'org.bluez.Adapter1'
+}
+
+list-objects() {
+    d require busctl jq
+    local iface_filter=${1:?Interface filter required.}
+    busctl -j --system call org.bluez / org.freedesktop.DBus.ObjectManager GetManagedObjects \
+        | jq --arg iface "$iface_filter" '[.data[] | to_entries | .[].value[$iface] | select(.) | map_values(.data)]'
+}
+
+format-devices() {
+    jq -r '.[] | "Device " + .Address + " " + .Alias'
 }
 
 @main "$@"
