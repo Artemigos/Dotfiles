@@ -80,7 +80,14 @@ declare -A REV_MAP=()
             local cmd=${SUBCOMMANDS[$i]}
             $cmd
         else
-            echo "Unknown command: $1"
+            local cmd=${PREFIX// /-}$1
+            if [[ -x "$cmd" ]]; then
+                "$cmd"
+            elif [[ -x "$D_HOME/$cmd" ]]; then
+                "$D_HOME/$cmd"
+            else
+                echo "Unknown command: $1"
+            fi
         fi
     }
 
