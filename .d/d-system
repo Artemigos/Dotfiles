@@ -60,7 +60,7 @@ listXOptions () {
         },
         {
             "description": "Bluetooth",
-            "command": "d bluetooth show"
+            "command": "d bluetooth show-menu"
         },
         {
             "description": "Packages",

@@ -2,142 +2,89 @@
 
 set -euo pipefail
 
-main() {
-    case ${1:-} in
-        # menu options
-        x-connect) xConnect ;;
-        x-connect-paired) xConnectPaired ;;
-        enable-scan) enableScan ;;
-        x-pair) xPair ;;
-        x-trust) xTrust ;;
-        x-set-controller-power) xSetControllerPower ;;
-        x-disconnect) xDisconnect ;;
-        x-unpair) xUnpair ;;
-        x-untrust) xUntrust ;;
-        # utilities
-        select-device) shift; selectDevice "$@" ;;
-        select-paired-device) selectPairedDevice ;;
-        list-connected-devices) listConnectedDevices ;;
-        is-available) isAvilable ;;
-        # menu handling
-        list-x-options) listXOptions ;;
-        show) listXOptions | d menu from-json ;;
-        *) exit 1 ;;
-    esac
-}
+# shellcheck source=base.sh
+source "$(d script-base)"
+@setup 'd bluetooth '
 
-xConnect () {
+@reg x-connect 'Connect to a device'
+x-connect () {
     d require bluetoothctl
-    device=$(selectDevice) && bluetoothctl connect "$device"
+    device=$(select-device) && bluetoothctl connect "$device"
 }
 
-xConnectPaired () {
+@reg x-connect-paired 'Connect to a paired device'
+x-connect-paired () {
     d require bluetoothctl
-    device=$(selectPairedDevice) && bluetoothctl connect "$device"
+    device=$(select-paired-device) && bluetoothctl connect "$device"
 }
 
-enableScan () {
+@reg enable-scan 'Enable scanning'
+enable-scan () {
     d require bluetoothctl
     bluetoothctl scan on
 }
 
-xPair () {
+@reg x-pair 'Pair device'
+x-pair () {
     d require bluetoothctl
-    device=$(selectDevice) && bluetoothctl pair "$device"
+    device=$(select-device) && bluetoothctl pair "$device"
 }
 
-xTrust () {
+@reg x-trust 'Trust device'
+x-trust () {
     d require bluetoothctl
-    device=$(selectDevice) && bluetoothctl trust "$device"
+    device=$(select-device) && bluetoothctl trust "$device"
 }
 
-xSetControllerPower () {
+@reg x-set-controller-power 'Set controller power'
+x-set-controller-power () {
     d require bluetoothctl
     option=$(echo -e "on\noff" | d menu dmenu "option") && bluetoothctl power "$option"
 }
 
-xDisconnect () {
+@reg x-disconnect 'Disconnect from a device'
+x-disconnect () {
     d require bluetoothctl
-    device=$(selectDevice) && bluetoothctl disconnect "$device"
+    device=$(select-device) && bluetoothctl disconnect "$device"
 }
 
-xUnpair () {
+@reg x-unpair 'Unpair device'
+x-unpair () {
     d require bluetoothctl
-    device=$(selectDevice) && bluetoothctl cancel-pairing "$device"
+    device=$(select-device) && bluetoothctl cancel-pairing "$device"
 }
 
-xUntrust () {
+@reg x-untrust 'Untrust device'
+x-untrust () {
     d require bluetoothctl
-    device=$(selectDevice) && bluetoothctl untrust "$device"
+    device=$(select-device) && bluetoothctl untrust "$device"
 }
 
-selectPairedDevice () {
+@reg select-paired-device 'Select a paired device' 1
+select-paired-device () {
     d require bluetoothctl
-    selectDevice "$(bluetoothctl devices Paired)"
+    select-device "$(bluetoothctl devices Paired)"
 }
 
-selectDevice () {
+@reg select-device 'Select a device' 1
+select-device () {
     d require bluetoothctl cut
     devices=${1:-$(bluetoothctl devices)}
     device=$(echo "$devices" | d menu dmenu 'select device') && echo "$device" | cut -d' ' -f2
 }
 
-listConnectedDevices () {
+@reg list-connected-devices 'List connected devices' 1
+list-connected-devices () {
     d require bluetoothctl
     bluetoothctl devices Connected
 }
 
-isAvilable () {
+@reg is-available 'Check if bluetooth is available' 1
+is-avilable () {
     d require bluetoothctl wc
     local CONTROLLERS
     CONTROLLERS=$(bluetoothctl list | wc -l)
     [[ "$CONTROLLERS" -gt 0 ]] || return 1
 }
 
-listXOptions () {
-    cat <<EOF
-{
-    "prompt": "option",
-    "commands": [
-        {
-            "description": "Connect to a device",
-            "command": "d bluetooth x-connect"
-        },
-        {
-            "description": "Connect to a paired device",
-            "command": "d bluetooth x-connect-paired"
-        },
-        {
-            "description": "Enable scanning",
-            "command": "d bluetooth enable-scan"
-        },
-        {
-            "description": "Pair device",
-            "command": "d bluetooth x-pair"
-        },
-        {
-            "description": "Trust device",
-            "command": "d bluetooth x-trust"
-        },
-        {
-            "description": "Set controller power",
-            "command": "d bluetooth x-set-controller-power"
-        },
-        {
-            "description": "Disconnect from a device",
-            "command": "d bluetooth x-disconnect"
-        },
-        {
-            "description": "Unpair device",
-            "command": "d bluetooth x-unpair"
-        },
-        {
-            "description": "Untrust device",
-            "command": "d bluetooth x-untrust"
-        }
-    ]
-}
-EOF
-}
-
-main "$@"
+@main "$@"
