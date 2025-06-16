@@ -42,6 +42,7 @@ tmux:
 tree:
 unrar:
 unzip:
+usbutils:
 uv:
 wget:
 wine:
