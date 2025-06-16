@@ -8,14 +8,12 @@ source "$(d script-base)"
 
 @reg x-connect 'Connect to a device'
 x-connect () {
-    d require bluetoothctl
-    device=$(select-any-device) && bluetoothctl connect "$device"
+    device=$(select-any-device) && connect "$device"
 }
 
 @reg x-connect-paired 'Connect to a paired device'
 x-connect-paired () {
-    d require bluetoothctl
-    device=$(select-paired-device) && bluetoothctl connect "$device"
+    device=$(select-paired-device) && connect "$device"
 }
 
 @reg enable-scan 'Enable scanning'
@@ -26,8 +24,7 @@ enable-scan () {
 
 @reg x-pair 'Pair device'
 x-pair () {
-    d require bluetoothctl
-    device=$(select-any-device) && bluetoothctl pair "$device"
+    device=$(select-any-device) && pair "$device"
 }
 
 @reg x-trust 'Trust device'
@@ -44,14 +41,12 @@ x-set-controller-power () {
 
 @reg x-disconnect 'Disconnect from a device'
 x-disconnect () {
-    d require bluetoothctl
-    device=$(select-connected-device) && bluetoothctl disconnect "$device"
+    device=$(select-connected-device) && disconnect "$device"
 }
 
 @reg x-unpair 'Unpair device'
 x-unpair () {
-    d require bluetoothctl
-    device=$(select-paired-device) && bluetoothctl cancel-pairing "$device"
+    device=$(select-paired-device) && unpair "$device"
 }
 
 @reg x-untrust 'Untrust device'
@@ -82,7 +77,7 @@ select-any-device () {
 
 @reg select-device 'Select a device' 1
 select-device () {
-    d require bluetoothctl cut
+    d require cut
     devices=${1:-}
     if [[ -z "$devices" ]]; then
         d notify '[bluetooth]' 'No devices provided to select'
@@ -127,11 +122,50 @@ list-controllers() {
     list-objects 'org.bluez.Adapter1'
 }
 
+pair() {
+    d require busctl
+    local dev=${1:?Device address required.}
+    local obj
+    obj=$(find-device "$dev")
+    busctl -j --system call org.bluez "$obj" org.bluez.Device1 Pair
+}
+
+unpair() {
+    d require busctl jq
+    local dev=${1:?Device address required.}
+    local obj
+    obj=$(find-device "$dev")
+    busctl -j --system call org.bluez "$obj" org.bluez.Device1 CancelPairing
+}
+
+connect() {
+    d require busctl
+    local dev=${1:?Device address required.}
+    local obj
+    obj=$(find-device "$dev")
+    busctl -j --system call org.bluez "$obj" org.bluez.Device1 Connect
+}
+
+disconnect() {
+    d require busctl
+    local dev=${1:?Device address required.}
+    local obj
+    obj=$(find-device "$dev")
+    busctl -j --system call org.bluez "$obj" org.bluez.Device1 Disconnect
+}
+
 list-objects() {
     d require busctl jq
     local iface_filter=${1:?Interface filter required.}
     busctl -j --system call org.bluez / org.freedesktop.DBus.ObjectManager GetManagedObjects \
         | jq --arg iface "$iface_filter" '[.data[] | to_entries | .[].value[$iface] | select(.) | map_values(.data)]'
+}
+
+find-device() {
+    d require busctl jq
+    local dev=${1:?Device address required.}
+    busctl -j --system call org.bluez / org.freedesktop.DBus.ObjectManager GetManagedObjects \
+        | jq -r --arg dev "$dev" '.data[] | . as $root | keys[] | . as $k | $root[.]["org.bluez.Device1"] | select(.) | map_values(.data) | select(.Address == $dev) | $k'
 }
 
 format-devices() {
