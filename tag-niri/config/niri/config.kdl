@@ -8,6 +8,7 @@ workspace "secondary"
 environment {
     ELECTRON_OZONE_PLATFORM_HINT "wayland"
     QT_QPA_PLATFORM "wayland"
+    DISPLAY ":0"
 }
 
 // https://github.com/YaLTeR/niri/wiki/Configuration:-Input
