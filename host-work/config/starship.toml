@@ -1,5 +1,12 @@
+format = "${env_var.KUBECTL_CONTEXT}$all"
+
 [directory]
 home_symbol = "󰋜"
+
+[env_var.KUBECTL_CONTEXT]
+format = "[$symbol$env_value]($style) in "
+style = "bold bright-green"
+symbol = "☸ "
 
 [kubernetes]
 disabled = false
