@@ -5,11 +5,8 @@ home_symbol = "󰋜"
 
 [env_var.KUBECTL_CONTEXT]
 format = "[$symbol$env_value]($style) in "
-style = "bold bright-green"
+style = "bold cyan"
 symbol = "☸ "
-
-[kubernetes]
-disabled = false
 
 [time]
 disabled = false
