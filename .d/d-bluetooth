@@ -29,8 +29,7 @@ x-pair () {
 
 @reg x-trust 'Trust device'
 x-trust () {
-    d require bluetoothctl
-    device=$(select-any-device) && bluetoothctl trust "$device"
+    device=$(select-any-device) && set-trusted "$device" true
 }
 
 @reg x-set-controller-power 'Set controller power'
@@ -51,8 +50,7 @@ x-unpair () {
 
 @reg x-untrust 'Untrust device'
 x-untrust () {
-    d require bluetoothctl
-    device=$(select-trusted-device) && bluetoothctl untrust "$device"
+    device=$(select-trusted-device) && set-trusted "$device" false
 }
 
 @reg select-connected-device 'Select a connected device' 1
@@ -166,6 +164,15 @@ find-device() {
     local dev=${1:?Device address required.}
     busctl -j --system call org.bluez / org.freedesktop.DBus.ObjectManager GetManagedObjects \
         | jq -r --arg dev "$dev" '.data[] | . as $root | keys[] | . as $k | $root[.]["org.bluez.Device1"] | select(.) | map_values(.data) | select(.Address == $dev) | $k'
+}
+
+set-trusted() {
+    d require busctl
+    local dev=${1:?Device address required.}
+    local val=${2:?Value for Trusted property required.}
+    local obj
+    obj=$(find-device "$dev")
+    busctl --system set-property org.bluez "$obj" org.bluez.Device1 Trusted b "$val"
 }
 
 format-devices() {
