@@ -1,9 +1,9 @@
 #!/bin/bash
 
 DOTFILES_HOME=${DOTFILES_HOME:?DOTFILES_HOME variable is not set.}
-D_BASE=$DOTFILES_HOME/.d/base.sh
+D_BASE=$DOTFILES_HOME/d/base.sh
 
-# shellcheck source=../../.d/base.sh
+# shellcheck source=../../d/base.sh
 source "$D_BASE"
 
 d-error() {

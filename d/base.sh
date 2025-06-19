@@ -3,7 +3,7 @@
 set -euo pipefail
 
 DOTFILES_HOME=${DOTFILES_HOME:?DOTFILES_HOME variable is not set.}
-D_HOME=$DOTFILES_HOME/.d
+D_HOME=$DOTFILES_HOME/d
 
 # print an error to stderr and return an error code
 err() {
