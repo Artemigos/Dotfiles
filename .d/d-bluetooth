@@ -42,8 +42,11 @@ x-trust () {
 
 @reg x-set-controller-power 'Set controller power'
 x-set-controller-power () {
-    d require bluetoothctl
-    option=$(echo -e "on\noff" | d menu dmenu "option") && bluetoothctl power "$option"
+    local controller option val
+    controller=$(controller-object-paths | head -n1)
+    option=$(echo -e "on\noff" | d menu dmenu "option")
+    val=$([[ "$option" = 'on' ]] && echo "true" || echo "false")
+    busctl --system set-property org.bluez "$controller" org.bluez.Adapter1 Powered b "$val"
 }
 
 @reg x-disconnect 'Disconnect from a device'
@@ -172,6 +175,12 @@ find-device() {
     local dev=${1:?Device address required.}
     busctl -j --system call org.bluez / org.freedesktop.DBus.ObjectManager GetManagedObjects \
         | jq -r --arg dev "$dev" '.data[] | . as $root | keys[] | . as $k | $root[.]["org.bluez.Device1"] | select(.) | map_values(.data) | select(.Address == $dev) | $k'
+}
+
+controller-object-paths() {
+    d require busctl jq
+    busctl -j --system call org.bluez / org.freedesktop.DBus.ObjectManager GetManagedObjects \
+        | jq -r '.data[] | . as $root | keys[] | . as $k | $root[.]["org.bluez.Adapter1"] | select(.) | $k'
 }
 
 set-trusted() {
