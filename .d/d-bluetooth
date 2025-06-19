@@ -16,11 +16,19 @@ x-connect-paired () {
     device=$(select-paired-device) && connect "$device"
 }
 
-@reg enable-scan 'Enable scanning'
-enable-scan () {
-    d require bluetoothctl
-    bluetoothctl scan on
-}
+# TODO: This never worked, consider how to make this happen.
+# For context - the scan gets disabled as soon as the DBus connection
+# that requested it gets closed - which is immediately for one-shot
+# commands like this one. Using `busctl` isn't any better, so it might be
+# necessary to write something custom that runs the commands and stays
+# open for some time before exiting. Alternatively just accept that
+# this has to be done via GUI (blueman).
+
+# @reg enable-scan 'Enable scanning'
+# enable-scan () {
+#     d require bluetoothctl
+#     bluetoothctl scan on
+# }
 
 @reg x-pair 'Pair device'
 x-pair () {
