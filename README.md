@@ -4,65 +4,40 @@ My personal set of dotfiles. Used on Arch linux.
 
 ## Installing
 
-To install `rcm` is needed.
-To make sure everything gets applied use `rcup -vf` to force restoring files that already exist on the system, **but be careful and make sure you know what you're doing**.
+To install `make` is needed.
 
-1. `git clone git@github.com:Artemigos/Dotfiles.git ~/.dotfiles`
-1. `rcup rcrc`
-1. `rcup`
+1. `git clone git@github.com:Artemigos/Dotfiles.git ~/.dotfiles && cd ~/.dotfiles`
+1. `make install`
 
-## System dependencies
+By default, very few things get actually installed. You can pick which components to install by opting into tags. This can be done in `$XDG_CONFIG_HOME/.config/d/config.toml`:
 
-### Applications
+```toml
+[restore]
+tags =[
+    "bash",
+    "dunst",
+    "fish",
+    "fuzzel",
+    "kitty",
+    "niri",
+    "nvim",
+    "waybar",
+]
+```
 
-- polybar - top bar with tray
-- feh - wallpaper setter
-- picom - compositor
-- rofi - for all the selection menus
-- xsel - for emoji selector
-- xclip - for screenshot copying
-- maim - for making screenshots
-- light-locker - for screen locking
-- numlockx - to enable numlock after login
-- ibus - input bus
-- xte - to simulate media key presses on mouse buttons
-- xrdb - for Xresources for st
-- redshift-gtk - night colors (less blue light)
+## Bootstrapping the `d` command
 
-### Fonts
+The `d` command is the centerpiece of my dotfiles - other tools are configure to use it for stuff (niri keybinding, waybar widgets, neovim toggles for plugins). That's also how you access a bunch of subcommands residing in the `d/` directory of this repo. That's why it's important that it works. Running `make install` above already made use of the `d-restore` subcommand, which should also bootstrap your system with a `~/.profile` file that adds necessary env vars (might need to re-login to apply), but in case you don't want to use that file, it's necessary to:
 
-- Fantasque Sans Mono - <https://github.com/belluzj/fantasque-sans/releases>
-- Iosevka Nerd Font - <https://github.com/ryanoasis/nerd-fonts/releases>
-- Liberation Mono
+- add `$HOME/.local/bin` to `$PATH` - that's where the `d` command gets installed
+- set (and export) `DOTFILES_HOME` to where the dotfiles are cloned (should be `$HOME/.dotfiles`)
 
-## Default applications
+This should be enough to enable access to all the `d` subcommands. It's also recommended to have a notification daemon and `notify-send` available - that's how `d` subcommands inform you about missing CLI tools when they're necessary.
 
-### Set in `~/.profile`
+## System dependencies management
 
-- terminal - alacritty
-- editor - nvim
-- browser - firefox
+There's a simple system package/app management tool built in. This is hidden behind the `paru-sync` and `system-packages(...)` tags. When enabled you can use `make sync` to synchronize your system with the expected list of packages. Just keep in mind that it's very primitive at the moment and the packages lists in this repo aren't sufficiently divided into subtags - the "restore" infrastructure is ready for that, I just didn't get around to that yet. You might want to maintain your own package lists instead.
 
-### Shortcuts
+The tool relies on `paru` instead of `pacman` for AUR support. Flatpaks are managed as well.
 
-- `Super + Return` - main terminal
-- `Super + ctrl + Return` - main editor
-
-- `Super + F1` - main browser
-- `Super + Shift + F1` - secondary browser
-
-- `Super + F2` - Spotify
-- `Super + Shift + F2` - youtube
-
-- `Super + F3` - ranger
-- `Super + Shift + F3` - pcmanfm
-
-## Todo
-
-- ranger
-- vim (it's barely there right now)
-- tmux?
-- update `sp help` to include info about my new commands
-- prepare rofi menus
-  - expand audioctl?
-  - and more (networkctl? workspacectl? displayctl?)
+If you're confused about which packages are needed for certain tags to work, you can try to reference my package lists, but it not well organized atm.
