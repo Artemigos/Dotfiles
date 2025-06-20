@@ -8,6 +8,7 @@
         "custom/mpris"
     ],
     "modules-right": [
+        "custom/low-battery",
         "bluetooth",
         "custom/vpn",
         "custom/updates",
@@ -19,6 +20,11 @@
     ],
     "niri/workspaces": {
         "format": ""
+    },
+    "custom/low-battery": {
+        "exec": "d widget low-battery",
+        "interval": 30,
+        "tooltip": false
     },
     "custom/mpris": {
         "exec": "d widget music run-json",

@@ -1,0 +1,16 @@
+#!/bin/bash
+
+set -euo pipefail
+
+text=$({
+    d battery list-warnings | while IFS= read -r line; do
+        IFS=$'\t' read -r name level <<<"$line"
+        if [[ "${level,,}" = "critical" ]]; then
+            echo -n "<span bgcolor=\"red\"> 󰁺 $name </span> "
+        else
+            echo -n "<span bgcolor=\"orange\"> 󰁺 $name </span> "
+        fi
+    done
+})
+
+echo "${text::-1}"
