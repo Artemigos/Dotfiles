@@ -1,0 +1,26 @@
+#!/bin/bash
+
+set -euo pipefail
+
+# shellcheck source=base.sh
+source "$(d script-base)"
+@setup 'd battery '
+
+@reg list-warnings 'List battery warnings' 1
+list-warnings () {
+    busctl -j --system call org.freedesktop.UPower /org/freedesktop/UPower org.freedesktop.UPower EnumerateDevices |\
+        jq -r '.data[][]' |\
+        xargs -I{} busctl -j --system call org.freedesktop.UPower '{}' org.freedesktop.DBus.Properties GetAll s org.freedesktop.UPower.Device |\
+        jq -r '.data[] | map_values(.data) |
+            if .BatteryLevel == 4 or .WarningLevel == 4 then
+                .Model + "\tCritical"
+            else
+                if .BatteryLevel == 3 or .WarningLevel == 3 then
+                    .Model + "\tLow"
+                else
+                    null
+                end
+            end | select(.)'
+}
+
+@main "$@"
