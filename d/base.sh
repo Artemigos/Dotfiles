@@ -59,34 +59,34 @@ declare -A REV_MAP=()
         if [[ $# -eq 0 ]]; then
             err 'Subcommand expected.'
         fi
-        case $1 in
-            list-commands) shift; @list-commands "$@"; return 0 ;;
-            show-menu) shift; @show-menu "$@"; return 0 ;;
+        local subcmd=$1
+        shift
+        case $subcmd in
+            list-commands) @list-commands "$@"; return 0 ;;
+            show-menu) @show-menu "$@"; return 0 ;;
             list-x-options)
                 d notify 'Deprecated entry point' 'Please stop using "list-x-options"'
-                shift
                 @list-commands "$@"
                 return 0
                 ;;
             show)
                 d notify 'Deprecated entry point' 'Please stop using "show"'
-                shift
                 @show-menu "$@"
                 return 0
                 ;;
         esac
-        if [[ -n "${REV_MAP["$1"]-}" ]]; then
-            local i=${REV_MAP["$1"]}
+        if [[ -n "${REV_MAP["$subcmd"]-}" ]]; then
+            local i=${REV_MAP["$subcmd"]}
             local cmd=${SUBCOMMANDS[$i]}
-            $cmd
+            $cmd "$@"
         else
-            local cmd=${PREFIX// /-}$1
+            local cmd=${PREFIX// /-}$subcmd
             if [[ -x "$cmd" ]]; then
-                "$cmd"
+                "$cmd" "$@"
             elif [[ -x "$D_HOME/$cmd" ]]; then
-                "$D_HOME/$cmd"
+                "$D_HOME/$cmd" "$@"
             else
-                echo "Unknown command: $1"
+                echo "Unknown command: $subcmd"
             fi
         fi
     }
