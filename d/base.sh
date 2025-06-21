@@ -81,7 +81,7 @@ declare -A REV_MAP=()
             $cmd "$@"
         else
             local cmd=${PREFIX// /-}$subcmd
-            if [[ -x "$cmd" ]]; then
+            if d has-cmd "$cmd"; then
                 "$cmd" "$@"
             elif [[ -x "$D_HOME/$cmd" ]]; then
                 "$D_HOME/$cmd" "$@"
