@@ -1,0 +1,24 @@
+#!/bin/bash
+
+set -euo pipefail
+
+#shellcheck source=../../../d/base.sh
+source "$(d script-base)"
+@setup 'd niri '
+
+@reg x-focus-window 'Pick and focus a window'
+x-focus-window() {
+    d require niri
+    wid=$(x-pick-window) && niri msg action focus-window --id "$wid"
+}
+
+@reg x-pick-window 'Pick a window' 1
+x-pick-window() {
+    d require niri jq cut
+    niri msg -j windows |\
+        jq -r '.[] | (.id | tostring) + "\t" + .app_id + "\t" + .title' |\
+        d menu dmenu |\
+        cut -d $'\t' -f1
+}
+
+@main "$@"
