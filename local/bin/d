@@ -5,8 +5,10 @@ D_BASE=$DOTFILES_HOME/d/base.sh
 
 # shellcheck source=../../d/base.sh
 source "$D_BASE"
+@setup 'd '
 
-d-error() {
+@reg error 'Send an error notification' 1
+error() {
     TITLE=${1:?Title required}
     SUBTITLE=${2:?Subtitle required}
     if type -t notify-send >/dev/null; then
@@ -14,7 +16,8 @@ d-error() {
     fi
 }
 
-d-notify() {
+@reg notify 'Send an info notification' 1
+notify() {
     TITLE=${1:?Title required}
     SUBTITLE=${2:?Subtitle required}
     if type -t notify-send >/dev/null; then
@@ -22,13 +25,14 @@ d-notify() {
     fi
 }
 
-d-has-cmd() {
+@reg has-cmd 'Check if command exists' 1
+has-cmd() {
     local CMD=${1:?Command required}
     [ -x "$CMD" ] || [ -x "$(which "$CMD" 2>/dev/null)" ]
 }
 
-# make sure that a command exists and notify about missing ones
-d-require() {
+@reg require 'Make sure that commands exist' 1
+require() {
     if [[ $# -lt 1 ]]; then
         err "No command given"
     fi
@@ -36,8 +40,8 @@ d-require() {
     local RESULT=0
     while [ -n "${1:-}" ]; do
         local CMD=$1
-        if ! d has-cmd "$CMD"; then
-            d error "Command missing" "$CMD"
+        if ! has-cmd "$CMD"; then
+            error "Command missing" "$CMD"
             RESULT=1
         fi
         shift
@@ -46,7 +50,8 @@ d-require() {
     return $RESULT
 }
 
-d-require-one() {
+@reg require-one 'Make sure that at least one of given commands exists' 1
+require-one() {
     if [[ $# -lt 1 ]]; then
         err "No command given"
     fi
@@ -55,59 +60,59 @@ d-require-one() {
 
     while [ -n "${1:-}" ]; do
         local CMD=$1
-        if d has-cmd "$CMD"; then
+        if has-cmd "$CMD"; then
             echo "$CMD"
             return 0
         fi
         shift
     done
 
-    d error "One of commands required" "$COMMANDS"
+    error "One of commands required" "$COMMANDS"
     return 1
 }
 
-# print the dotfiles directory
-d-home() {
+@reg home 'Print the dotfile home directory' 1
+home() {
     echo "$DOTFILES_HOME"
 }
 
-# print the directory with d scripts
-d-script-base() {
+@reg script-base 'Print the directory with d scripts' 1
+script-base() {
     echo "$D_BASE"
 }
 
-# find and print all the tools that are required in dotfiles scripts
-d-get-all-requires() {
-    d require rg sed sort uniq
+@reg get-all-requires 'Find and print all the tools that are required in dotfiles scripts' 1
+get-all-requires() {
+    require rg sed sort uniq
     readarray -t FILES <<<"$(d dotfiles list)"
     rg '^.*\bd require ([a-zA-Z0-9_\- ]+)\b.*$' --replace '$1' --no-filename "${FILES[@]}" | sed 's/ /\n/g' | sort | uniq
 }
 
-# run `d require` on all the tools that are required in dotfiles scripts
-d-require-all() {
-    d require xargs
-    d-get-all-requires | xargs -n1 d require
+@reg require-all 'Run `d require` on all the tools that are required in dotfiles scripts' 1
+require-all() {
+    require xargs
+    get-all-requires | xargs -n1 d require
 }
 
-d-exec() {
+@reg git 'Run git in context of the dotfiles repo' 1
+git() {
+    require git
     cd "$DOTFILES_HOME"
-    exec "$@"
+    exec git "$@"
 }
 
-d-git() {
-    d require git
-    d exec git "$@"
-}
-
-d-make() {
-    d require make
-    d exec make "$@"
-}
-
-d-edit() {
-    d require "$EDITOR"
+@reg make 'Run make in context of the dotfiles repo' 1
+make() {
+    require make
     cd "$DOTFILES_HOME"
-    d exec "$EDITOR"
+    exec make "$@"
 }
 
-forward-cmd "d-" "$@"
+@reg edit 'Run editor in context of the dotfiles repo' 1
+edit() {
+    require "$EDITOR"
+    cd "$DOTFILES_HOME"
+    exec "$EDITOR"
+}
+
+@main "$@"
