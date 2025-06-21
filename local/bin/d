@@ -1,6 +1,13 @@
 #!/bin/bash
 
-DOTFILES_HOME=${DOTFILES_HOME:?DOTFILES_HOME variable is not set.}
+# try to find home relative to `d` if not explicitly set
+if [[ -z "$DOTFILES_HOME" ]]; then
+    curr=$(realpath "$0")
+    for i in $(seq 1 3); do
+        curr=$(dirname "$curr")
+    done
+    export DOTFILES_HOME=$curr
+fi
 D_BASE=$DOTFILES_HOME/d/base.sh
 
 # shellcheck source=../../d/base.sh
