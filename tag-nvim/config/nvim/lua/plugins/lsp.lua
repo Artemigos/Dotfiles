@@ -71,6 +71,7 @@ return {
                 'williamboman/mason-lspconfig.nvim',
                 opts = {
                     ensure_installed = supported_servers,
+                    automatic_enable = false,
                 },
             },
             { 'saghen/blink.cmp' },
