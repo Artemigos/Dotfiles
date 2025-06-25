@@ -1,15 +1,17 @@
 #!/bin/bash
 
+UNITS_DIR=${XDG_CONFIG_HOME:-$HOME/.config}/systemd/user
+
 link-systemd() {
     local what=${1:?Unit to link required}
     local where
-    where=$XDG_CONFIG_HOME/systemd/user/niri.service.wants/$(basename "$what")
+    where=$UNITS_DIR/niri.service.wants/$(basename "$what")
     d restore symlink "$what" "$where"
 }
 
-link-systemd "$XDG_CONFIG_HOME/systemd/user/clipse.service"
+link-systemd "$UNITS_DIR/clipse.service"
 link-systemd /usr/lib/systemd/user/gammastep.service
 link-systemd /usr/lib/systemd/user/gammastep-indicator.service
-link-systemd "$XDG_CONFIG_HOME/systemd/user/swww-daemon.service"
+link-systemd "$UNITS_DIR/swww-daemon.service"
 link-systemd /usr/lib/systemd/user/waybar.service
 link-systemd /usr/lib/systemd/user/xwayland-satellite.service

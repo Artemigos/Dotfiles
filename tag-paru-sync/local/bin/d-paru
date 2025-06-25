@@ -3,7 +3,7 @@
 d require yq paru sort comm find xargs
 
 # config
-dir=$XDG_CONFIG_HOME/paru-sync
+dir=${XDG_CONFIG_HOME:-$HOME/.config}/paru-sync
 if [[ ! -d "$dir" ]]; then
     echo "Config directory missing: $dir" 1>&2
     exit 1

@@ -4,7 +4,7 @@ set -euo pipefail
 
 d require flatpak tail sort yq comm xargs
 
-config_file=$XDG_CONFIG_HOME/flatpak-sync/apps.yaml
+config_file=${XDG_CONFIG_HOME:-$HOME/.config}/flatpak-sync/apps.yaml
 
 if [[ ! -r "$config_file" ]]; then
     echo 'Could not read config'

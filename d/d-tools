@@ -45,15 +45,16 @@ random-wallpaper() {
         d error "Unknown wallpaper backend" "$BACKEND"
     fi
 
-    WP=$(ls -1 "$XDG_CONFIG_HOME/wallpapers" --ignore=wallpaper | shuf | head -n 1)
-    ln -sf "$WP" "$XDG_CONFIG_HOME/wallpapers/wallpaper"
+    WALLPAPERS_DIR=${XDG_CONFIG_HOME:-$HOME/.config}/wallpapers
+    WP=$(ls -1 "$WALLPAPERS_DIR" --ignore=wallpaper | shuf | head -n 1)
+    ln -sf "$WP" "$WALLPAPERS_DIR/wallpaper"
     if [ "$BACKEND" = "feh" ]; then
-        feh --bg-fill "$XDG_CONFIG_HOME/wallpapers/wallpaper"
+        feh --bg-fill "$WALLPAPERS_DIR/wallpaper"
     elif [ "$BACKEND" = "swww" ]; then
-        swww img "$XDG_CONFIG_HOME/wallpapers/wallpaper"
+        swww img "$WALLPAPERS_DIR/wallpaper"
     else
         local FILE
-        FILE=$(realpath "$XDG_CONFIG_HOME/wallpapers/wallpaper")
+        FILE=$(realpath "$WALLPAPERS_DIR/wallpaper")
         gsettings set org.gnome.desktop.background picture-uri "file://$FILE"
         gsettings set org.gnome.desktop.background picture-uri-dark "file://$FILE"
     fi
