@@ -125,7 +125,6 @@ binds {
     Mod+Alt+Return { spawn "d" "project" "open"; }
     Mod+F1 { spawn "d" "launch" "browser"; }
     Mod+F2 { spawn "d" "launch" "music"; }
-    // Super+Alt+L { spawn "swaylock"; }
 
     // Launchers
     Mod+Space { spawn "d" "menu" "command"; }
@@ -137,6 +136,7 @@ binds {
     Mod+Slash { spawn "d" "system" "show"; }
     Mod+BackSpace { spawn "d" "power" "show"; }
     Mod+Ctrl+V { spawn "kitty" "--app-id" "kitty-clipse" "--title" "Clipboard" "clipse"; }
+    Mod+Shift+BackSpace { spawn "d" "power" "lock"; }
 
     // Audio controls
     XF86AudioPrev allow-when-locked=true { spawn "sp" "prev"; }

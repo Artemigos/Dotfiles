@@ -19,6 +19,7 @@ niri:
   - gnome-keyring
 satty:
 slurp:
+swaylock:
 swww:
 wayland-utils:
 wev:
