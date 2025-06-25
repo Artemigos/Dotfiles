@@ -1,7 +1,8 @@
 alias e="$EDITOR"
 alias diskstat='df -x tmpfs -x devtmpfs -x squashfs -h'
-alias ls='exa'
-alias ll='exa -alh'
+alias ls='eza'
+alias ll='eza -alh'
+alias grep='grep --color=auto'
 
 cheat() { curl "cheat.sh/$1"; }
 pman() { man -t $1 | ps2pdf - - | zathura --fork --mode=fullscreen -; }
