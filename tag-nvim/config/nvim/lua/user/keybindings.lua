@@ -1,14 +1,5 @@
 local u = require('user.utils')
 
--- working with init.vim
-u.defcmd('EditInit', 'e $MYVIMRC')
-u.defcmd('SourceInit', 'source $MYVIMRC')
-u.defcmd('EditAnyInit', 'lua require\'telescope.builtin\'.find_files{follow=true,cwd=\'$XDG_CONFIG_HOME/nvim/\'}')
-
-u.map('n', '<Leader>ie', ':EditInit<CR>')
-u.map('n', '<Leader>is', ':SourceInit<CR>')
-u.map('n', '<Leader>ia', ':EditAnyInit<CR>')
-
 -- buffer switching
 u.map('n', '<TAB>', ':bnext<CR>')
 u.map('n', '<S-TAB>', ':bprev<CR>')
