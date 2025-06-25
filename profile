@@ -27,8 +27,6 @@ source_if_file "$HOME/.bw_credentials"
 
 add_dir_to_path "$HOME/.local/bin"
 add_dir_to_path "$HOME/.cargo/bin"
-add_dir_to_path "$HOME/.emacs.d/bin"
-add_dir_to_path "$HOME/.dotnet/tools"
 export PATH
 
 # XDG basedir
@@ -45,14 +43,6 @@ export DOTFILES_HOME="$HOME/.dotfiles"
 # Default sotftware
 export TERMINAL="kitty"
 export EDITOR="nvim"
-export ALT_EDITOR="emacs"
 export BROWSER="flatpak run net.waterfox.waterfox"
-export ALT_BROWSER="chromium-browser"
-
-# teach GUI to use IBus
-export GTK_IM_MODULE=ibus
-export XMODIFIERS=@im-ibus
-export QT_IM_MODULE=ibus
-export XIM_PROGRAM=/usr/bin/ibus-daemon
 
 export YDOTOOL_SOCKET=/tmp/.ydotool_socket
