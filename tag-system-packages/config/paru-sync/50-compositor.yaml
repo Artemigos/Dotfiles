@@ -9,6 +9,7 @@ gammastep:
 greetd:
 greetd-tuigreet:
 grim:
+ibus:
 libnotify:
 niri:
   - fuzzel
