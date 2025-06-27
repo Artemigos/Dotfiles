@@ -1,0 +1,2 @@
+lock 'swaylock -f -F -i "${XDG_CONFIG_HOME:-$HOME/.config}/wallpapers/wallpaper"; niri msg action power-off-monitors'
+before-sleep 'swaylock -f -F -i "${XDG_CONFIG_HOME:-$HOME/.config}/wallpapers/wallpaper"'

@@ -7,7 +7,7 @@ main () {
         shutdown) d require shutdown; shutdown now ;;
         reboot) d require reboot; reboot ;;
         sleep) d require systemctl; systemctl suspend ;;
-        lock) d require swaylock; swaylock -i "${XDG_CONFIG_HOME:-$HOME/.config}/wallpapers/wallpaper" ;;
+        lock) d require loginctl; loginctl lock-session ;;
         logout) d require qtile; qtile cmd-obj -o cmd -f shutdown ;;
         list-x-options) listXOptions ;;
         show) listXOptions | d menu from-json ;;
