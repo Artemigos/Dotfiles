@@ -8,7 +8,7 @@ main () {
         reboot) d require reboot; reboot ;;
         sleep) d require systemctl; systemctl suspend ;;
         lock) d require loginctl; loginctl lock-session ;;
-        logout) d require qtile; qtile cmd-obj -o cmd -f shutdown ;;
+        logout) d require niri; niri msg action quit ;;
         list-x-options) listXOptions ;;
         show) listXOptions | d menu from-json ;;
         *) exit 1 ;;
