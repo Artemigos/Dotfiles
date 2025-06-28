@@ -15,4 +15,7 @@
 [advice]
 	statusHints = false
 
-# vim: noet
+[init]
+	defaultBranch = main
+
+# vim: noet ft=gitconfig
