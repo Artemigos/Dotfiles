@@ -2,6 +2,7 @@
 bind:
 ddcutil:
 docker:
+docker-compose:
 eza:
 fd:
 fish:
