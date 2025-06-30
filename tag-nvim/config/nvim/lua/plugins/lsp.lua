@@ -82,18 +82,6 @@ return {
                     require('lspkind').init(opts)
                 end,
             },
-            {
-                "someone-stole-my-name/yaml-companion.nvim",
-                event = { 'BufReadPre', 'BufNewFile' },
-                dependencies = {
-                    "neovim/nvim-lspconfig",
-                    "nvim-lua/plenary.nvim",
-                    "nvim-telescope/telescope.nvim",
-                },
-                config = function()
-                    require("telescope").load_extension("yaml_schema")
-                end,
-            },
         },
         keys = {
             { 'gd',       vim.lsp.buf.definition,     desc = 'Go to definition' },
@@ -160,10 +148,6 @@ return {
                             },
                         },
                     }
-                elseif server == 'yamlls' then
-                    cfg = require('yaml-companion').setup({
-                        lspconfig = cfg,
-                    })
                 end
 
                 return cfg
