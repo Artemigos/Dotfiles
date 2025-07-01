@@ -11,6 +11,7 @@ local supported_servers = {
     'ruff',          -- python linter
     'gopls',         -- Golang
     'marksman',      -- Markdown notetaking
+    'terraformls',   -- Terraform
 }
 
 local auto_install_tools = {
