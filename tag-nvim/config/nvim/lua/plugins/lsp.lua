@@ -28,10 +28,6 @@ local auto_install_tools = {
     'shfmt',
 }
 
-local function on_attach(_, _)
-    vim.api.nvim_set_option_value('omnifunc', 'v:lua.vim.lsp.omnifunc', { buf = 0 })
-end
-
 local function hover()
     vim.lsp.buf.hover({
         border = 'rounded',
@@ -118,44 +114,37 @@ return {
             { '<Leader>rr', vim.lsp.buf.rename,                             desc = 'Rename' },
         },
         config = function()
-            local capabilities = require('blink.cmp').get_lsp_capabilities()
+            vim.lsp.config('*', {
+                capabilities = require('blink.cmp').get_lsp_capabilities(),
+            })
 
-            local function make_config(server)
-                local cfg = {
-                    on_attach = on_attach,
-                    capabilities = capabilities,
-                }
+            local runtime_path = vim.split(package.path, ';')
+            table.insert(runtime_path, "lua/?.lua")
+            table.insert(runtime_path, "lua/?/init.lua")
 
-                if server == 'lua_ls' then
-                    local runtime_path = vim.split(package.path, ';')
-                    table.insert(runtime_path, "lua/?.lua")
-                    table.insert(runtime_path, "lua/?/init.lua")
-                    cfg.settings = {
-                        Lua = {
-                            runtime = {
-                                version = 'LuaJIT',
-                                path = runtime_path,
-                            },
-                            diagnostics = {
-                                globals = { 'vim' },
-                            },
-                            workspace = {
-                                library = vim.api.nvim_get_runtime_file("", true),
-                                checkThirdParty = false,
-                            },
-                            telemetry = {
-                                enable = false,
-                            },
+            vim.lsp.config('lua_ls', {
+                settings = {
+                    Lua = {
+                        runtime = {
+                            version = 'LuaJIT',
+                            path = runtime_path,
                         },
-                    }
-                end
+                        diagnostics = {
+                            globals = { 'vim' },
+                        },
+                        workspace = {
+                            library = vim.api.nvim_get_runtime_file("", true),
+                            checkThirdParty = false,
+                        },
+                        telemetry = {
+                            enable = false,
+                        },
+                    },
+                }
+            })
 
-                return cfg
-            end
-
-            local lspconfig = require('lspconfig')
             for _, server in pairs(supported_servers) do
-                lspconfig[server].setup(make_config(server))
+                vim.lsp.enable(server)
             end
 
             require('lspconfig.ui.windows').default_options.border = 'rounded'
