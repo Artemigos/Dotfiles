@@ -32,47 +32,80 @@ return {
     },
 
     {
-        "CopilotC-Nvim/CopilotChat.nvim",
-        cond = copilot_condition,
+        -- TODO:
+        -- - review highlights
+        -- - copilot.lua instead of copilot.vim for work stuff
+        -- - review the render-markdown optional dependency
+        -- - review the img-clip dependency - I might actually want this for MD notes
+        -- - consider bindings in mini.files to add files to context
+        -- - do I even need the blink.cmp integration?
+        'yetone/avante.nvim',
+        build = 'make',
         event = 'VeryLazy',
-        branch = 'main',
-        dependencies = {
-            { "github/copilot.vim" },
-            { "nvim-lua/plenary.nvim" },
-        },
-        -- build = "make tiktoken",
-        opts = {},
-    },
-
-    {
-        'milanglacier/minuet-ai.nvim',
-        cond = ollama_condition,
-        event = 'VeryLazy',
+        version = false,
+        ---@module 'avante'
+        ---@type avante.Config
         opts = {
-            provider = 'openai_fim_compatible',
-            n_completions = 1,
-            context_window = 512,
-            provider_options = {
-                openai_fim_compatible = {
-                    name = 'Ollama',
-                    api_key = 'TERM',
-                    end_point = 'http://127.0.0.1:11434/v1/completions',
+            provider = 'ollama',
+            -- auto_suggestions_provider = ollama_condition() and 'ollama' or nil,
+            providers = {
+                ollama = {
+                    endpoint = 'http://127.0.0.1:11434',
                     model = 'qwen2.5-coder:3b',
-                    optional = {
-                        max_tokens = 256,
-                        top_p = 0.9,
-                    },
                 },
             },
-            virtualtext = {
-                auto_trigger_ft = {},
-                keymap = {
-                    accept = '<M-Enter>',
-                    accept_line = '<M-\\>',
-                    prev = '<M-[>',
-                    next = '<M-]>',
+            behaviour = {
+                -- auto_suggestions = ollama_condition(),
+                auto_approve_tool_permissions = false,
+            },
+            hints = { enabled = false },
+            windows = {
+                fillchars = vim.go.fillchars, -- ffs, respect my settings
+                sidebar_header = {
+                    enabled = true,           -- probably disable later
+                },
+                edit = {
+                    start_insert = false,
+                },
+                ask = {
+                    start_insert = false,
                 },
             },
+        },
+        config = function(_, opts)
+            require('avante').setup(opts)
+            vim.api.nvim_set_hl(0, 'AvanteSidebarWinSeparator', { link = 'WinSeparator' }) -- ffs, respect my settings
+        end,
+        dependencies = {
+            'nvim-lua/plenary.nvim',
+            'MunifTanjim/nui.nvim',
+            --- The below dependencies are optional,
+            -- 'zbirenbaum/copilot.lua', -- for providers='copilot'
+            -- {
+            --     -- support for image pasting
+            --     'HakonHarnes/img-clip.nvim',
+            --     event = 'VeryLazy',
+            --     opts = {
+            --         -- recommended settings
+            --         default = {
+            --             embed_image_as_base64 = false,
+            --             prompt_for_file_name = false,
+            --             drag_and_drop = {
+            --                 insert_mode = true,
+            --             },
+            --             -- required for Windows users
+            --             use_absolute_path = true,
+            --         },
+            --     },
+            -- },
+            -- {
+            --     -- Make sure to set this up properly if you have lazy=true
+            --     'MeanderingProgrammer/render-markdown.nvim',
+            --     opts = {
+            --         file_types = { 'markdown', 'Avante' },
+            --     },
+            --     ft = { 'markdown', 'Avante' },
+            -- },
         },
     },
 }
