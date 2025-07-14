@@ -72,13 +72,6 @@ return {
                 },
             },
             { 'saghen/blink.cmp' },
-            {
-                'onsails/lspkind-nvim',
-                opts = {},
-                config = function(_, opts)
-                    require('lspkind').init(opts)
-                end,
-            },
         },
         keys = {
             { 'gd',       vim.lsp.buf.definition,     desc = 'Go to definition' },

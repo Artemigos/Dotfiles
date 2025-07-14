@@ -68,9 +68,13 @@ return {
     },
 
     {
-        'kyazdani42/nvim-web-devicons',
-        lazy = true,
-        opts = { default = true },
+        'echasnovski/mini.icons',
+        version = '*',
+        opts = {},
+        config = function(_, opts)
+            require('mini.icons').setup(opts)
+            MiniIcons.mock_nvim_web_devicons()
+        end,
     },
 
     {
@@ -112,7 +116,6 @@ return {
     {
         'nvim-lualine/lualine.nvim',
         event = 'VeryLazy',
-        dependencies = { 'kyazdani42/nvim-web-devicons' },
         opts = {
             options = {
                 icons_enabled = true,
