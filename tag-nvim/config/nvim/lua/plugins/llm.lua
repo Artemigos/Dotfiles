@@ -14,6 +14,13 @@ local function ollama_condition()
     return ollama_flag()
 end
 
+local avante_provider = 'claude' -- default provider for avante.nvim
+if copilot_condition() then
+    avante_provider = 'copilot'
+elseif ollama_condition() then
+    avante_provider = 'ollama'
+end
+
 return {
     {
         'github/copilot.vim',
@@ -46,7 +53,7 @@ return {
         ---@module 'avante'
         ---@type avante.Config
         opts = {
-            provider = 'ollama',
+            provider = avante_provider,
             -- auto_suggestions_provider = ollama_condition() and 'ollama' or nil,
             providers = {
                 ollama = {
