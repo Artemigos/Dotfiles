@@ -27,6 +27,7 @@ local auto_install_tools = {
     'black',
     'gofumpt',
     'shfmt',
+    'terraform',
 }
 
 local function hover()
@@ -164,6 +165,7 @@ return {
                 javascript = { 'prettier' },
                 vcl = { 'vcl_formatter' },
                 alloy = { 'alloy_fmt' },
+                terraform = { 'terraform_fmt' },
             },
             formatters = {
                 vcl_formatter = {
