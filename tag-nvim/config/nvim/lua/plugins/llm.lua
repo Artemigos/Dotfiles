@@ -57,8 +57,10 @@ return {
             -- auto_suggestions_provider = ollama_condition() and 'ollama' or nil,
             providers = {
                 ollama = {
-                    endpoint = 'http://127.0.0.1:11434',
                     model = 'qwen2.5-coder:3b',
+                },
+                copilot = {
+                    model = 'claude-sonnet-4',
                 },
             },
             behaviour = {
@@ -87,7 +89,6 @@ return {
             'nvim-lua/plenary.nvim',
             'MunifTanjim/nui.nvim',
             --- The below dependencies are optional,
-            -- 'zbirenbaum/copilot.lua', -- for providers='copilot'
             -- {
             --     -- support for image pasting
             --     'HakonHarnes/img-clip.nvim',
