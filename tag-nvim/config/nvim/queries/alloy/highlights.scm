@@ -56,5 +56,3 @@
 
 (field
   (ident) @variable.member)
-
-; @variable.builtin
