@@ -23,4 +23,27 @@ tz-clock() {
     TZ=$_tz date +'%H:%M %Z'
 }
 
+@reg headset 'Bluetooth headset widget'
+headset() {
+    d require busctl jq
+
+    local dev_path dev_data connected dev_name percent
+    dev_path=$(d config get widgets.main-headset)
+    if [[ -z "$dev_path" ]]; then
+        echo "󰂯 Headset not configured"
+        return
+    fi
+
+    dev_data=$(busctl --system -j call org.bluez "$dev_path" org.freedesktop.DBus.Properties GetAll s org.bluez.Device1 | jq '.data[] | map_values(.data)')
+    connected=$(jq -r '.Connected' <<< "$dev_data")
+    if [[ "$connected" != "true" ]]; then
+        echo "󰂲"
+        return
+    fi
+
+    dev_name=$(jq -r '.Alias' <<< "$dev_data")
+    percent=$(busctl --system -j call org.bluez "$dev_path" org.freedesktop.DBus.Properties GetAll s org.bluez.Battery1 | jq -r '.data[] | map_values(.data).Percentage')
+    echo "󰂯 $dev_name (${percent:-0}%)"
+}
+
 @main "$@"
