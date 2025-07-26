@@ -132,7 +132,7 @@ binds {
     Mod+Space { spawn "d" "menu" "command"; }
     Mod+Shift+Space { spawn "d" "menu" "app"; }
     Mod+Alt+Space { spawn "d" "dotfiles" "select"; }
-    Mod+Ctrl+Space { spawn "d" "niri" "x-pick-window"; }
+    Mod+Ctrl+Space { spawn "d" "niri" "x-focus-window"; }
 
     // Menus
     Mod+Slash { spawn "d" "system" "show"; }
