@@ -42,7 +42,7 @@ headset() {
     fi
 
     dev_name=$(jq -r '.Alias' <<< "$dev_data")
-    percent=$(busctl --system -j call org.bluez "$dev_path" org.freedesktop.DBus.Properties GetAll s org.bluez.Battery1 | jq -r '.data[] | map_values(.data).Percentage')
+    percent=$(busctl --system -j get-property org.bluez "$dev_path" org.bluez.Battery1 Percentage | jq -r '.data')
     echo "󰂯 $dev_name (${percent:-0}%)"
 }
 

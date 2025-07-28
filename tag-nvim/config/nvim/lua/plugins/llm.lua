@@ -41,7 +41,6 @@ return {
     {
         -- TODO:
         -- - review highlights
-        -- - copilot.lua instead of copilot.vim for work stuff
         -- - review the render-markdown optional dependency
         -- - review the img-clip dependency - I might actually want this for MD notes
         -- - consider bindings in mini.files to add files to context
