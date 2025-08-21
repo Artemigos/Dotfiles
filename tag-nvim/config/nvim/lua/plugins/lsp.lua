@@ -37,6 +37,12 @@ local function hover()
     })
 end
 
+local function signature_help()
+    vim.lsp.buf.signature_help({
+        border = 'rounded',
+    })
+end
+
 return {
     {
         'williamboman/mason.nvim',
@@ -88,7 +94,7 @@ return {
                 'Show code actions'
             },
             { 'gt',               vim.lsp.buf.type_definition,                    desc = 'Go to type definition' },
-            { '<C-Space>',        vim.lsp.buf.signature_help,                     desc = 'Signature help' },
+            { '<C-Space>',        signature_help,                                 desc = 'Signature help' },
             { 'gT',               ':Telescope lsp_dynamic_workspace_symbols<CR>', desc = 'Workspace symbols' },
             { 'gX',               ':Telescope diagnostics<CR>',                   desc = 'Diagnostics' },
             { 'gA',               ':ToggleAutoFormat<CR>',                        desc = 'Toggle auto formatting' },
