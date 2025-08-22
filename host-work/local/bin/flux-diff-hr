@@ -20,6 +20,7 @@ echo 'Extracting HelmRelease info...'
 helm_release=$(cat "${1:?HelmRelease file is required.}")
 name=$(echo "$helm_release" | yq -r '.metadata.name')
 namespace=$(echo "$helm_release" | yq -r '.metadata.namespace')
+target_namespace=$(echo "$helm_release" | yq -r '.spec.targetNamespace // .metadata.namespace')
 values=$(echo "$helm_release" | yq '.spec.values')
 patches=$(echo "$helm_release" | yq '.spec.postRenderers[0].kustomize') # NOTE: only one supported for now
 echo "Release: $namespace/$name"
@@ -53,7 +54,7 @@ echo 'Templating new release...'
 #     to template with supported API versions from current kube context;
 #     unfortunately, it also makes this command much slower
 new_manifests=$(helm template \
-    -n "$namespace" --version "$version" "$name" \
+    -n "$target_namespace" --version "$version" "$name" \
     --repo "$repo_url" "$chart" \
     --values <(echo "$values") \
     --no-hooks --validate)
