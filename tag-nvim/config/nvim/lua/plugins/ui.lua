@@ -323,4 +323,13 @@ return {
             { '<Leader>bD', function() require('mini.bufremove').delete(0, true) end,  desc = 'Delete buffer (force)' },
         },
     },
+
+    {
+        "folke/snacks.nvim",
+        priority = 1000,
+        lazy = false,
+        opts = {
+            image = { enabled = true },
+        },
+    }
 }
