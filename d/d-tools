@@ -20,6 +20,8 @@ main() {
         wayland-protocol-supported) shift; wayland-protocol-supported "$@" ;;
         layer-shell-supported) layer-shell-supported ;;
         md-preview) shift; md-preview "$@" ;;
+        clone-repo) shift; clone-repo "$@" ;;
+        x-clone-repo) x-clone-repo ;;
         list-x-options) listXOptions ;;
         show) listXOptions | d menu from-json ;;
         *) exit 1 ;;
@@ -252,6 +254,18 @@ md-preview() {
 EOF
 }
 
+clone-repo() {
+    local remote=${1?Remote required}
+    cd "$HOME/git"
+    git clone "$remote"
+}
+
+x-clone-repo() {
+    local result
+    result=$(d menu input "Remote URL")
+    clone-repo "$result"
+}
+
 listXOptions() {
     cat <<EOF
 {
@@ -276,6 +290,10 @@ listXOptions() {
         {
             "description": "Screenshot",
             "command": "d tools screenshot"
+        },
+        {
+            "description": "Git clone",
+            "command": "d tools x-clone-repo"
         }
     ]
 }
