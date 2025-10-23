@@ -1,0 +1,56 @@
+#!/usr/bin/env bash
+
+BOOT_NR=-0
+if [[ $# -gt 0 ]]; then
+    BOOT_NR=$1
+fi
+
+jctl() {
+    journalctl --output short-iso --boot "$BOOT_NR" "$@"
+}
+date_to_epoch() {
+    date -u -d "$1" +%s
+}
+sec_delta_to_display() {
+    delta=$1
+    hours=$((delta / 3600))
+    minutes=$(( (delta % 3600) / 60 ))
+    seconds=$((delta % 60))
+    printf "%02d:%02d:%02d\n" "$hours" "$minutes" "$seconds"
+}
+
+total_sec=0
+times=$({
+    # NOTE: this is pretty fragile - if systemd starts logging
+    # more than just sleep/wake events, this will break hopelessly.
+    jctl | head -n1
+    jctl --identifier systemd-sleep --quiet
+    if [[ "$BOOT_NR" != "-0" ]]; then
+        # if not current boot, we need to get the last event before shutdown
+        jctl --lines 1
+    fi
+} | cut -d' ' -f1 | xargs -n2 echo)
+
+while IFS=' ' read -r t1 t2; do
+    if [[ -z "$t1" ]]; then
+        # we didn't get anything on the line
+        break
+    fi
+    if [[ -z "$t2" ]]; then
+        if [[ "$BOOT_NR" != "-0" ]]; then
+            # not current boot, so we can't assume we are awake
+            break
+        fi
+        # sencond time missing, so we are still awake, use current time
+        t2=$(date -Iseconds)
+    fi
+
+    t1_epoch=$(date_to_epoch "$t1")
+    t2_epoch=$(date_to_epoch "$t2")
+    diff_sec=$((t2_epoch - t1_epoch))
+    ((total_sec+=diff_sec))
+    echo "$t1 -> $t2 = $(sec_delta_to_display "$diff_sec")"
+done <<< "$times"
+
+echo ---
+echo "Total:" "$(sec_delta_to_display "$total_sec")"
