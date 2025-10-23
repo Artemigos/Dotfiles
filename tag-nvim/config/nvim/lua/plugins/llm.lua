@@ -66,7 +66,7 @@ return {
                 -- auto_suggestions = ollama_condition(),
                 auto_approve_tool_permissions = false,
             },
-            hints = { enabled = false },
+            selection = { enabled = false },
             windows = {
                 fillchars = vim.go.fillchars, -- ffs, respect my settings
                 sidebar_header = {
