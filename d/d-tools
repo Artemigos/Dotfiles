@@ -36,7 +36,7 @@ man-pdf() {
 random-wallpaper() {
     d require shuf head ln
     local BACKEND
-    BACKEND=$(d config get backends.wallpaper feh)
+    BACKEND=$(d config get backends.wallpaper swww)
     if [ "$BACKEND" = "feh" ]; then
         d require feh
     elif [ "$BACKEND" = "gnome" ]; then
