@@ -109,7 +109,7 @@ window-rule {
 }
 
 window-rule {
-    match app-id="spotify"
+    match app-id=r#"[Ss]potify"#
     match app-id="thunderbird"
     open-on-workspace "secondary"
     open-focused false
