@@ -79,6 +79,7 @@ hotkey-overlay {
 
 spawn-at-startup "d" "tools" "random-wallpaper"
 spawn-at-startup "ibus" "start" "--type" "wayland"
+spawn-at-startup "tailscale" "systray"
 
 prefer-no-csd
 screenshot-path "~/Pictures/Screenshots/Screenshot from %Y-%m-%d %H-%M-%S.png"
