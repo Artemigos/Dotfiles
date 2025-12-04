@@ -53,3 +53,4 @@ winetricks:
 zbar:
   - gtk3
 zenity:
+zig:

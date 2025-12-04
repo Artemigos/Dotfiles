@@ -13,6 +13,7 @@ local supported_servers = {
     'marksman',      -- Markdown notetaking
     'terraformls',   -- Terraform
     'elixirls',      -- Elixir
+    'zls',           -- Zig
 }
 
 local auto_install_tools = {

@@ -60,6 +60,7 @@ return {
                 'typescript',
                 'vim',
                 'yaml',
+                'zig',
             },
             incremental_selection = {
                 enable = true,
