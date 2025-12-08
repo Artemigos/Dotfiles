@@ -18,7 +18,7 @@ d-project-list() {
 
 d-project-open() {
     local repo
-    repo=$(d project list | d menu dmenu "Repository")
+    repo=$(d-project-list | d menu dmenu "Repository")
     if tmux has -t "$session"; then
         d-project-open-tmux "$repo"
     else
@@ -28,14 +28,14 @@ d-project-open() {
 
 d-project-open-terminal() {
     local repo
-    repo=${1:-$(d project list | d menu dmenu "Repository")}
+    repo=${1:-$(d-project-list | d menu dmenu "Repository")}
     $TERMINAL -d "$HOME/$repo" -e "$EDITOR"
 }
 
 d-project-open-tmux() {
     local repo
     local display_name
-    repo=${1:-$(d project list | d menu dmenu "Repository")}
+    repo=${1:-$(d-project-list | d menu dmenu "Repository")}
     display_name=$(basename "$repo")
     tmux new-window -t "$session" -n "$display_name" -c "$HOME/$repo" "$EDITOR"
 }
