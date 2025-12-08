@@ -36,17 +36,31 @@ local function window_title_extenstion()
     return opts
 end
 
-local auto_format_component = {
-    function() return '' end,
-    color = function()
-        if require('user.auto-format').is_enabled() then
-            return { fg = require('dracula').colors().green }
-        else
-            return { fg = require('dracula').colors().comment }
-        end
-    end,
-    on_click = function() require('user.auto-format').toggle() end,
-}
+local function toggle_icon_component(icon, is_on, toggle)
+    return {
+        function() return icon end,
+        color = function()
+            if is_on() then
+                return { fg = require('dracula').colors().green }
+            else
+                return { fg = require('dracula').colors().comment }
+            end
+        end,
+        on_click = toggle,
+    }
+end
+
+local auto_format_component = toggle_icon_component(
+    '',
+    require('user.auto-format').is_enabled,
+    require('user.auto-format').toggle
+)
+
+local diagnostic_component = toggle_icon_component(
+    '󰚔',
+    vim.diagnostic.is_enabled,
+    function() vim.diagnostic.enable(not vim.diagnostic.is_enabled()) end
+)
 
 return {
     {
@@ -151,7 +165,7 @@ return {
                 lualine_a = { { 'mode', fmt = format_mode } },
                 lualine_b = { 'branch', 'diff', 'diagnostics' },
                 lualine_c = { 'filename' },
-                lualine_x = { 'encoding', auto_format_component, 'fileformat', 'filetype' },
+                lualine_x = { 'encoding', auto_format_component, diagnostic_component, 'fileformat', 'filetype' },
                 lualine_y = { 'progress' },
                 lualine_z = { 'location' }
             },
