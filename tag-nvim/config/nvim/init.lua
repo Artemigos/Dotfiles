@@ -34,4 +34,7 @@ vim.filetype.add({
         vtc = 'vtc',
         alloy = 'alloy',
     },
+    filename = {
+        Caddyfile = 'caddy',
+    },
 })
