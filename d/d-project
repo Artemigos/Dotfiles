@@ -27,17 +27,27 @@ d-project-open() {
 }
 
 d-project-open-terminal() {
-    local repo
-    repo=${1:-$(d-project-list | d menu dmenu "Repository")}
-    $TERMINAL -d "$HOME/$repo" -e "$EDITOR"
+    local repo editor
+    repo=$HOME/${1:-$(d-project-list | d menu dmenu "Repository")}
+    editor=$(d-project-editor-command "$repo")
+    $TERMINAL -d "$repo" -e "$editor"
 }
 
 d-project-open-tmux() {
-    local repo
-    local display_name
-    repo=${1:-$(d-project-list | d menu dmenu "Repository")}
+    local repo editor display_name
+    repo=$HOME/${1:-$(d-project-list | d menu dmenu "Repository")}
+    editor=$(d-project-editor-command "$repo")
     display_name=$(basename "$repo")
-    tmux new-window -t "$session" -n "$display_name" -c "$HOME/$repo" "$EDITOR"
+    tmux new-window -t "$session" -n "$display_name" -c "$repo" "$editor"
+}
+
+d-project-editor-command() {
+    repo=${1:?"Repository path is required"}
+    if [ -r "$repo/shell.nix" ] && d has-cmd 'nix-shell'; then
+        echo "nix-shell --command '$EDITOR'"
+    else
+        echo "$EDITOR"
+    fi
 }
 
 forward-cmd d-project- "$@"
