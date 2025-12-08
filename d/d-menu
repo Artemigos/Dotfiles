@@ -49,7 +49,27 @@ d-menu-dmenu() {
         fi
         fuzzel --dmenu "${PROMPT_ARGS[@]}"
     else
-        wofi -d -i "${PROMPT_ARGS[@]}" 2>/dev/null
+        wofi -k /dev/null -d -i "${PROMPT_ARGS[@]}" 2>/dev/null
+    fi
+}
+
+d-menu-input() {
+    local SELECTOR
+    SELECTOR=$(d menu tool)
+    d require "$SELECTOR"
+
+    local PROMPT_ARGS=()
+    if [ -n "${1:-}" ]; then
+        PROMPT_ARGS+=("-p" "$1")
+    fi
+
+    if [ "$SELECTOR" == "fuzzel" ]; then
+        if [ ${#PROMPT_ARGS[@]} -gt 0 ]; then
+            PROMPT_ARGS[1]="${PROMPT_ARGS[1]}: "
+        fi
+        fuzzel --dmenu --prompt-only "${PROMPT_ARGS[@]}"
+    else
+        wofi -k /dev/null -d "${PROMPT_ARGS[@]}" 2>/dev/null
     fi
 }
 
