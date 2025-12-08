@@ -274,6 +274,14 @@ return {
                     vim.keymap.set('n', 'Ig', toggle_gitignored, { buffer = args.data.buf_id })
                 end,
             })
+
+            -- integrate with snacks.rename
+            vim.api.nvim_create_autocmd('User', {
+                pattern = 'MiniFilesActionRename',
+                callback = function(event)
+                    Snacks.rename.on_rename_file(event.data.from, event.data.to)
+                end,
+            })
         end,
         keys = {
             {
@@ -330,6 +338,7 @@ return {
         lazy = false,
         opts = {
             image = { enabled = true },
+            rename = { enabled = true },
         },
     }
 }
