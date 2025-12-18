@@ -20,7 +20,7 @@ require('lazy').setup('plugins', { ui = { border = 'rounded' } })
 require('user.keybindings')
 require('user.todo').setup({})
 require('user.md2jira').setup()
-require('user.auto-format').setup({ filetypes = { 'rust', 'go', 'javascript', 'typescript', 'lua', 'zig' } })
+require('user.auto-format').setup({ filetypes = { 'rust', 'go', 'lua', 'zig' } })
 
 -- override navigation if in TMUX
 if vim.fn.empty(vim.env['TMUX']) == 0 then
