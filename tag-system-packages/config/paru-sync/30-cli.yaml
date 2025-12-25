@@ -46,10 +46,6 @@ unzip:
 usbutils:
 uv:
 wget:
-wine:
-  - wine-gecko
-  - wine-mono
-winetricks:
 zbar:
   - gtk3
 zenity:

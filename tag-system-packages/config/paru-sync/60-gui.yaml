@@ -6,6 +6,5 @@ kitty:
 mpv:
 network-manager-applet:
 scrcpy:
-thunderbird:
 zathura:
   - zathura-pdf-mupdf

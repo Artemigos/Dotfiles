@@ -63,8 +63,8 @@ esac
 
 # apply
 for repo_name in "${!install_ops[@]}"; do
-    echo "${install_ops["$repo_name"]}" | xargs flatpak install --noninteractive "$repo_name"
+    echo "${install_ops["$repo_name"]}" | xargs flatpak install --user --noninteractive "$repo_name"
 done
 if [ -n "$to_remove" ]; then
-    echo "$to_remove" | xargs flatpak uninstall --noninteractive
+    echo "$to_remove" | xargs flatpak uninstall --user --noninteractive
 fi
