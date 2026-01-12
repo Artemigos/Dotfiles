@@ -37,7 +37,7 @@ return {
             vim.api.nvim_set_hl(0, 'TSPlaygroundFocus', { link = 'Search' })
         end,
         dependencies = {
-            { 'nvim-treesitter/nvim-treesitter-textobjects' },
+            { 'nvim-treesitter/nvim-treesitter-textobjects', branch = 'main' },
         },
         event = { 'BufReadPost', 'BufNewFile' },
         opts = {
