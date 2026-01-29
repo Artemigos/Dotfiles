@@ -3,6 +3,39 @@ local function refactorMap(modes, key, op)
     return { key, function() require('refactoring').refactor(op) end, mode = modes, desc = op }
 end
 
+local function textobjectSelectMap(key, query)
+    vim.keymap.set(
+        { 'x', 'o' },
+        key,
+        function()
+            require('nvim-treesitter-textobjects.select').select_textobject(query)
+        end,
+        { desc = query }
+    )
+end
+
+local function textobjectSwapMap(key, query, direction)
+    vim.keymap.set(
+        'n',
+        key,
+        function()
+            require('nvim-treesitter-textobjects.swap')['swap_' .. direction](query)
+        end,
+        { desc = query }
+    )
+end
+
+local function textobjectMoveMap(key, query, direction)
+    vim.keymap.set(
+        { 'n', 'x', 'o' },
+        key,
+        function()
+            require('nvim-treesitter-textobjects.move')['goto_' .. direction](query)
+        end,
+        { desc = query }
+    )
+end
+
 local function registerExtraGrammars()
     local cfg = require('nvim-treesitter.parsers').get_parser_configs()
     for _, lang in pairs({ 'vcl', 'vtc' }) do
@@ -35,6 +68,41 @@ return {
             registerExtraGrammars()
             require('nvim-treesitter.configs').setup(opts)
             vim.api.nvim_set_hl(0, 'TSPlaygroundFocus', { link = 'Search' })
+
+            textobjectSelectMap("af", "@function.outer")
+            textobjectSelectMap("if", "@function.inner")
+            textobjectSelectMap("ac", "@class.outer")
+            textobjectSelectMap("ic", "@class.inner")
+            textobjectSelectMap("aa", "@parameter.outer")
+            textobjectSelectMap("ia", "@parameter.inner")
+            textobjectSelectMap("ab", "@block.outer")
+            textobjectSelectMap("ib", "@block.inner")
+            textobjectSelectMap("a/", "@comment.outer")
+
+            textobjectSwapMap("<leader>>a", "@parameter.inner", "next")
+            textobjectSwapMap("<leader><a", "@parameter.inner", "previous")
+
+            textobjectSwapMap("<leader>>f", "@function.outer", "next")
+            textobjectSwapMap("<leader><f", "@function.outer", "previous")
+
+            textobjectSwapMap("<leader>>c", "@class.outer", "next")
+            textobjectSwapMap("<leader><c", "@class.outer", "previous")
+
+            textobjectMoveMap("]f", "@function.outer", 'next_start')
+            textobjectMoveMap("]c", "@class.outer", 'next_start')
+            textobjectMoveMap("]a", "@parameter.outer", 'next_start')
+
+            textobjectMoveMap("]F", "@function.outer", 'next_end')
+            textobjectMoveMap("]C", "@class.outer", 'next_end')
+            textobjectMoveMap("]A", "@parameter.outer", 'next_end')
+
+            textobjectMoveMap("[f", "@function.outer", 'previous_start')
+            textobjectMoveMap("[c", "@class.outer", 'previous_start')
+            textobjectMoveMap("[a", "@parameter.outer", 'previous_start')
+
+            textobjectMoveMap("[F", "@function.outer", 'previous_end')
+            textobjectMoveMap("[C", "@class.outer", 'previous_end')
+            textobjectMoveMap("[A", "@parameter.outer", 'previous_end')
         end,
         dependencies = {
             { 'nvim-treesitter/nvim-treesitter-textobjects', branch = 'main' },
@@ -72,19 +140,7 @@ return {
             },
             textobjects = {
                 select = {
-                    enable = true,
                     lookahead = true,
-                    keymaps = {
-                        ["af"] = "@function.outer",
-                        ["if"] = "@function.inner",
-                        ["ac"] = "@class.outer",
-                        ["ic"] = "@class.inner",
-                        ["aa"] = "@parameter.outer",
-                        ["ia"] = "@parameter.inner",
-                        ["ab"] = "@block.outer",
-                        ["ib"] = "@block.inner",
-                        ["a/"] = "@comment.outer",
-                    },
                     selection_modes = {
                         ['@function.inner'] = 'V',
                         ['@function.outer'] = 'V',
@@ -99,39 +155,19 @@ return {
                     include_surrounding_whitespace = true,
                 },
                 move = {
-                    enable = true,
                     set_jumps = true,
-                    goto_next_start = {
-                        ["]f"] = "@function.outer",
-                        ["]c"] = "@class.outer",
-                        ["]a"] = "@parameter.outer",
-                    },
-                    goto_next_end = {
-                        ["]F"] = "@function.outer",
-                        ["]C"] = "@class.outer",
-                        ["]A"] = "@parameter.outer",
-                    },
-                    goto_previous_start = {
-                        ["[f"] = "@function.outer",
-                        ["[c"] = "@class.outer",
-                        ["[a"] = "@parameter.outer",
-                    },
-                    goto_previous_end = {
-                        ["[F"] = "@function.outer",
-                        ["[C"] = "@class.outer",
-                        ["[A"] = "@parameter.outer",
-                    },
                 },
-                lsp_interop = {
-                    enable = true,
-                    border = 'single',
-                    peek_definition_code = {
-                        ["<leader>pf"] = "@function.outer",
-                        ["<leader>pc"] = "@class.outer",
-                    },
-                },
+                -- NOTE: the feature is gone?
+                -- lsp_interop = {
+                --     enable = true,
+                --     border = 'single',
+                --     peek_definition_code = {
+                --         ["<leader>pf"] = "@function.outer",
+                --         ["<leader>pc"] = "@class.outer",
+                --     },
+                -- },
             },
-        }
+        },
     },
     {
         'folke/todo-comments.nvim',
