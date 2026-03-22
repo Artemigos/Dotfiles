@@ -134,7 +134,7 @@ configure-links() {
         local file=${files[file_k]}
         local what=${file_paths[file_k]}
         local where=$dst/.$file
-        d restore symlink "$what" "$where"
+        d-restore-symlink "$what" "$where"
     done
 }
 

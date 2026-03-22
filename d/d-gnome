@@ -28,8 +28,8 @@ d-gnome-move-window() {
     local w=${4:?Width required}
     local h=${5:?Height required}
     local workspace=${6:?Workspace required}
-    d gnome eval "global.get_window_actors().find(w => w.meta_window.title.includes('$titleMatch') || w.meta_window.wm_class.includes('$titleMatch')).meta_window.move_resize_frame(0, $x, $y, $w, $h)"
-    d gnome eval "global.get_window_actors().find(w => w.meta_window.title.includes('$titleMatch') || w.meta_window.wm_class.includes('$titleMatch')).meta_window.change_workspace_by_index($workspace, false)"
+    d-gnome-eval "global.get_window_actors().find(w => w.meta_window.title.includes('$titleMatch') || w.meta_window.wm_class.includes('$titleMatch')).meta_window.move_resize_frame(0, $x, $y, $w, $h)"
+    d-gnome-eval "global.get_window_actors().find(w => w.meta_window.title.includes('$titleMatch') || w.meta_window.wm_class.includes('$titleMatch')).meta_window.change_workspace_by_index($workspace, false)"
 }
 
 d-gnome-reset-windows() {
@@ -41,7 +41,7 @@ d-gnome-reset-windows() {
         local item
         item=$(yq ".[$i]" <<<"$layout")
         IFS=$'\n' readarray -t args <<<"$(yq '[.name, .x, .y, .w, .h, .workspace]| .[]' <<<"$item" )"
-        d gnome move-window "${args[@]}"
+        d-gnome-move-window "${args[@]}"
     done
 }
 

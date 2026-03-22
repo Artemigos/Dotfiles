@@ -74,7 +74,7 @@ pick-qr() {
 
 qr-website() {
     d require xargs xdg-open
-    d tools pick-qr | xargs xdg-open
+    pick-qr | xargs xdg-open
 }
 
 pick-cam() {
@@ -87,7 +87,7 @@ pick-cam() {
 pick-cam-qr() {
     d require zbarcam
     local CAM
-    CAM=$(d tools pick-cam)
+    CAM=$(pick-cam)
     if [ "$CAM" = "[Default]" ]; then
         zbarcam
     else
@@ -97,7 +97,7 @@ pick-cam-qr() {
 
 qr-cam-website() {
     d require xargs xdg-open
-    d tools pick-cam-qr | xargs xdg-open
+    pick-cam-qr | xargs xdg-open
 }
 
 show-clipboard-as-qr() {
