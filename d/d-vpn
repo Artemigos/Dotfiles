@@ -16,19 +16,13 @@ main () {
 }
 
 get-connections-json() {
-    d require nmcli sed awk wc
-    CONN=$(nmcli -m multiline -f name,uuid,type,active con \
-        | sed -r 's/^(.+): +(.+)$/"\1": "\2"/' \
-        | awk '{
-            if (NR % 4 == 1) printf "  {%s, ",$0;
-            else if (NR % 4 == 0) printf "%s}\n",$0;
-            else printf "%s, ",$0
-        }')
-    LN=$(<<<"$CONN" wc -l)
-
-    echo '['
-    <<<"$CONN" awk "{ if (NR == $LN) print; else printf \"%s,\\n\",\$0 }"
-    echo ']'
+    d require nmcli jq
+    {
+        local name uuid type active
+        while IFS=':' read -r name uuid type active; do
+            jq --null-input '{"NAME": $ARGS.positional[0], "TYPE": $ARGS.positional[2], "UUID": $ARGS.positional[1], "ACTIVE": $ARGS.positional[3]}' --args "$name" "$uuid" "$type" "$active"
+        done < <(nmcli -t -f name,uuid,type,active con)
+    } | jq --slurp
 }
 
 get-connections-of-type-json() {
