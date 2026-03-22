@@ -41,7 +41,7 @@
         "format-connected-battery": "󰂱 {device_alias} 󰁹 {device_battery_percentage}%",
         "format-disabled": "",
         "format-off": "",
-        "on-click": "d bluetooth show"
+        "on-click": "d bluetooth show-menu"
     },
     "custom/vpn": {
         "exec-if": "d vpn has-any-vpns",
