@@ -26,7 +26,7 @@ d-menu-tool() {
 
 d-menu-dmenu() {
     local SELECTOR
-    SELECTOR=$(d menu tool)
+    SELECTOR=$(d-menu-tool)
     d require "$SELECTOR"
 
     local PROMPT_ARGS=()
@@ -46,7 +46,7 @@ d-menu-dmenu() {
 
 d-menu-input() {
     local SELECTOR
-    SELECTOR=$(d menu tool)
+    SELECTOR=$(d-menu-tool)
     d require "$SELECTOR"
 
     local PROMPT_ARGS=()
@@ -66,7 +66,7 @@ d-menu-input() {
 
 d-menu-command() {
     local SELECTOR
-    SELECTOR=$(d menu tool)
+    SELECTOR=$(d-menu-tool)
     d require "$SELECTOR"
 
     if [ "$SELECTOR" == "fuzzel" ]; then
@@ -78,7 +78,7 @@ d-menu-command() {
 
 d-menu-app() {
     local SELECTOR
-    SELECTOR=$(d menu tool)
+    SELECTOR=$(d-menu-tool)
     d require "$SELECTOR"
 
     if [ "$SELECTOR" == "fuzzel" ]; then
