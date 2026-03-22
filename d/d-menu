@@ -17,17 +17,10 @@ d-menu-from-json() {
 }
 
 d-menu-tool() {
-    if [ "$XDG_SESSION_TYPE" == "x11" ]; then
-        echo rofi
-    elif [ "$XDG_SESSION_TYPE" == "wayland" ]; then
-        if d tools layer-shell-supported; then
-            echo fuzzel
-        else
-            echo wofi
-        fi
+    if d tools layer-shell-supported; then
+        echo fuzzel
     else
-        d error "Unknown session type" "$XDG_SESSION_TYPE"
-        return 1
+        echo wofi
     fi
 }
 
@@ -41,9 +34,7 @@ d-menu-dmenu() {
         PROMPT_ARGS+=("-p" "$1")
     fi
 
-    if [ "$SELECTOR" == "rofi" ]; then
-        rofi -dmenu -i "${PROMPT_ARGS[@]}"
-    elif [ "$SELECTOR" == "fuzzel" ]; then
+    if [ "$SELECTOR" == "fuzzel" ]; then
         if [ ${#PROMPT_ARGS[@]} -gt 0 ]; then
             PROMPT_ARGS[1]="${PROMPT_ARGS[1]}: "
         fi
@@ -78,9 +69,7 @@ d-menu-command() {
     SELECTOR=$(d menu tool)
     d require "$SELECTOR"
 
-    if [ "$SELECTOR" == "rofi" ]; then
-        rofi -modi run -show run
-    elif [ "$SELECTOR" == "fuzzel" ]; then
+    if [ "$SELECTOR" == "fuzzel" ]; then
         fuzzel --list-executables-in-path
     else
         wofi --show run 2>/dev/null
@@ -92,9 +81,7 @@ d-menu-app() {
     SELECTOR=$(d menu tool)
     d require "$SELECTOR"
 
-    if [ "$SELECTOR" == "rofi" ]; then
-        rofi -modi drun -show drun -show-icons
-    elif [ "$SELECTOR" == "fuzzel" ]; then
+    if [ "$SELECTOR" == "fuzzel" ]; then
         fuzzel
     else
         wofi --show drun -I 2>/dev/null
@@ -104,9 +91,7 @@ d-menu-app() {
 d-menu-message() {
     local MSG=${1:?Message required}
 
-    if d has-cmd rofi; then
-        rofi -e "$MSG"
-    elif d has-cmd zenity; then
+    if d has-cmd zenity; then
         zenity --info --text "$MSG"
     else
         # fallback to a terminal window
