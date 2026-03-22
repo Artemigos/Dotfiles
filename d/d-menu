@@ -101,12 +101,6 @@ d-menu-app() {
     fi
 }
 
-d-menu-window() {
-    # TODO: wofi doesn't support selecting windows, maybe hack something for myself
-    d require rofi
-    rofi -modi window -show window
-}
-
 d-menu-message() {
     local MSG=${1:?Message required}
 
