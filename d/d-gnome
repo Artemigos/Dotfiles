@@ -38,9 +38,8 @@ d-gnome-reset-windows() {
     layout=$(d config get-yaml 'gnome.window-layout')
     len=$(yq length <<<"$layout")
     for i in $(seq 0 $((len - 1))); do
-        local item
-        item=$(yq ".[$i]" <<<"$layout")
-        IFS=$'\n' readarray -t args <<<"$(yq '[.name, .x, .y, .w, .h, .workspace]| .[]' <<<"$item" )"
+        local args
+        IFS=$'\n' readarray -t args <<<"$(yq ".[$i].[]" <<<"$layout" )"
         d-gnome-move-window "${args[@]}"
     done
 }
