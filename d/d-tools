@@ -36,13 +36,13 @@ man-pdf() {
 random-wallpaper() {
     d require shuf head ln
     local BACKEND
-    BACKEND=$(d config get backends.wallpaper swww)
+    BACKEND=$(d config get backends.wallpaper awww)
     if [ "$BACKEND" = "feh" ]; then
         d require feh
     elif [ "$BACKEND" = "gnome" ]; then
         d require gsettings
-    elif [ "$BACKEND" = "swww" ]; then
-        d require swww
+    elif [ "$BACKEND" = "awww" ]; then
+        d require awww
     else
         d error "Unknown wallpaper backend" "$BACKEND"
     fi
@@ -52,8 +52,8 @@ random-wallpaper() {
     ln -sf "$WP" "$WALLPAPERS_DIR/wallpaper"
     if [ "$BACKEND" = "feh" ]; then
         feh --bg-fill "$WALLPAPERS_DIR/wallpaper"
-    elif [ "$BACKEND" = "swww" ]; then
-        swww img "$WALLPAPERS_DIR/wallpaper"
+    elif [ "$BACKEND" = "awww" ]; then
+        awww img "$WALLPAPERS_DIR/wallpaper"
     else
         local FILE
         FILE=$(realpath "$WALLPAPERS_DIR/wallpaper")

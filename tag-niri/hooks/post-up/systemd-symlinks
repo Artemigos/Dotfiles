@@ -12,7 +12,7 @@ link-systemd() {
 link-systemd "$UNITS_DIR/clipse.service"
 link-systemd /usr/lib/systemd/user/gammastep.service
 link-systemd /usr/lib/systemd/user/gammastep-indicator.service
-link-systemd "$UNITS_DIR/swww-daemon.service"
+link-systemd "$UNITS_DIR/awww-daemon.service"
 link-systemd /usr/lib/systemd/user/waybar.service
 link-systemd /usr/lib/systemd/user/xwayland-satellite.service
 link-systemd "$UNITS_DIR/swayidle.service"

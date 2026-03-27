@@ -1,3 +1,4 @@
+awww:
 dunst:
   - libnotify
 gammastep:
@@ -22,7 +23,6 @@ satty:
 slurp:
 swayidle:
 swaylock:
-swww:
 wayland-utils:
 wev:
 wl-clipboard:
