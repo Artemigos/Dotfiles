@@ -38,81 +38,81 @@ return {
         end,
     },
 
-    {
-        -- TODO:
-        -- - review highlights
-        -- - review the render-markdown optional dependency
-        -- - review the img-clip dependency - I might actually want this for MD notes
-        -- - consider bindings in mini.files to add files to context
-        -- - do I even need the blink.cmp integration?
-        'yetone/avante.nvim',
-        build = 'make',
-        event = 'VeryLazy',
-        version = false,
-        ---@module 'avante'
-        ---@type avante.Config
-        opts = {
-            provider = avante_provider,
-            -- auto_suggestions_provider = ollama_condition() and 'ollama' or nil,
-            providers = {
-                ollama = {
-                    model = 'qwen2.5-coder:3b',
-                },
-                copilot = {
-                    model = 'claude-sonnet-4',
-                },
-            },
-            behaviour = {
-                -- auto_suggestions = ollama_condition(),
-                auto_approve_tool_permissions = false,
-            },
-            selection = { enabled = false },
-            windows = {
-                fillchars = vim.go.fillchars, -- ffs, respect my settings
-                sidebar_header = {
-                    enabled = true,           -- probably disable later
-                },
-                edit = {
-                    start_insert = false,
-                },
-                ask = {
-                    start_insert = false,
-                },
-            },
-        },
-        config = function(_, opts)
-            require('avante').setup(opts)
-            vim.api.nvim_set_hl(0, 'AvanteSidebarWinSeparator', { link = 'WinSeparator' }) -- ffs, respect my settings
-        end,
-        dependencies = {
-            'nvim-lua/plenary.nvim',
-            'MunifTanjim/nui.nvim',
-            --- The below dependencies are optional,
-            -- {
-            --     -- support for image pasting
-            --     'HakonHarnes/img-clip.nvim',
-            --     event = 'VeryLazy',
-            --     opts = {
-            --         -- recommended settings
-            --         default = {
-            --             embed_image_as_base64 = false,
-            --             prompt_for_file_name = false,
-            --             drag_and_drop = {
-            --                 insert_mode = true,
-            --             },
-            --             -- required for Windows users
-            --             use_absolute_path = true,
-            --         },
-            --     },
-            -- },
-            -- {
-            --     -- Make sure to set this up properly if you have lazy=true
-            --     'MeanderingProgrammer/render-markdown.nvim',
-            --     opts = {
-            --         file_types = { 'markdown', 'Avante' },
-            --     },
-            --     ft = { 'markdown', 'Avante' },
-            -- },
-        },
-    },
+    -- {
+    --     -- TODO:
+    --     -- - review highlights
+    --     -- - review the render-markdown optional dependency
+    --     -- - review the img-clip dependency - I might actually want this for MD notes
+    --     -- - consider bindings in mini.files to add files to context
+    --     -- - do I even need the blink.cmp integration?
+    --     'yetone/avante.nvim',
+    --     build = 'make',
+    --     event = 'VeryLazy',
+    --     version = false,
+    --     ---@module 'avante'
+    --     ---@type avante.Config
+    --     opts = {
+    --         provider = avante_provider,
+    --         -- auto_suggestions_provider = ollama_condition() and 'ollama' or nil,
+    --         providers = {
+    --             ollama = {
+    --                 model = 'qwen2.5-coder:3b',
+    --             },
+    --             copilot = {
+    --                 model = 'claude-sonnet-4',
+    --             },
+    --         },
+    --         behaviour = {
+    --             -- auto_suggestions = ollama_condition(),
+    --             auto_approve_tool_permissions = false,
+    --         },
+    --         selection = { enabled = false },
+    --         windows = {
+    --             fillchars = vim.go.fillchars, -- ffs, respect my settings
+    --             sidebar_header = {
+    --                 enabled = true,           -- probably disable later
+    --             },
+    --             edit = {
+    --                 start_insert = false,
+    --             },
+    --             ask = {
+    --                 start_insert = false,
+    --             },
+    --         },
+    --     },
+    --     config = function(_, opts)
+    --         require('avante').setup(opts)
+    --         vim.api.nvim_set_hl(0, 'AvanteSidebarWinSeparator', { link = 'WinSeparator' }) -- ffs, respect my settings
+    --     end,
+    --     dependencies = {
+    --         'nvim-lua/plenary.nvim',
+    --         'MunifTanjim/nui.nvim',
+    --         --- The below dependencies are optional,
+    --         -- {
+    --         --     -- support for image pasting
+    --         --     'HakonHarnes/img-clip.nvim',
+    --         --     event = 'VeryLazy',
+    --         --     opts = {
+    --         --         -- recommended settings
+    --         --         default = {
+    --         --             embed_image_as_base64 = false,
+    --         --             prompt_for_file_name = false,
+    --         --             drag_and_drop = {
+    --         --                 insert_mode = true,
+    --         --             },
+    --         --             -- required for Windows users
+    --         --             use_absolute_path = true,
+    --         --         },
+    --         --     },
+    --         -- },
+    --         -- {
+    --         --     -- Make sure to set this up properly if you have lazy=true
+    --         --     'MeanderingProgrammer/render-markdown.nvim',
+    --         --     opts = {
+    --         --         file_types = { 'markdown', 'Avante' },
+    --         --     },
+    --         --     ft = { 'markdown', 'Avante' },
+    --         -- },
+    --     },
+    -- },
 }
