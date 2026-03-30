@@ -1,7 +1,7 @@
 return {
     { 'tpope/vim-repeat',                event = 'VeryLazy' },
     {
-        'ggandor/leap.nvim',
+        'https://codeberg.org/andyg/leap.nvim',
         config = function()
             local function leap(opts)
                 return function()
