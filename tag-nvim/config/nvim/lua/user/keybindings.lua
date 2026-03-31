@@ -37,6 +37,9 @@ u.map('n', '<Leader>tvc', function()
         end)
 end)
 
+-- escape from terminalov
+u.map('t', '<Esc><Esc>', '<C-\\><C-n>', { desc = 'Exit terminal mode' })
+
 -- split switching
 u.map('n', '<C-h>', '<C-w>h')
 u.map('n', '<C-j>', '<C-w>j')
@@ -81,6 +84,7 @@ u.map('n', ']e',
     { desc = 'Go to next error' })
 u.map('n', 'gx', vim.diagnostic.open_float, { desc = 'Open diagnostic float' })
 u.map('n', '<Leader>cx', vim.diagnostic.open_float, { desc = 'Open diagnostic float' })
+u.map('n', '<Leader>q', vim.diagnostic.setloclist)
 
 -- insert symbols
 u.defcmd('Symbols', 'lua require("user.symbols").choose()<CR>')

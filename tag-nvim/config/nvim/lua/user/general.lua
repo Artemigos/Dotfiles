@@ -20,7 +20,8 @@ set.listchars = {
     lead = '⋅',
     tab = '→ ',
     extends = '❯',
-    precedes = '❮'
+    precedes = '❮',
+    nbsp = '␣',
 }
 
 -- editor appearance
@@ -40,6 +41,7 @@ set.fillchars:append {
     horizdown = '█',
     verthoriz = '█',
 }
+set.showmode = false
 
 -- quality of life
 set.wildmenu = true
@@ -62,6 +64,7 @@ set.smartcase = true
 set.updatetime = 250
 set.completeopt = { 'menuone', 'noinsert', 'noselect' }
 set.shortmess = 'filnxtToOFc'
+set.timeoutlen = 360
 
 u.defcmd('W', 'w')
 
