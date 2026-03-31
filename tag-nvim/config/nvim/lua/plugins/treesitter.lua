@@ -111,6 +111,46 @@ return {
                     end
                 end,
             })
+        end,
+        opts = {
+            highlight = { enable = true },
+            playground = { enable = true },
+            incremental_selection = {
+                enable = true,
+                keymaps = {
+                    init_selection = '<c-up>',
+                    node_incremental = '<c-up>',
+                    node_decremental = '<c-down>',
+                },
+            },
+        },
+    },
+
+    {
+        'nvim-treesitter/nvim-treesitter-textobjects',
+        branch = 'main',
+        opts = {
+            select = {
+                lookahead = true,
+                selection_modes = {
+                    ['@function.inner'] = 'V',
+                    ['@function.outer'] = 'V',
+                    ['@class.inner'] = 'V',
+                    ['@class.outer'] = 'V',
+                    ['@parameter.inner'] = 'v',
+                    ['@parameter.outer'] = 'v',
+                    ['@block.inner'] = 'V',
+                    ['@block.outer'] = 'V',
+                    ['@comment.outer'] = 'v',
+                },
+                include_surrounding_whitespace = true,
+            },
+            move = {
+                set_jumps = true,
+            },
+        },
+        config = function(_, opts)
+            require('nvim-treesitter-textobjects').setup(opts)
 
             textobjectSelectMap("af", "@function.outer")
             textobjectSelectMap("if", "@function.inner")
@@ -147,51 +187,8 @@ return {
             textobjectMoveMap("[C", "@class.outer", 'previous_end')
             textobjectMoveMap("[A", "@parameter.outer", 'previous_end')
         end,
-        dependencies = {
-            { 'nvim-treesitter/nvim-treesitter-textobjects', branch = 'main' },
-        },
-        opts = {
-            highlight = { enable = true },
-            playground = { enable = true },
-            incremental_selection = {
-                enable = true,
-                keymaps = {
-                    init_selection = '<c-up>',
-                    node_incremental = '<c-up>',
-                    node_decremental = '<c-down>',
-                },
-            },
-            textobjects = {
-                select = {
-                    lookahead = true,
-                    selection_modes = {
-                        ['@function.inner'] = 'V',
-                        ['@function.outer'] = 'V',
-                        ['@class.inner'] = 'V',
-                        ['@class.outer'] = 'V',
-                        ['@parameter.inner'] = 'v',
-                        ['@parameter.outer'] = 'v',
-                        ['@block.inner'] = 'V',
-                        ['@block.outer'] = 'V',
-                        ['@comment.outer'] = 'v',
-                    },
-                    include_surrounding_whitespace = true,
-                },
-                move = {
-                    set_jumps = true,
-                },
-                -- NOTE: the feature is gone?
-                -- lsp_interop = {
-                --     enable = true,
-                --     border = 'single',
-                --     peek_definition_code = {
-                --         ["<leader>pf"] = "@function.outer",
-                --         ["<leader>pc"] = "@class.outer",
-                --     },
-                -- },
-            },
-        },
     },
+
     {
         'folke/todo-comments.nvim',
         cmd = {
@@ -209,6 +206,7 @@ return {
             { '<Leader>fT', '<cmd>TodoTelescope<CR>' },
         },
     },
+
     {
         'ThePrimeagen/refactoring.nvim',
         dependencies = {
