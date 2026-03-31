@@ -112,18 +112,7 @@ return {
                 end,
             })
         end,
-        opts = {
-            highlight = { enable = true },
-            playground = { enable = true },
-            incremental_selection = {
-                enable = true,
-                keymaps = {
-                    init_selection = '<c-up>',
-                    node_incremental = '<c-up>',
-                    node_decremental = '<c-down>',
-                },
-            },
-        },
+        opts = {},
     },
 
     {
