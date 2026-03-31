@@ -12,7 +12,6 @@ local supported_servers = {
     'gopls',         -- Golang
     'marksman',      -- Markdown notetaking
     'terraformls',   -- Terraform
-    'elixirls',      -- Elixir
     'zls',           -- Zig
 }
 
@@ -146,10 +145,6 @@ return {
                 }
             })
 
-            vim.lsp.config('elixirls', {
-                cmd = { "elixir-ls" },
-            })
-
             for _, server in pairs(supported_servers) do
                 vim.lsp.enable(server)
             end
@@ -178,7 +173,6 @@ return {
                 vcl = { 'vcl_formatter' },
                 alloy = { 'alloy_fmt' },
                 terraform = { 'terraform_fmt' },
-                elixir = { 'mix' },
             },
             formatters = {
                 vcl_formatter = {
