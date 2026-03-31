@@ -46,10 +46,12 @@ local function registerExtraGrammars()
                 location = 'vendor/tree-sitter-' .. lang,
                 files = { 'src/parser.c' },
                 requires_generate_from_grammar = true,
-            }
+            },
+            filetype = lang,
+            maintainers = { 'M4R7iNP' },
         }
     end
-    cfg.alloy = {
+    cfg['alloy'] = {
         install_info = {
             url = 'https://github.com/Artemigos/tree-sitter-alloy',
             branch = 'main',
@@ -61,9 +63,8 @@ end
 return {
     {
         'nvim-treesitter/nvim-treesitter',
-        build = function()
-            require('nvim-treesitter.install').update({ with_sync = true })
-        end,
+        lazy = false,
+        build = ':TSUpdate',
         config = function(_, opts)
             registerExtraGrammars()
             require('nvim-treesitter.configs').setup(opts)
@@ -107,7 +108,6 @@ return {
         dependencies = {
             { 'nvim-treesitter/nvim-treesitter-textobjects', branch = 'main' },
         },
-        event = { 'BufReadPost', 'BufNewFile' },
         opts = {
             auto_install = true,
             highlight = { enable = true },
