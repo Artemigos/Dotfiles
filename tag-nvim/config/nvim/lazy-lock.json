@@ -30,7 +30,7 @@
   "telescope-file-browser.nvim": { "branch": "master", "commit": "3610dc7dc91f06aa98b11dca5cc30dfa98626b7e" },
   "telescope-fzf-native.nvim": { "branch": "main", "commit": "6fea601bd2b694c6f2ae08a6c6fab14930c60e2c" },
   "telescope-lsp-handlers.nvim": { "branch": "trunk", "commit": "de02085d6af1633942549a238bc7a5524fa9b201" },
-  "telescope.nvim": { "branch": "0.1.x", "commit": "a0bbec21143c7bc5f8bb02e0005fa0b982edc026" },
+  "telescope.nvim": { "branch": "master", "commit": "5255aa27c422de944791318024167ad5d40aad20" },
   "todo-comments.nvim": { "branch": "main", "commit": "31e3c38ce9b29781e4422fc0322eb0a21f4e8668" },
   "vim-fugitive": { "branch": "master", "commit": "3b753cf8c6a4dcde6edee8827d464ba9b8c4a6f0" },
   "vim-indent-object": { "branch": "master", "commit": "8ab36d5ec2a3a60468437a95e142ce994df598c6" },
