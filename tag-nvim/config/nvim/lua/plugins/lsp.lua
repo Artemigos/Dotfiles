@@ -116,6 +116,25 @@ return {
             { '<Leader>rr', vim.lsp.buf.rename,                             desc = 'Rename' },
         },
         config = function()
+            vim.api.nvim_create_autocmd('LspAttach', {
+                group = vim.api.nvim_create_augroup('lsp-attach', { clear = true }),
+                callback = function(event)
+                    local client = vim.lsp.get_client_by_id(event.data.client_id)
+                    if client and client:supports_method('textDocument/inlayHint', event.buf) then
+                        local inlays = vim.lsp.inlay_hint
+                        inlays.enable(true)
+                        vim.keymap.set(
+                            'n',
+                            '<Leader>i',
+                            function()
+                                inlays.enable(not inlays.is_enabled({ bufnr = event.buf }))
+                            end,
+                            { desc = 'Toggle inlay hints' }
+                        )
+                    end
+                end,
+            })
+
             vim.lsp.config('*', {
                 capabilities = require('blink.cmp').get_lsp_capabilities(),
             })
