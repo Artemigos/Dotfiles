@@ -36,29 +36,54 @@ local function textobjectMoveMap(key, query, direction)
     )
 end
 
-local function registerExtraGrammars()
-    local cfg = require('nvim-treesitter.parsers').get_parser_configs()
-    for _, lang in pairs({ 'vcl', 'vtc' }) do
-        cfg[lang] = {
+-- register extra parsers
+vim.api.nvim_create_autocmd('User', {
+    pattern = 'TSUpdate',
+    callback = function()
+        local cfg = require('nvim-treesitter.parsers')
+        for _, lang in pairs({ 'vcl', 'vtc' }) do
+            cfg[lang] = {
+                install_info = {
+                    url = 'https://github.com/M4R7iNP/varnishls',
+                    branch = 'main',
+                    location = 'vendor/tree-sitter-' .. lang,
+                    generate = true,
+                    generate_from_json = false,
+                    queries = 'vendor/tree-sitter-' .. lang .. '/queries',
+                },
+                tier = 1,
+            }
+        end
+        cfg['alloy'] = {
             install_info = {
-                url = 'https://github.com/M4R7iNP/varnishls',
+                url = 'https://github.com/Artemigos/tree-sitter-alloy',
                 branch = 'main',
-                location = 'vendor/tree-sitter-' .. lang,
                 files = { 'src/parser.c' },
-                requires_generate_from_grammar = true,
             },
-            filetype = lang,
-            maintainers = { 'M4R7iNP' },
+            tier = 1,
         }
-    end
-    cfg['alloy'] = {
-        install_info = {
-            url = 'https://github.com/Artemigos/tree-sitter-alloy',
-            branch = 'main',
-            files = { 'src/parser.c' },
-        }
-    }
-end
+    end,
+})
+
+-- autoinstall and autostart parsers
+vim.api.nvim_create_autocmd('FileType', {
+    pattern = '*',
+    callback = function()
+        local lang = vim.treesitter.language.get_lang(vim.bo.filetype)
+        if lang == nil then return end
+
+        local parsers = require('nvim-treesitter').get_available()
+        if vim.tbl_contains(parsers, lang) then
+            require('nvim-treesitter').install(lang):await(function()
+                if vim.treesitter.language.add(lang) then
+                    vim.treesitter.start()
+                end
+            end)
+        elseif vim.treesitter.language.add(lang) then
+            vim.treesitter.start()
+        end
+    end,
+})
 
 return {
     {
@@ -66,8 +91,25 @@ return {
         lazy = false,
         build = ':TSUpdate',
         config = function(_, opts)
-            registerExtraGrammars()
-            require('nvim-treesitter.configs').setup(opts)
+            require('nvim-treesitter').setup(opts)
+            require('nvim-treesitter').install({
+                'bash',
+                'comment',
+                'vimdoc',
+                'json',
+                'lua',
+                'make',
+                'markdown',
+                'markdown_inline',
+                'python',
+                'query',
+                'regex',
+                'rust',
+                'typescript',
+                'vim',
+                'yaml',
+                'zig',
+            })
             vim.api.nvim_set_hl(0, 'TSPlaygroundFocus', { link = 'Search' })
 
             textobjectSelectMap("af", "@function.outer")
@@ -109,27 +151,8 @@ return {
             { 'nvim-treesitter/nvim-treesitter-textobjects', branch = 'main' },
         },
         opts = {
-            auto_install = true,
             highlight = { enable = true },
             playground = { enable = true },
-            ensure_installed = {
-                'bash',
-                'comment',
-                'vimdoc',
-                'json',
-                'lua',
-                'make',
-                'markdown',
-                'markdown_inline',
-                'python',
-                'query',
-                'regex',
-                'rust',
-                'typescript',
-                'vim',
-                'yaml',
-                'zig',
-            },
             incremental_selection = {
                 enable = true,
                 keymaps = {
