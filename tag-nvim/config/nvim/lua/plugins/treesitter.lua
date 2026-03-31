@@ -65,26 +65,6 @@ vim.api.nvim_create_autocmd('User', {
     end,
 })
 
--- autoinstall and autostart parsers
-vim.api.nvim_create_autocmd('FileType', {
-    pattern = '*',
-    callback = function()
-        local lang = vim.treesitter.language.get_lang(vim.bo.filetype)
-        if lang == nil then return end
-
-        local parsers = require('nvim-treesitter').get_available()
-        if vim.tbl_contains(parsers, lang) then
-            require('nvim-treesitter').install(lang):await(function()
-                if vim.treesitter.language.add(lang) then
-                    vim.treesitter.start()
-                end
-            end)
-        elseif vim.treesitter.language.add(lang) then
-            vim.treesitter.start()
-        end
-    end,
-})
-
 return {
     {
         'nvim-treesitter/nvim-treesitter',
@@ -111,6 +91,26 @@ return {
                 'zig',
             })
             vim.api.nvim_set_hl(0, 'TSPlaygroundFocus', { link = 'Search' })
+
+            -- autoinstall and autostart parsers
+            vim.api.nvim_create_autocmd('FileType', {
+                pattern = '*',
+                callback = function()
+                    local lang = vim.treesitter.language.get_lang(vim.bo.filetype)
+                    if lang == nil then return end
+
+                    local parsers = require('nvim-treesitter').get_available()
+                    if vim.tbl_contains(parsers, lang) then
+                        require('nvim-treesitter').install(lang):await(function()
+                            if vim.treesitter.language.add(lang) then
+                                vim.treesitter.start()
+                            end
+                        end)
+                    elseif vim.treesitter.language.add(lang) then
+                        vim.treesitter.start()
+                    end
+                end,
+            })
 
             textobjectSelectMap("af", "@function.outer")
             textobjectSelectMap("if", "@function.inner")
