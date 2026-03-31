@@ -3,39 +3,6 @@ local function refactorMap(modes, key, op)
     return { key, function() require('refactoring').refactor(op) end, mode = modes, desc = op }
 end
 
-local function textobjectSelectMap(key, query)
-    vim.keymap.set(
-        { 'x', 'o' },
-        key,
-        function()
-            require('nvim-treesitter-textobjects.select').select_textobject(query)
-        end,
-        { desc = query }
-    )
-end
-
-local function textobjectSwapMap(key, query, direction)
-    vim.keymap.set(
-        'n',
-        key,
-        function()
-            require('nvim-treesitter-textobjects.swap')['swap_' .. direction](query)
-        end,
-        { desc = query }
-    )
-end
-
-local function textobjectMoveMap(key, query, direction)
-    vim.keymap.set(
-        { 'n', 'x', 'o' },
-        key,
-        function()
-            require('nvim-treesitter-textobjects.move')['goto_' .. direction](query)
-        end,
-        { desc = query }
-    )
-end
-
 -- register extra parsers
 vim.api.nvim_create_autocmd('User', {
     pattern = 'TSUpdate',
@@ -43,6 +10,7 @@ vim.api.nvim_create_autocmd('User', {
         local cfg = require('nvim-treesitter.parsers')
         for _, lang in pairs({ 'vcl', 'vtc' }) do
             cfg[lang] = {
+                ---@diagnostic disable-next-line: missing-fields - want the HEAD revision
                 install_info = {
                     url = 'https://github.com/M4R7iNP/varnishls',
                     branch = 'main',
@@ -55,10 +23,10 @@ vim.api.nvim_create_autocmd('User', {
             }
         end
         cfg['alloy'] = {
+            ---@diagnostic disable-next-line: missing-fields - want the HEAD revision
             install_info = {
                 url = 'https://github.com/Artemigos/tree-sitter-alloy',
                 branch = 'main',
-                files = { 'src/parser.c' },
             },
             tier = 1,
         }
@@ -90,7 +58,6 @@ return {
                 'yaml',
                 'zig',
             })
-            vim.api.nvim_set_hl(0, 'TSPlaygroundFocus', { link = 'Search' })
 
             -- autoinstall and autostart parsers
             vim.api.nvim_create_autocmd('FileType', {
@@ -140,6 +107,29 @@ return {
         },
         config = function(_, opts)
             require('nvim-treesitter-textobjects').setup(opts)
+
+            local function textobjectMap(mode, key, module, fn_name, query)
+                vim.keymap.set(
+                    mode,
+                    key,
+                    function()
+                        require('nvim-treesitter-textobjects.' .. module)[fn_name](query)
+                    end,
+                    { desc = query }
+                )
+            end
+
+            local function textobjectSelectMap(key, query)
+                textobjectMap({ 'x', 'o' }, key, 'select', 'select_textobject', query)
+            end
+
+            local function textobjectSwapMap(key, query, direction)
+                textobjectMap('n', key, 'swap', 'swap_' .. direction, query)
+            end
+
+            local function textobjectMoveMap(key, query, direction)
+                textobjectMap({ 'n', 'x', 'o' }, key, 'move', 'goto_' .. direction, query)
+            end
 
             textobjectSelectMap("af", "@function.outer")
             textobjectSelectMap("if", "@function.inner")
