@@ -27,6 +27,7 @@ vim.api.nvim_create_autocmd('User', {
             install_info = {
                 url = 'https://github.com/Artemigos/tree-sitter-alloy',
                 branch = 'main',
+                queries = 'queries',
             },
             tier = 1,
         }
