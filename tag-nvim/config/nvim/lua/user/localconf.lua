@@ -43,6 +43,10 @@ function M.get(path, default)
     return cur
 end
 
+function M.get_toggle(toggle_name, default)
+    return M.get({ 'toggles', toggle_name }, default == true)
+end
+
 vim.opt.rtp:prepend(cache_home)
 M.load()
 return M
