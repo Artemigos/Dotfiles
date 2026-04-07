@@ -100,7 +100,7 @@ vim.diagnostic.config({
     update_in_insert = true,
     severity_sort = true,
     jump = {
-        float = true,
+        on_jump = function(_, _) vim.diagnostic.open_float() end,
     },
 })
 
