@@ -1,18 +1,19 @@
+-- mason name -> lspconfig name
 local supported_servers = {
-    'bashls',        -- bash
-    'rust_analyzer', -- Rust
-    'jsonls',        -- JSON
-    'lua_ls',        -- LUA
-    'pyright',       -- Python
-    'vimls',         -- VimL
-    'yamlls',        -- YAML
-    'cssls',         -- CSS, LESS, SCSS
-    'ts_ls',         -- Typescript, Javascript
-    'ruff',          -- python linter
-    'gopls',         -- Golang
-    'marksman',      -- Markdown notetaking
-    'terraformls',   -- Terraform
-    'zls',           -- Zig
+    ['bash-language-server'] = 'bashls',
+    ['rust-analyzer'] = 'rust_analyzer',
+    ['json-lsp'] = 'jsonls',
+    ['lua-language-server'] = 'lua_ls',
+    ['pyright'] = 'pyright',
+    ['vim-language-server'] = 'vimls',
+    ['yaml-language-server'] = 'yamlls',
+    ['css-lsp'] = 'cssls',
+    ['typescript-language-server'] = 'ts_ls',
+    ['ruff'] = 'ruff',
+    ['gopls'] = 'gopls',
+    ['marksman'] = 'marksman',
+    ['terraform-ls'] = 'terraformls',
+    ['zls'] = 'zls',
 }
 
 local auto_install_tools = {
@@ -54,7 +55,10 @@ return {
         },
         init = function(_)
             local reg = require('mason-registry')
-            for _, tool in ipairs(auto_install_tools) do
+            local all_tools = {}
+            vim.list_extend(all_tools, auto_install_tools)
+            vim.list_extend(all_tools, vim.tbl_keys(supported_servers))
+            for _, tool in ipairs(all_tools) do
                 if not reg.is_installed(tool) then
                     local ok, pkg = pcall(reg.get_package, tool)
                     if ok then
@@ -72,14 +76,7 @@ return {
         event = { 'BufReadPre', 'BufNewFile' },
         dependencies = {
             'williamboman/mason.nvim',
-            {
-                'williamboman/mason-lspconfig.nvim',
-                opts = {
-                    ensure_installed = supported_servers,
-                    automatic_enable = false,
-                },
-            },
-            { 'saghen/blink.cmp' },
+            'saghen/blink.cmp',
         },
         keys = {
             { 'gd',       vim.lsp.buf.definition,     desc = 'Go to definition' },
@@ -90,8 +87,7 @@ return {
                 'ga',
                 vim.lsp.buf.code_action,
                 mode = { 'n', 'v' },
-                desc =
-                'Show code actions'
+                desc = 'Show code actions'
             },
             { 'gt',               vim.lsp.buf.type_definition,                    desc = 'Go to type definition' },
             { '<C-Space>',        signature_help,                                 desc = 'Signature help' },
@@ -106,8 +102,7 @@ return {
                 '<Leader>ca',
                 vim.lsp.buf.code_action,
                 mode = { 'n', 'v' },
-                desc =
-                'Show code actions'
+                desc = 'Show code actions'
             },
             { '<Leader>ct', vim.lsp.buf.type_definition,                    desc = 'Go to type definition' },
             { '<Leader>cT', ':Telescope lsp_dynamic_workspace_symbols<CR>', desc = 'Workspace symbols' },

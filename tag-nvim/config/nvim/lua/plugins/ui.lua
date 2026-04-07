@@ -308,32 +308,10 @@ return {
 
     {
         'j-hui/fidget.nvim',
+        enabled = false,
         version = '1.*',
         event = 'VeryLazy',
         opts = {},
-    },
-
-    {
-        'lukas-reineke/indent-blankline.nvim',
-        event = { 'BufReadPost', 'BufNewFile' },
-        main = 'ibl',
-        opts = {},
-    },
-
-    {
-        'rcarriga/nvim-notify',
-        event = 'VeryLazy',
-        config = function()
-            local n = require('notify')
-            n.setup({
-                timeout = 2000,
-                max_width = 80,
-                render = 'minimal',
-                stages = 'no_animation',
-                fps = 60,
-            })
-            vim.notify = n
-        end,
     },
 
     {
@@ -351,8 +329,12 @@ return {
         priority = 1000,
         lazy = false,
         opts = {
-            image = { enabled = true },
-            rename = { enabled = true },
+            image = {},
+            indent = {},
+            input = {},
+            notifier = {},
+            picker = {},
+            rename = {},
         },
     }
 }
