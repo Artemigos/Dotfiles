@@ -1,3 +1,7 @@
+vim.pack.add({
+    'https://github.com/tpope/vim-fugitive',
+})
+
 local u = require('user.utils')
 
 local function create_new_branch()
@@ -83,26 +87,18 @@ local function navigate_to_repo()
     vim.ui.input({ prompt = 'URL', default = url }, navigate)
 end
 
-return {
-    {
-        'tpope/vim-fugitive',
-        cmd = 'Git',
-        keys = {
-            { '<Leader>gi', ':Git commit<CR>',                    desc = 'Git commit' },
-            { '<Leader>gc', ':Telescope git_commits<CR>',         desc = 'Find commit' },
-            { '<Leader>gp', ':Git push<CR>',                      desc = 'Git push' },
-            { '<Leader>gl', ':Git pull<CR>',                      desc = 'Git pull' },
-            { '<Leader>gL', ':Git pull --rebase --autostash<CR>', desc = 'Git pull --rebase --autostash' },
-            { '<Leader>gb', ':Telescope git_branches<CR>',        desc = 'Find branch' },
-            { '<Leader>gs', ':Telescope git_stash<CR>',           desc = 'Find stash' },
-            { '<Leader>gf', ':Git fetch -p<CR>',                  desc = 'Git fetch -p' },
-            { '<Leader>gg', toggle_fugitive,                      desc = 'Toggle git window' },
-            { '<Leader>gn', create_new_branch,                    desc = 'New branch' },
-            { '<Leader>gP', publish_branch,                       desc = 'Publish (push+set upstream)' },
-            { '<Leader>gd', ':Git prune-local<CR>',               desc = 'Git prune-local' },
-            { '<Leader>gD', ':Git prune-local -D<CR>',            desc = 'Git prune-local -D' },
-            { '<Leader>gm', ':Git blame<CR>',                     desc = 'Git blame' },
-            { '<Leader>g@', navigate_to_repo,                     desc = 'Navigate to the repository URL' },
-        },
-    },
-}
+vim.keymap.set('n', '<Leader>gi', ':Git commit<CR>', { desc = 'Git commit' })
+vim.keymap.set('n', '<Leader>gc', ':Telescope git_commits<CR>', { desc = 'Find commit' })
+vim.keymap.set('n', '<Leader>gp', ':Git push<CR>', { desc = 'Git push' })
+vim.keymap.set('n', '<Leader>gl', ':Git pull<CR>', { desc = 'Git pull' })
+vim.keymap.set('n', '<Leader>gL', ':Git pull --rebase --autostash<CR>', { desc = 'Git pull --rebase --autostash' })
+vim.keymap.set('n', '<Leader>gb', ':Telescope git_branches<CR>', { desc = 'Find branch' })
+vim.keymap.set('n', '<Leader>gs', ':Telescope git_stash<CR>', { desc = 'Find stash' })
+vim.keymap.set('n', '<Leader>gf', ':Git fetch -p<CR>', { desc = 'Git fetch -p' })
+vim.keymap.set('n', '<Leader>gg', toggle_fugitive, { desc = 'Toggle git window' })
+vim.keymap.set('n', '<Leader>gn', create_new_branch, { desc = 'New branch' })
+vim.keymap.set('n', '<Leader>gP', publish_branch, { desc = 'Publish (push+set upstream)' })
+vim.keymap.set('n', '<Leader>gd', ':Git prune-local<CR>', { desc = 'Git prune-local' })
+vim.keymap.set('n', '<Leader>gD', ':Git prune-local -D<CR>', { desc = 'Git prune-local -D' })
+vim.keymap.set('n', '<Leader>gm', ':Git blame<CR>', { desc = 'Git blame' })
+vim.keymap.set('n', '<Leader>g@', navigate_to_repo, { desc = 'Navigate to the repository URL' })
