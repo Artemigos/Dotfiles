@@ -34,13 +34,7 @@ end
 
 function M.get(path, default)
     local cur = require('config')
-    for _, segment in ipairs(path) do
-        cur = cur[segment]
-        if cur == nil then
-            return default
-        end
-    end
-    return cur
+    return vim.tbl_get(cur, unpack(path)) or default
 end
 
 function M.get_toggle(toggle_name, default)
