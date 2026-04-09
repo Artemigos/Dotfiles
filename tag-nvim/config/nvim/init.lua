@@ -20,27 +20,10 @@ require('user.general')
 -- - process init to the end (on each `add`, the plugins become require-able, but don't "load" yet)
 -- - PackChanged again if any of the init code results in an install/update
 -- - load plugins (this is where commands get created usually)
--- TODO: utility to register those per plugin and execute here
--- TODO: this needs to be able to remember plugins installed during lockfile restore and run their steps after plugin load
--- TODO: the above is necesasry for first lockfile restore correctly running TSUpdate
-vim.api.nvim_create_autocmd('PackChanged', {
-    callback = function(ev)
-        local kind = ev.data.kind
-        if kind == 'install' or kind == 'update' then
-            local name = ev.data.spec.name
-            if name == 'telescope-fzf-native.nvim' then
-                vim.system({ 'make' }, { cwd = ev.data.path }):wait()
-            elseif name == 'nvim-treesitter' then
-                vim.api.nvim_create_autocmd('VimEnter', {
-                    callback = function()
-                        vim.cmd.TSUpdate()
-                        return true
-                    end,
-                })
-            end
-        end
-    end,
-})
+local upack = require('user.pack')
+upack.setup()
+upack.register_post_add_build_step('telescope-fzf-native.nvim', upack.system_step({ 'make' }))
+upack.register_post_load_build_step('nvim-treesitter', upack.vim_cmd_step('TSUpdate'))
 
 require('plugins.libraries')
 require('plugins.completion')
