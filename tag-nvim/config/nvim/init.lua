@@ -10,6 +10,8 @@ if vim.env.PROF then
     })
 end
 
+require('vim._core.ui2').enable({})
+
 require('user.general')
 
 -- NOTE: needs to be here - when doing restore from lockfile, it MUST live before the first `vim.pack.add`
