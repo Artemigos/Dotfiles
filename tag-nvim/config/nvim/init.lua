@@ -42,6 +42,7 @@ vim.api.nvim_create_autocmd('UIEnter', {
         require('plugins.telescope')
         require('plugins.treesitter')
         require('plugins.ui')
+        vim.cmd.packadd('nvim.undotree')
         return true
     end,
 })
