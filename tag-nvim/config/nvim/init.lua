@@ -35,9 +35,16 @@ require('plugins.general')
 require('plugins.llm')
 require('plugins.lsp')
 require('plugins.misc')
-require('plugins.telescope')
-require('plugins.treesitter')
-require('plugins.ui')
+
+-- delay loading some plugins
+vim.api.nvim_create_autocmd('UIEnter', {
+    callback = function()
+        require('plugins.telescope')
+        require('plugins.treesitter')
+        require('plugins.ui')
+        return true
+    end,
+})
 
 -- include other config files
 require('user.keybindings')
