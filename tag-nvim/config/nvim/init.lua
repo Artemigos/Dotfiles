@@ -27,6 +27,7 @@ upack.setup()
 upack.register_post_add_build_step('telescope-fzf-native.nvim', upack.system_step({ 'make' }))
 upack.register_post_load_build_step('nvim-treesitter', upack.vim_cmd_step('TSUpdate'))
 
+require('plugins.theme')
 require('plugins.libraries')
 require('plugins.completion')
 -- require('plugins.debugging')

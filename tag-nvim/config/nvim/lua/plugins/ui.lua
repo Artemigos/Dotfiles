@@ -1,5 +1,4 @@
 vim.pack.add({
-    'https://github.com/Mofiqul/dracula.nvim',
     {
         src = 'https://github.com/echasnovski/mini.icons',
         version = vim.version.range('*'),
@@ -81,19 +80,6 @@ local diagnostic_component = toggle_icon_component(
     vim.diagnostic.is_enabled,
     function() vim.diagnostic.enable(not vim.diagnostic.is_enabled()) end
 )
-
--- dracula.nvim
-require('dracula').setup({
-    overrides = function()
-        return {
-            NvimTreeNormal = { link = 'Normal' },
-        }
-    end,
-})
-vim.cmd [[
-    syntax enable
-    colorscheme dracula
-]]
 
 -- mini.icons
 require('mini.icons').setup({})
