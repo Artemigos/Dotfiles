@@ -60,21 +60,25 @@ require('nvim-treesitter').install({
 })
 
 -- autoinstall and autostart parsers
+local function start_ts(bufnr, lang)
+    if vim.treesitter.language.add(lang) then
+        vim.treesitter.start(bufnr, lang)
+    end
+end
+
 vim.api.nvim_create_autocmd('FileType', {
     pattern = '*',
-    callback = function()
+    callback = function(ev)
         local lang = vim.treesitter.language.get_lang(vim.bo.filetype)
         if lang == nil then return end
 
         local parsers = require('nvim-treesitter').get_available()
         if vim.tbl_contains(parsers, lang) then
             require('nvim-treesitter').install(lang):await(function()
-                if vim.treesitter.language.add(lang) then
-                    vim.treesitter.start()
-                end
+                start_ts(ev.buf, lang)
             end)
-        elseif vim.treesitter.language.add(lang) then
-            vim.treesitter.start()
+        else
+            start_ts(ev.buf, lang)
         end
     end,
 })
