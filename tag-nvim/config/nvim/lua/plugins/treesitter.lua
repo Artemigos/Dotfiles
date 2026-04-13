@@ -63,10 +63,6 @@ require('nvim-treesitter').install({
 local function start_ts(bufnr, lang)
     if vim.treesitter.language.add(lang) then
         vim.treesitter.start(bufnr, lang)
-
-        if vim.tbl_contains({'diff', 'gitcommit'}, lang) then
-            vim.bo[bufnr].syntax = 'ON'
-        end
     end
 end
 
