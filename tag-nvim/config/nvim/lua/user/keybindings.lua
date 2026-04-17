@@ -82,7 +82,7 @@ u.map('n', ']e',
     { desc = 'Go to next error' })
 u.map('n', 'gx', vim.diagnostic.open_float, { desc = 'Open diagnostic float' })
 u.map('n', '<Leader>cx', vim.diagnostic.open_float, { desc = 'Open diagnostic float' })
-u.map('n', '<Leader>q', vim.diagnostic.setloclist)
+u.map('n', '<Leader>q', vim.diagnostic.setloclist, { desc = 'Send diagnostics to loclist' })
 
 -- insert symbols
 u.defcmd('Symbols', 'lua require("user.symbols").choose()<CR>')
