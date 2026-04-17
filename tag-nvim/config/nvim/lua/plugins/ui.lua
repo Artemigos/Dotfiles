@@ -10,7 +10,6 @@ vim.pack.add({
         version = vim.version.range('*'),
     },
     'https://github.com/echasnovski/mini.bufremove',
-    'https://github.com/folke/snacks.nvim',
 })
 
 local u = require('user.utils')
@@ -89,7 +88,7 @@ wk.add({
     { "<Leader>c",   group = "code" },
     { "<Leader>d",   group = "debugging" },
     { "<Leader>dl",  group = "launch" },
-    { "<Leader>f",   group = "telescope" },
+    { "<Leader>f",   group = "find" },
     { "<Leader>g",   group = "git" },
     { "<Leader>i",   group = "init.lua" },
     { "<Leader>n",   group = "notes" },
@@ -290,13 +289,3 @@ mb.setup({})
 vim.keymap.set('n', '<Leader>bd', function() require('mini.bufremove').delete(0, false) end, { desc = 'Delete buffer' })
 vim.keymap.set('n', '<Leader>bD', function() require('mini.bufremove').delete(0, true) end,
     { desc = 'Delete buffer (force)' })
-
--- snack.nvim (priority = 1000)
-require('snacks').setup({
-    image = {},
-    indent = {},
-    input = {},
-    picker = {},
-    notifier = {},
-    rename = {},
-})

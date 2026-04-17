@@ -4,7 +4,7 @@ local u = require('user.utils')
 u.map('n', '<TAB>', ':bnext<CR>')
 u.map('n', '<S-TAB>', ':bprev<CR>')
 
-u.map('n', '<Leader>bb', ':Telescope buffers<CR>')
+u.map('n', '<Leader>bb', Snacks.picker.buffers)
 u.map('n', '<Leader>bn', ':bnext<CR>')
 u.map('n', '<Leader>bp', ':bprev<CR>')
 

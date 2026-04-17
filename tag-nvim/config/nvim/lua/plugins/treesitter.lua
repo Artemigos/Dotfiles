@@ -165,4 +165,4 @@ textobjectMoveMap("[A", "@parameter.outer", 'previous_end')
 
 -- todo-comments.nvim
 require('todo-comments').setup({})
-vim.keymap.set('n', '<Leader>fT', '<cmd>TodoTelescope<CR>')
+vim.keymap.set('n', '<Leader>fT', Snacks.picker.todo_comments, { desc = "Find TODO comments" })
