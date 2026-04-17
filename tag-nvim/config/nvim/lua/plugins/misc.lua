@@ -102,3 +102,4 @@ vim.keymap.set('n', '<Leader>gd', ':Git prune-local<CR>', { desc = 'Git prune-lo
 vim.keymap.set('n', '<Leader>gD', ':Git prune-local -D<CR>', { desc = 'Git prune-local -D' })
 vim.keymap.set('n', '<Leader>gm', ':Git blame<CR>', { desc = 'Git blame' })
 vim.keymap.set('n', '<Leader>g@', navigate_to_repo, { desc = 'Navigate to the repository URL' })
+vim.keymap.set('n', '<Leader>g=', ':Git sync<CR>', { desc = 'Auto-sync (pull/rebase->commit->push)' })
