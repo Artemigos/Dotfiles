@@ -9,10 +9,6 @@ vim.pack.add({
         src = 'https://github.com/echasnovski/mini.files',
         version = vim.version.range('*'),
     },
-    -- {
-    --     src = 'https://github.com/j-hui/fidget.nvim',
-    --     version = vim.version.range('^1'),
-    -- },
     'https://github.com/echasnovski/mini.bufremove',
     'https://github.com/folke/snacks.nvim',
 })
