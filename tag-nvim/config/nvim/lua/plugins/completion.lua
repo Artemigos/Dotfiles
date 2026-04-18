@@ -23,6 +23,18 @@ require('blink.cmp').setup({
             },
         },
     },
+    cmdline = {
+        completion = {
+            menu = {
+                auto_show = true,
+            },
+            list = {
+                selection = {
+                    preselect = false,
+                },
+            },
+        },
+    },
     signature = {
         enabled = true,
         window = {
