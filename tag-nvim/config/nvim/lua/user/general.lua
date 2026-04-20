@@ -65,6 +65,7 @@ set.updatetime = 250
 set.completeopt = { 'menuone', 'noinsert', 'noselect' }
 set.shortmess = 'filnxtToOFc'
 set.timeoutlen = 360
+vim.cmd('set diffopt+=inline:word') -- lua's Option:append doesn't remove existing inline:* options, but vimscript's += does
 
 u.defcmd('W', 'w')
 
