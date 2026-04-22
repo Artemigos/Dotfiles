@@ -121,8 +121,8 @@ require('lualine').setup({
     options = {
         icons_enabled = true,
         theme = 'auto',
-        component_separators = { left = '', right = '' },
-        section_separators = { left = '', right = '' },
+        component_separators = { left = '', right = '' },
+        section_separators = { left = '', right = '' },
         disabled_filetypes = {
             statusline = {},
             winbar = {
@@ -152,7 +152,7 @@ require('lualine').setup({
         lualine_a = { { 'mode', fmt = format_mode } },
         lualine_b = { 'branch', 'diff', 'diagnostics' },
         lualine_c = { 'filename' },
-        lualine_x = { 'encoding', auto_format_component, diagnostic_component, 'fileformat', 'filetype' },
+        lualine_x = { auto_format_component, diagnostic_component, 'encoding', 'fileformat', 'filetype' },
         lualine_y = { 'progress' },
         lualine_z = { 'location' }
     },
@@ -175,15 +175,15 @@ require('lualine').setup({
     winbar = {
         lualine_a = { { 'buffers', symbols = { alternate_file = '' } } },
         lualine_b = {},
-        lualine_c = {},
+        lualine_c = { { function() return ' ' end } },
         lualine_x = {},
         lualine_y = {},
         lualine_z = {}
     },
     inactive_winbar = {
         lualine_a = {},
-        lualine_b = {},
-        lualine_c = { 'filename' },
+        lualine_b = { 'filename' },
+        lualine_c = { { function() return ' ' end } },
         lualine_x = {},
         lualine_y = {},
         lualine_z = {}
