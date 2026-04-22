@@ -1,7 +1,6 @@
 vim.pack.add({
     'https://github.com/Mofiqul/dracula.nvim',
     'https://github.com/folke/snacks.nvim',
-    'https://github.com/nvim-lua/plenary.nvim',
 })
 
 -- dracula.nvim

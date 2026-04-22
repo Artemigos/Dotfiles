@@ -4,6 +4,7 @@ vim.pack.add({
         src = 'https://github.com/nvim-treesitter/nvim-treesitter-textobjects',
         version = 'main',
     },
+    'https://github.com/nvim-lua/plenary.nvim', -- dependency of todo-comments.nvim
     'https://github.com/folke/todo-comments.nvim',
 })
 
