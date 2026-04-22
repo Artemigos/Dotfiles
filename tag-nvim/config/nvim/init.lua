@@ -27,16 +27,16 @@ upack.setup()
 upack.register_post_load_build_step('nvim-treesitter', upack.vim_cmd_step('TSUpdate'))
 
 require('plugins.early')
-require('plugins.completion')
--- require('plugins.debugging')
-require('plugins.general')
-require('plugins.llm')
-require('plugins.lsp')
-require('plugins.misc')
 
 -- delay loading some plugins
 vim.api.nvim_create_autocmd('UIEnter', {
     callback = function()
+        require('plugins.completion')
+        -- require('plugins.debugging')
+        require('plugins.general')
+        require('plugins.llm')
+        require('plugins.lsp')
+        require('plugins.misc')
         require('plugins.treesitter')
         require('plugins.ui')
         vim.cmd.packadd('nvim.undotree')
