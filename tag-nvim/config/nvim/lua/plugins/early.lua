@@ -1,5 +1,4 @@
 vim.pack.add({
-    'https://github.com/Mofiqul/dracula.nvim',
     'https://github.com/folke/snacks.nvim',
     {
         src = 'https://github.com/nvim-mini/mini.nvim',
@@ -7,18 +6,6 @@ vim.pack.add({
     },
 })
 
--- dracula.nvim
-require('dracula').setup({
-    overrides = function()
-        return {
-            NvimTreeNormal = { link = 'Normal' },
-        }
-    end,
-})
-vim.cmd [[
-    syntax enable
-    colorscheme dracula
-]]
 
 -- snack.nvim (priority = 1000)
 require('snacks').setup({
