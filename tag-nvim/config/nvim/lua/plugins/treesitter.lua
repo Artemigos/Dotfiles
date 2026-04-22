@@ -8,6 +8,8 @@ vim.pack.add({
     'https://github.com/folke/todo-comments.nvim',
 })
 
+local u = require('user.utils')
+
 -- register extra parsers
 vim.api.nvim_create_autocmd('User', {
     pattern = 'TSUpdate',
@@ -166,4 +168,4 @@ textobjectMoveMap("[A", "@parameter.outer", 'previous_end')
 
 -- todo-comments.nvim
 require('todo-comments').setup({})
-vim.keymap.set('n', '<Leader>fT', Snacks.picker.todo_comments, { desc = "Find TODO comments" })
+vim.keymap.set('n', '<Leader>fT', u.lazy_pick.todo_comments, { desc = "Find TODO comments" })

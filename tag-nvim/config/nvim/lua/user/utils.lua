@@ -41,4 +41,14 @@ function M.cached(timeout, reeval, ...)
     end
 end
 
+M.lazy_pick = {}
+setmetatable(M.lazy_pick, {
+    __index = function(t, k)
+        t[k] = function()
+            Snacks.picker[k]()
+        end
+        return rawget(t, k)
+    end,
+})
+
 return M

@@ -4,6 +4,8 @@ vim.pack.add({
     'https://github.com/stevearc/conform.nvim',
 })
 
+local u = require('user.utils')
+
 -- mason name -> lspconfig name
 local supported_servers = {
     ['bash-language-server'] = 'bashls',
@@ -134,8 +136,8 @@ vim.keymap.set('n', 'g<Space>', hover, { desc = 'Hint' })
 vim.keymap.set({ 'n', 'v' }, 'ga', vim.lsp.buf.code_action, { desc = 'Show code actions' })
 vim.keymap.set('n', 'gt', vim.lsp.buf.type_definition, { desc = 'Go to type definition' })
 vim.keymap.set('n', '<C-Space>', signature_help, { desc = 'Signature help' })
-vim.keymap.set('n', 'gT', Snacks.picker.lsp_workspace_symbols, { desc = 'Workspace symbols' })
-vim.keymap.set('n', 'gX', Snacks.picker.diagnostics, { desc = 'Diagnostics' })
+vim.keymap.set('n', 'gT', u.lazy_pick.lsp_workspace_symbols, { desc = 'Workspace symbols' })
+vim.keymap.set('n', 'gX', u.lazy_pick.diagnostics, { desc = 'Diagnostics' })
 vim.keymap.set('n', 'gA', ':ToggleAutoFormat<CR>', { desc = 'Toggle auto formatting' })
 vim.keymap.set('n', '<Leader>cd', vim.lsp.buf.definition, { desc = 'Go to definition' })
 vim.keymap.set('n', '<Leader>cD', vim.lsp.buf.implementation, { desc = 'Go to implementation' })
@@ -143,8 +145,8 @@ vim.keymap.set('n', '<Leader>cr', vim.lsp.buf.references, { desc = 'References' 
 vim.keymap.set('n', '<Leader>c<Space>', hover, { desc = 'Hint' })
 vim.keymap.set({ 'n', 'v' }, '<Leader>ca', vim.lsp.buf.code_action, { desc = 'Show code actions' })
 vim.keymap.set('n', '<Leader>ct', vim.lsp.buf.type_definition, { desc = 'Go to type definition' })
-vim.keymap.set('n', '<Leader>cT', Snacks.picker.lsp_workspace_symbols, { desc = 'Workspace symbols' })
-vim.keymap.set('n', '<Leader>cX', Snacks.picker.diagnostics, { desc = 'Diagnostics' })
+vim.keymap.set('n', '<Leader>cT', u.lazy_pick.lsp_workspace_symbols, { desc = 'Workspace symbols' })
+vim.keymap.set('n', '<Leader>cX', u.lazy_pick.diagnostics, { desc = 'Diagnostics' })
 vim.keymap.set('n', '<Leader>cA', ':ToggleAutoFormat<CR>', { desc = 'Toggle auto formatting' })
 vim.keymap.set('n', '<Leader>rr', vim.lsp.buf.rename, { desc = 'Rename' })
 
