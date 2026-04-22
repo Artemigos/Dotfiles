@@ -164,21 +164,18 @@ require('lualine').setup({
         lualine_y = {},
         lualine_z = {}
     },
-    --tabline = {
-    --    lualine_a = {{'tabs'}},
-    --    lualine_b = {},
-    --    lualine_c = {},
-    --    lualine_x = {},
-    --    lualine_y = {},
-    --    lualine_z = {}
-    --},
     winbar = {
         lualine_a = { { 'buffers', symbols = { alternate_file = '' } } },
         lualine_b = {},
         lualine_c = { { function() return ' ' end } },
-        lualine_x = {},
+        lualine_x = { { function() return ' ' end } },
         lualine_y = {},
-        lualine_z = {}
+        lualine_z = { {
+            'tabs',
+            cond = function()
+                return #vim.api.nvim_list_tabpages() > 1
+            end,
+        } }
     },
     inactive_winbar = {
         lualine_a = {},
@@ -193,7 +190,7 @@ require('lualine').setup({
         window_title_extenstion(),
     },
 })
-vim.opt.showtabline = 1
+vim.opt.showtabline = 0
 vim.api.nvim_create_autocmd('BufEnter', {
     pattern = '*',
     group = vim.api.nvim_create_augroup('lualine_refresh', {}),
