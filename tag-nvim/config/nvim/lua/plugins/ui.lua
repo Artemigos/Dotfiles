@@ -1,15 +1,6 @@
 vim.pack.add({
-    {
-        src = 'https://github.com/echasnovski/mini.icons',
-        version = vim.version.range('*'),
-    },
     'https://github.com/folke/which-key.nvim',
     'https://github.com/nvim-lualine/lualine.nvim',
-    {
-        src = 'https://github.com/echasnovski/mini.files',
-        version = vim.version.range('*'),
-    },
-    'https://github.com/echasnovski/mini.bufremove',
 })
 
 local u = require('user.utils')
@@ -279,9 +270,6 @@ vim.api.nvim_create_autocmd('User', {
         Snacks.rename.on_rename_file(event.data.from, event.data.to)
     end,
 })
-
--- fidget.nvim (VeryLazy)
--- require('fidget').setup({})
 
 -- mini.bufremove
 local mb = require('mini.bufremove')

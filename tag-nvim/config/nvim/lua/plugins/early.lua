@@ -1,6 +1,10 @@
 vim.pack.add({
     'https://github.com/Mofiqul/dracula.nvim',
     'https://github.com/folke/snacks.nvim',
+    {
+        src = 'https://github.com/nvim-mini/mini.nvim',
+        version = vim.version.range('*'),
+    },
 })
 
 -- dracula.nvim
