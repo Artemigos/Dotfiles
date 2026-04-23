@@ -5,6 +5,7 @@ vim.pack.add({
 })
 
 local u = require('user.utils')
+local use_copilot = require('user.localconf').get_toggle('copilot')
 
 -- mason name -> lspconfig name
 local supported_servers = {
@@ -23,6 +24,10 @@ local supported_servers = {
     ['terraform-ls'] = 'terraformls',
     ['zls'] = 'zls',
 }
+
+if use_copilot then
+    supported_servers['copilot-language-server'] = 'copilot'
+end
 
 local auto_install_tools = {
     -- DAPs
@@ -91,6 +96,13 @@ vim.api.nvim_create_autocmd('LspAttach', {
                 { desc = 'Toggle inlay hints' }
             )
         end
+        if client and client:supports_method(vim.lsp.protocol.Methods.textDocument_inlineCompletion, event.buf) then
+            local inline = vim.lsp.inline_completion
+            inline.enable(true, { bufnr = event.buf })
+            vim.keymap.set('i', '<M-CR>', inline.get, { desc = 'LSP: accept inline completion' })
+            vim.keymap.set('i', '<M-down>', inline.select, { desc = 'LSP: switch inline completion' })
+            vim.cmd [[highlight ComplHint ctermfg=244 guifg=#808080]]
+        end
     end,
 })
 
@@ -122,6 +134,25 @@ vim.lsp.config('lua_ls', {
         },
     }
 })
+
+if use_copilot then
+    vim.lsp.config('copilot', {
+        filetypes = {
+            'markdown', 'yaml', 'json', 'python', 'go', 'lua', 'typescript', 'javascript',
+            'alloy', 'vcl', 'terraform', 'rust', 'sh', 'fish', 'toml',
+        },
+        init_options = {
+            editorInfo = {
+                name = 'Neovim',
+                version = tostring(vim.version()),
+            },
+            editorPlugInfo = {
+                name = 'Neovim',
+                version = tostring(vim.version()),
+            },
+        },
+    })
+end
 
 for _, server in pairs(supported_servers) do
     vim.lsp.enable(server)

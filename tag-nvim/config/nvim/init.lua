@@ -34,7 +34,6 @@ vim.api.nvim_create_autocmd('UIEnter', {
         require('plugins.completion')
         -- require('plugins.debugging')
         require('plugins.general')
-        require('plugins.llm')
         require('plugins.lsp')
         require('plugins.misc')
         require('plugins.treesitter')
