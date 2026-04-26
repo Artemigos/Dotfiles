@@ -13,14 +13,6 @@ end
 
 local u = require('user.utils')
 
-local function format_mode(mode)
-    local dash_pos = mode:find('-')
-    if dash_pos ~= nil then
-        return mode:sub(1, 1) .. mode:sub(dash_pos + 1, dash_pos + 1)
-    end
-    return mode:sub(1, 1)
-end
-
 local function window_title_extenstion()
     local tw = require('user.tool-windows')
     local txt = function() return tw.get_title(vim.o.filetype) end
@@ -124,6 +116,8 @@ wk.add({
 })
 
 -- lualine.nvim (VeryLazy)
+local ul = require('user.line')
+ul.setup(use_lualine)
 if use_lualine then
     require('lualine').setup({
         options = {
@@ -153,7 +147,7 @@ if use_lualine then
             }
         },
         sections = {
-            lualine_a = { { 'mode', fmt = format_mode } },
+            lualine_a = { ul.wrap('mode') },
             lualine_b = { 'branch', 'diff', 'diagnostics' },
             lualine_c = { 'filename' },
             lualine_x = { auto_format_component, diagnostic_component, 'encoding', 'fileformat', 'filetype' },
