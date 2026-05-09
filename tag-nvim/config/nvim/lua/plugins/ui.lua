@@ -151,7 +151,7 @@ if use_lualine then
             lualine_b = { 'branch', 'diff', 'diagnostics' },
             lualine_c = { 'filename' },
             lualine_x = { auto_format_component, diagnostic_component, 'encoding', 'fileformat', 'filetype' },
-            lualine_y = { 'progress' },
+            lualine_y = { ul.wrap('progress') },
             lualine_z = { ul.wrap('location') }
         },
         inactive_sections = {

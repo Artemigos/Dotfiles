@@ -1,6 +1,7 @@
 local M = {
     lualine_mode = true,
     padding = ' ',
+    hi_secondary = 'LineSecondary',
 }
 
 M.stl = {
@@ -9,6 +10,7 @@ M.stl = {
     items = {
         line = 'l',
         column = 'c',
+        progress = 'p',
     },
 }
 
@@ -95,12 +97,17 @@ function M.location()
     return M.stl.hi(M.hi_for_mode(m)) .. M.stl.content(r) .. M.stl.hi_rst
 end
 
+function M.progress()
+    local progress = M.stl.item(M.stl.items.progress) .. '%%'
+    return M.stl.hi(M.hi_secondary) .. M.stl.content(progress) .. M.stl.hi_rst
+end
+
 function M.wrap(f)
     return { M.stl.leval(f), padding = 0 }
 end
 
 function M.full_line()
-    return M.mode() .. M.stl.sep .. M.location()
+    return M.mode() .. M.stl.sep .. M.progress() .. M.location()
 end
 
 -- WIP:
@@ -115,6 +122,7 @@ function M.setup(lualine)
     vim.cmd.hi('LineModeVisual', 'guibg=' .. colors.yellow, 'guifg=' .. colors.black, 'gui=bold')
     vim.cmd.hi('LineModeReplace', 'guibg=' .. colors.red, 'guifg=' .. colors.black, 'gui=bold')
     vim.cmd.hi('LineModeCommand', 'guibg=' .. colors.orange, 'guifg=' .. colors.black, 'gui=bold')
+    vim.cmd.hi('LineSecondary', 'guibg=' .. colors.comment, 'guifg=' .. colors.fg)
 
     if not M.lualine_mode then
         vim.opt.showtabline = 0
