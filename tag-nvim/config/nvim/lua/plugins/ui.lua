@@ -152,7 +152,7 @@ if use_lualine then
             lualine_c = { 'filename' },
             lualine_x = { auto_format_component, diagnostic_component, 'encoding', 'fileformat', 'filetype' },
             lualine_y = { 'progress' },
-            lualine_z = { 'location' }
+            lualine_z = { ul.wrap('location') }
         },
         inactive_sections = {
             lualine_a = {},
