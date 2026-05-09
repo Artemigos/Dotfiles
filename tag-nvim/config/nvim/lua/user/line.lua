@@ -2,6 +2,7 @@ local M = {
     lualine_mode = true,
     padding = ' ',
     hi_secondary = 'LineSecondary',
+    hi_tertiary = 'LineTertiary',
 }
 
 M.stl = {
@@ -14,7 +15,10 @@ M.stl = {
     },
 }
 
-function M.stl.hi(name)
+function M.stl.hi(name, inherit)
+    if inherit == true then
+        return '%$' .. name .. '$'
+    end
     return '%#' .. name .. '#'
 end
 
@@ -102,12 +106,23 @@ function M.progress()
     return M.stl.hi(M.hi_secondary) .. M.stl.content(progress) .. M.stl.hi_rst
 end
 
+function M.filetype()
+    local ft = vim.o.filetype
+    if ft == '' then
+        return ''
+    end
+    local icon, hl = MiniIcons.get('filetype', ft)
+    local trt = M.stl.hi(M.hi_tertiary)
+    local r = M.stl.hi(hl, true) .. icon .. trt .. ' ' .. ft
+    return trt .. M.stl.content(r) .. M.stl.hi_rst
+end
+
 function M.wrap(f)
     return { M.stl.leval(f), padding = 0 }
 end
 
 function M.full_line()
-    return M.mode() .. M.stl.sep .. M.progress() .. M.location()
+    return M.mode() .. M.stl.sep .. M.filetype() .. M.progress() .. M.location()
 end
 
 -- WIP:
@@ -123,6 +138,7 @@ function M.setup(lualine)
     vim.cmd.hi('LineModeReplace', 'guibg=' .. colors.red, 'guifg=' .. colors.black, 'gui=bold')
     vim.cmd.hi('LineModeCommand', 'guibg=' .. colors.orange, 'guifg=' .. colors.black, 'gui=bold')
     vim.cmd.hi('LineSecondary', 'guibg=' .. colors.comment, 'guifg=' .. colors.fg)
+    vim.cmd.hi('LineTertiary', 'guifg=' .. colors.fg)
 
     if not M.lualine_mode then
         vim.opt.showtabline = 0
