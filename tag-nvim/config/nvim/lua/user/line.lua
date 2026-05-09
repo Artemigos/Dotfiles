@@ -117,12 +117,31 @@ function M.filetype()
     return trt .. M.stl.content(r) .. M.stl.hi_rst
 end
 
+function M.fileformat()
+    ---@type string
+    local os = vim.o.fileformat
+    if os == '' then
+        return ''
+    end
+    if os == 'unix' then
+        os = 'linux'
+    elseif os == 'dos' then
+        os = 'windows'
+    elseif os == 'mac' then
+        os = 'macos'
+    else
+        error('unknown fileformat: ' .. os)
+    end
+    local icon = MiniIcons.get('os', os)
+    return M.stl.hi(M.hi_tertiary) .. M.stl.content(icon) .. M.stl.hi_rst
+end
+
 function M.wrap(f)
     return { M.stl.leval(f), padding = 0 }
 end
 
 function M.full_line()
-    return M.mode() .. M.stl.sep .. M.filetype() .. M.progress() .. M.location()
+    return M.mode() .. M.stl.sep .. M.fileformat() .. M.filetype() .. M.progress() .. M.location()
 end
 
 -- WIP:
