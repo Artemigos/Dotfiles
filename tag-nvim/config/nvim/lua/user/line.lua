@@ -22,14 +22,6 @@ function M.stl.hi(name, inherit)
     return '%#' .. name .. '#'
 end
 
-function M.stl.content(content)
-    return M.padding .. content .. M.padding
-end
-
-function M.stl.leval(f)
-    return '%{%luaeval("line.' .. f .. '()")%}'
-end
-
 function M.stl.item(item, opts)
     opts = opts or {}
     local r = '%'
@@ -90,31 +82,27 @@ function M.mode()
     elseif c == 'c' then
         r = 'C'
     end
-    return M.stl.hi(M.hi_for_mode(m)) .. M.stl.content(r) .. M.stl.hi_rst
+    return r
 end
 
 function M.location()
-    local m = vim.api.nvim_get_mode().mode
     local line = M.stl.item(M.stl.items.line, { minwidth = 3 })
     local column = M.stl.item(M.stl.items.column, { minwidth = 2, leftpad = true })
     local r = line .. ':' .. column
-    return M.stl.hi(M.hi_for_mode(m)) .. M.stl.content(r) .. M.stl.hi_rst
+    return r
 end
 
 function M.progress()
-    local progress = M.stl.item(M.stl.items.progress) .. '%%'
-    return M.stl.hi(M.hi_secondary) .. M.stl.content(progress) .. M.stl.hi_rst
+    return M.stl.item(M.stl.items.progress) .. '%%'
 end
 
-function M.filetype()
+function M.filetype(hi_parent)
     local ft = vim.o.filetype
     if ft == '' then
         return ''
     end
     local icon, hl = MiniIcons.get('filetype', ft)
-    local trt = M.stl.hi(M.hi_tertiary)
-    local r = M.stl.hi(hl, true) .. icon .. trt .. ' ' .. ft
-    return trt .. M.stl.content(r) .. M.stl.hi_rst
+    return M.stl.hi(hl, true) .. icon .. hi_parent .. ' ' .. ft
 end
 
 function M.fileformat()
@@ -132,16 +120,35 @@ function M.fileformat()
     else
         error('unknown fileformat: ' .. os)
     end
-    local icon = MiniIcons.get('os', os)
-    return M.stl.hi(M.hi_tertiary) .. M.stl.content(icon) .. M.stl.hi_rst
+    return MiniIcons.get('os', os)
 end
 
-function M.wrap(f)
-    return { M.stl.leval(f), padding = 0 }
+function M.wrap(f, ...)
+    local varargs = vim.iter({ ... }):map(function(x) return "'" .. x .. "'" end):join(',')
+    local extra_pad = ''
+    -- why?
+    if f == 'mode' then
+        extra_pad = ' .. line.padding'
+    end
+    local eval = '%{%luaeval("line.padding' .. extra_pad .. ' .. line.' .. f .. '(' .. varargs .. ') .. line.padding")%}'
+    return { eval, padding = 0 }
 end
 
 function M.full_line()
-    return M.mode() .. M.stl.sep .. M.fileformat() .. M.filetype() .. M.progress() .. M.location()
+    local m = vim.api.nvim_get_mode().mode
+    local hi1 = M.stl.hi(M.hi_for_mode(m))
+    local hi2 = M.stl.hi(M.hi_secondary)
+    local hi3 = M.stl.hi(M.hi_tertiary)
+    local function pad(c)
+        if c == '' then return '' end
+        return M.padding .. c .. M.padding
+    end
+    return
+        hi1 .. pad(M.mode()) .. hi3 ..
+        M.stl.sep ..
+        pad(M.fileformat()) .. pad(M.filetype(hi3)) ..
+        hi2 .. pad(M.progress()) ..
+        hi1 .. pad(M.location())
 end
 
 -- WIP:
@@ -162,7 +169,7 @@ function M.setup(lualine)
     if not M.lualine_mode then
         vim.opt.showtabline = 0
         vim.opt.laststatus = 3
-        vim.opt.statusline = M.stl.leval('full_line')
+        vim.opt.statusline = '%{%luaeval("line.full_line()")%}'
 
         vim.api.nvim_create_autocmd('ModeChanged', { command = 'redrawstatus' })
     end
