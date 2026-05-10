@@ -1,48 +1,13 @@
 local M = {
     lualine_mode = true,
     padding = ' ',
-    hi_secondary = 'LineSecondary',
-    hi_tertiary = 'LineTertiary',
 }
 
-M.stl = {
-    hi_rst = '%*',
-    sep = '%=',
-    items = {
-        line = 'l',
-        column = 'c',
-        progress = 'p',
-    },
-}
-
-function M.stl.hi(name, inherit)
+function M.stl_hi(name, inherit)
     if inherit == true then
         return '%$' .. name .. '$'
     end
     return '%#' .. name .. '#'
-end
-
-function M.stl.item(item, opts)
-    opts = opts or {}
-    local r = '%'
-    if opts.leftpad == true then
-        r = r .. '-'
-    end
-    if opts.zeropad == true then
-        r = r .. '0'
-    end
-    if opts.minwidth ~= nil then
-        assert(type(opts.minwidth) == 'number', 'minwidth must be a number')
-        r = r .. opts.minwidth
-    end
-    if opts.minwidth ~= nil or opts.maxwidth ~= nil then
-        r = r .. '.'
-    end
-    if opts.maxwidth ~= nil then
-        assert(type(opts.maxwidth) == 'number', 'maxwidth must be a number')
-        r = r .. opts.maxwidth
-    end
-    return r .. item
 end
 
 function M.hi_for_mode(mode)
@@ -71,29 +36,18 @@ function M.mode()
         r = 'VB'
     elseif c == 'V' then
         r = 'VL'
-    elseif c == 'v' then
-        r = 'V'
-    elseif c == 'n' then
-        r = 'N'
-    elseif c == 'i' then
-        r = 'I'
-    elseif c == 'R' then
-        r = 'R'
-    elseif c == 'c' then
-        r = 'C'
     end
     return r
 end
 
 function M.location()
-    local line = M.stl.item(M.stl.items.line, { minwidth = 3 })
-    local column = M.stl.item(M.stl.items.column, { minwidth = 2, leftpad = true })
-    local r = line .. ':' .. column
-    return r
+    local line = '%3.l'
+    local column = '%-2.c'
+    return line .. ':' .. column
 end
 
 function M.progress()
-    return M.stl.item(M.stl.items.progress) .. '%%'
+    return '%p%%'
 end
 
 function M.filetype(hi_parent)
@@ -102,7 +56,7 @@ function M.filetype(hi_parent)
         return ''
     end
     local icon, hl = MiniIcons.get('filetype', ft)
-    return M.stl.hi(hl, true) .. icon .. hi_parent .. ' ' .. ft
+    return M.stl_hi(hl, true) .. icon .. hi_parent .. ' ' .. ft
 end
 
 function M.fileformat()
@@ -136,22 +90,25 @@ end
 
 function M.full_line()
     local m = vim.api.nvim_get_mode().mode
-    local hi1 = M.stl.hi(M.hi_for_mode(m))
-    local hi2 = M.stl.hi(M.hi_secondary)
-    local hi3 = M.stl.hi(M.hi_tertiary)
+    local hi1 = M.stl_hi(M.hi_for_mode(m))
+    local hi2 = M.stl_hi('LineSecondary')
+    local hi3 = M.stl_hi('LineTertiary')
+    local sep = '%='
     local function pad(c)
         if c == '' then return '' end
         return M.padding .. c .. M.padding
     end
+
+    -- WIP:
     return
         hi1 .. pad(M.mode()) .. hi3 ..
-        M.stl.sep ..
+        sep ..
         pad(M.fileformat()) .. pad(M.filetype(hi3)) ..
         hi2 .. pad(M.progress()) ..
         hi1 .. pad(M.location())
 end
 
--- WIP:
+-- TODO: winbar
 function M.setup(lualine)
     M.lualine_mode = not not lualine
 
