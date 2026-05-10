@@ -66,15 +66,14 @@ function M.fileformat()
         return ''
     end
     if os == 'unix' then
-        os = 'linux'
+        return '␊'
     elseif os == 'dos' then
-        os = 'windows'
+        return '␍␊'
     elseif os == 'mac' then
-        os = 'macos'
+        return '␍'
     else
         error('unknown fileformat: ' .. os)
     end
-    return MiniIcons.get('os', os)
 end
 
 function M.encoding()
