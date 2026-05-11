@@ -55,12 +55,6 @@ local function toggle_icon_component(icon, is_on, toggle)
     }
 end
 
-local auto_format_component = toggle_icon_component(
-    '',
-    require('user.auto-format').is_enabled,
-    require('user.auto-format').toggle
-)
-
 local diagnostic_component = toggle_icon_component(
     '󰚔',
     vim.diagnostic.is_enabled,
@@ -150,7 +144,7 @@ if use_lualine then
             lualine_a = { ul.wrap('mode') },
             lualine_b = { ul.wrap('ref'), ul.wrap('diagnostics') },
             lualine_c = { ul.wrap('filename') },
-            lualine_x = { auto_format_component, diagnostic_component, ul.wrap('encoding'), ul.wrap('fileformat'), ul.wrap('filetype', '%#LineTertiary#') },
+            lualine_x = { ul.wrap('auto_format'), diagnostic_component, ul.wrap('encoding'), ul.wrap('fileformat'), ul.wrap('filetype', '%#LineTertiary#') },
             lualine_y = { ul.wrap('progress') },
             lualine_z = { ul.wrap('location') }
         },

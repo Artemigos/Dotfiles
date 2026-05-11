@@ -106,6 +106,29 @@ function M.diagnostics()
     return stats:sub(1, -4)
 end
 
+local function toggle_icon(icon, is_on, action_f_name)
+    local txt = icon
+    if is_on() then
+        txt = M.stl_hi('LineToggleOn', true) .. txt .. M.stl_hi('LineTertiary')
+    else
+        txt = M.stl_hi('LineToggleOff', true) .. txt .. M.stl_hi('LineTertiary')
+    end
+    return '%@v:lua.line.' .. action_f_name .. '@' .. txt .. '%X'
+end
+
+function M.auto_format_action()
+    require('user.auto-format').toggle()
+    vim.cmd.redrawstatus()
+end
+
+function M.auto_format()
+    return toggle_icon(
+        '',
+        require('user.auto-format').is_enabled,
+        'auto_format_action'
+    )
+end
+
 function M.wrap(f, ...)
     local varargs = vim.iter({ ... }):map(function(x) return "'" .. x .. "'" end):join(',')
     local extra_pad = ''
@@ -134,7 +157,7 @@ function M.full_line()
         hi2 .. pad(M.ref()) .. pad(M.diagnostics()) ..
         hi3 .. pad(M.filename()) ..
         sep ..
-        pad(M.encoding()) .. pad(M.fileformat()) .. pad(M.filetype(hi3)) ..
+        pad(M.auto_format()) .. pad(M.encoding()) .. pad(M.fileformat()) .. pad(M.filetype(hi3)) ..
         hi2 .. pad(M.progress()) ..
         hi1 .. pad(M.location())
 end
@@ -153,6 +176,8 @@ function M.setup(lualine)
     vim.cmd.hi('LineModeCommand', 'guibg=' .. colors.orange, 'guifg=' .. colors.black, 'gui=bold')
     vim.cmd.hi('LineSecondary', 'guibg=' .. colors.comment, 'guifg=' .. colors.fg)
     vim.cmd.hi('LineTertiary', 'guifg=' .. colors.fg)
+    vim.cmd.hi('LineToggleOn', 'guifg=' .. colors.green)
+    vim.cmd.hi('LineToggleOff', 'guifg=' .. colors.comment)
 
     if not M.lualine_mode then
         vim.opt.showtabline = 0
