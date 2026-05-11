@@ -207,9 +207,12 @@ function M.setup(lualine)
         vim.opt.statusline = '%{%luaeval("line.full_line()")%}'
 
         -- redraw triggers
-        vim.api.nvim_create_autocmd('ModeChanged', { command = 'redrawstatus' })
+        local function redraw()
+            vim.schedule(vim.cmd.redrawstatus)
+        end
+        vim.api.nvim_create_autocmd('ModeChanged', { callback = redraw })
         M.timer = vim.uv.new_timer()
-        M.timer:start(1000, 1000, vim.schedule_wrap(vim.cmd.redrawstatus))
+        M.timer:start(1000, 1000, redraw)
     end
 end
 
