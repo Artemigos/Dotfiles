@@ -120,22 +120,8 @@ if use_lualine then
                 winbar = 100,
             }
         },
-        sections = {
-            lualine_a = { ul.wrap('mode') },
-            lualine_b = { ul.wrap('ref'), ul.wrap('diagnostics') },
-            lualine_c = { ul.wrap('filename') },
-            lualine_x = { ul.wrap('auto_format'), ul.wrap('toggle_diagnostics'), ul.wrap('encoding'), ul.wrap('fileformat'), ul.wrap('filetype', '%#LineTertiary#') },
-            lualine_y = { ul.wrap('progress') },
-            lualine_z = { ul.wrap('location') }
-        },
-        inactive_sections = {
-            lualine_a = {},
-            lualine_b = {},
-            lualine_c = { 'filename' },
-            lualine_x = { 'location' },
-            lualine_y = {},
-            lualine_z = {}
-        },
+        sections = {},
+        inactive_sections = {},
         winbar = {
             lualine_a = { { 'buffers', symbols = { alternate_file = '' } } },
             lualine_b = {},
@@ -162,13 +148,12 @@ if use_lualine then
             window_title_extenstion(),
         },
     })
-    vim.opt.showtabline = 0
     vim.api.nvim_create_autocmd('BufEnter', {
         pattern = '*',
         group = vim.api.nvim_create_augroup('lualine_refresh', {}),
         callback = function()
             require('lualine').refresh({
-                place = { 'winbar', 'statusline' },
+                place = { 'winbar' },
                 scope = 'all',
             })
         end,

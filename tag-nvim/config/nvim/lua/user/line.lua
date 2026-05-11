@@ -142,17 +142,6 @@ function M.toggle_diagnostics()
     )
 end
 
-function M.wrap(f, ...)
-    local varargs = vim.iter({ ... }):map(function(x) return "'" .. x .. "'" end):join(',')
-    local extra_pad = ''
-    -- why?
-    if f == 'mode' or f == 'ref' then
-        extra_pad = ' .. line.padding'
-    end
-    local eval = '%{%luaeval("line.padding' .. extra_pad .. ' .. line.' .. f .. '(' .. varargs .. ') .. line.padding")%}'
-    return { eval, padding = 0 }
-end
-
 function M.full_line()
     local m = vim.api.nvim_get_mode().mode
     local hi1 = M.stl_hi(M.hi_for_mode(m))
@@ -184,7 +173,6 @@ function M.full_line()
         pad(M.location())
 end
 
--- TODO: winbar
 function M.setup(lualine)
     M.lualine_mode = not not lualine
 
@@ -201,18 +189,20 @@ function M.setup(lualine)
     vim.cmd.hi('LineToggleOn', 'guifg=' .. colors.green)
     vim.cmd.hi('LineToggleOff', 'guifg=' .. colors.comment)
 
-    if not M.lualine_mode then
-        vim.opt.showtabline = 0
-        vim.opt.laststatus = 3
-        vim.opt.statusline = '%{%luaeval("line.full_line()")%}'
+    vim.opt.showtabline = 0
+    vim.opt.laststatus = 3
+    vim.opt.statusline = '%{%luaeval("line.full_line()")%}'
 
-        -- redraw triggers
-        local function redraw()
-            vim.schedule(vim.cmd.redrawstatus)
-        end
-        vim.api.nvim_create_autocmd('ModeChanged', { callback = redraw })
-        M.timer = vim.uv.new_timer()
-        M.timer:start(1000, 1000, redraw)
+    -- redraw triggers
+    local function redraw()
+        vim.schedule(vim.cmd.redrawstatus)
+    end
+    vim.api.nvim_create_autocmd('ModeChanged', { callback = redraw })
+    M.timer = vim.uv.new_timer()
+    M.timer:start(1000, 1000, redraw)
+
+    -- TODO: winbar
+    if not M.lualine_mode then
     end
 end
 
