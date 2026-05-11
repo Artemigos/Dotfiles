@@ -84,11 +84,23 @@ function M.filename()
     return '%t %m%r'
 end
 
+local function git(...)
+    return require('user.utils').exec({ 'git', ... }):gsub('%s+$', '')
+end
+
+function M.ref()
+    local branch = git('rev-parse', '--abbrev-ref', 'HEAD')
+    if branch == 'HEAD' then
+        branch = git('rev-parse', '--short=6', 'HEAD')
+    end
+    return ' ' .. branch
+end
+
 function M.wrap(f, ...)
     local varargs = vim.iter({ ... }):map(function(x) return "'" .. x .. "'" end):join(',')
     local extra_pad = ''
     -- why?
-    if f == 'mode' then
+    if f == 'mode' or f == 'ref' then
         extra_pad = ' .. line.padding'
     end
     local eval = '%{%luaeval("line.padding' .. extra_pad .. ' .. line.' .. f .. '(' .. varargs .. ') .. line.padding")%}'
@@ -109,6 +121,7 @@ function M.full_line()
     -- WIP:
     return
         hi1 .. pad(M.mode()) ..
+        hi2 .. pad(M.ref()) ..
         hi3 .. pad(M.filename()) ..
         sep ..
         pad(M.encoding()) .. pad(M.fileformat()) .. pad(M.filetype(hi3)) ..
@@ -136,7 +149,10 @@ function M.setup(lualine)
         vim.opt.laststatus = 3
         vim.opt.statusline = '%{%luaeval("line.full_line()")%}'
 
+        -- redraw triggers
         vim.api.nvim_create_autocmd('ModeChanged', { command = 'redrawstatus' })
+        M.timer = vim.uv.new_timer()
+        M.timer:start(1000, 1000, vim.schedule_wrap(vim.cmd.redrawstatus))
     end
 end
 
