@@ -80,6 +80,10 @@ function M.encoding()
     return vim.o.encoding
 end
 
+function M.filename()
+    return '%t %m%r'
+end
+
 function M.wrap(f, ...)
     local varargs = vim.iter({ ... }):map(function(x) return "'" .. x .. "'" end):join(',')
     local extra_pad = ''
@@ -104,7 +108,8 @@ function M.full_line()
 
     -- WIP:
     return
-        hi1 .. pad(M.mode()) .. hi3 ..
+        hi1 .. pad(M.mode()) ..
+        hi3 .. pad(M.filename()) ..
         sep ..
         pad(M.encoding()) .. pad(M.fileformat()) .. pad(M.filetype(hi3)) ..
         hi2 .. pad(M.progress()) ..

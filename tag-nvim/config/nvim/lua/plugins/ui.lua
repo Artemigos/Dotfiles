@@ -149,7 +149,7 @@ if use_lualine then
         sections = {
             lualine_a = { ul.wrap('mode') },
             lualine_b = { 'branch', 'diff', 'diagnostics' },
-            lualine_c = { 'filename' },
+            lualine_c = { ul.wrap('filename') },
             lualine_x = { auto_format_component, diagnostic_component, ul.wrap('encoding'), ul.wrap('fileformat'), ul.wrap('filetype', '%#LineTertiary#') },
             lualine_y = { ul.wrap('progress') },
             lualine_z = { ul.wrap('location') }
