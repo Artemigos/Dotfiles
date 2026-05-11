@@ -96,6 +96,16 @@ function M.ref()
     return ' ' .. branch
 end
 
+function M.diagnostics()
+    local stats = vim.diagnostic.status()
+    if stats == '' then
+        return ''
+    end
+    -- HACK: neovim unconditionally appends "%##" at the end of non-empty format, which I don't want
+    assert(stats:sub(-3) == '%##', 'Assumption for a [HACK] broken')
+    return stats:sub(1, -4)
+end
+
 function M.wrap(f, ...)
     local varargs = vim.iter({ ... }):map(function(x) return "'" .. x .. "'" end):join(',')
     local extra_pad = ''
@@ -121,7 +131,7 @@ function M.full_line()
     -- WIP:
     return
         hi1 .. pad(M.mode()) ..
-        hi2 .. pad(M.ref()) ..
+        hi2 .. pad(M.ref()) .. pad(M.diagnostics()) ..
         hi3 .. pad(M.filename()) ..
         sep ..
         pad(M.encoding()) .. pad(M.fileformat()) .. pad(M.filetype(hi3)) ..
