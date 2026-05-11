@@ -41,26 +41,6 @@ local function window_title_extenstion()
     return opts
 end
 
-local function toggle_icon_component(icon, is_on, toggle)
-    return {
-        function() return icon end,
-        color = function()
-            if is_on() then
-                return { fg = require('dracula').colors().green }
-            else
-                return { fg = require('dracula').colors().comment }
-            end
-        end,
-        on_click = toggle,
-    }
-end
-
-local diagnostic_component = toggle_icon_component(
-    '󰚔',
-    vim.diagnostic.is_enabled,
-    function() vim.diagnostic.enable(not vim.diagnostic.is_enabled()) end
-)
-
 -- dracula.nvim
 require('dracula').setup({
     overrides = function()
@@ -144,7 +124,7 @@ if use_lualine then
             lualine_a = { ul.wrap('mode') },
             lualine_b = { ul.wrap('ref'), ul.wrap('diagnostics') },
             lualine_c = { ul.wrap('filename') },
-            lualine_x = { ul.wrap('auto_format'), diagnostic_component, ul.wrap('encoding'), ul.wrap('fileformat'), ul.wrap('filetype', '%#LineTertiary#') },
+            lualine_x = { ul.wrap('auto_format'), ul.wrap('toggle_diagnostics'), ul.wrap('encoding'), ul.wrap('fileformat'), ul.wrap('filetype', '%#LineTertiary#') },
             lualine_y = { ul.wrap('progress') },
             lualine_z = { ul.wrap('location') }
         },

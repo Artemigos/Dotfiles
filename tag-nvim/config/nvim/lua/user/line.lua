@@ -129,6 +129,19 @@ function M.auto_format()
     )
 end
 
+function M.toggle_diagnostics_action()
+    vim.diagnostic.enable(not vim.diagnostic.is_enabled())
+    vim.cmd.redrawstatus()
+end
+
+function M.toggle_diagnostics()
+    return toggle_icon(
+        '󰚔',
+        vim.diagnostic.is_enabled,
+        'toggle_diagnostics_action'
+    )
+end
+
 function M.wrap(f, ...)
     local varargs = vim.iter({ ... }):map(function(x) return "'" .. x .. "'" end):join(',')
     local extra_pad = ''
@@ -151,15 +164,24 @@ function M.full_line()
         return M.padding .. c .. M.padding
     end
 
-    -- WIP:
     return
-        hi1 .. pad(M.mode()) ..
-        hi2 .. pad(M.ref()) .. pad(M.diagnostics()) ..
-        hi3 .. pad(M.filename()) ..
+        hi1 ..
+        pad(M.mode()) ..
+        hi2 ..
+        pad(M.ref()) ..
+        pad(M.diagnostics()) ..
+        hi3 ..
+        pad(M.filename()) ..
         sep ..
-        pad(M.auto_format()) .. pad(M.encoding()) .. pad(M.fileformat()) .. pad(M.filetype(hi3)) ..
-        hi2 .. pad(M.progress()) ..
-        hi1 .. pad(M.location())
+        pad(M.auto_format()) ..
+        pad(M.toggle_diagnostics()) ..
+        pad(M.encoding()) ..
+        pad(M.fileformat()) ..
+        pad(M.filetype(hi3)) ..
+        hi2 ..
+        pad(M.progress()) ..
+        hi1 ..
+        pad(M.location())
 end
 
 -- TODO: winbar
