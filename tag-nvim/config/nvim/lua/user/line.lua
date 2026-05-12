@@ -176,9 +176,12 @@ end
 function M.default_winbar()
     local hi1 = M.stl_hi('LinePrimary')
     local hi3 = M.stl_hi('LineTertiary')
-    local r = ''
+    local sep = '%='
+    local buffers = ''
+    local tabs = ''
 
     -- buffers
+    -- TODO: clickable
     local buf_ids = vim.api.nvim_list_bufs()
     local curr = vim.api.nvim_get_current_buf()
     for _, buf_id in ipairs(buf_ids) do
@@ -186,9 +189,9 @@ function M.default_winbar()
         local listed = vim.bo[buf_id].buflisted
         if loaded and listed then
             if buf_id == curr then
-                r = r .. hi1
+                buffers = buffers .. hi1
             else
-                r = r .. hi3
+                buffers = buffers .. hi3
             end
             local name = vim.api.nvim_buf_get_name(buf_id)
             if name == '' then
@@ -202,13 +205,27 @@ function M.default_winbar()
             if vim.bo[buf_id].modified then
                 name = name .. ' ●'
             end
-            r = r .. M.padding .. name .. M.padding
+            buffers = buffers .. M.padding .. name .. M.padding
+        end
+    end
+    buffers = buffers .. hi3
+
+    -- tabs
+    -- TODO: clickable
+    local tab_ids = vim.api.nvim_list_tabpages()
+    local curr_tab = vim.api.nvim_get_current_tabpage()
+    if #tab_ids > 1 then
+        for _, tab_id in ipairs(tab_ids) do
+            if tab_id == curr_tab then
+                tabs = tabs .. hi1
+            else
+                tabs = tabs .. hi3
+            end
+            tabs = tabs .. M.padding .. tostring(tab_id) .. M.padding
         end
     end
 
-    -- TODO: tabs
-
-    return r .. hi3
+    return buffers .. sep .. tabs
 end
 
 function M.setup(lualine)
