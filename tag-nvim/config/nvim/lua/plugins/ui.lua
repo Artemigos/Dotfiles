@@ -3,43 +3,7 @@ vim.pack.add({
     'https://github.com/folke/which-key.nvim',
 })
 
-local use_lualine = vim.env.MY_LINE ~= '1'
-
-if use_lualine then
-    vim.pack.add({
-        'https://github.com/nvim-lualine/lualine.nvim',
-    })
-end
-
 local u = require('user.utils')
-
-local function window_title_extenstion()
-    local tw = require('user.tool-windows')
-    local txt = function() return tw.get_title(vim.o.filetype) end
-    local winbar_opts = {
-        lualine_a = {},
-        lualine_b = {},
-        lualine_c = {
-            { "'%='", separator = '' },
-            { txt,    separator = '' },
-            { "'%='", separator = '' },
-        },
-        lualine_x = {},
-        lualine_y = {},
-        lualine_z = {},
-    }
-
-    local opts = {
-        filetypes = tw.get_filetypes(),
-        winbar = vim.deepcopy(winbar_opts),
-        inactive_winbar = vim.deepcopy(winbar_opts),
-        options = {
-            always_divide_middle = false,
-        }
-    }
-
-    return opts
-end
 
 -- dracula.nvim
 require('dracula').setup({
@@ -88,77 +52,6 @@ wk.add({
     { "<Leader>wl",  desc = "right-window" },
     { "<Leader>x",   group = "tasks" },
 })
-
--- lualine.nvim (VeryLazy)
-local ul = require('user.line')
-ul.setup(use_lualine)
-if use_lualine then
-    require('lualine').setup({
-        options = {
-            icons_enabled = true,
-            theme = 'auto',
-            component_separators = { left = '', right = '' },
-            section_separators = { left = '', right = '' },
-            disabled_filetypes = {
-                statusline = {},
-                winbar = {
-                    'dap-repl',
-                    'dapui_console',
-                    'dapui_watches',
-                    'dapui_stacks',
-                    'dapui_breakpoints',
-                    'dapui_scopes',
-                    'gitcommit',
-                },
-            },
-            ignore_focus = {},
-            always_divide_middle = true,
-            globalstatus = true,
-            refresh = {
-                statusline = 1000,
-                tabline = 1000,
-                winbar = 100,
-            }
-        },
-        sections = {},
-        inactive_sections = {},
-        winbar = {
-            lualine_a = { { 'buffers', symbols = { alternate_file = '' } } },
-            lualine_b = {},
-            lualine_c = { { function() return ' ' end } },
-            lualine_x = { { function() return ' ' end } },
-            lualine_y = {},
-            lualine_z = { {
-                'tabs',
-                cond = function()
-                    return #vim.api.nvim_list_tabpages() > 1
-                end,
-            } }
-        },
-        inactive_winbar = {
-            lualine_a = {},
-            lualine_b = { 'filename' },
-            lualine_c = { { function() return ' ' end } },
-            lualine_x = {},
-            lualine_y = {},
-            lualine_z = {}
-        },
-        extensions = {
-            'nvim-dap-ui',
-            window_title_extenstion(),
-        },
-    })
-    vim.api.nvim_create_autocmd('BufEnter', {
-        pattern = '*',
-        group = vim.api.nvim_create_augroup('lualine_refresh', {}),
-        callback = function()
-            require('lualine').refresh({
-                place = { 'winbar' },
-                scope = 'all',
-            })
-        end,
-    })
-end
 
 -- mini.files
 local show_dotfiles = true

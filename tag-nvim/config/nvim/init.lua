@@ -38,6 +38,7 @@ vim.api.nvim_create_autocmd('UIEnter', {
         require('plugins.misc')
         require('plugins.treesitter')
         require('plugins.ui')
+        require('user.line').setup()
         vim.cmd.packadd('nvim.undotree')
         return true
     end,

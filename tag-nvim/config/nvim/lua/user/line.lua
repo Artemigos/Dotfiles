@@ -1,7 +1,4 @@
-local M = {
-    lualine_mode = true,
-    padding = ' ',
-}
+local M = {}
 
 function M.stl_hi(name, inherit)
     if inherit == true then
@@ -9,6 +6,15 @@ function M.stl_hi(name, inherit)
     end
     return '%#' .. name .. '#'
 end
+
+local function pad(c)
+    if c == '' then return '' end
+    return ' ' .. c .. ' '
+end
+local sep = '%='
+local hi1 = M.stl_hi('LinePrimary')
+local hi2 = M.stl_hi('LineSecondary')
+local hi3 = M.stl_hi('LineTertiary')
 
 function M.hi_for_mode(mode)
     local m = mode or vim.api.nvim_get_mode().mode
@@ -144,17 +150,10 @@ end
 
 function M.full_line()
     local m = vim.api.nvim_get_mode().mode
-    local hi1 = M.stl_hi(M.hi_for_mode(m))
-    local hi2 = M.stl_hi('LineSecondary')
-    local hi3 = M.stl_hi('LineTertiary')
-    local sep = '%='
-    local function pad(c)
-        if c == '' then return '' end
-        return M.padding .. c .. M.padding
-    end
+    local hi_mode = M.stl_hi(M.hi_for_mode(m))
 
     return
-        hi1 ..
+        hi_mode ..
         pad(M.mode()) ..
         hi2 ..
         pad(M.ref()) ..
@@ -169,14 +168,11 @@ function M.full_line()
         pad(M.filetype(hi3)) ..
         hi2 ..
         pad(M.progress()) ..
-        hi1 ..
+        hi_mode ..
         pad(M.location())
 end
 
 function M.pick_winbar(_)
-    local hi3 = M.stl_hi('LineTertiary')
-    local sep = '%='
-
     local buf_id = vim.api.nvim_get_current_buf()
     local ft = vim.bo[buf_id].filetype
     local win_id = vim.api.nvim_get_current_win()
@@ -220,9 +216,6 @@ function M.pick_winbar(_)
 end
 
 function M.default_winbar()
-    local hi1 = M.stl_hi('LinePrimary')
-    local hi3 = M.stl_hi('LineTertiary')
-    local sep = '%='
     local buffers = ''
     local tabs = ''
 
@@ -251,7 +244,7 @@ function M.default_winbar()
             if vim.bo[buf_id].modified then
                 name = name .. ' ●'
             end
-            buffers = buffers .. M.padding .. name .. M.padding
+            buffers = buffers .. pad(name)
         end
     end
     buffers = buffers .. hi3
@@ -267,18 +260,19 @@ function M.default_winbar()
             else
                 tabs = tabs .. hi3
             end
-            tabs = tabs .. M.padding .. tostring(tab_id) .. M.padding
+            tabs = tabs .. pad(tostring(tab_id))
         end
     end
 
     return buffers .. sep .. tabs
 end
 
-function M.setup(lualine)
-    M.lualine_mode = not not lualine
-
+function M.setup()
     _G.line = M
 
+    local g = vim.api.nvim_create_augroup('user.line', {})
+
+    -- highlights
     local colors = require('dracula').colors()
     vim.cmd.hi('LineModeNormal', 'guibg=' .. colors.purple, 'guifg=' .. colors.black, 'gui=bold')
     vim.cmd.hi('LineModeInsert', 'guibg=' .. colors.green, 'guifg=' .. colors.black, 'gui=bold')
@@ -291,11 +285,17 @@ function M.setup(lualine)
     vim.cmd.hi('LineToggleOn', 'guifg=' .. colors.green)
     vim.cmd.hi('LineToggleOff', 'guifg=' .. colors.comment)
 
+    -- statusline
     vim.opt.showtabline = 0
     vim.opt.laststatus = 3
     vim.opt.statusline = '%{%luaeval("line.full_line()")%}'
 
-    local g = vim.api.nvim_create_augroup('user.line', {})
+    -- winbar
+    vim.go.winbar = ''
+    vim.api.nvim_create_autocmd({ 'FileType', 'BufWinEnter', 'BufNew' }, {
+        group = g,
+        callback = M.pick_winbar,
+    })
 
     -- redraw triggers
     local function redraw()
@@ -307,14 +307,6 @@ function M.setup(lualine)
     })
     M.timer = vim.uv.new_timer()
     M.timer:start(1000, 1000, redraw)
-
-    if not M.lualine_mode then
-        vim.go.winbar = ''
-        vim.api.nvim_create_autocmd({ 'FileType', 'BufWinEnter', 'BufNew' }, {
-            group = g,
-            callback = M.pick_winbar,
-        })
-    end
 end
 
 return M
