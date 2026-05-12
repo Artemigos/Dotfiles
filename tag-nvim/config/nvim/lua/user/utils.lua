@@ -23,6 +23,10 @@ function M.exec(cmd)
     if result.code == 0 then
         return result.output
     end
+    if type(cmd) == 'table' then
+        assert(#cmd > 0)
+        cmd = cmd[1]
+    end
     error('Command "' .. cmd .. '" exited with code ' .. result.code)
 end
 
