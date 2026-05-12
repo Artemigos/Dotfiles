@@ -173,6 +173,52 @@ function M.full_line()
         pad(M.location())
 end
 
+function M.pick_winbar(_)
+    local hi3 = M.stl_hi('LineTertiary')
+    local sep = '%='
+
+    local buf_id = vim.api.nvim_get_current_buf()
+    local ft = vim.bo[buf_id].filetype
+    local win_id = vim.api.nvim_get_current_win()
+    local wo = vim.wo[win_id]
+    local config = vim.api.nvim_win_get_config(win_id)
+
+    -- skip floating windows
+    if config.anchor ~= nil then
+        return
+    end
+
+    -- ignored filetypes
+    local ignore = {
+        'dap-repl',
+        'dapui_console',
+        'dapui_watches',
+        'dapui_stacks',
+        'dapui_breakpoints',
+        'dapui_scopes',
+        'gitcommit',
+    }
+    if vim.tbl_contains(ignore, ft) then
+        return
+    end
+
+    -- tool windows
+    local tw = require('user.tool-windows')
+    if vim.tbl_contains(tw.get_filetypes(), ft) then
+        wo.winbar = hi3 .. sep .. tw.get_title(ft) .. sep
+        return
+    end
+
+    -- help buffers
+    if ft == 'help' then
+        local match = vim.api.nvim_buf_get_name(buf_id):match('([^/]+)$') or '?'
+        wo.winbar = hi3 .. sep .. 'Help: ' .. match .. sep
+        return
+    end
+
+    wo.winbar = '%{%luaeval("line.default_winbar()")%}'
+end
+
 function M.default_winbar()
     local hi1 = M.stl_hi('LinePrimary')
     local hi3 = M.stl_hi('LineTertiary')
@@ -263,7 +309,11 @@ function M.setup(lualine)
     M.timer:start(1000, 1000, redraw)
 
     if not M.lualine_mode then
-        vim.go.winbar = '%{%luaeval("line.default_winbar()")%}'
+        vim.go.winbar = ''
+        vim.api.nvim_create_autocmd({ 'FileType', 'BufWinEnter', 'BufNew' }, {
+            group = g,
+            callback = M.pick_winbar,
+        })
     end
 end
 
