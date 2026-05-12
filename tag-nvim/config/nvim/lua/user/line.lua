@@ -173,6 +173,44 @@ function M.full_line()
         pad(M.location())
 end
 
+function M.default_winbar()
+    local hi1 = M.stl_hi('LinePrimary')
+    local hi3 = M.stl_hi('LineTertiary')
+    local r = ''
+
+    -- buffers
+    local buf_ids = vim.api.nvim_list_bufs()
+    local curr = vim.api.nvim_get_current_buf()
+    for _, buf_id in ipairs(buf_ids) do
+        local loaded = vim.api.nvim_buf_is_loaded(buf_id)
+        local listed = vim.bo[buf_id].buflisted
+        if loaded and listed then
+            if buf_id == curr then
+                r = r .. hi1
+            else
+                r = r .. hi3
+            end
+            local name = vim.api.nvim_buf_get_name(buf_id)
+            if name == '' then
+                name = '[No name]'
+            else
+                local ft = vim.bo[buf_id].filetype
+                local icon = MiniIcons.get('filetype', ft)
+                local match = name:match('([^/]+)$') or ft
+                name = icon .. ' ' .. match
+            end
+            if vim.bo[buf_id].modified then
+                name = name .. ' ●'
+            end
+            r = r .. M.padding .. name .. M.padding
+        end
+    end
+
+    -- TODO: tabs
+
+    return r .. hi3
+end
+
 function M.setup(lualine)
     M.lualine_mode = not not lualine
 
@@ -184,8 +222,9 @@ function M.setup(lualine)
     vim.cmd.hi('LineModeVisual', 'guibg=' .. colors.yellow, 'guifg=' .. colors.black, 'gui=bold')
     vim.cmd.hi('LineModeReplace', 'guibg=' .. colors.red, 'guifg=' .. colors.black, 'gui=bold')
     vim.cmd.hi('LineModeCommand', 'guibg=' .. colors.orange, 'guifg=' .. colors.black, 'gui=bold')
+    vim.cmd.hi('LinePrimary', 'guibg=' .. colors.purple, 'guifg=' .. colors.black)
     vim.cmd.hi('LineSecondary', 'guibg=' .. colors.comment, 'guifg=' .. colors.fg)
-    vim.cmd.hi('LineTertiary', 'guifg=' .. colors.fg)
+    vim.cmd.hi('LineTertiary', 'guibg=' .. colors.selection, 'guifg=' .. colors.fg)
     vim.cmd.hi('LineToggleOn', 'guifg=' .. colors.green)
     vim.cmd.hi('LineToggleOff', 'guifg=' .. colors.comment)
 
@@ -193,16 +232,21 @@ function M.setup(lualine)
     vim.opt.laststatus = 3
     vim.opt.statusline = '%{%luaeval("line.full_line()")%}'
 
+    local g = vim.api.nvim_create_augroup('user.line', {})
+
     -- redraw triggers
     local function redraw()
         vim.schedule(vim.cmd.redrawstatus)
     end
-    vim.api.nvim_create_autocmd('ModeChanged', { callback = redraw })
+    vim.api.nvim_create_autocmd('ModeChanged', {
+        group = g,
+        callback = redraw,
+    })
     M.timer = vim.uv.new_timer()
     M.timer:start(1000, 1000, redraw)
 
-    -- TODO: winbar
     if not M.lualine_mode then
+        vim.go.winbar = '%{%luaeval("line.default_winbar()")%}'
     end
 end
 
