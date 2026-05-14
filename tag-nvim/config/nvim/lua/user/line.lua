@@ -91,11 +91,18 @@ function M.filename()
 end
 
 local function git(...)
-    return require('user.utils').exec({ 'git', ... }):gsub('%s+$', '')
+    local out = require('user.utils').try_exec({ 'git', ... })
+    if out.code ~= 0 then
+        return nil
+    end
+    return out.output:gsub('%s+$', '')
 end
 
 function M.ref()
     local branch = git('rev-parse', '--abbrev-ref', 'HEAD')
+    if branch == nil then
+        return ''
+    end
     if branch == 'HEAD' then
         branch = git('rev-parse', '--short=6', 'HEAD')
     end
