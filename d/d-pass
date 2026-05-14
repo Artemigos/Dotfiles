@@ -11,8 +11,26 @@ main() {
         set-pass) shift; set-pass "$@" ;;
         regenerate-pass) shift; regenerate-pass "$@" ;;
         gen) gen ;;
+        do-type) shift; do-type "$@" ;;
+        do-tab) do_tab ;;
+        do-enter) do_enter ;;
         *) exit 1 ;;
     esac
+}
+
+do-type() {
+    d require ydotool
+    ydotool type --key-delay=10 --key-hold=5 --escape=0 -- "$@"
+}
+
+do_tab() {
+    d require ydotool
+    ydotool key --key-delay=10 15:1 15:0
+}
+
+do_enter() {
+    d require ydotool
+    ydotool key --key-delay=10 28:1 28:0
 }
 
 gen() {
@@ -33,12 +51,9 @@ list() {
 }
 
 x-autotype() {
-    d require printf ydotool pass head tail yq
+    d require printf pass head tail yq
 
     dmenu="d menu dmenu"
-    do_type="ydotool type --key-delay=10 --key-hold=5 --escape=0 --"
-    do_tab="ydotool key --key-delay=10 15:1 15:0"
-    do_enter="ydotool key --key-delay=10 28:1 28:0"
 
     password_entry=${1:-$(list | $dmenu)}
     data=$(pass show "$password_entry")
@@ -76,21 +91,21 @@ x-autotype() {
 
     case $option in
         "$user_pass_option")
-            $do_type "$username"
-            $do_tab
-            $do_type "$password"
+            do-type "$username"
+            do-tab
+            do-type "$password"
             ;;
-        "$pass_option") $do_type "$password" ;;
-        "$user_option") $do_type "$username" ;;
+        "$pass_option") do-type "$password" ;;
+        "$user_option") do-type "$username" ;;
         "$user_pass_enter_option")
-            $do_type "$username"
-            $do_tab
-            $do_type "$password"
-            $do_enter
+            do-type "$username"
+            do-tab
+            do-type "$password"
+            do-enter
             ;;
         "$pass_enter_option")
-            $do_type "$password"
-            $do_enter
+            do-type "$password"
+            do-enter
             ;;
         *) echo "Unknown option" >&2; exit 1 ;;
     esac

@@ -87,6 +87,27 @@ d-aws-x-open-instance() {
     open-in-container "https://$REGION.console.aws.amazon.com/ec2/home?region=$REGION#InstanceDetails:instanceId=$INSTANCE" "$CONTAINER"
 }
 
+d-aws-x-type-secret() {
+    d require aws jq
+    ACCOUNT=$(d-aws-x-select-account)
+    PROFILE=$(profile-for-account "$ACCOUNT")
+    SECRET=$(AWS_PROFILE=$PROFILE aws secretsmanager list-secrets | jq -r '.SecretList[].Name' | d menu dmenu)
+    VALUE=$(AWS_PROFILE=$PROFILE aws secretsmanager get-secret-value --secret-id "$SECRET")
+    if [[ $(jq -r 'has("SecretString")' <<<"$VALUE") != "true" ]]; then
+        d error "Secret does not contain a string value" "$SECRET"
+        exit 1
+    fi
+    VALUE=$(jq -r '.SecretString' <<<"$VALUE")
+    if jq -e '.' <<<"$VALUE"  >/dev/null 2>/dev/null && [[ $(jq -r type <<<"$VALUE") == 'object' ]]; then
+        # we're working with a valid JSON object
+        SELECTED=$(jq -r 'keys[]' <<<"$VALUE" | d menu dmenu)
+        VALUE=$(jq -r --arg key "$SELECTED" '.[$key]' <<<"$VALUE")
+    else
+        echo 'Type full content' | d menu dmenu
+    fi
+    d pass do-type "$VALUE"
+}
+
 d-aws-list-x-options() {
     cat <<EOF
 {
