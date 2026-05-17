@@ -4,6 +4,17 @@ local M = {
 }
 
 function M.setup()
+    vim.api.nvim_create_user_command('Pack', function()
+        vim.pack.update(nil, { offline = true })
+    end, { desc = 'Open a view of installed plugins' })
+    vim.api.nvim_create_user_command('PackUpdate', function(args)
+        local opts = {}
+        if args.bang then
+            opts.force = true
+        end
+        vim.pack.update(nil, opts)
+    end, { desc = 'Update installed plugins', bang = true })
+
     local group = vim.api.nvim_create_augroup('user.pack', { clear = true })
     vim.api.nvim_create_autocmd('PackChanged', {
         group = group,
