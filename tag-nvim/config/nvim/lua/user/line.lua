@@ -7,6 +7,16 @@ function M.stl_hi(name, inherit)
     return '%#' .. name .. '#'
 end
 
+---@param func_name string
+---@param text string
+---@param arg any?
+local function stl_click(func_name, text, arg)
+    local arg_str = ''
+    if arg ~= nil then
+        arg_str = tostring(arg)
+    end
+    return '%' .. arg_str .. '@v:lua.line.' .. func_name .. '@' .. text .. '%X'
+end
 local function pad(c)
     if c == '' then return '' end
     return ' ' .. c .. ' '
@@ -126,7 +136,7 @@ local function toggle_icon(icon, is_on, action_f_name)
     else
         txt = M.stl_hi('LineToggleOff', true) .. txt .. M.stl_hi('LineTertiary')
     end
-    return '%@v:lua.line.' .. action_f_name .. '@' .. txt .. '%X'
+    return stl_click(action_f_name, txt)
 end
 
 function M.auto_format_action()
@@ -222,12 +232,19 @@ function M.pick_winbar(_)
     wo.winbar = '%{%luaeval("line.default_winbar()")%}'
 end
 
+function M.buffer_action(num)
+    vim.api.nvim_set_current_buf(num)
+end
+
+function M.tab_action(num)
+    vim.api.nvim_set_current_tabpage(num)
+end
+
 function M.default_winbar()
     local buffers = ''
     local tabs = ''
 
     -- buffers
-    -- TODO: clickable
     local buf_ids = vim.api.nvim_list_bufs()
     local curr = vim.api.nvim_get_current_buf()
     for _, buf_id in ipairs(buf_ids) do
@@ -251,13 +268,12 @@ function M.default_winbar()
             if vim.bo[buf_id].modified then
                 name = name .. ' ●'
             end
-            buffers = buffers .. pad(name)
+            buffers = buffers .. stl_click('buffer_action', pad(name), buf_id)
         end
     end
     buffers = buffers .. hi3
 
     -- tabs
-    -- TODO: clickable
     local tab_ids = vim.api.nvim_list_tabpages()
     local curr_tab = vim.api.nvim_get_current_tabpage()
     if #tab_ids > 1 then
@@ -267,7 +283,7 @@ function M.default_winbar()
             else
                 tabs = tabs .. hi3
             end
-            tabs = tabs .. pad(tostring(tab_id))
+            tabs = tabs .. stl_click('tab_action', pad(tostring(tab_id)), tab_id)
         end
     end
 
