@@ -12,8 +12,8 @@ main() {
         regenerate-pass) shift; regenerate-pass "$@" ;;
         gen) gen ;;
         do-type) shift; do-type "$@" ;;
-        do-tab) do_tab ;;
-        do-enter) do_enter ;;
+        do-tab) do-tab ;;
+        do-enter) do-enter ;;
         *) exit 1 ;;
     esac
 }
@@ -23,12 +23,12 @@ do-type() {
     ydotool type --key-delay=10 --key-hold=5 --escape=0 -- "$@"
 }
 
-do_tab() {
+do-tab() {
     d require ydotool
     ydotool key --key-delay=10 15:1 15:0
 }
 
-do_enter() {
+do-enter() {
     d require ydotool
     ydotool key --key-delay=10 28:1 28:0
 }
