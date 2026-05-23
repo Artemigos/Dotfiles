@@ -236,8 +236,9 @@ function M.buffer_action(num)
     vim.api.nvim_set_current_buf(num)
 end
 
-function M.buffers()
+function M.buffers(available_space)
     local buffers = ''
+    local after_curr = false
 
     local buf_ids = vim.api.nvim_list_bufs()
     local curr = vim.api.nvim_get_current_buf()
@@ -263,11 +264,20 @@ function M.buffers()
                 name = name .. ' ●'
             end
             name = pad(name)
+            local name_len = #vim.str_utf_pos(name)
+            if after_curr and name_len >= available_space then
+                break
+            end
+            if buf_id == curr then
+                after_curr = true
+            end
+            if after_curr then
+                available_space = available_space - name_len
+            end
             buffers = buffers .. stl_click('buffer_action', name, buf_id)
         end
     end
-    buffers = buffers .. hi3
-    return buffers
+    return buffers .. hi3
 end
 
 function M.tab_action(num)
@@ -276,6 +286,7 @@ end
 
 function M.tabs()
     local tabs = ''
+    local tabs_width = 0
 
     local tab_ids = vim.api.nvim_list_tabpages()
     local curr_tab = vim.api.nvim_get_current_tabpage()
@@ -288,15 +299,17 @@ function M.tabs()
             end
             local tab_name = pad(tostring(tab_id))
             tabs = tabs .. stl_click('tab_action', tab_name, tab_id)
+            tabs_width = tabs_width + #tab_name
         end
     end
 
-    return tabs
+    return tabs, tabs_width
 end
 
 function M.default_winbar()
-    local tabs = M.tabs()
-    local buffers = M.buffers()
+    local win_width = vim.api.nvim_win_get_width(0)
+    local tabs, tabs_width = M.tabs()
+    local buffers = M.buffers(win_width - tabs_width)
     return buffers .. sep .. tabs
 end
 
