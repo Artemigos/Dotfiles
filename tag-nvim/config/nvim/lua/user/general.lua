@@ -42,6 +42,8 @@ set.fillchars:append {
     verthoriz = '█',
 }
 set.showmode = false
+set.winborder = 'rounded'
+vim.g.health = { style = 'float' }
 
 -- quality of life
 set.wildmenu = true
