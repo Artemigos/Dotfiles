@@ -243,9 +243,8 @@ function M.buffers(available_space)
     local buf_ids = vim.api.nvim_list_bufs()
     local curr = vim.api.nvim_get_current_buf()
     for _, buf_id in ipairs(buf_ids) do
-        local loaded = vim.api.nvim_buf_is_loaded(buf_id)
         local listed = vim.bo[buf_id].buflisted
-        if loaded and listed then
+        if listed then
             if buf_id == curr then
                 buffers = buffers .. hi1
             else
