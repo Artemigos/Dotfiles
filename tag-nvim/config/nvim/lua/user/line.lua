@@ -236,15 +236,9 @@ function M.buffer_action(num)
     vim.api.nvim_set_current_buf(num)
 end
 
-function M.tab_action(num)
-    vim.api.nvim_set_current_tabpage(num)
-end
-
-function M.default_winbar()
+function M.buffers()
     local buffers = ''
-    local tabs = ''
 
-    -- buffers
     local buf_ids = vim.api.nvim_list_bufs()
     local curr = vim.api.nvim_get_current_buf()
     for _, buf_id in ipairs(buf_ids) do
@@ -268,12 +262,21 @@ function M.default_winbar()
             if vim.bo[buf_id].modified then
                 name = name .. ' ●'
             end
-            buffers = buffers .. stl_click('buffer_action', pad(name), buf_id)
+            name = pad(name)
+            buffers = buffers .. stl_click('buffer_action', name, buf_id)
         end
     end
     buffers = buffers .. hi3
+    return buffers
+end
 
-    -- tabs
+function M.tab_action(num)
+    vim.api.nvim_set_current_tabpage(num)
+end
+
+function M.tabs()
+    local tabs = ''
+
     local tab_ids = vim.api.nvim_list_tabpages()
     local curr_tab = vim.api.nvim_get_current_tabpage()
     if #tab_ids > 1 then
@@ -283,10 +286,17 @@ function M.default_winbar()
             else
                 tabs = tabs .. hi3
             end
-            tabs = tabs .. stl_click('tab_action', pad(tostring(tab_id)), tab_id)
+            local tab_name = pad(tostring(tab_id))
+            tabs = tabs .. stl_click('tab_action', tab_name, tab_id)
         end
     end
 
+    return tabs
+end
+
+function M.default_winbar()
+    local tabs = M.tabs()
+    local buffers = M.buffers()
     return buffers .. sep .. tabs
 end
 
