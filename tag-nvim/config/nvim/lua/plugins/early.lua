@@ -11,7 +11,6 @@ local u = require('user.utils')
 -- snack.nvim (priority = 1000)
 require('snacks').setup({
     image = {},
-    indent = {},
     input = {},
     picker = {},
     notifier = {},
