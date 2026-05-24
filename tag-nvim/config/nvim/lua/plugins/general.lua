@@ -1,7 +1,6 @@
 vim.pack.add({
     'https://github.com/tpope/vim-repeat',
     'https://codeberg.org/andyg/leap.nvim',
-    'https://github.com/tpope/vim-surround',
     'https://github.com/wellle/targets.vim',
     'https://github.com/tpope/vim-sleuth',
 })
@@ -12,8 +11,8 @@ local function leap(opts)
         require('leap').leap(opts or {})
     end
 end
-vim.keymap.set('n', 's', leap(), { desc = 'Leap motion' });
-vim.keymap.set('n', 'S', leap({ backward = true }), { desc = 'Backward leap motion' });
+vim.keymap.set('n', '<CR>', leap(), { desc = 'Leap motion' });
+vim.keymap.set('n', '<M-CR>', leap({ backward = true }), { desc = 'Backward leap motion' });
 
 -- mini.indentscope
 require('mini.indentscope').setup({
@@ -31,3 +30,6 @@ vim.api.nvim_create_autocmd('FileType', {
         }
     end,
 })
+
+-- mini.surround
+require('mini.surround').setup()
