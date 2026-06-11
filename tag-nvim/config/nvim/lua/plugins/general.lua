@@ -32,4 +32,6 @@ vim.api.nvim_create_autocmd('FileType', {
 })
 
 -- mini.surround
-require('mini.surround').setup()
+require('mini.surround').setup({
+    n_lines = 1000,
+})
