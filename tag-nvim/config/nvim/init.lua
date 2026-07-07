@@ -62,6 +62,7 @@ vim.filetype.add({
         vtc = 'vtc',
         alloy = 'alloy',
         tf = 'terraform',
+        gotmpl = 'gotmpl',
     },
     filename = {
         Caddyfile = 'caddy',
