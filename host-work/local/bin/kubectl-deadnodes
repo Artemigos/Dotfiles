@@ -1,0 +1,52 @@
+#!/usr/bin/env bash
+
+args=()
+do_kill=0
+ask=1
+
+printHelp() {
+    cat <<EOF
+Usage: kubectl deadnodes [--help] [--context <kube-context>] [--kill-all] [--yes|-y]
+EOF
+}
+
+while [[ $# -gt 0 ]]; do
+    case $1 in
+        --context) args+=(--context "$2"); shift 2;;
+        --kill-all) do_kill=1; shift;;
+        --yes|-y) ask=0; shift;;
+        --help) printHelp; exit 0;;
+        *) printHelp; exit 1;;
+    esac
+done
+
+nodes_yaml=$(kubectl "${args[@]}" get nodes -oyaml) || {
+    echo "Failed to fetch node data."
+    exit 1
+}
+nodes=$(yq '.items[] | select(.metadata.labels["karpenter.sh/registered"] == "true") | select([.status.conditions[] | select(.type == "Ready")][0] | .status != "True") | .metadata.name + "," + .metadata.ownerReferences[0].name' <<<"$nodes_yaml") || {
+    echo "Failed to parse node data."
+    exit 1
+}
+if [[ -z "$nodes" ]]; then
+    echo none
+    exit 0
+fi
+echo "$nodes" | column -s, -t -N NODE,NODECLAIM
+
+if [[ $do_kill -eq 1 ]]; then
+    if [[ $ask -ne 0 ]]; then
+        echo
+        echo -n "Are you sure you want to delete those nodes? [Y/n] "
+        read -r answer
+        if [[ -n "$answer" ]] && [[ ! "$answer" =~ [Yy] ]]; then
+            exit 1
+        fi
+    fi
+    for nodeclaim in $(echo "$nodes" | cut -d, -f2); do
+        echo "Deleting $nodeclaim..."
+        kubectl "${args[@]}" delete nodeclaim "$nodeclaim" --wait=false
+    done
+    echo
+    echo "Delete requests take some time before the node is actually gone, give it a few minutes."
+fi
