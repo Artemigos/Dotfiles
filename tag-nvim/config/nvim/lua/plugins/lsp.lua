@@ -43,6 +43,7 @@ local auto_install_tools = {
     'gofumpt',
     'shfmt',
     'terraform',
+    'biome',
 }
 
 local function hover()
@@ -184,8 +185,8 @@ require('conform').setup({
         sh = { 'shfmt' },
         fish = { 'fish_indent' },
         yaml = { 'yq' },
-        typescript = { 'prettier' },
-        javascript = { 'prettier' },
+        typescript = { 'biome' },
+        javascript = { 'biome' },
         vcl = { 'vcl_formatter' },
         alloy = { 'alloy_fmt' },
         terraform = { 'terraform_fmt' },
