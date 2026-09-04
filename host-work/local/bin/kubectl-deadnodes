@@ -24,7 +24,7 @@ nodes_yaml=$(kubectl "${args[@]}" get nodes -oyaml) || {
     echo "Failed to fetch node data."
     exit 1
 }
-nodes=$(yq '.items[] | select(.metadata.labels["karpenter.sh/registered"] == "true") | select([.status.conditions[] | select(.type == "Ready")][0] | .status != "True") | .metadata.name + "," + .metadata.ownerReferences[0].name' <<<"$nodes_yaml") || {
+nodes=$(yq '.items[] | select(.metadata.labels["karpenter.sh/registered"] == "true") | select([.status.conditions[] | select(.type == "Ready")][0] | .status == "Unknown") | .metadata.name + "," + .metadata.ownerReferences[0].name' <<<"$nodes_yaml") || {
     echo "Failed to parse node data."
     exit 1
 }
