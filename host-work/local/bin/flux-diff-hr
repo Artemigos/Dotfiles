@@ -16,39 +16,43 @@ normalizeYamlToProps() {
         yq -P -o=props 'sort_keys(..)'
 }
 
-echo 'Extracting HelmRelease info...'
+info() {
+    echo "info: $*" 1>&2
+}
+
+info 'Extracting HelmRelease info...'
 helm_release=$(cat "${1:?HelmRelease file is required.}")
 name=$(echo "$helm_release" | yq -r '.metadata.name')
 namespace=$(echo "$helm_release" | yq -r '.metadata.namespace')
 target_namespace=$(echo "$helm_release" | yq -r '.spec.targetNamespace // .metadata.namespace')
 values=$(echo "$helm_release" | yq '.spec.values')
 patches=$(echo "$helm_release" | yq '.spec.postRenderers[0].kustomize') # NOTE: only one supported for now
-echo "Release: $namespace/$name"
+info "Release: $namespace/$name"
 
-echo
-echo 'Extracting remote helm chart info...'
+info
+info 'Extracting remote helm chart info...'
 chart=$(echo "$helm_release" | yq -r '.spec.chart.spec.chart')
 version=$(echo "$helm_release" | yq -r '.spec.chart.spec.version')
 repo_name=$(echo "$helm_release" | yq -r '.spec.chart.spec.sourceRef.name')
 repo_namespace=$(echo "$helm_release" | yq -r '.spec.chart.spec.sourceRef.namespace')
-echo "Chart: $chart@$version"
-echo "Repo object: $repo_namespace/$repo_name"
+info "Chart: $chart@$version"
+info "Repo object: $repo_namespace/$repo_name"
 
 # NOTE:
 # I'm assuming HelmRepository here, also this is an additional cluster API call,
 # that could be avoided by passing the repo URL or repo manifest file to the script.
 helm_repo=$(kubectl get helmrepository -n "$repo_namespace" "$repo_name" -o yaml)
 repo_url=$(echo "$helm_repo" | yq -r '.spec.url')
-echo "Repo URL: $repo_url"
+info "Repo URL: $repo_url"
 
-echo
-echo 'Fetching current release manifests...'
+info
+info 'Fetching current release manifests...'
 # remove fluxcd labels (locally templeted version won't have them)
 current_manifests=$(helm get manifest -n "$namespace" "$name" |\
     normalizeYamlToProps |\
     grep -v '^metadata.labels.helm.toolkit.fluxcd.io')
 
-echo 'Templating new release...'
+info 'Templating new release...'
 # --no-hooks - hooks aren't reported by current manifests
 # --validate - we don't care about validation, but it forces helm
 #     to template with supported API versions from current kube context;
@@ -60,8 +64,8 @@ new_manifests=$(helm template \
     --no-hooks --validate)
 
 if echo "$patches" | yq -e '.' >/dev/null 2>/dev/null; then
-    echo
-    echo 'Applying post-render patches...'
+    info
+    info 'Applying post-render patches...'
 
     out_dir=$(mktemp -d)
     kustomization_file=$out_dir/kustomization.yaml
