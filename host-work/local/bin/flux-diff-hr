@@ -19,10 +19,50 @@ normalizeYamlToProps() {
 info() {
     echo "info: $*" 1>&2
 }
+error() {
+    echo "fatal: $*" 1>&2
+}
+
+usage() {
+    cat <<EOF
+flux-diff-hr [--name-override <NAME>] <HELM_RELEASE_FILE>
+
+--name-override <NAME> - override the expected name of the generated helm release
+EOF
+}
+
+_positional=0
+name=
+helm_release_file=
+while [[ $# -gt 0 ]]; do
+    case "$1" in
+        --name-override)
+            name=$2
+            shift 2
+            ;;
+        *)
+            if [[ $_positional -gt 0 ]]; then
+                error "Only one positional argument supported."
+                usage
+                exit 1
+            fi
+            helm_release_file=$1
+            _positional=$((_positional + 1))
+            shift
+            ;;
+    esac
+done
+if [[ $_positional -eq 0 ]] || [[ -z "$helm_release_file" ]]; then
+    error "Expected 1 positional argument with helm release file path."
+    usage
+    exit 1
+fi
 
 info 'Extracting HelmRelease info...'
-helm_release=$(cat "${1:?HelmRelease file is required.}")
-name=$(echo "$helm_release" | yq -r '.metadata.name')
+helm_release=$(cat "$helm_release_file")
+if [[ -z "$name" ]]; then
+    name=$(echo "$helm_release" | yq -r '.metadata.name')
+fi
 namespace=$(echo "$helm_release" | yq -r '.metadata.namespace')
 target_namespace=$(echo "$helm_release" | yq -r '.spec.targetNamespace // .metadata.namespace')
 values=$(echo "$helm_release" | yq '.spec.values')
