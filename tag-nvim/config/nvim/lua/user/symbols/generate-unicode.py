@@ -7,6 +7,7 @@ unicode_url = 'https://www.unicode.org/Public/UCD/latest/ucd/UnicodeData.txt'
 ranges = []
 
 ranges.append(range(0x2000, 0x206F)) # General Punctuation
+ranges.append(range(0x2100, 0x214F)) # Letterlike Symbols
 ranges.append(range(0x2190, 0x21FF)) # Arrows
 ranges.append(range(0x2200, 0x22FF)) # Mathematical Operators
 ranges.append(range(0x2300, 0x23FF)) # Miscellaneous Technical
